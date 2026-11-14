@@ -16,3 +16,5 @@ __pycache__/
 
 # Blender backup files
 *.blend1
+# Duplicate zip of the reference folder next to it
+/references/characters/*.zip
