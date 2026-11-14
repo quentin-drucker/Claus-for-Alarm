@@ -348,3 +348,32 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   T02 concept sheets skipped.
 - **Repo commit after:** this entry's commit.
 - **Next suggested task IDs:** owner sign-off of the Rookie → DEC-032 order: map + snowballs → hero → towers.
+
+#### SESSION 2026-11-14 14:00 — Claude Code (Opus 5.5) — P18 audio swap to licensed packs (DEC-036): T01/T02/T03/T04/T10
+- **Goal:** owner found the code-synth SFX retro/generated; replace all SFX and add music with polished, legally
+  usable, stylistically consistent audio (warm-cartoony festive, BTD6 feel as style reference only), with variation.
+- **Read:** HYB-A A-07/A-10; REF-A V-11 (BTD6 sound-event treatments, concurrency, mixer); master plan P18.
+- **Repo commit before:** `b3a32fb`.
+- **Research:** Pixabay blocked automation (Cloudflare; not bypassed); Mixkit license unclear on shipping files in
+  games (rejected); Sonniss bundles multi-GB realistic foley (skipped); Kenney 7 audio packs (CC0) and Silverman Sound /
+  Shane Ivers "March of The Elves" (CC BY 4.0) downloaded as alternates; **chosen: Willosuna** — 10 free packs by one
+  author (Christmas SFX, Cozy UI, Combat, Magic Spells, Pickups, Footsteps, Essential UI, Game & UI, Card Game,
+  Christmas Music demo), royalty-free, no attribution, no AI per author; LICENSE.txt read in each.
+- **Selection method:** analysed every candidate (length, onset, attack, peak, RMS, spectral centroid) and matched to
+  A-10/V-11 treatments (short attacks for frequent sounds, low soft deny, muted metallic immune, brief non-shrill leak).
+- **Files changed:** new `scripts/audio/build_sfx.py` (slot→source table + processing), `assets/audio/sfx/*.ogg` (40),
+  `assets/audio/music/*.ogg` (5); removed `scripts/audio/sfx_synth.gd` + 25 synth WAVs; rewrote
+  `scripts/audio/audio_router.gd` (variants, no-repeat, pitch/level jitter, layer pitch, Cannon blast by source
+  entity, hover, music crossfade, late-wave track); `tests/test_audio.gd`; `assets/audio/CREDITS.md`; plan (DEC-036,
+  P18 ticks); evidence.
+- **Tests run:** 10/10 suites PASS; `--export-release "Web"` exit 0; `--main-pack` 0 ERROR (fixed an empty-Tween
+  error on first music start).
+- **Web result:** Chrome/playwright on `localhost:8137`: nothing before the gesture; menu loop on first click,
+  crossfade to gameplay on Play; hover/click/place/round start/throw/12 rotating crunch variants/round complete all
+  start; 0 console errors (`p18_web_audio.txt`).
+- **Finished and checked tasks:** P18-T01, T02, T03, T04, T10.
+- **Partial:** T06 (caps/variation in, big late wave not listened), T07 (Frenzy duck only), T08 (pause/mute by ear).
+  Not started: T05 (UI/Ambience buses + settings), T09 (speakers/earbuds), T11 (sound-off run).
+- **Owner decision:** commit the Willosuna files to the public repo (license says don't share files as a pack).
+- **Next suggested task IDs:** owner listening pass (`docs/logs/evidence/p18_web_audio.txt` lists what plays when);
+  retune levels in the `SFX` table of `audio_router.gd`; T05/T09/T11.

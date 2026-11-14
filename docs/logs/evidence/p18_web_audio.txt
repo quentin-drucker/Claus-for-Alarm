@@ -14,3 +14,18 @@ click 0.050, pop_1 0.090, throw 0.120, place 0.180, round_start 0.450, round_com
 
 AudioContext: "suspended" before the first click, "running" after. Console: 0 errors, 0 warnings.
 Separate analyser tap: round_start peak 0.35, place peak 0.43 (signal reaches the destination).
+
+=== Re-run 2026-11-14 afternoon: licensed Willosuna audio (DEC-036) ===
+Same method (AudioBufferSourceNode.start durations), Chrome via playwright-cli, http://localhost:8137, fresh export.
+Durations identify files: menu loop 52.174 (manifest loop_seconds), gameplay loop 73.846, click 0.054, hover 0.069,
+place (elf_poof) 0.687, round_start (sleigh bells) 0.422, throw 0.170, crunch variants 0.112-0.250, round_complete 0.966.
+
+{"beforeGesture":"",
+ "howToPlay":"52.174,0.054",                 <- menu music starts on the first click, plus the click
+ "playAsFirstGesture":"52.174,0.054,73.846", <- menu, click, then crossfade to gameplay as the match opens
+ "shopBtn":"0.069,0.054",                    <- hover + click
+ "place":"0.687", "placeOnTrack":"0.687", "roundStart":"0.422",
+ "combat":"0.170,0.202,0.170,0.155,0.163,0.170,0.209,0.250,0.170,0.155,0.162,0.170,0.250,0.181,0.170,0.250,
+            0.232,0.170,0.112,0.155,0.170,0.232,0.250,0.170,0.209,0.155,0.170,0.181,0.232,0.966"}
+           <- Rookie throws interleaved with rotating crunch variants (no back-to-back repeat), round complete
+Console: 0 errors, 0 warnings. --main-pack check: 0 ERROR.
