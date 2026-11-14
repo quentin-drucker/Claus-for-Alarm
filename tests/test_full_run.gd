@@ -1,15 +1,32 @@
 extends SceneTree
-## P07 vertical slice: a greedy Rookie-only bot plays every round (P07-T12). Checks per round that pop cash
-## equals the round's RBE minus leaked RBE (P07-T09), the ledger balances, the match ends in WON, and a rerun
-## gives the identical ledger. Prints the per-round report and total simulated play time (D-03 length target).
+## Full-match bots (P07-T12, P08-T11, P09-T14). Each bot follows a shopping plan in PREPARE (in order, waiting
+## when it cannot afford the next step; a step ending in "*" repeats forever), collects every ticket pickup the
+## moment it lands, and plays every round. Checks per round that pop cash equals the round's RBE minus leaked
+## RBE, the ledger balances, the Rookie-only and mixed bots WIN, and a mixed rerun gives the identical ledger.
+## Solo bots (one tower type each) are reported, not asserted: they show what each tower can do alone.
 ## Run: godot --headless --path . -s res://tests/test_full_run.gd   (exit 1 = failure)
 
 const MATCH: String = "res://scenes/main/match.tscn"
 const STEP: float = 1.0 / 60.0
 ## Seconds a player spends in PREPARE between rounds (buying, pressing Start); counted in play time only.
 const PREPARE_S: float = 5.0
+const NAMES: Dictionary = {&"snowball_rookie": "Rookie", &"avalanche_cannon": "Cannon", &"biathlon_ranger": "Ranger",
+		&"slope_wax_sprayer": "Wax", &"snow_sorcerer": "Sorcerer", &"ski_resort_ticket_booth": "Booth"}
+## Steps: a tower id (buy one at its best free spot) or [n, path] (upgrade the n-th tower bought by one tier).
+## Rookie-heavy with every other type mixed in, few upgrades, the Booth last (it cannot pay back $1,250
+## in a 19-round match, see the report). Order bought: 0-2 Rookie, 3 Wax, 4 Rookie, 5 Cannon, 6 Rookie,
+## 7 Sorcerer, 8 Rookie, 9 Ranger, 10-11 Rookie, 12 Rookie, 13 Rookie, 14 Booth, then Rookies.
+const MIXED: Array = [&"snowball_rookie", &"snowball_rookie", &"snowball_rookie", &"slope_wax_sprayer",
+		&"snowball_rookie", &"avalanche_cannon", &"snowball_rookie", &"snow_sorcerer", &"snowball_rookie",
+		&"biathlon_ranger", &"snowball_rookie", &"snowball_rookie", [5, 0], &"snowball_rookie", [9, 2],
+		&"snowball_rookie", [7, 2], &"ski_resort_ticket_booth", &"snowball_rookie*"]
+## Four Rookies, then a Booth as early as cash allows, its production upgrades (2-0-0), then Rookies.
+const BOOTH_ECONOMY: Array = [&"snowball_rookie", &"snowball_rookie", &"snowball_rookie", &"snowball_rookie",
+		&"ski_resort_ticket_booth", [4, 0], [4, 0], &"snowball_rookie*"]
 
 var _failures: int = 0
+var content: Node
+var _spot_cache: Dictionary = {}
 
 
 func _check(ok: bool, what: String) -> void:
@@ -23,84 +40,151 @@ func _initialize() -> void:
 
 
 func _run() -> void:
-	var first: Array = _play(true)
-	var second: Array = _play(false)
-	_check(first == second, "rerun gives the identical ledger and result")
+	content = root.get_node("Content")
+	var out: PackedStringArray = []
+	var rookie: Array = _play([&"snowball_rookie*"], "Rookie-only", out)
+	_check(rookie[0] == 5, "Rookie-only bot survives the finale")  # State.WON
+	var mixed: Array = _play(MIXED, "Mixed roster", out)
+	_check(mixed[0] == 5, "mixed-roster bot survives the finale")
+	_check(_play(MIXED, "", []) == mixed, "mixed rerun gives the identical ledger and result")
+	_play(BOOTH_ECONOMY, "Booth economy (report only)", out)
+	for id: StringName in [&"avalanche_cannon", &"biathlon_ranger", &"snow_sorcerer", &"slope_wax_sprayer"]:
+		_play([StringName(String(id) + "*")], "Solo " + NAMES[id], out)
+	print("\n".join(out))
+	FileAccess.open("res://docs/logs/evidence/p09_full_run.txt", FileAccess.WRITE).store_string("\n".join(out) + "\n")
 	print("test_full_run: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
 
-## Valid Rookie spots, best first: most track length (0.25 m samples) inside range, ties by position.
-func _spots(m: Node3D, rookie: Resource) -> Array[Vector2]:
-	var range_m: float = rookie.range_units * 0.1 + m.HIT_RADIUS_M
-	var samples: Array[Vector3] = []
+## Valid spots for `def`, best first: most track (0.25 m samples) inside range; the Booth wants the least
+## track nearby (out of the way); global towers use a 6 m radius as "close to the action". Ties by position.
+func _spots(m: Node3D, def: Resource) -> Array[Vector2]:
+	if _spot_cache.has(def.id):
+		return _spot_cache[def.id].duplicate()
+	var range_m: float = 6.0 if def.global_range else def.range_units * 0.1 + m.HIT_RADIUS_M
+	var samples: Array[Vector2] = []
 	for i: int in int(m.course.length() / 0.25):
-		samples.append(m.course.position_at(i * 0.25))
+		var p: Vector3 = m.course.position_at(i * 0.25)
+		samples.append(Vector2(p.x, p.z))
 	var scored: Array = []
 	var b: Rect2 = m.course.bounds
 	for x: int in range(int(b.position.x * 2), int(b.end.x * 2)):
 		for z: int in range(int(b.position.y * 2), int(b.end.y * 2)):
 			var p: Vector2 = Vector2(x, z) * 0.5
-			if m.course.check_placement(p, rookie.footprint_units * 0.1, Array([], TYPE_VECTOR3, &"", null)) != "":
+			if m.course.check_placement(p, def.footprint_units * 0.1, Array([], TYPE_VECTOR3, &"", null)) != "":
 				continue
-			var cover: int = samples.filter(func(s: Vector3) -> bool: return Vector2(s.x, s.z).distance_to(p) <= range_m).size()
-			scored.append([cover, p])
+			var cover: int = 0  # upstream track counts double at the entry, fading to 1x at the finish
+			for k: int in samples.size():
+				if samples[k].distance_to(p) <= range_m:
+					cover += 200 - 100 * k / samples.size()
+			scored.append([-cover if def.attacks.is_empty() else cover, p])
 	scored.sort_custom(func(a: Array, c: Array) -> bool: return a[0] > c[0] or (a[0] == c[0] and (a[1].x < c[1].x
 			or (a[1].x == c[1].x and a[1].y < c[1].y))))
 	var out: Array[Vector2] = []
 	for s: Array in scored:
 		out.append(s[1])
-	return out
+	_spot_cache[def.id] = out
+	return out.duplicate()
 
 
-func _play(report: bool) -> Array:
-	var content: Node = root.get_node("Content")
-	var rookie: Resource = content.get_tower(&"snowball_rookie")
+## Executes plan steps while affordable. Returns false when waiting for cash (or out of spots).
+func _shop(m: Node3D, plan: Array, cursor: Array[int], bought: Array[Node3D], spots: Dictionary) -> void:
+	while cursor[0] < plan.size():
+		var step: Variant = plan[cursor[0]]
+		var repeat: bool = step is StringName and String(step).ends_with("*")
+		if step is Array:
+			var tower: Node3D = bought[step[0]] if step[0] < bought.size() else null
+			if tower == null or m.upgrade_state(tower, step[1]) in ["max", "soon", "locked"]:
+				cursor[0] += 1  # impossible step: skip rather than stall
+				continue
+			if not m.buy_upgrade(tower, step[1]):
+				return
+		else:
+			var def: Resource = content.get_tower(StringName(String(step).trim_suffix("*")))
+			if m.ledger.cash < def.price:
+				return
+			var free: Array = spots.get_or_add(def.id, _spots(m, def))
+			var placed: Node3D = null
+			while placed == null and not free.is_empty():
+				placed = m.try_place(def, free.pop_front())
+			if placed == null:
+				cursor[0] += 1
+				continue
+			bought.append(placed)
+		if not repeat:
+			cursor[0] += 1
+
+
+## Plays one match with `plan`. Appends a report to `out` when `title` is set. Returns [state, lives, ledger].
+func _play(plan: Array, title: String, out: PackedStringArray) -> Array:
 	var m: Node3D = load(MATCH).instantiate()
 	root.add_child(m)
 	m.clock.set_process(false)
-	var spots: Array[Vector2] = _spots(m, rookie)
+	var pops: Dictionary = {}  # tower entity id -> layers broken
+	var on_event: Callable = func(e: RefCounted) -> void:
+		if e.type == &"layer_broken":
+			pops[e.source_id] = pops.get(e.source_id, 0) + 1
+	root.get_node("Events").emitted.connect(on_event)
+	var cursor: Array[int] = [0]
+	var bought: Array[Node3D] = []
+	var spots: Dictionary = {}
 	var play_s: float = 0.0
-	var lines: PackedStringArray = ["round  sim_s  RBE  leaked  pop$  bonus$  cash  lives  towers"]
+	var lines: PackedStringArray = ["== %s" % title, "round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers"]
 	while not m.is_over():
-		while m.ledger.cash >= rookie.price and not spots.is_empty():  # buy in PREPARE, best spot first
-			if m.try_place(rookie, spots.pop_front()) == null:
-				continue
+		_shop(m, plan, cursor, bought, spots)
 		var lives_before: int = m.lives
 		var tx_before: int = m.ledger.transactions.size()
 		var tick_before: int = m.clock.tick
-		_check(m.start_round(), "round %d starts" % (m.round_index + 2))
+		_check(m.start_round(), "%s: round %d starts" % [title, m.round_index + 2])
 		while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
 			m.clock.advance(STEP)
+			for p: Variant in m.pickups.duplicate():
+				m.collect(p)
 		var i: int = m.round_index
 		var pop: int = 0
-		var bonus: int = 0
+		var tickets: int = 0
 		for t: Dictionary in m.ledger.transactions.slice(tx_before):
 			if t.reason == &"pop":
 				pop += t.amount
-			elif t.reason == &"round_bonus":
-				bonus += t.amount
+			elif t.reason == &"ticket_income":
+				tickets += t.amount
 		var leaked: int = lives_before - m.lives
-		var sim_s: float = (m.clock.tick - tick_before) * STEP
-		play_s += sim_s + PREPARE_S
+		play_s += (m.clock.tick - tick_before) * STEP + PREPARE_S
 		if not m.is_over() or m.state == m.State.WON:
-			_check(pop == content.round_rbe(i) - leaked, "round %d: pop $%d == RBE %d - leaked %d"
-					% [i + 1, pop, content.round_rbe(i), leaked])
-		lines.append("%5d  %5.1f  %3d  %6d  %4d  %6d  %4d  %5d  %6d" % [i + 1, sim_s, content.round_rbe(i), leaked,
-				pop, bonus, m.ledger.cash, m.lives, m.towers_root.get_child_count()])
+			_check(pop == content.round_rbe(i) - leaked, "%s round %d: pop $%d == RBE %d - leaked %d"
+					% [title, i + 1, pop, content.round_rbe(i), leaked])
+		lines.append("%5d  %5.1f  %3d  %6d  %4d  %7d  %4d  %5d  %6d" % [i + 1, (m.clock.tick - tick_before) * STEP,
+				content.round_rbe(i), leaked, pop, tickets, m.ledger.cash, m.lives, m.towers_root.get_child_count()])
 	var balance: int = 0
 	for t: Dictionary in m.ledger.transactions:
 		balance += t.amount
-		_check(t.balance == balance and balance >= 0, "ledger running balance at tick %d" % t.tick)
-	_check(balance == m.ledger.cash, "ledger sums to cash")
-	_check(m.state == m.State.WON, "Rookie-only bot survives the finale (state %s, round %d)"
-			% [m.State.keys()[m.state], m.round_index + 1])
-	_check(not m.start_round() and m.try_place(rookie, spots[0] if spots else Vector2.ZERO) == null, "frozen after end")
-	lines.append("result %s, play time %.1f min (sim + %ds prepare per round), %d towers"
-			% [m.State.keys()[m.state], play_s / 60.0, PREPARE_S, m.towers_root.get_child_count()])
-	if report:
-		print("\n".join(lines))
-		FileAccess.open("res://docs/logs/evidence/p07_full_run.txt", FileAccess.WRITE).store_string("\n".join(lines) + "\n")
+		_check(t.balance == balance and balance >= 0, "%s: ledger running balance at tick %d" % [title, t.tick])
+	_check(balance == m.ledger.cash, "%s: ledger sums to cash" % title)
+	_check(not m.start_round(), "%s: frozen after end" % title)
+	lines.append("result %s at round %d, %d lives, play time %.1f min (sim + %ds prepare per round)" % [
+			m.State.keys()[m.state], m.round_index + 1, m.lives, play_s / 60.0, PREPARE_S])
+	# Per tower type: count, invested, layers popped (pop $), pops per $100 invested, booth income.
+	var by_type: Dictionary = {}
+	for tower: Node3D in m.towers_root.get_children():
+		var row: Array = by_type.get_or_add(tower.def.id, [0, 0, 0, 0])
+		row[0] += 1
+		row[1] += tower.spent
+		row[2] += pops.get(tower.entity_id, 0)
+	for t: Dictionary in m.ledger.transactions:
+		if t.reason == &"ticket_income":
+			by_type[&"ski_resort_ticket_booth"][3] += t.amount
+	lines.append("type      count  invested  pops  pops/$100  tickets$   (tiers)")
+	for id: StringName in by_type:
+		var row: Array = by_type[id]
+		var tiers: PackedStringArray = []
+		for tower: Node3D in m.towers_root.get_children():
+			if tower.def.id == id and tower.tiers != Vector3i.ZERO:
+				tiers.append("%d-%d-%d" % [tower.tiers.x, tower.tiers.y, tower.tiers.z])
+		lines.append("%-9s %5d  %8d  %4d  %9.1f  %8d   %s" % [NAMES[id], row[0], row[1], row[2],
+				100.0 * row[2] / maxi(row[1], 1), row[3], " ".join(tiers)])
+	if title != "":
+		out.append_array(lines)
+	root.get_node("Events").emitted.disconnect(on_event)
 	var result: Array = [m.state, m.lives, str(m.ledger.transactions)]
 	m.free()
 	return result

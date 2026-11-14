@@ -10,7 +10,7 @@ GODOT="/c/Program Files/Godot_v4.7.2-stable_win64.exe/Godot_v4.7.2-stable_win64.
 "$GODOT" --headless --path . --import                # refresh import/UID cache
 "$GODOT" --path .                                    # run main scene
 "$GODOT" --headless --path . -s res://tests/<t>.gd   # run a test (exit 1 = fail)
-for t in test_data test_map test_match test_combat test_full_run; do "$GODOT" --headless --path . -s res://tests/$t.gd || echo "$t FAILED"; done
+for t in test_data test_map test_match test_combat test_towers test_upgrades test_full_run; do "$GODOT" --headless --path . -s res://tests/$t.gd || echo "$t FAILED"; done
 
 # Web export (preset "Web" in export_presets.cfg: single-threaded, no GDExtension, desktop VRAM compression)
 rm -rf build/web && mkdir -p build/web

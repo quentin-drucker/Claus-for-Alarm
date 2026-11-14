@@ -235,14 +235,20 @@ func _fire_towers(dt: float) -> void:
 				tower.cooldowns[i] = 0.0  # ready, fires the moment something becomes eligible
 				continue
 			tower.cooldowns[i] += attack.interval_s
-			var dir: Vector3 = target.position - tower.position
+			var dir: Vector3 = _lead(target, tower.position, attack.projectile_speed_units * GameDefinition.UNIT_M) - tower.position
 			Events.send(&"attack_fired", tower.entity_id, target.entity_id, attack.damage, tower.position, [attack.id])
 			if tower.def.global_range:
 				_flash(target.position, 0.3)
 				_hit(attack, target, {target.entity_id: true}, dir, tower.entity_id)  # instant hit, no projectile
 			else:
-				# ponytail: aimed at the target's current position (no lead); fine at these projectile speeds.
 				_launch(attack, tower.position, dir, {}, tower.entity_id)
+
+
+## Where `target` will be when a projectile from `from` reaches it: one prediction step along the track.
+## Without it, fast layers crossing the shot slip past the 0.4 m contact radius.
+func _lead(target: Node3D, from: Vector3, speed_m: float) -> Vector3:
+	var flight: float = from.distance_to(target.position) / maxf(speed_m, 0.01)
+	return course.position_at(target.distance + target.current_speed() * GameDefinition.UNIT_M * flight)
 
 
 ## Eligible target for one attack: range (edge contact) or whole map with line of sight, then priority.
