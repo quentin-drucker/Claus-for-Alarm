@@ -1073,9 +1073,9 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | DEC-002 | 2026-11-13 | Mechanics-first with placeholders, art/Blender later | APPROVED direction | HYB-M M-01; HYB-B B-00 |
 | DEC-003 | 2026-11-13 | Rolling color-layer snowballs, Powder→Blue→Mint→Violet→Coral and Gold in palette | APPROVED visual direction | Gold semantics still OPEN D-02 |
 | DEC-004 | 2026-11-13 | Public title: **Claus for Alarm** | APPROVED | D-01 |
-| DEC-005 | 2026-11-13 | Gold mechanics, demo length, precise release upgrade depth | OPEN | D-02/D-03/D-07 |
-| DEC-006 | 2026-11-13 | D-02 Gold = configurable special class, not 6th linear layer | PROPOSED | Default per M-03; owner to confirm |
-| DEC-007 | 2026-11-13 | D-03 short labeled custom round set | PROPOSED | Owner to confirm; see `docs/IMPLEMENTATION_ASSUMPTIONS.md` |
+| DEC-005 | 2026-11-13 | Gold mechanics, demo length, precise release upgrade depth | PARTLY CLOSED | D-02 → DEC-018, D-03 → DEC-020; D-07 open |
+| DEC-006 | 2026-11-13 | D-02 Gold = configurable special class, not 6th linear layer | SUPERSEDED by DEC-018 | |
+| DEC-007 | 2026-11-13 | D-03 short labeled custom round set | SUPERSEDED by DEC-020 | |
 | DEC-008 | 2026-11-13 | D-04 v56 Medium baseline prices/lives, configurable | PROPOSED | |
 | DEC-009 | 2026-11-13 | D-05 one original ski-course route, 3–5 corners, fixed elevated camera | PROPOSED | Camera choice made in P03-T02 |
 | DEC-010 | 2026-11-13 | D-06 winter names + overlays, separate mechanic flags | PROPOSED | |
@@ -1085,6 +1085,12 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | DEC-014 | 2026-11-13 | D-10 boss / giant snowmass | DEFERRED | Only if scripted + tested |
 | DEC-015 | 2026-11-13 | D-11 studio website / host | REQUIRED by rules | Game on itch.io (HTML, single-threaded) + public studio website linking to it; 25/100 judging points (`docs/HACKATHON.md`) |
 | DEC-016 | 2026-11-13 | D-12 original college-inspired look, no official marks | PROPOSED | |
+| DEC-017 | 2026-11-13 | Basic layers are a strict 1:1 match with BTD6 for balance comparison: Powder=Red, Blue=Blue, Mint=Green, Violet=Yellow, Coral=Pink (same HP, speed, children, cash) | APPROVED (owner) | Supersedes DEC-003's Gold-in-palette part; P05-T01 |
+| DEC-018 | 2026-11-13 | D-02: no Gold snowball for now; not needed for the count | APPROVED (owner) | Replaces DEC-006; P05-T11 DEFERRED |
+| DEC-019 | 2026-11-13 | Special snowballs mirror BTD6 specials and are DEFERRED until the game is functional and most towers + art are in. Provisional names: Black (=Black, explosion-immune), Rainbow (=Rainbow, same role/children), Stone (=Ceramic), Metal (=Lead, sharp-immune), camo variants (=Camo). Schema keeps the property flags; no types, waves or visuals now | APPROVED (owner) | `docs/REGISTRY.md`; P05-T05/T08/T13 (specials), P11-T01–T03/T06/T08/T11 DEFERRED |
+| DEC-020 | 2026-11-13 | D-03: rounds = exact BTD6 v56 rounds 1–16 (every round whose groups are only the 5 basic layers; round 17 needs Regrow Yellow), then 3 custom finale rounds 17–19 (ORIGINAL_DEVIATION, basic layers only, dense/fast). Win = survive round 19. Target ~10–12 min at 1× | APPROVED (owner) | Replaces DEC-007; measured ~9.9 min sim + 5 s/round prepare (`docs/logs/evidence/p07_full_run.txt`), so no BTD6 round was cut |
+| DEC-021 | 2026-11-13 | D-04: Medium starting lives 150 | APPROVED (owner) | `rules_medium.tres` start_lives |
+| DEC-022 | 2026-11-13 | Delete `scenes/main/smoke_test.*` (history in tag `p01-web-smoke`) | APPROVED (owner), done | |
 
 ### 12.4 Risk register and responses
 

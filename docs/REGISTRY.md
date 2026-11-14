@@ -1,7 +1,7 @@
 # Claus for Alarm — Roster registry (P00-T06)
 
 Source: `references/design/01_Camel_Claus_Hybrid_Gameplay_and_Balance.md` M-01/M-06 and master plan §3.2.
-This lists what is approved; no scenes or data exist yet. Decision status lives in master plan §12.3.
+This lists what is approved. Decision status lives in master plan §12.3.
 
 | Status | Game ID | Name | BTD6 mechanical parent |
 |---|---|---|---|
@@ -20,5 +20,21 @@ This lists what is approved; no scenes or data exist yet. Decision status lives 
 **Excluded — no placeholders, data, icons, buttons or models:** Dartling Gunner, Monkey Ace, Engineer Monkey,
 Ice Monkey, Tack Shooter, Alchemist (and any reskin of them).
 
-**Enemies:** layered snowballs Powder → Blue → Mint → Violet → Coral (= Red → Blue → Green → Yellow → Pink).
-Gold is visual-only until decision D-02.
+## Snowballs (DEC-017/018/019)
+
+| Status | Game ID | Name | BTD6 counterpart | Notes |
+|---|---|---|---|---|
+| ACTIVE | `powder` | Powder | Red | 1:1 source: 1 layer, 25 u/s, $1 |
+| ACTIVE | `blue` | Blue | Blue | → Powder, 35 u/s |
+| ACTIVE | `mint` | Mint | Green | → Blue, 45 u/s |
+| ACTIVE | `violet` | Violet | Yellow | → Mint, 80 u/s |
+| ACTIVE | `coral` | Coral | Pink | → Violet, 87.5 u/s |
+| DEFERRED | — | Black (provisional) | Black | immune to explosions (`immune_explosion`) |
+| DEFERRED | — | Rainbow (provisional) | Rainbow | same role and children |
+| DEFERRED | — | Stone (provisional) | Ceramic | |
+| DEFERRED | — | Metal (provisional) | Lead | immune to sharp (`immune_sharp`), needs explosive |
+| DEFERRED | — | camo variants | Camo | `camo` flag, needs detection |
+| NOT NOW | — | Gold | — | D-02: not needed (DEC-018) |
+
+Deferred specials get no data, waves or visuals until the game is functional and most towers + art are in.
+Names and materials are provisional; the owner may rename them.
