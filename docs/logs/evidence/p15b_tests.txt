@@ -1,0 +1,10 @@
+test_data: PASS
+test_map: PASS
+test_match: PASS
+test_combat: PASS
+test_towers: PASS
+test_upgrades: PASS
+test_hero: PASS
+test_ui: PASS
+test_full_run: PASS
+test_audio: PASS

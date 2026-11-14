@@ -11,18 +11,20 @@ hi = bpy.data.collections.get("master_hi") or bpy.data.collections.new("master_h
 if hi.name not in bpy.context.scene.collection.children:
     bpy.context.scene.collection.children.link(hi)
 
-# ---- armature (rest = A-pose of the sculpt; elf faces +Y, its right side is +X) ----
+# ---- armature (rest = A-pose of the sculpt; elf faces +Y, its right side is +X); joints from the build's JOINTS ----
+J = JOINTS
+NECK_Z = J["neck"][2]
 BONES = {  # name: (head, tail, parent)
     "root": ((0, 0, 0), (0, 0.12, 0), None),
-    "hips": ((0, 0, 0.22), (0, 0, 0.36), "root"),
-    "spine": ((0, 0, 0.36), (0, 0, 0.6), "hips"),
-    "head": ((0, 0, 0.6), (0, 0, 1.0), "spine"),
-    "cap_tip": ((0, -0.06, 0.98), (0.05, -0.37, 1.03), "head"),
-    "upper_arm.R": ((0.13, 0, 0.55), (0.25, 0.02, 0.45), "spine"),
-    "forearm.R": ((0.25, 0.02, 0.45), (0.31, 0.04, 0.35), "upper_arm.R"),
-    "hand.R": ((0.31, 0.04, 0.35), (0.34, 0.1, 0.26), "forearm.R"),
-    "thigh.R": ((0.09, 0, 0.26), (0.095, 0, 0.13), "hips"),
-    "foot.R": ((0.095, 0, 0.13), (0.095, 0.16, 0.05), "thigh.R"),
+    "hips": ((0, 0, 0.2), (0, 0, NECK_Z - 0.24), "root"),
+    "spine": ((0, 0, NECK_Z - 0.24), (0, 0, NECK_Z), "hips"),
+    "head": ((0, 0, NECK_Z), J["head_top"], "spine"),
+    "cap_tip": ((0, -0.02, J["head_top"][2] - 0.05), J["pompom"], "head"),
+    "upper_arm.R": (J["shoulder"], J["elbow"], "spine"),
+    "forearm.R": (J["elbow"], J["wrist"], "upper_arm.R"),
+    "hand.R": (J["wrist"], J["hand_end"], "forearm.R"),
+    "thigh.R": (J["hip"], J["knee"], "hips"),
+    "foot.R": (J["knee"], J["toe"], "thigh.R"),
 }
 for n in list(BONES):
     if n.endswith(".R"):
@@ -45,14 +47,15 @@ bpy.ops.object.mode_set(mode="OBJECT")
 
 # Which bones each garment may follow (no cross-garment weight bleed, e.g. jacket hem onto thighs).
 ARMS = ["upper_arm.R", "forearm.R", "upper_arm.L", "forearm.L"]
+HEAD_ONLY = ["elf_hair", "elf_cap_band", "elf_eyeball", "elf_lid", "elf_lash", "elf_brow", "elf_nose", "elf_smile"]
 ALLOWED = {
-    "elf_skin": ["head", "spine"], "elf_cap": ["head", "cap_tip"], "elf_cap_band": ["head"],
-    "elf_pompom": ["cap_tip"], "elf_eye": ["head"], "elf_glint": ["head"], "elf_brow": ["head"],
-    "elf_smile": ["head"], "elf_jacket": ["spine", "hips"] + ARMS, "elf_zipper": ["spine", "hips"],
-    "elf_strap": ["spine", "hips"], "elf_trims": ["spine", "hips", "forearm.R", "forearm.L", "thigh.R", "thigh.L"],
+    "elf_skin": ["head", "spine"], "elf_cap": ["head", "cap_tip"], "elf_pompom": ["cap_tip"],
+    "elf_jacket": ["spine", "hips"] + ARMS, "elf_zipper": ["spine", "hips"], "elf_zip_pull": ["spine"],
+    "elf_trims": ["spine", "hips", "forearm.R", "forearm.L"],
     "elf_trousers": ["hips", "thigh.R", "thigh.L"], "elf_boots": ["foot.R", "foot.L", "thigh.R", "thigh.L"],
-    "elf_mittens": ["hand.R", "hand.L"], "elf_pellet": ["hand.R"], "elf_pouch": ["hips"],
-    "elf_buckle": ["hips"], "elf_spare_snow": ["hips"],
+    "elf_hands": ["hand.R", "hand.L"], "elf_pellet": ["hand.R"],
+    "elf_belt": ["hips"], "elf_buckle": ["hips"], "elf_buckle_in": ["hips"],
+    **{k: ["head"] for k in HEAD_ONLY},
 }
 
 
@@ -65,17 +68,23 @@ def seg_dist(p, h, t):
 # ---- vertex-colour "atlas": every part's colour + painted detail lives in COLOR_0, so the whole elf needs only two
 # materials (matte + gloss) instead of one per part (B-09 draw-call budget). ----
 from mathutils import noise
-BASE = {"elf_skin": "skin", "elf_jacket": "navy", "elf_trousers": "teal", "elf_trims": "snow", "elf_cap_band": "snow",
-        "elf_pompom": "snow", "elf_cap": "red", "elf_mittens": "red", "elf_pouch": "red", "elf_boots": "dark_timber",
-        "elf_buckle": "gold", "elf_zipper": "gold", "elf_eye": "spruce", "elf_glint": "white_pure",
-        "elf_brow": "dark_timber", "elf_smile": "mouth", "elf_strap": "spruce", "elf_pellet": "snow",
-        "elf_spare_snow": "snow"}
-COLS = dict(PAL, white_pure="#FFFFFF", mouth="#8E2F3A")
-GLOSS = {"elf_eye", "elf_glint", "elf_buckle", "elf_zipper"}
+BASE = {"elf_skin": "skin", "elf_hands": "skin", "elf_jacket": "navy", "elf_trousers": "teal", "elf_trims": "snow",
+        "elf_cap_band": "snow", "elf_pompom": "snow", "elf_cap": "red", "elf_boots": "timber", "elf_belt": "belt",
+        "elf_buckle": "gold", "elf_buckle_in": "belt", "elf_zipper": "gold", "elf_zip_pull": "gold",
+        "elf_hair": "hair", "elf_eyeball": "white_pure", "elf_lid": "lid", "elf_lash": "lid",
+        "elf_brow": "dark_timber", "elf_nose": "nose", "elf_smile": "mouth", "elf_pellet": "snow"}
+COLS = dict(PAL, white_pure="#FFFFFF")
+GLOSS = {"elf_buckle", "elf_zipper", "elf_zip_pull", "elf_nose"}
 M_MATTE = material("M_elf_matte", "#FFFFFF", 0.8, use_vcol=True)
 M_GLOSS = material("M_elf_gloss", "#FFFFFF", 0.22, use_vcol=True)
+# Eyes: the painted iris texture straight into Base Color (glTF exports it; Godot multiplies COLOR_0 = white).
+M_EYE_GAME = material("M_elf_eye_game", "#FFFFFF", 0.15)
+_nt = M_EYE_GAME.node_tree
+_tex = _nt.nodes.new("ShaderNodeTexImage")
+_tex.image = bpy.data.images["elf_eye"]
+_nt.links.new(_tex.outputs["Color"], next(n for n in _nt.nodes if n.type == "BSDF_PRINCIPLED").inputs["Base Color"])
 # Blush centres ON the cheek surface: ray straight back from in front of each cheek onto the skin.
-CHEEKS = [bpy.data.objects["elf_skin"].ray_cast(Vector((sx * 0.095, 0.4, 0.745)), Vector((0, -1, 0)))[1]
+CHEEKS = [bpy.data.objects["elf_skin"].ray_cast(Vector((sx * 0.15, 0.4, HEAD_Z - 0.1)), Vector((0, -1, 0)))[1]
           for sx in (1, -1)]
 
 
@@ -90,24 +99,28 @@ def paint(g, key):
     for v in g.data.vertices:
         c = base.copy()
         p = v.co
-        if key == "elf_skin":  # soft blush on the exposed cheeks, warmer ear tips
-            w = max(math.exp(-((p - ch).length / 0.03) ** 2) for ch in CHEEKS)
-            c = c.lerp(lin("blush"), 0.8 * w)
-        elif key in ("elf_cap", "elf_mittens"):  # knit ribs
+        if key == "elf_skin":  # round blush ovals on the cheeks (sheet 02)
+            w = max(math.exp(-(((p - ch).x / 0.04) ** 2 + ((p - ch).z / 0.03) ** 2) ** 1.5) for ch in CHEEKS)
+            c = c.lerp(lin("blush"), 0.85 * min(1.0, w))
+        elif key == "elf_cap":  # knit ribs
             rib = 0.5 + 0.5 * math.cos(28 * math.atan2(p.x, p.y + 0.03))
             c = c * (0.86 + 0.14 * rib)
+        elif key == "elf_hair":  # strand streaks + lighter top
+            streak = 0.5 + 0.5 * math.cos(70 * math.atan2(p.x, p.y + 0.02) + 6 * p.z)
+            c = c.lerp(lin("hair_light"), 0.35 * streak + 0.3 * min(1.0, max(0.0, (p.z - HEAD_Z) / 0.15)))
         elif key in ("elf_trims", "elf_cap_band", "elf_pompom"):  # fluffy fur
             c = c * (0.9 + 0.1 * noise.noise(p * 60))
         elif key in ("elf_jacket", "elf_trousers"):  # light from above + faint fabric grain
             c = c * (0.9 + 0.18 * min(1.0, max(0.0, (p.z - 0.25) / 0.4)) + 0.03 * noise.noise(p * 90))
-        elif key == "elf_boots":  # scuffed toe caps
-            c = c.lerp(lin("timber"), 0.35 * min(1.0, max(0.0, (p.y - 0.08) / 0.1)))
+        elif key == "elf_boots":  # darker sole and cuff
+            c = c.lerp(lin("dark_timber"), 0.5 if p.z < 0.02 or p.z > 0.15 else 0.0)
         attr.data[v.index].color = (c.x, c.y, c.z, 1.0)
     g.data.materials.clear()
-    g.data.materials.append(M_GLOSS if key in GLOSS else M_MATTE)
+    g.data.materials.append(M_EYE_GAME if key == "elf_eyeball" else M_GLOSS if key in GLOSS else M_MATTE)
 
 
 game = []
+HI_TRIS = sum(tri_count(o) for o in parts)
 for o in parts:
     o.users_collection[0].objects.unlink(o)
     hi.objects.link(o)
@@ -116,8 +129,8 @@ for o in parts:
     bpy.context.scene.collection.objects.link(g)
     # Decimate big organic shells hardest; tiny face/kit pieces barely.
     t = tri_count(g)
-    budget = max(120, GAME_TRIS * t / 140000)
-    if t > budget:
+    budget = max(120, GAME_TRIS * t / HI_TRIS)
+    if t > budget and not o.name.startswith("elf_eyeball"):  # eyeballs keep their planar UVs
         decimate(g, budget / t)
     allowed = ALLOWED[o.name.split(".")[0]]
     for b in allowed:
@@ -131,6 +144,8 @@ for o in parts:
             if w / tot > 0.02:
                 g.vertex_groups[b].add([v.index], w / tot, "REPLACE")
     paint(g, o.name.split(".")[0])
+    if not g.data.uv_layers:  # join keeps a UV layer only if every part has one: the eyeballs' planar UVs must survive
+        g.data.uv_layers.new(name="UVMap")
     game.append(g)
 hi.hide_viewport = True
 hi.hide_render = True
@@ -145,14 +160,18 @@ bvh = BVHTree.FromObject(body, bpy.context.evaluated_depsgraph_get())
 DIRS = [Vector((math.cos(a) * math.sin(e), math.sin(a) * math.sin(e), math.cos(e))) for e in (0.5, 1.1)
         for a in [2 * math.pi * k / 6 for k in range(6)]]
 col = body.data.color_attributes["Col"]
+eye_idx = body.data.materials.find(M_EYE_GAME.name)
+eye_verts = {vi for poly in body.data.polygons if poly.material_index == eye_idx for vi in poly.vertices}
 for v in body.data.vertices:
+    if v.index in eye_verts:  # the painted eye carries its own shading
+        continue
     n = v.normal
     basis = n.to_track_quat("Z", "Y")
     hits = sum(1 for d in DIRS if bvh.ray_cast(v.co + n * 0.003, basis @ d, 0.07)[0] is not None)
     k = 1.0 - 0.5 * hits / len(DIRS)
     r, g_, b_, a_ = col.data[v.index].color
     col.data[v.index].color = (r * k, g_ * k, b_ * k, 1.0)
-print("game tris", tri_count(body), "materials", len(body.data.materials))
+print("game tris", tri_count(body), "of hi", HI_TRIS, "materials", len(body.data.materials))
 
 # ---- B-11 sockets (empties; bone-parented ones follow the animation) ----
 def socket(name, co, bone=None):
@@ -169,9 +188,9 @@ socket("root_ground", (0, 0, 0))
 socket("shadow_anchor", (0, 0, 0.002))
 socket("aim_pivot", (0, 0, 0.45))
 socket("effect_center", (0, 0, 0.5), "spine")
-socket("portrait_focus", (0, 0.15, 0.8), "head")
-socket("weapon_hand_r", (0.338, 0.065, 0.29), "hand.R")
-socket("weapon_hand_l", (-0.34, 0.1, 0.27), "hand.L")
+socket("portrait_focus", (0, 0.2, HEAD_Z), "head")
+socket("weapon_hand_r", J["palm_r"], "hand.R")
+socket("weapon_hand_l", J["palm_l"], "hand.L")
 socket("muzzle_A", tuple(PELLET), "hand.R")
 
 # ---- actions: idle_loop (cocked throw stance, breathing, cap sway) and attack (overhand throw) ----

@@ -52,6 +52,19 @@ Scripts in `art_src/tools/` rebuild each asset from scratch, save the `.blend` i
 | Lodge | `build_lodge.py` | `art_src/environment/lodge.blend`, `lodge.glb` |
 | QA renders | set `ASSET = "elf_rookie" \| "snowball" \| "lodge"`, run `qa_render.py` | `docs/logs/evidence/p15_<asset>_{clay_turnaround,silhouette,closeup}.png` |
 
+Headless (no editor needed; same scripts, Windows paths inside the `r'...'` strings):
+
+```bash
+BLENDER="/c/Program Files/Blender Foundation/Blender 5.3/blender.exe"
+T='C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm\art_src\tools'
+"$BLENDER" -b --python-expr "exec(open(r'$T\build_elf_rookie.py').read()); exec(open(r'$T\rig_elf.py').read())"   # ~5 s: .blend + .glb + elf_eye.png
+"$BLENDER" -b art_src/characters/elf_rookie.blend --python-expr "ASSET='elf_rookie'; PREFIX='p15b'; exec(open(r'$T\qa_render.py').read())"
+```
+
+`PREFIX` picks the evidence file prefix (default `p15`). The eye texture Godot extracts (`assets/models/elf_rookie_elf_eye.png`)
+keeps `compress/mode=0`, `mipmaps/generate=false` in its `.import` (set once via `godot_import_set`); reimport the `.glb`
+after an export with `godot_import_set` (the editor only rescans on focus).
+
 Checks: `check_rig_reuse.py` (Blender, with `elf_rookie.blend` open) measures how the Rookie actions transfer to
 other elf proportions; `python art_src/tools/zoom_crop.py in.png out.png x y w h scale` makes nearest-neighbour zooms of
 game-camera captures for readability checks.

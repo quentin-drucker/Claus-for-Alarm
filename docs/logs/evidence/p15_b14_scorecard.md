@@ -66,3 +66,32 @@ normal, bolder brows; buckle seated on the satchel; label lifted clear of the ca
 Still open: the stress test ran on a desktop RTX GPU, not a low-end laptop, and ~1,060 draw calls is high for weak
 WebGL devices. If needed, the shell outline `next_pass` can be dropped for small layers. Face detail is not legible at
 game scale; that is a camera limit, not a model defect.
+
+---
+
+# Rookie redesign (DEC-039, review 1: model overhaul) — re-score 2026-11-14
+
+Changes: body and head rebuilt to the owner's concept sheets (`references/characters/christmas_elf_v1/`): head + beanie
+about half the height, wide flat face, blonde forelock / side tufts / back clumps, big green eyes (bulging eyeballs with
+a 256 px painted iris texture `art_src/characters/elf_eye.png`, swept-tube lid rims and lashes), thick brows, red button
+nose, closed smile, round cheek blush; rounded knit beanie with a thick fur band and a pompom (no drooping tip);
+horizontal-quilt navy jacket with a big fur collar, cuffs, belt with a gold frame buckle, gold zipper + pull; teal
+trousers; brown boots with cuffs and a modest toe curl; bare three-finger hands (right one cups the snowball). Satchel,
+strap, spare snowballs and mittens removed (not in the approved sheets). Rig: the old 15-bone rig re-applied unchanged
+so Godot plays idle/attack (review 2 = re-rig).
+
+| Category | Before (DEC-036) | After (review 1) | Evidence |
+|---|---|---|---|
+| Silhouette | 2 | 2 — beanie + pompom, ears, big head, boots read in black | `p15b_elf_rookie_silhouette.png` |
+| Organic connections | 2 | 2 — skull/cheeks/chin/neck/ears one surface; hair clumps lie on the skull; jacket + sleeves one garment | `p15b_elf_rookie_clay_turnaround.png` |
+| Fitted clothing / gear | 2 | 2 — collar, cuffs, belt and band from the real garment sections; buckle/zip pull seated on the jacket; lids, lashes, brows, nose seated on the face | clay turnaround, close-up |
+| Hard-surface construction | n/a (2) | 2 — bevelled buckle frame + zipper pull are the only mechanical forms | close-up |
+| Material coherence | 2 | 2 — matte / gloss / painted eye (3 materials); vertex paint: hair streaks, knit ribs, fur, blush, boot sole, AO | `p15b_elf_rookie_closeup.png` |
+| Rig / action | 2 | **1** — old rest/weights on the new body: shoulder juts in the cocked idle, snowball arm crosses the face at the game camera. Deliberate: review 2 re-rigs (clavicles, raised-arm rest, clean shoulder weights) | `p15b_godot_idle_zoom.png` |
+| Art family cohesion | 2 | 2 — matches the approved sheets; palette tokens kept (+ hair/nose/iris tokens) | — |
+| Gameplay readability | 2 | 2 — at the game camera: red cap + white band, ears, navy jacket, belt, boots and two green eye dots read (4× zooms) | `p15b_godot_idle_zoom.png`, `p15b_web_idle_zoom.png` |
+| Godot Web suitability | 2 | 2 — 17.2k tris, 3 materials (+3 outline overlays = 6 draws per Rookie, was 4), one 256² lossless texture (18 KB); Web export 0 ERROR/WARNING, `--main-pack` clean apart from the exit-time "resources still in use" line (8, was 2), Chrome 0 console errors. Stress scene not rerun | `p15b_web_*`, `p15b_main_pack.log` |
+| Originality | 2 | 2 — owner's own generated design; no BTD6 traces | — |
+| **2s / 1s / 0s** | 10 / 0 / 0 | **9 / 1 / 0 → passes the gate; the 1 is the known rig debt for review 2** | |
+
+Open: review 2 (re-rig) will re-score Rig/action; stress test and `check_rig_reuse.py` rerun after it.

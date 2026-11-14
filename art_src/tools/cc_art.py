@@ -20,6 +20,9 @@ PAL = {
     "dark_timber": "#563826", "stone": "#7D8995", "glacier": "#8FD8E8",
     "powder": "#DBE9F5", "blue": "#72CEF5", "mint": "#4ACAAA", "violet": "#BD8DF1", "coral": "#F59471",
     "black": "#2B2F36", "white": "#F7FBFF", "purple": "#7A3FD6",
+    # DEC-039 elf tokens (sampled from references/characters/christmas_elf_v1): hair, nose, iris, lid line, mouth, belt
+    "hair": "#F2BC3B", "hair_light": "#FFD966", "nose": "#E8574A", "iris": "#4FA83A", "iris_dark": "#1F4D17",
+    "lid": "#2A1A14", "mouth": "#5A2A2A", "belt": "#6E3A1E",
 }
 
 

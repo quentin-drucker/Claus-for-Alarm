@@ -396,3 +396,36 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Tests:** 10/10 PASS; Web export exit 0, `--main-pack` 0 ERROR; Chrome sample-start trace in `p18_web_audio.txt`.
 - **Open:** listening pass (ambience level under the chase, tower level at 50%); one 57 s gameplay loop repeats over a
   full match — the paid full Christmas Music Pack (32 loops) or a CC BY track could add rotation if it tires.
+
+#### SESSION 2026-11-14 15:30 — Claude Code (Fable 5.1) — P15 Rookie redesign, review 1 of 2 (DEC-039: model overhaul)
+- **Goal:** rebuild the Rookie elf base (body + head + face) to the owner's generated concept sheets
+  (`references/characters/christmas_elf_v1/`), face as sculpted geometry + a light painted texture; stop for review.
+  Review 2 (re-rig: clavicles, raised-arm rest, shoulder weights) follows separately, since the remodel forces it.
+- **Read:** `docs/ART_STYLE.md`, `p15_b14_scorecard.md`, `p15r_rig_reuse.md`, the reference README/PROMPTS, build/rig/QA
+  scripts, `tower.gd` model binding (outline = `material_overlay`; `_anim.play` needs an AnimationPlayer).
+- **Repo commit before:** `ac3cc4c`.
+- **Files changed:** `art_src/tools/build_elf_rookie.py` (rewritten: HEAD_Z 0.80 skull/cheeks/chin/ears, ear-free skull for
+  hair projection, hair clumps as flat ellipsoid chains, eyeballs = UV spheres with planar UVs + `paint_eye_texture()`,
+  lid rims/lashes as swept curve `tube()`s, brows/nose/smile, round beanie + band + pompom, quilted jacket + collar +
+  cuffs, belt + `box()` buckle/zip pull, trousers, boots, three-finger hands, `JOINTS` landmarks), `rig_elf.py` (bones from
+  `JOINTS`, new `ALLOWED`/`BASE`, textured eye material, eyeballs undecimated, UV layer kept through the join, no AO on
+  eyes, tri budget from the real master total), `cc_art.py` (DEC-039 tokens), `qa_render.py` (`PREFIX`),
+  `art_src/characters/{elf_rookie.blend,elf_eye.png}`, `assets/models/elf_rookie.glb` (+ extracted
+  `elf_rookie_elf_eye.png`, lossless import), `docs/COMMANDS.md` (headless commands), scorecard, plan, this log.
+- **Method:** headless Blender (`-b`, ~1 s per build) with a scratch preview sheet per iteration (5 passes: proportions,
+  band above the brows, eye size/spacing, hair projection off the ears, lid tubes); live Blender MCP untouched.
+- **Tests run:** 10/10 suites PASS (`p15b_tests.txt`); editor process run of `match.tscn`: 2 Rookies placed, round 1, 0 errors/warnings.
+- **Web result:** `--export-release "Web"` exit 0, 0 ERROR/WARNING (`p15b_web_export.log`); `--main-pack` exit 0, only the
+  exit-time "8 resources still in use" line (was 2; cleanup order, includes the eye texture); Chrome via playwright-cli
+  1280×720: Play, two Rookies by keyboard/mouse, round 1, `Errors: 0, Warnings: 0` (`p15b_web_console.log`).
+- **Screenshots/logs:** `p15b_elf_rookie_{clay_turnaround,silhouette,closeup}.png`, `p15b_godot_{idle,idle_zoom,gamecam}.png`,
+  `p15b_web_{idle,idle_zoom,gamecam}.png`, `p15b_main_pack.log`.
+- **B-14:** Rookie 9×2 / 1×1 (Rig/action = known debt: the old rest pose and weights are re-applied to the new body so the
+  game keeps playing; shoulder juts and the cocked arm crosses the face at the game camera) → passes; see scorecard.
+- **Finished and checked tasks:** P15-T03/T04/T06/T07/T08 evidence refreshed for the rebuilt Rookie. **Open:** P15-T09 owner
+  review 1; review 2 re-rig (+ `check_rig_reuse.py`, stress rerun); `ART_STYLE.md` §1/§2/§4 text still describes the
+  DEC-036 look (cap tip, mittens, satchel) — update after review 1 approval per DEC-039.
+- **Deviations:** satchel/strap/spare snowballs (DEC-036 C) dropped because the approved sheets have none (logged in
+  DEC-039); draws per Rookie 4 → 6 (third material + overlay); eye detail is one 256² texture (first texture in the game).
+- **Repo commit after:** this entry's commit.
+- **Next suggested task IDs:** owner review 1 → review 2 (re-rig) → P15-T09 sign-off.
