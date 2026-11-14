@@ -38,11 +38,8 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for sfx_name: StringName in SFX:
 		var cfg: Array = SFX[sfx_name]
-		var random: AudioStreamRandomizer = AudioStreamRandomizer.new()
-		random.add_stream(0, load(SFX_DIR + sfx_name + ".wav"))
-		random.random_pitch = cfg[2]
 		var player: AudioStreamPlayer = AudioStreamPlayer.new()
-		player.stream = random
+		player.stream = load(SFX_DIR + sfx_name + ".wav")
 		player.volume_db = cfg[0]
 		player.max_polyphony = cfg[1]
 		player.bus = &"SFX"
@@ -52,6 +49,9 @@ func _ready() -> void:
 	add_child(_music)
 	Events.emitted.connect(_on_event)
 	get_tree().node_added.connect(_on_node_added)
+	# The main scene is already in the tree before autoloads get _ready, so node_added missed its buttons.
+	for button: Node in get_tree().root.find_children("*", "BaseButton", true, false):
+		_on_node_added(button)
 	get_tree().scene_changed.connect(_on_scene_changed)
 	_on_scene_changed.call_deferred()
 
@@ -73,6 +73,8 @@ func play(sfx_name: StringName) -> void:
 	if now - _last_start.get(sfx_name, -100000) < SFX[sfx_name][3] * 1000.0:
 		return
 	_last_start[sfx_name] = now
+	var spread: float = SFX[sfx_name][2]
+	_players[sfx_name].pitch_scale = randf_range(1.0 / spread, spread)
 	_players[sfx_name].play()
 
 
