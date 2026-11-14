@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_vmm2c"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_vv6fl"]
+
+[sub_resource type="Resource" id="Resource_5nfrf"]
+script = ExtResource("1_vmm2c")
+enemy_id = &"camo_mint"
+duration_s = 1.0
+
+[sub_resource type="Resource" id="Resource_3grm8"]
+script = ExtResource("1_vmm2c")
+enemy_id = &"blue"
+count = 20
+start_s = 3.0
+duration_s = 6.0
+
+[resource]
+script = ExtResource("2_vv6fl")
+groups = Array[ExtResource("1_vmm2c")]([SubResource("Resource_5nfrf"), SubResource("Resource_3grm8")])
+id = &"round_24"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-24/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 24 (counts, start, sent-over)."

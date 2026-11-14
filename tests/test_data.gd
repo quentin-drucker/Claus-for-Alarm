@@ -16,8 +16,8 @@ func _initialize() -> void:
 	var content: Node = content_script.new()
 	content.load_from("res://resources/")
 	_check(content.errors.is_empty(), "real content validates: %s" % "\n".join(content.errors))
-	_check(content.towers.size() == 6 and content.enemies.size() == 5 and content.rounds.size() == 19,
-			"6 towers, 5 enemies, 19 rounds (16 source + 3 finale)")
+	_check(content.towers.size() == 6 and content.enemies.size() == 11 and content.rounds.size() == 25,
+			"6 towers, 11 snowball types, 25 rounds (DEC-025)")
 	for tower: Resource in content.towers:
 		_check(tower.upgrades.size() == 15, "%s has 3x5 upgrades" % tower.id)
 
@@ -31,14 +31,16 @@ func _initialize() -> void:
 	DirAccess.make_dir_recursive_absolute("res://docs/logs/evidence")
 	FileAccess.open("res://docs/logs/evidence/p02_status_report.txt", FileAccess.WRITE).store_string(report + "\n")
 
-	# Golden RBE: layer chain Powder..Coral = 1..5; rounds 1-16 match the source round pages' RBE.
-	var expected_rbe: Array[int] = [20, 35, 35, 71, 59, 57, 75, 92, 90, 204, 78, 80, 169, 145, 151, 152]
-	for i: int in 16:
+	# Golden RBE: layer chain Powder..Coral = 1..5; rounds 1-25 match the source round pages' RBE.
+	var expected_rbe: Array[int] = [20, 35, 35, 71, 59, 57, 75, 92, 90, 204, 78, 80, 169, 145, 151, 152,
+			48, 240, 141, 66, 230, 176, 154, 43, 210]
+	for i: int in 25:
 		_check(content.round_rbe(i) == expected_rbe[i], "round %d RBE %d" % [i + 1, content.round_rbe(i)])
 	_check([&"powder", &"blue", &"mint", &"violet", &"coral"].map(content.rbe) == [1, 2, 3, 4, 5], "layer RBE")
-	for i: int in content.rounds.size():  # D-03: 1-16 exact source, 17-19 labelled original finale
+	_check([&"black", &"white", &"purple", &"camo_mint"].map(content.rbe) == [11, 11, 11, 3], "special RBE 11/11/11/3")
+	for i: int in content.rounds.size():  # DEC-025/026: all exact source; DEC-031 regrow rounds 17/19/25 deviate
 		var r: Resource = content.rounds[i]
-		_check((r.custom_label == "Finale") == (i >= 16) and r.status.groups == ("ORIGINAL_DEVIATION" if i >= 16
+		_check(r.custom_label == "" and r.status.groups == ("ORIGINAL_DEVIATION" if i + 1 in [17, 19, 25]
 				else "VERIFIED_SOURCE"), "round %d label/provenance" % (i + 1))
 	var r1: Array = content.rounds[0].schedule()
 	_check(r1.size() == 20 and is_equal_approx(r1[-1][0], 17.51), "round 1: 20 spawns over 17.51 s")
@@ -104,7 +106,9 @@ func _test_fixtures(content_script: GDScript) -> void:
 	c.rounds.append(round_def)
 	_check(c.validate().is_empty(), "fixture validates: %s" % "\n".join(c.validate()))
 	_check(c.rbe(&"fx_outer") == 2 and c.round_rbe(0) == 6, "fixture RBE")
-	_expect_error(c, func() -> void: outer.child_count = 2, "DEFERRED", func() -> void: outer.child_count = 1)
+	outer.child_count = 2
+	_check(c.validate().is_empty() and c.rbe(&"fx_outer") == 3, "multi-child split validates, RBE 1 + 2x1")
+	outer.child_count = 1
 
 	_expect_error(c, func() -> void: tower.price = -5, "negative value", func() -> void: tower.price = 0)
 	_expect_error(c, func() -> void: tower.status.erase("price"), "missing status",

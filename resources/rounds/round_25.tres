@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_n6047"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_q4bmx"]
+
+[sub_resource type="Resource" id="Resource_uvr6u"]
+script = ExtResource("1_n6047")
+enemy_id = &"violet"
+count = 25
+duration_s = 14.0
+
+[sub_resource type="Resource" id="Resource_qm5f6"]
+script = ExtResource("1_n6047")
+enemy_id = &"purple"
+count = 10
+start_s = 17.14
+duration_s = 4.0
+
+[resource]
+script = ExtResource("2_q4bmx")
+groups = Array[ExtResource("1_n6047")]([SubResource("Resource_uvr6u"), SubResource("Resource_qm5f6")])
+id = &"round_25"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-25/"
+status = Dictionary[String, String]({
+"groups": "ORIGINAL_DEVIATION"
+})
+notes = "Exact BTD6 v56 standard round 25 (counts, start, sent-over). DEC-031: Regrow Yellow spawns as plain Violet (same count and timing; RBE unchanged)."

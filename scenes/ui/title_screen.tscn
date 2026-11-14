@@ -7,6 +7,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_eb34j")
 
 [node name="Background" type="ColorRect" parent="." unique_id=251825745]
@@ -71,12 +73,13 @@ text = "Snowballs roll down the ski course from START to FINISH. Stop them befor
 
 • Place: pick a defender in the shop (right side, or keys 1-6) and click beside the track. A green ghost means the spot is free; red shows why it is not (track, scenery, too close, not enough cash).
 • Upgrade: click a defender to select it. Each has three upgrade paths; once one path goes past tier 2, only one other path can reach tier 2. You can also change its target (T) or sell it.
-• Hero: Camel Claus (key 7, one per match) levels up after every round. Level 3 unlocks Snowball Frenzy (Q), level 4 Focused Shot (E).
-• Start a round with Start round (Space) when you are ready. F toggles 2x speed, P pauses.
+• Hero: Camel Claus (key 7, one per match) levels up after every round. Level 3 unlocks Snowball Frenzy (Q), level 4 Focused Shot (E), level 5 camo detection.
+• Start a round with Start round (Space) when you are ready. F cycles speed 1x / 2x / 4x, P pauses.
 • Layers: every hit knocks off one layer: Coral → Violet → Mint → Blue → Powder → gone. Each layer pays $1, plus a bonus after every round. Outer layers roll faster.
+• Special snowballs carry a letter.  B = Black: explosions can't hurt it.  W = White: immune to cold.  P = Purple: Snow Sorcerer magic can't hurt it.  B, W and P split into 2 Coral when hit.  C = Camo: only defenders with camo detection can see it (some upgrades, Camel Claus level 5).
 • Income: the Ticket Booth drops tickets every round. Click them to collect before they melt.
-• Lose lives: a snowball that reaches the finish costs one life per layer it still has.
-• Win by surviving all 19 rounds. You lose when your lives reach 0."
+• Lose lives: a snowball that reaches the finish costs one life per layer it still has (a Black, White or Purple costs 11).
+• Win by surviving all 25 rounds. You lose when your lives reach 0."
 autowrap_mode = 3
 
 [node name="HowBack" type="Button" parent="Center/HowPanel/Box" unique_id=1570720332]

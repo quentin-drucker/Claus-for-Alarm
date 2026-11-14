@@ -9,7 +9,7 @@ extends TowerDefinition
 @export var level_xp: Array[int] = []
 ## Changes gained at each level, same indexing. Applied keys: pierce, interval_s, projectile_count, range_units,
 ## camo_detection, frenzy_multiplier, frenzy_cooldown_s, unlock_ability, unlock_stance. Other keys (explosion_every,
-## bonus_vs_large, barrage_cooldown_s, projectile_lifetime_mult) are data only: unreachable in the 19-round match.
+## bonus_vs_large, barrage_cooldown_s, projectile_lifetime_mult) are data only until DEC-030: the 25-round match reaches level 6 at most (as round 25 is won).
 @export var level_changes: Array[Dictionary] = []
 ## Snowball Frenzy (Rapid Shot, level 3): attack speed multiplier, duration and cooldown (seconds of sim time).
 @export var frenzy_multiplier: float = 3.0
@@ -22,7 +22,7 @@ extends TowerDefinition
 
 
 ## XP every hero on the map earns at the end of round `r` (BTD6 round XP, ratio 1 for Quincy).
-## ponytail: community formula, not on the teemo.dev pages (PROTOTYPE_ASSUMPTION); rounds > 20 never happen here.
+## ponytail: community formula, not on the teemo.dev pages (PROTOTYPE_ASSUMPTION); verify before Endless (DEC-027).
 static func xp_for_round(r: int) -> int:
 	if r <= 20:
 		return 20 * r + 20

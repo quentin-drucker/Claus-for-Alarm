@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_definition.gd" id="1_x6a7a"]
+
+[resource]
+script = ExtResource("1_x6a7a")
+display_name = "Camo Mint"
+speed_units = 45.0
+child_id = &"camo_blue"
+child_count = 1
+properties = Array[StringName]([&"camo"])
+id = &"camo_mint"
+source_url = "https://teemo.dev/game-design/bloons-td-6/systems/bloons-and-properties/"
+status = Dictionary[String, String]({
+"cash_per_pop": "VERIFIED_SOURCE",
+"child_count": "VERIFIED_SOURCE",
+"speed_units": "VERIFIED_SOURCE"
+})
+notes = "BTD6 Camo Green: Green stats, camo kept by its children."

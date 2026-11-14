@@ -6,22 +6,15 @@
 [sub_resource type="Resource" id="Resource_skeph"]
 script = ExtResource("1_0rpsj")
 enemy_id = &"violet"
-count = 30
-duration_s = 12.0
-
-[sub_resource type="Resource" id="Resource_knam7"]
-script = ExtResource("1_0rpsj")
-enemy_id = &"coral"
 count = 12
-start_s = 6.0
-duration_s = 6.0
+duration_s = 5.0
 
 [resource]
 script = ExtResource("2_fr1pp")
-custom_label = "Finale"
-groups = Array[ExtResource("1_0rpsj")]([SubResource("Resource_skeph"), SubResource("Resource_knam7")])
+groups = Array[ExtResource("1_0rpsj")]([SubResource("Resource_skeph")])
 id = &"round_17"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-17/"
 status = Dictionary[String, String]({
 "groups": "ORIGINAL_DEVIATION"
 })
-notes = "Custom finale round 1 of 3 (owner decision D-03): basic layers only, dense/fast mix."
+notes = "Exact BTD6 v56 standard round 17 (counts, start, sent-over). DEC-031: Regrow Yellow spawns as plain Violet (same count and timing; RBE unchanged)."

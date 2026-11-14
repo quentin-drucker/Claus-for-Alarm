@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_dmsj6"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_i5xba"]
+
+[sub_resource type="Resource" id="Resource_1g2wi"]
+script = ExtResource("1_dmsj6")
+enemy_id = &"black"
+count = 7
+duration_s = 2.5
+
+[sub_resource type="Resource" id="Resource_ck1iq"]
+script = ExtResource("1_dmsj6")
+enemy_id = &"white"
+count = 7
+start_s = 4.82
+duration_s = 2.0
+
+[resource]
+script = ExtResource("2_i5xba")
+groups = Array[ExtResource("1_dmsj6")]([SubResource("Resource_1g2wi"), SubResource("Resource_ck1iq")])
+id = &"round_23"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-23/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 23 (counts, start, sent-over)."

@@ -1,7 +1,7 @@
 extends SceneTree
 ## P10 hero tests: singleton + price (T01/T11), ricochet (T02), round XP (T03), level application once (T04),
 ## Snowball Frenzy (T05/T09), Focused Shot (T06), camo at 5 (T07), level fixtures 1/3/4/5/6/7/10/19/20 (T08/T12),
-## and the highest level a normal 19-round match reaches (written to docs/logs/evidence/p10_hero_levels.txt).
+## and the highest level a normal 25-round match reaches (written to docs/logs/evidence/p10_hero_levels.txt).
 ## Run: godot --headless --path . -s res://tests/test_hero.gd   (exit 1 = failure)
 
 const MATCH: String = "res://scenes/main/match.tscn"
@@ -109,6 +109,12 @@ func _test_levels() -> void:
 	h.rebuild_stats()
 	h.rebuild_stats()
 	_check(h.attacks[0].projectile_count == 2 and h.attacks[0].pierce == 4, "level 6 stats stable across rebuilds")
+	# Level 6 in play (reachable by round 25): one attack = two shots, each hits the same Coral once -> 2 layers.
+	var coral: Node3D = _park(m, &"coral", 14.0)
+	_sim(m, 0.5)
+	_check(coral.def.id == &"mint", "level 6: one attack, two shots, Coral -> Mint (got %s)" % coral.def.id)
+	m.snowballs.erase(coral)
+	coral.free()
 	m.set_hero_level(2)
 	_check(h.attacks[0].projectile_count == 1 and h.range_units == 50.0 and h.level == 2, "levelling down rebuilds from data")
 	_check(content.hero.attacks[0].pierce == 3 and content.hero.attacks[0].projectile_count == 1, "hero data untouched")
@@ -181,13 +187,13 @@ func _test_focus() -> void:
 	_completed.append("_test_focus")
 
 
-## XP per round (20r + 20) arrives at each round end; a hero placed before round 1 levels at the right boundary.
-## Report: XP and level after every round of the 19-round match -> highest reachable level.
+## XP per round (20r + 20, 40r - 380 after round 20) arrives at each round end; a hero placed before round 1 levels at the right boundary.
+## Report: XP and level after every round of the 25-round match -> highest reachable level.
 func _test_round_xp() -> void:
 	var m: Node3D = _new_match(100000)
 	var h: Node3D = m.try_place(content.hero, SPOT)
 	m.lives = 1000000  # XP must not depend on the defence holding; leaks are irrelevant here
-	var lines: PackedStringArray = ["P10 hero XP in a normal match (hero placed before round 1, BTD6 round XP 20r+20).",
+	var lines: PackedStringArray = ["P10 hero XP in a normal match (hero placed before round 1, BTD6 round XP 20r+20, 40r-380 from round 21).",
 			"round  xp_gained  total_xp  level"]
 	var xp: int = 0
 	var reached: Dictionary = {}
@@ -196,17 +202,17 @@ func _test_round_xp() -> void:
 		while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
 			m.clock.advance(STEP)
 		var r: int = m.round_index + 1
-		xp += 20 * r + 20
+		xp += 20 * r + 20 if r <= 20 else 40 * r - 380
 		_check(h.xp == xp, "round %d: hero XP %d (got %d)" % [r, xp, h.xp])
 		reached.get_or_add(h.level, r)
-		lines.append("%5d  %9d  %8d  %5d" % [r, 20 * r + 20, h.xp, h.level])
+		lines.append("%5d  %9d  %8d  %5d" % [r, 20 * r + 20 if r <= 20 else 40 * r - 380, h.xp, h.level])
 	_check(m.state == m.State.WON, "XP match won")
-	_check(reached.get(2) == 3 and reached.get(3) == 7 and reached.get(4) == 12 and reached.get(5) == 18,
-			"levels 2/3/4/5 after rounds 3/7/12/18 (got %s)" % [reached])
-	_check(h.level == 5, "highest level in a 19-round match = 5 (got %d)" % h.level)
-	lines.append("Reached: level 2 after round %d, 3 after %d (Snowball Frenzy), 4 after %d (Focused Shot), 5 after %d (camo)."
-			% [reached.get(2), reached.get(3), reached.get(4), reached.get(5)])
-	lines.append("Max level in a normal match: %d (%d XP; level 6 needs 6,780). Levels 6-20 are data only (test_hero fixtures)."
+	_check(reached.get(2) == 3 and reached.get(3) == 7 and reached.get(4) == 12 and reached.get(5) == 18 and reached.get(6) == 25,
+			"levels 2/3/4/5/6 after rounds 3/7/12/18/25 (got %s)" % [reached])
+	_check(h.level == 6, "highest level in a 25-round match = 6 (got %d)" % h.level)
+	lines.append("Reached: level 2 after round %d, 3 after %d (Snowball Frenzy), 4 after %d (Focused Shot), 5 after %d (camo), 6 after %d (two shots: only once round 25 is won)."
+			% [reached.get(2), reached.get(3), reached.get(4), reached.get(5), reached.get(6)])
+	lines.append("Max level in a normal match: %d (%d XP; level 7 needs 11,960). Level 6 is implemented (fixtures); levels 7-20 data only until DEC-030."
 			% [h.level, h.xp])
 	FileAccess.open("res://docs/logs/evidence/p10_hero_levels.txt", FileAccess.WRITE).store_string("\n".join(lines) + "\n")
 	print("\n".join(lines))

@@ -179,7 +179,7 @@ func _refresh() -> void:
 		_start.text = "Start round %d (Space)" % (m.round_index + 2)
 	_pause.disabled = over
 	_pause.text = "Resume (P)" if m.clock.paused else "Pause (P)"
-	_speed.text = "Speed %sx (F)" % m.clock.speed
+	_speed.text = "Speed %dx (F)" % m.clock.speed
 	_refresh_info()
 	_refresh_hero()
 	_overlay.visible = over or m.clock.paused

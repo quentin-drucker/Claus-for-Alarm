@@ -17,13 +17,16 @@ const TRANSITIONS: Dictionary[State, Array] = {
 	State.WON: [],
 	State.LOST: [],
 }
-const FAST_SPEED: float = 2.0
+## Speed button cycle (DEC-029). Speed only scales how many fixed ticks run per second (SimClock).
+const SPEEDS: Array[float] = [1.0, 2.0, 4.0]
 const GROUND: Plane = Plane(Vector3.UP, 0.0)
 const TOWER_SCENE: PackedScene = preload("res://scenes/towers/tower.tscn")
 const SNOWBALL_SCENE: PackedScene = preload("res://scenes/enemies/snowball.tscn")
 ## Contact radius of a snowball for projectile hits (snowball mesh radius, metres).
 ## ponytail: one size for all five basic layers; per-type size when large specials arrive (P11).
 const HIT_RADIUS_M: float = 0.4
+## Split children trail their parent along the track by this much each (PROTOTYPE_ASSUMPTION, metres).
+const SPLIT_GAP_M: float = 0.15
 const SHOT_MESH: SphereMesh = preload("res://scenes/main/shot_mesh.tres")
 const BURST_COLOR: Color = Color(1.0, 0.85, 0.6, 0.45)
 const PICKUP_COLOR: Color = Color("f9c96d")
@@ -180,7 +183,7 @@ func set_paused(on: bool) -> void:
 
 
 func toggle_speed() -> void:
-	clock.speed = FAST_SPEED if clock.speed == 1.0 else 1.0
+	clock.speed = SPEEDS[(SPEEDS.find(clock.speed) + 1) % SPEEDS.size()]
 	changed.emit()
 
 
@@ -287,10 +290,20 @@ func _bounce_target(attack: AttackDefinition, from: Vector3, hit: Dictionary[int
 	var best_d: float = attack.bounce_range_units * GameDefinition.UNIT_M + HIT_RADIUS_M
 	for s: Node3D in snowballs:
 		var d: float = from.distance_to(s.position)
-		if d <= best_d and not hit.has(s.entity_id) and (attack.detects_camo or &"camo" not in s.def.properties):
+		if d <= best_d and not was_hit(hit, s) and (attack.detects_camo or &"camo" not in s.def.properties):
 			best = s
 			best_d = d
 	return best
+
+
+## True if `s` (or a snowball it split from) is in a projectile's hit history.
+static func was_hit(hit: Dictionary[int, bool], s: Node3D) -> bool:
+	if hit.has(s.entity_id):
+		return true
+	for id: int in s.ancestors:
+		if hit.has(id):
+			return true
+	return false
 
 
 ## Where `target` will be when a projectile from `from` reaches it: one prediction step along the track.
@@ -396,7 +409,7 @@ func _move_shots(dt: float) -> void:
 		for s: Node3D in snowballs.duplicate():
 			if shot.pierce <= 0:
 				break
-			if shot.hit.has(s.entity_id) or not snowballs.has(s):
+			if was_hit(shot.hit, s) or not snowballs.has(s):
 				continue
 			if Geometry3D.get_closest_point_to_segment(s.position, from, shot.pos).distance_to(s.position) > HIT_RADIUS_M:
 				continue
@@ -429,7 +442,16 @@ func damage_snowball(s: Node3D, damage: int, damage_type: StringName, source_id:
 		Events.send(&"enemy_immune", source_id, s.entity_id, 0, s.position, [damage_type])
 		return
 	Events.send(&"enemy_hit", source_id, s.entity_id, damage, s.position, [s.def.id])
+	_break_layers(s, damage, damage_type, source_id)
+	changed.emit()
+
+
+## Removes `damage` layers. A multi-child break (Black/White/Purple -> 2 Coral) splits, and the leftover damage
+## goes on into every child (PROTOTYPE_ASSUMPTION, BTD6 overflow), stopping at a child immune to the type.
+func _break_layers(s: Node3D, damage: int, damage_type: StringName, source_id: int) -> void:
 	while damage > 0:
+		if StringName("immune_" + damage_type) in s.def.properties:
+			return
 		damage -= 1
 		var old: EnemyDefinition = s.def
 		ledger.credit(clock.tick, old.cash_per_pop, &"pop", source_id)
@@ -442,7 +464,31 @@ func damage_snowball(s: Node3D, damage: int, damage_type: StringName, source_id:
 		if not s.slow_soaks:
 			s.slow_left = 0.0  # a break sheds ordinary wax; Glue Soak keeps it
 		Events.send(&"layer_broken", source_id, s.entity_id, old.cash_per_pop, s.position, [old.id, old.child_id])
-	changed.emit()
+		if old.child_count > 1:
+			for child: Node3D in _split(s, old.child_count):
+				_break_layers(child, damage, damage_type, source_id)
+
+
+## `s` (already on its child layer) becomes the first of `count` children; the others trail it on the track.
+## Every child gets a fresh id with the old one as ancestor, and copies its wax. Returns the new siblings.
+func _split(s: Node3D, count: int) -> Array[Node3D]:
+	var parent_id: int = s.entity_id
+	s.ancestors.append(parent_id)
+	s.entity_id = _new_id()
+	var out: Array[Node3D] = []
+	for k: int in range(1, count):
+		var child: Node3D = SNOWBALL_SCENE.instantiate()
+		snowballs_root.add_child(child)
+		child.setup(s.def, _new_id())
+		child.ancestors = s.ancestors.duplicate()
+		child.distance = maxf(0.0, s.distance - SPLIT_GAP_M * k)
+		child.position = course.position_at(child.distance)
+		for field: String in ["slow_factor", "slow_left", "slow_soaks", "dot_damage", "dot_interval", "dot_timer", "dot_source"]:
+			child.set(field, s.get(field))
+		snowballs.insert(snowballs.find(s) + k, child)
+		out.append(child)
+	Events.send(&"enemy_split", parent_id, s.entity_id, count, s.position, [s.def.id])
+	return out
 
 
 func _spawn(enemy_id: StringName) -> void:

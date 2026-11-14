@@ -5,30 +5,37 @@
 
 [sub_resource type="Resource" id="Resource_k7mlh"]
 script = ExtResource("1_0i2x5")
-enemy_id = &"blue"
-count = 40
-duration_s = 14.0
+enemy_id = &"mint"
+count = 10
+duration_s = 2.888
 
 [sub_resource type="Resource" id="Resource_ki4j6"]
 script = ExtResource("1_0i2x5")
 enemy_id = &"violet"
-count = 35
-start_s = 2.0
-duration_s = 12.0
+count = 5
+start_s = 2.855
+duration_s = 2.333
 
 [sub_resource type="Resource" id="Resource_aihi1"]
 script = ExtResource("1_0i2x5")
 enemy_id = &"coral"
-count = 40
-start_s = 8.0
-duration_s = 10.0
+count = 15
+start_s = 5.958
+duration_s = 7.617
+
+[sub_resource type="Resource" id="Resource_hjc5f"]
+script = ExtResource("1_0i2x5")
+enemy_id = &"violet"
+count = 4
+start_s = 13.48
+duration_s = 2.284
 
 [resource]
 script = ExtResource("2_h1mxl")
-custom_label = "Finale"
-groups = Array[ExtResource("1_0i2x5")]([SubResource("Resource_k7mlh"), SubResource("Resource_ki4j6"), SubResource("Resource_aihi1")])
+groups = Array[ExtResource("1_0i2x5")]([SubResource("Resource_k7mlh"), SubResource("Resource_ki4j6"), SubResource("Resource_aihi1"), SubResource("Resource_hjc5f")])
 id = &"round_19"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-19/"
 status = Dictionary[String, String]({
 "groups": "ORIGINAL_DEVIATION"
 })
-notes = "Custom finale round 3 of 3 (owner decision D-03): basic layers only, dense/fast mix."
+notes = "Exact BTD6 v56 standard round 19 (counts, start, sent-over). DEC-031: Regrow Yellow spawns as plain Violet (same count and timing; RBE unchanged)."

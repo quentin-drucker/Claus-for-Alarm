@@ -57,6 +57,7 @@ func _run() -> void:
 	_test_priority(content)
 	_test_pierce_and_history(content)
 	_test_speed_equivalence(content)
+	_test_specials(content)
 	print("test_combat: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -117,6 +118,78 @@ func _test_immunity_and_camo(content: Node) -> void:
 	var targeting: GDScript = load("res://scripts/core/targeting.gd")
 	_check(targeting.pick(m.snowballs, s.position, 5.0, 0, false) == null, "camo: invisible without detection")
 	_check(targeting.pick(m.snowballs, s.position, 5.0, 0, true) == s, "camo: targetable with detection")
+	m.free()
+
+
+## DEC-025 specials (P11-T02/T03/T08): Black/White/Purple split into 2 Coral with overflow into both children,
+## their immunities, camo carried down the Camo Mint chain, leak = RBE 11, children safe from the shot that made them.
+func _test_specials(content: Node) -> void:
+	var m: Node3D = _new_match()
+	m._spawn(&"black")
+	var black: Node3D = m.snowballs[-1]
+	_events.clear()
+	m.damage_snowball(black, 2, &"explosion", 5)
+	_check(m.snowballs.size() == 1 and black.def.id == &"black" and _pop_cash(m) == 0 and _events[0].type == &"enemy_immune",
+			"Black: immune to explosion")
+	m.damage_snowball(black, 1, &"sharp", 5)
+	var ids: Array = m.snowballs.map(func(s: Node3D) -> StringName: return s.def.id)
+	_check(ids == [&"coral", &"coral"] and _pop_cash(m) == 1, "Black x1 -> 2 Coral, $1 (got %s)" % [ids])
+	_check(_events.any(func(e: RefCounted) -> bool: return e.type == &"enemy_split"), "enemy_split event")
+	_check(m.snowballs[0].ancestors == m.snowballs[1].ancestors and m.snowballs[0].entity_id != m.snowballs[1].entity_id,
+			"children: fresh ids, same ancestor")
+	for s: Node3D in m.snowballs.duplicate():
+		m.damage_snowball(s, 5, &"sharp", 5)
+	_check(m.snowballs.is_empty() and _pop_cash(m) == 11, "Black fully popped pays RBE $11 (got $%d)" % _pop_cash(m))
+	m.free()
+
+	m = _new_match()
+	m._spawn(&"white")
+	m.damage_snowball(m.snowballs[0], 3, &"sharp", 5)
+	ids = m.snowballs.map(func(s: Node3D) -> StringName: return s.def.id)
+	_check(ids == [&"mint", &"mint"] and _pop_cash(m) == 5, "White x3: overflow 2 into each child -> 2 Mint, $5 (got %s $%d)"
+			% [ids, _pop_cash(m)])
+	m.damage_snowball(m.snowballs[0], 1, &"cold", 5)
+	_check(m.snowballs[0].def.id == &"blue", "a Mint child of White is not cold-immune")
+	m._spawn(&"white")
+	m.damage_snowball(m.snowballs[-1], 1, &"cold", 5)
+	_check(m.snowballs[-1].def.id == &"white", "White: immune to cold")
+	for t: StringName in [&"energy", &"fire", &"plasma"]:
+		m._spawn(&"purple")
+		m.damage_snowball(m.snowballs[-1], 1, t, 5)
+		_check(m.snowballs[-1].def.id == &"purple", "Purple: immune to %s" % t)
+	m.damage_snowball(m.snowballs[-1], 1, &"explosion", 5)
+	_check(m.snowballs[-1].def.id == &"coral", "Purple: explosion pops it")
+	m.free()
+
+	m = _new_match()
+	m._spawn(&"camo_mint")
+	var camo: Node3D = m.snowballs[0]
+	var targeting: GDScript = load("res://scripts/core/targeting.gd")
+	_check(targeting.pick(m.snowballs, camo.position, 5.0, 0, false) == null, "Camo Mint invisible without detection")
+	m.damage_snowball(camo, 1, &"sharp", 5)
+	_check(camo.def.id == &"camo_blue" and targeting.pick(m.snowballs, camo.position, 5.0, 0, false) == null,
+			"camo stays on the child layer")
+	m._spawn(&"black")
+	m.lives = 100
+	m._leak(m.snowballs[-1])
+	_check(m.lives == 89, "a leaked Black costs 11 lives")
+	m.free()
+
+	# One Rookie shot (pierce 2) on a parked Black: it splits, and that same shot cannot hit either child.
+	var rookie: Resource = content.get_tower(&"snowball_rookie").duplicate(true)
+	rookie.attacks[0].pierce = 2
+	m = _new_match()
+	m.try_place(rookie, SPOT)
+	m._spawn(&"black")
+	black = m.snowballs[0]
+	black.set_layer(_parked(content, &"black"))
+	black.distance = 14.0
+	black.position = m.course.position_at(14.0)
+	black.apply_slow(0.5, 5.0, true)  # Glue Soak wax survives the break and is copied to both children
+	_sim(m, 0.5)
+	_check(m.snowballs.size() == 2 and _pop_cash(m) == 1, "one shot: Black -> 2 Coral, children not re-hit ($%d, %d left)"
+			% [_pop_cash(m), m.snowballs.size()])
+	_check(m.snowballs.all(func(s: Node3D) -> bool: return s.slow_left > 0.0), "soaked wax copied to both children")
 	m.free()
 
 

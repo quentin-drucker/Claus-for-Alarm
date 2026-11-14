@@ -29,11 +29,14 @@ Ice Monkey, Tack Shooter, Alchemist (and any reskin of them).
 | ACTIVE | `mint` | Mint | Green | → Blue, 45 u/s |
 | ACTIVE | `violet` | Violet | Yellow | → Mint, 80 u/s |
 | ACTIVE | `coral` | Coral | Pink | → Violet, 87.5 u/s |
-| DEFERRED | — | Black (provisional) | Black | immune to explosions (`immune_explosion`) |
+| ACTIVE | `black` | Black (provisional) | Black | 45 u/s, → 2 Coral, RBE 11, `immune_explosion`; rounds 20, 23. Placeholder: dark + "B" |
+| ACTIVE | `white` | White (provisional) | White | 50 u/s, → 2 Coral, RBE 11, `immune_cold` (no shipped attack is cold); rounds 22, 23. Placeholder: white + "W" |
+| ACTIVE | `purple` | Purple (provisional) | Purple | 75 u/s, → 2 Coral, RBE 11, `immune_energy/fire/plasma` (Sorcerer bolt); round 25. Placeholder: purple + "P" |
+| ACTIVE | `camo_mint` → `camo_blue` → `camo_powder` | Camo Mint/Blue/Powder | Camo Green/Blue/Red | `camo` kept by children; needs detection; round 24. Placeholder: layer colour + "C" |
 | DEFERRED | — | Rainbow (provisional) | Rainbow | same role and children |
 | DEFERRED | — | Stone (provisional) | Ceramic | |
 | DEFERRED | — | Metal (provisional) | Lead | immune to sharp (`immune_sharp`), needs explosive |
-| DEFERRED | — | camo variants | Camo | `camo` flag, needs detection |
+| DEFERRED | — | Zebra (provisional) | Zebra | Black + White children |
 | NOT NOW | — | Gold | — | D-02: not needed (DEC-018) |
 
 **DEC-025:** any special type that appears in BTD6 rounds 17–25 is needed now for the 25-round demo (mechanics

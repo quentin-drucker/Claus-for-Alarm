@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_definition.gd" id="1_qq4ww"]
+
+[resource]
+script = ExtResource("1_qq4ww")
+display_name = "White"
+speed_units = 50.0
+child_id = &"coral"
+child_count = 2
+properties = Array[StringName]([&"immune_cold"])
+id = &"white"
+source_url = "https://teemo.dev/game-design/bloons-td-6/systems/bloons-and-properties/"
+status = Dictionary[String, String]({
+"cash_per_pop": "VERIFIED_SOURCE",
+"child_count": "VERIFIED_SOURCE",
+"speed_units": "VERIFIED_SOURCE"
+})
+notes = "BTD6 White Bloon (v56): 50 u/s, 2 Pink, RBE 11. \"White blocks freezing (Cold, Metal Freeze, Frigid).\" No shipped attack is cold."

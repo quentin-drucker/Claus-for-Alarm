@@ -6,29 +6,22 @@
 [sub_resource type="Resource" id="Resource_2tr3x"]
 script = ExtResource("1_ilmd2")
 enemy_id = &"mint"
-count = 50
-duration_s = 10.0
+count = 60
+duration_s = 25.0
 
 [sub_resource type="Resource" id="Resource_gsi28"]
 script = ExtResource("1_ilmd2")
-enemy_id = &"coral"
-count = 25
-start_s = 6.0
-duration_s = 8.0
-
-[sub_resource type="Resource" id="Resource_hlwju"]
-script = ExtResource("1_ilmd2")
-enemy_id = &"violet"
+enemy_id = &"mint"
 count = 20
-start_s = 10.0
-duration_s = 5.0
+start_s = 25.0
+duration_s = 1.817
 
 [resource]
 script = ExtResource("2_kfps1")
-custom_label = "Finale"
-groups = Array[ExtResource("1_ilmd2")]([SubResource("Resource_2tr3x"), SubResource("Resource_gsi28"), SubResource("Resource_hlwju")])
+groups = Array[ExtResource("1_ilmd2")]([SubResource("Resource_2tr3x"), SubResource("Resource_gsi28")])
 id = &"round_18"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-18/"
 status = Dictionary[String, String]({
-"groups": "ORIGINAL_DEVIATION"
+"groups": "VERIFIED_SOURCE"
 })
-notes = "Custom finale round 2 of 3 (owner decision D-03): basic layers only, dense/fast mix."
+notes = "Exact BTD6 v56 standard round 18 (counts, start, sent-over)."

@@ -34,7 +34,10 @@ func _test_title() -> void:
 	_check(t.get_node("%Menu").visible and not t.get_node("%HowPanel").visible, "title opens on the menu")
 	t.get_node("%HowButton").pressed.emit()
 	_check(t.get_node("%HowPanel").visible and not t.get_node("%Menu").visible, "How to Play shows")
-	_check("19 rounds" in t.get_node("%HowPanel/Box/HowText").text, "How to Play explains winning")
+	var how: String = t.get_node("%HowPanel/Box/HowText").text
+	_check("25 rounds" in how, "How to Play explains winning")
+	_check(["B = Black", "W = White", "P = Purple", "C = Camo", "1x / 2x / 4x"].all(func(s: String) -> bool: return s in how),
+			"How to Play: special-type legend and speeds (P13-T05)")
 	t.get_node("%HowBack").pressed.emit()
 	t.get_node("%SettingsButton").pressed.emit()
 	_check(t.get_node("%SettingsPanel").visible, "Settings shows")

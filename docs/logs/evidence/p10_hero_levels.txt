@@ -1,4 +1,4 @@
-P10 hero XP in a normal match (hero placed before round 1, BTD6 round XP 20r+20).
+P10 hero XP in a normal match (hero placed before round 1, BTD6 round XP 20r+20, 40r-380 from round 21).
 round  xp_gained  total_xp  level
     1         40        40      1
     2         60       100      1
@@ -19,5 +19,11 @@ round  xp_gained  total_xp  level
    17        360      3400      4
    18        380      3780      5
    19        400      4180      5
-Reached: level 2 after round 3, 3 after 7 (Snowball Frenzy), 4 after 12 (Focused Shot), 5 after 18 (camo).
-Max level in a normal match: 5 (4180 XP; level 6 needs 6,780). Levels 6-20 are data only (test_hero fixtures).
+   20        420      4600      5
+   21        460      5060      5
+   22        500      5560      5
+   23        540      6100      5
+   24        580      6680      5
+   25        620      7300      6
+Reached: level 2 after round 3, 3 after 7 (Snowball Frenzy), 4 after 12 (Focused Shot), 5 after 18 (camo), 6 after 25 (two shots: only once round 25 is won).
+Max level in a normal match: 6 (7300 XP; level 7 needs 11,960). Level 6 is implemented (fixtures); levels 7-20 data only until DEC-030.

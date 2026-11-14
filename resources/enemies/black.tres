@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_definition.gd" id="1_2bm6b"]
+
+[resource]
+script = ExtResource("1_2bm6b")
+display_name = "Black"
+speed_units = 45.0
+child_id = &"coral"
+child_count = 2
+properties = Array[StringName]([&"immune_explosion"])
+id = &"black"
+source_url = "https://teemo.dev/game-design/bloons-td-6/systems/bloons-and-properties/"
+status = Dictionary[String, String]({
+"cash_per_pop": "VERIFIED_SOURCE",
+"child_count": "VERIFIED_SOURCE",
+"speed_units": "VERIFIED_SOURCE"
+})
+notes = "BTD6 Black Bloon (v56): 45 u/s, 2 Pink, RBE 11. \"Black blocks Explosion.\""

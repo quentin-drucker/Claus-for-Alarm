@@ -5,12 +5,19 @@ extends Node3D
 const COLORS: Dictionary[StringName, Color] = {
 	&"powder": Color("dbe9f5"), &"blue": Color("72cef5"), &"mint": Color("4acaaa"),
 	&"violet": Color("bd8df1"), &"coral": Color("f59471"),
+	# Neutral placeholders for the specials (no art decision): plain dark / white / purple.
+	&"black": Color("262626"), &"white": Color("ffffff"), &"purple": Color("7a3fd6"),
 }
+## Placeholder letter marker for special types, so they read without colour (P13-T09). Camo adds "C".
+const MARKERS: Dictionary[StringName, String] = {&"black": "B", &"white": "W", &"purple": "P"}
 ## Dark outline so pale Powder still reads on snow (P05-T10); shared by every layer.
 const OUTLINE: Color = Color("173548")
 
 var def: EnemyDefinition
 var entity_id: int = 0
+## Ids this snowball had before multi-child splits (a split gives every child a fresh id). A shot that hit any
+## of them never hits this snowball: children are safe from the hit that made them.
+var ancestors: Array[int] = []
 ## Metres travelled along the track from the entry.
 var distance: float = 0.0
 ## Wax status: fraction of speed removed, seconds left, and whether it survives layer breaks (Glue Soak).
@@ -59,6 +66,20 @@ func set_layer(definition: EnemyDefinition) -> void:
 	outline.grow = true
 	outline.grow_amount = 0.04
 	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_color = COLORS.get(def.id, Color.WHITE)
+	var camo: bool = &"camo" in def.properties
+	material.albedo_color = COLORS.get(StringName(String(def.id).trim_prefix("camo_")), Color.WHITE)
 	material.next_pass = outline
 	$Mesh.material_override = material
+	var text: String = MARKERS.get(def.id, "") + ("C" if camo else "")
+	var marker: Label3D = get_node_or_null(^"Marker")
+	if marker == null and text != "":
+		marker = Label3D.new()
+		marker.name = "Marker"
+		marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		marker.no_depth_test = true
+		marker.font_size = 64
+		marker.outline_size = 12
+		marker.position = Vector3.UP * 0.9
+		add_child(marker)
+	if marker:
+		marker.text = text
