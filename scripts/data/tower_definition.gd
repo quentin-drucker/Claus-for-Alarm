@@ -55,8 +55,10 @@ static func is_legal_crosspath(tiers: Vector3i) -> bool:
 	return sorted[0] == 0 and sorted[1] <= 2 and sorted[2] <= 5
 
 
-## Whether buying the next tier of `path` keeps the tower legal (also needs the upgrade to exist in data).
+## The authoritative upgrade check (P09-T01/T10): the next tier of `path` keeps the tower legal and is a
+## shipped upgrade (effects verified from its source page).
 func can_upgrade(tiers: Vector3i, path: int) -> bool:
 	var next: Vector3i = tiers
 	next[path] += 1
-	return is_legal_crosspath(next) and get_upgrade(path, next[path]) != null
+	var upgrade: UpgradeDefinition = get_upgrade(path, next[path])
+	return is_legal_crosspath(next) and upgrade != null and upgrade.is_available()

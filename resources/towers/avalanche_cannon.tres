@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_vxxcx"]
 [ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_tqine"]
 [ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_p04ft"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_effect.gd" id="4_tqine"]
 
 [sub_resource type="Resource" id="Resource_vxxcx"]
 script = ExtResource("1_vxxcx")
@@ -44,17 +45,37 @@ status = Dictionary[String, String]({
 })
 notes = "Contact projectile: pierce 1, no damage of its own; creates one explosion (M-10)."
 
+[sub_resource type="Resource" id="Resource_tqine"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_blast"
+field = &"pierce"
+value = 6.0
+
 [sub_resource type="Resource" id="Resource_0gewn"]
 script = ExtResource("3_p04ft")
 display_name = "Wide Snowburst"
 source_name = "Bigger Bombs"
 price = 250
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_tqine")])
 id = &"avalanche_cannon_t1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/bigger-bombs/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Explosion pierce 22 -> 28. No radius change on the page, so none applied."
+
+[sub_resource type="Resource" id="Resource_p04ft"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_blast"
+field = &"damage"
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_vpxy5"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_blast"
+field = &"pierce"
+value = 10.0
 
 [sub_resource type="Resource" id="Resource_16qvp"]
 script = ExtResource("3_p04ft")
@@ -62,12 +83,26 @@ tier = 2
 display_name = "Dense Charges"
 source_name = "Heavy Bombs"
 price = 650
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_p04ft"), SubResource("Resource_vpxy5")])
 id = &"avalanche_cannon_t2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/heavy-bombs/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Explosion damage 1 -> 2, pierce 28 -> 38."
+
+[sub_resource type="Resource" id="Resource_nv4y3"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_blast"
+field = &"damage"
+value = 2.0
+
+[sub_resource type="Resource" id="Resource_dekgk"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_blast"
+field = &"pierce"
+value = 42.0
 
 [sub_resource type="Resource" id="Resource_8sf3g"]
 script = ExtResource("3_p04ft")
@@ -75,12 +110,14 @@ tier = 3
 display_name = "Massive Snowblast"
 source_name = "Really Big Bombs"
 price = 1100
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_nv4y3"), SubResource("Resource_dekgk")])
 id = &"avalanche_cannon_t3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/really-big-bombs/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Explosion damage 2 -> 4, pierce 38 -> 80. No radius change on the page."
 
 [sub_resource type="Resource" id="Resource_5lmdm"]
 script = ExtResource("3_p04ft")
@@ -108,18 +145,39 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_uny04"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_base"
+field = &"interval_s"
+op = 1
+value = 0.75
+
 [sub_resource type="Resource" id="Resource_g0v50"]
 script = ExtResource("3_p04ft")
 path = 1
 display_name = "Quick Reload"
 source_name = "Faster Reload"
 price = 250
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_uny04")])
 id = &"avalanche_cannon_m1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/faster-reload-bomb-shooter/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Cooldown 1.5 -> 1.125 s."
+
+[sub_resource type="Resource" id="Resource_br7qb"]
+script = ExtResource("4_tqine")
+field = &"range_units"
+value = 4.0
+
+[sub_resource type="Resource" id="Resource_et7o1"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_base"
+field = &"interval_s"
+op = 1
+value = 0.7333333333333333
 
 [sub_resource type="Resource" id="Resource_kld7c"]
 script = ExtResource("3_p04ft")
@@ -128,12 +186,19 @@ tier = 2
 display_name = "Snow Missile"
 source_name = "Missile Launcher"
 price = 400
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_br7qb"), SubResource("Resource_et7o1")])
 id = &"avalanche_cannon_m2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/missile-launcher/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 40 -> 44, cooldown 1.125 -> 0.825 s. Faster missile flight not quantified, not applied."
+
+[sub_resource type="Resource" id="Resource_bs5di"]
+script = ExtResource("4_tqine")
+field = &"range_units"
+value = 5.0
 
 [sub_resource type="Resource" id="Resource_70wub"]
 script = ExtResource("3_p04ft")
@@ -142,12 +207,14 @@ tier = 3
 display_name = "Big-Game Breaker"
 source_name = "MOAB Mauler"
 price = 1000
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_bs5di")])
 id = &"avalanche_cannon_m3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/moab-mauler/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 44 -> 49. +15 damage vs MOAB-class has no target here (no MOAB-class snowballs, DEC-019)."
 
 [sub_resource type="Resource" id="Resource_py6k3"]
 script = ExtResource("3_p04ft")
@@ -177,18 +244,57 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_w6fis"]
+script = ExtResource("4_tqine")
+field = &"range_units"
+value = 12.0
+
 [sub_resource type="Resource" id="Resource_vofm5"]
 script = ExtResource("3_p04ft")
 path = 2
 display_name = "Long Barrel"
 source_name = "Extra Range"
 price = 200
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_w6fis")])
 id = &"avalanche_cannon_b1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/extra-range/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 40 -> 52."
+
+[sub_resource type="Resource" id="Resource_jxx5o"]
+script = ExtResource("4_tqine")
+field = &"range_units"
+value = 2.0
+
+[sub_resource type="Resource" id="Resource_qabjq"]
+script = ExtResource("1_vxxcx")
+pierce = 2
+projectile_count = 8
+spread_deg = 45.0
+projectile_lifetime_s = 0.1
+id = &"avalanche_cannon_frag"
+status = Dictionary[String, String]({
+"damage": "PATCHED_SOURCE",
+"interval_s": "NOT_APPLICABLE",
+"pierce": "PATCHED_SOURCE",
+"projectile_count": "PATCHED_SOURCE",
+"projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
+"projectile_speed_units": "PROTOTYPE_ASSUMPTION",
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
+})
+notes = "8 sharp fragments, damage 1; pierce 1 -> 2 in v57 (M-11). Ring spread, speed and reach are assumptions."
+
+[sub_resource type="Resource" id="Resource_y055j"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_base"
+field = &"on_contact"
+op = 3
+attack = SubResource("Resource_qabjq")
 
 [sub_resource type="Resource" id="Resource_oe7i3"]
 script = ExtResource("3_p04ft")
@@ -197,12 +303,53 @@ tier = 2
 display_name = "Fragment Pack"
 source_name = "Frag Bombs"
 price = 300
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_jxx5o"), SubResource("Resource_y055j")])
 id = &"avalanche_cannon_b2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/frag-bombs/"
 status = Dictionary[String, String]({
+"effects": "PATCHED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v57: frag pierce 1→2, pierce penalty +1"
+notes = "Range 52 -> 54; adds 8 sharp fragments (damage 1, pierce 1 v56 -> 2 v57). v57 'pierce penalty' not modelled."
+
+[sub_resource type="Resource" id="Resource_cr0je"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_frag"
+field = &"damage"
+op = 2
+
+[sub_resource type="Resource" id="Resource_2d4gi"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_frag"
+field = &"pierce"
+op = 2
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_h74jg"]
+script = ExtResource("1_vxxcx")
+pierce = 8
+damage_type = &"explosion"
+radius_units = 10.0
+id = &"avalanche_cannon_cluster_blast"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "NOT_APPLICABLE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "NOT_APPLICABLE",
+"projectile_lifetime_s": "NOT_APPLICABLE",
+"projectile_speed_units": "NOT_APPLICABLE",
+"radius_units": "PROTOTYPE_ASSUMPTION",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
+})
+notes = "Cluster Bombs exhaust explosion: damage 1, pierce 8 (v56 page). Radius not on the page."
+
+[sub_resource type="Resource" id="Resource_pju08"]
+script = ExtResource("4_tqine")
+target = &"avalanche_cannon_frag"
+field = &"on_expire"
+op = 3
+attack = SubResource("Resource_h74jg")
 
 [sub_resource type="Resource" id="Resource_qc3n5"]
 script = ExtResource("3_p04ft")
@@ -211,12 +358,14 @@ tier = 3
 display_name = "Cluster Burst"
 source_name = "Cluster Bombs"
 price = 700
+effects = Array[ExtResource("4_tqine")]([SubResource("Resource_cr0je"), SubResource("Resource_2d4gi"), SubResource("Resource_pju08")])
 id = &"avalanche_cannon_b3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/cluster-bombs/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Fragments become 8 cluster bombs (no damage, pierce 1, v56 page) that explode when spent: damage 1, pierce 8."
 
 [sub_resource type="Resource" id="Resource_q2inw"]
 script = ExtResource("3_p04ft")

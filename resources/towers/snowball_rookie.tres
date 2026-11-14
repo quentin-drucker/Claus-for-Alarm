@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_bgtw3"]
 [ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_ok2vn"]
 [ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_mxi0i"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_effect.gd" id="4_ok2vn"]
 
 [sub_resource type="Resource" id="Resource_1u1q1"]
 script = ExtResource("1_bgtw3")
@@ -21,17 +22,31 @@ status = Dictionary[String, String]({
 "slow_factor": "NOT_APPLICABLE"
 })
 
+[sub_resource type="Resource" id="Resource_ok2vn"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"pierce"
+value = 1.0
+
 [sub_resource type="Resource" id="Resource_ss6qk"]
 script = ExtResource("3_mxi0i")
 display_name = "Sharper Snow"
 source_name = "Sharp Shots"
 price = 140
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_ok2vn")])
 id = &"snowball_rookie_t1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/sharp-shots/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pierce 2 -> 3."
+
+[sub_resource type="Resource" id="Resource_mxi0i"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"pierce"
+value = 2.0
 
 [sub_resource type="Resource" id="Resource_xj6xr"]
 script = ExtResource("3_mxi0i")
@@ -39,12 +54,45 @@ tier = 2
 display_name = "Reinforced Ice"
 source_name = "Razor Sharp Shots"
 price = 200
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_mxi0i")])
 id = &"snowball_rookie_t2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/razor-sharp-shots/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pierce 3 -> 5."
+
+[sub_resource type="Resource" id="Resource_h7ojs"]
+script = ExtResource("4_ok2vn")
+field = &"range_units"
+value = 4.8
+
+[sub_resource type="Resource" id="Resource_35dm6"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"interval_s"
+op = 1
+value = 1.2105263157894737
+
+[sub_resource type="Resource" id="Resource_c25tc"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"damage"
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_kufmu"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"pierce"
+value = 13.0
+
+[sub_resource type="Resource" id="Resource_acdoq"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"damage_type"
+op = 2
+text = &"shatter"
 
 [sub_resource type="Resource" id="Resource_k8tmm"]
 script = ExtResource("3_mxi0i")
@@ -52,12 +100,14 @@ tier = 3
 display_name = "Ice Boulder Launcher"
 source_name = "Spike-o-pult"
 price = 320
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_h7ojs"), SubResource("Resource_35dm6"), SubResource("Resource_c25tc"), SubResource("Resource_kufmu"), SubResource("Resource_acdoq")])
 id = &"snowball_rookie_t3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/spike-o-pult/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 32 -> 36.8, cooldown 0.95 -> 1.15 s, damage 1 -> 2, pierce 5 -> 18, type Sharp -> Shatter. Not modelled: rebound off obstacles (no stat on the page)."
 
 [sub_resource type="Resource" id="Resource_up1v0"]
 script = ExtResource("3_mxi0i")
@@ -85,18 +135,34 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_ypeb3"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"interval_s"
+op = 1
+value = 0.85
+
 [sub_resource type="Resource" id="Resource_8d3ty"]
 script = ExtResource("3_mxi0i")
 path = 1
 display_name = "Quick Hands"
 source_name = "Quick Shots"
 price = 100
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_ypeb3")])
 id = &"snowball_rookie_m1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/quick-shots/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Cooldown 0.95 -> 0.8075 s."
+
+[sub_resource type="Resource" id="Resource_kp3k5"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"interval_s"
+op = 1
+value = 0.788235294117647
 
 [sub_resource type="Resource" id="Resource_ikfga"]
 script = ExtResource("3_mxi0i")
@@ -105,12 +171,34 @@ tier = 2
 display_name = "Faster Tosses"
 source_name = "Very Quick Shots"
 price = 190
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_kp3k5")])
 id = &"snowball_rookie_m2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/very-quick-shots/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Cooldown 0.8075 -> 0.6365 s."
+
+[sub_resource type="Resource" id="Resource_xhyki"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"interval_s"
+op = 1
+value = 0.7500392772977219
+
+[sub_resource type="Resource" id="Resource_nnni1"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"projectile_count"
+value = 2.0
+
+[sub_resource type="Resource" id="Resource_mqb66"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"spread_deg"
+op = 2
+value = 15.0
 
 [sub_resource type="Resource" id="Resource_cfg27"]
 script = ExtResource("3_mxi0i")
@@ -119,12 +207,14 @@ tier = 3
 display_name = "Triple Toss"
 source_name = "Triple Shot"
 price = 450
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_xhyki"), SubResource("Resource_nnni1"), SubResource("Resource_mqb66")])
 id = &"snowball_rookie_m3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/triple-shot/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Cooldown 0.6365 -> 0.4774 s, projectiles 1 -> 3. Spread 15 deg is a PROTOTYPE_ASSUMPTION."
 
 [sub_resource type="Resource" id="Resource_x7ogs"]
 script = ExtResource("3_mxi0i")
@@ -154,18 +244,37 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_ijhwb"]
+script = ExtResource("4_ok2vn")
+field = &"range_units"
+value = 8.0
+
 [sub_resource type="Resource" id="Resource_vi34e"]
 script = ExtResource("3_mxi0i")
 path = 2
 display_name = "Long-Distance Lob"
 source_name = "Long Range Darts"
 price = 90
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_ijhwb")])
 id = &"snowball_rookie_b1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/long-range-darts/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 32 -> 40."
+
+[sub_resource type="Resource" id="Resource_gmcbr"]
+script = ExtResource("4_ok2vn")
+field = &"range_units"
+value = 8.0
+
+[sub_resource type="Resource" id="Resource_b5gwf"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"detects_camo"
+op = 2
+value = 1.0
 
 [sub_resource type="Resource" id="Resource_0ko51"]
 script = ExtResource("3_mxi0i")
@@ -174,12 +283,31 @@ tier = 2
 display_name = "Goggle Targeting"
 source_name = "Enhanced Eyesight"
 price = 200
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_gmcbr"), SubResource("Resource_b5gwf")])
 id = &"snowball_rookie_b2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/enhanced-eyesight/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 40 -> 48, camo detection."
+
+[sub_resource type="Resource" id="Resource_7sns8"]
+script = ExtResource("4_ok2vn")
+field = &"range_units"
+value = 12.0
+
+[sub_resource type="Resource" id="Resource_w6jch"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"damage"
+value = 2.0
+
+[sub_resource type="Resource" id="Resource_nnaqf"]
+script = ExtResource("4_ok2vn")
+target = &"snowball_rookie_base"
+field = &"pierce"
+value = 3.0
 
 [sub_resource type="Resource" id="Resource_7u7rw"]
 script = ExtResource("3_mxi0i")
@@ -188,12 +316,14 @@ tier = 3
 display_name = "Ski-Bow"
 source_name = "Crossbow"
 price = 575
+effects = Array[ExtResource("4_ok2vn")]([SubResource("Resource_7sns8"), SubResource("Resource_w6jch"), SubResource("Resource_nnaqf")])
 id = &"snowball_rookie_b3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/crossbow/"
 status = Dictionary[String, String]({
+"effects": "PATCHED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v57: xx3 pierce 4→5"
+notes = "Range 48 -> 60, damage 1 -> 3, pierce 2 -> 4 (v56) -> 5 (v57, M-11)."
 
 [sub_resource type="Resource" id="Resource_kkc0o"]
 script = ExtResource("3_mxi0i")

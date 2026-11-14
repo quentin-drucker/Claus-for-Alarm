@@ -1,0 +1,10 @@
+P09-T13 upgrade coverage (90 initial tier entries). shipped = effects verified from the
+source page, implemented and covered by tests/test_upgrades.gd; coming soon = not purchasable.
+tower                    shipped  coming_soon  shipped tiers
+avalanche_cannon               9            6  T1 T2 T3 M1 M2 M3 B1 B2 B3
+biathlon_ranger                0           15  
+ski_resort_ticket_booth        0           15  
+slope_wax_sprayer              0           15  
+snow_sorcerer                  0           15  
+snowball_rookie                9            6  T1 T2 T3 M1 M2 M3 B1 B2 B3
+TOTAL shipped 18 / 90, coming soon 72

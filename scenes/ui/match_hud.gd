@@ -7,6 +7,7 @@ const PRIORITY_NAMES: PackedStringArray = ["First", "Last", "Close", "Strong"]  
 
 var match_node: Node3D
 var _shop_buttons: Array[Button] = []
+var _upgrade_buttons: Array[Button] = []
 
 @onready var _stats: Label = %Stats
 @onready var _shop: VBoxContainer = %Shop
@@ -37,6 +38,14 @@ func _ready() -> void:
 		button.pressed.connect(match_node.begin_placing.bind(def))
 		_shop.add_child(button)
 		_shop_buttons.append(button)
+	for path: int in 3:
+		var button: Button = Button.new()
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.focus_mode = Control.FOCUS_NONE
+		button.pressed.connect(func() -> void: match_node.buy_upgrade(match_node.selected, path))
+		_target.add_sibling(button)
+		_target.get_parent().move_child(button, _target.get_index())
+		_upgrade_buttons.append(button)
 	_start.pressed.connect(match_node.start_round)
 	_pause.pressed.connect(func() -> void: match_node.set_paused(not match_node.clock.paused))
 	_speed.pressed.connect(match_node.toggle_speed)
@@ -85,29 +94,38 @@ func _refresh() -> void:
 		_overlay_title.text = "Paused"
 
 
-## Selected tower card (P04-T04). Upgrade purchase arrives in P09; slots show the next tier from data.
+## Selected tower card (P04-T04) with one upgrade button per path (P09-T10).
 func _refresh_info() -> void:
 	var tower: Node3D = match_node.selected
 	_info_panel.visible = is_instance_valid(tower)
 	if not _info_panel.visible:
 		return
 	var def: TowerDefinition = tower.def
-	var lines: PackedStringArray = [def.display_name]
+	var lines: PackedStringArray = ["%s  %d-%d-%d" % [def.display_name, tower.tiers.x, tower.tiers.y, tower.tiers.z]]
 	if def.global_range:
 		lines.append("Range: whole map (line of sight)")
-	elif def.range_units > 0.0:
-		lines.append("Range: %s (%.1f m)" % [def.range_units, def.range_units * GameDefinition.UNIT_M])
+	elif tower.range_units > 0.0:
+		lines.append("Range: %s (%.1f m)" % [tower.range_units, tower.range_units * GameDefinition.UNIT_M])
 	_target.visible = not def.attacks.is_empty()
 	_target.text = "Target: %s (T)" % PRIORITY_NAMES[tower.priority]
 	if def.attacks.is_empty():
-		lines.append("Income building")
+		lines.append("Income: %d tickets x $%d per round" % [tower.pickups_per_round, tower.cash_per_pickup])
 	lines.append("Invested $%d" % tower.spent)
-	lines.append("Upgrades %d-%d-%d (coming soon):" % [tower.tiers.x, tower.tiers.y, tower.tiers.z])
 	for path: int in 3:
+		var button: Button = _upgrade_buttons[path]
 		var next: UpgradeDefinition = def.get_upgrade(path, tower.tiers[path] + 1)
-		var locked: String = "" if def.can_upgrade(tower.tiers, path) else " — locked"
-		lines.append("  %s: %s $%d%s" % [PATH_NAMES[path], next.display_name, next.price, locked] if next
-				else "  %s: final tier" % PATH_NAMES[path])
+		var state: String = match_node.upgrade_state(tower, path)
+		var head: String = "%s %d/5" % [PATH_NAMES[path], tower.tiers[path]]
+		match state:
+			"max":
+				button.text = "%s  max" % head
+			"locked":
+				button.text = "%s  locked (other paths)" % head
+			"soon":
+				button.text = "%s  %s - coming soon" % [head, next.display_name]
+			_:
+				button.text = "%s  > %s  $%d" % [head, next.display_name, next.price]
+		button.disabled = state != "ok" or match_node.is_over()
 	_info_text.text = "\n".join(lines)
 	_sell.text = "Sell for $%d" % match_node.sell_value(tower)
 	_sell.disabled = match_node.is_over()

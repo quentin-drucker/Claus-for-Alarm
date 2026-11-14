@@ -532,6 +532,37 @@ func try_place(def: TowerDefinition, pos: Vector2) -> Node3D:
 	return tower
 
 
+## Upgrade slot state for the HUD (P09-T10); TowerDefinition.can_upgrade stays the authority.
+## "max", "soon" (tier not shipped), "locked" (crosspath), "unaffordable" or "ok".
+func upgrade_state(tower: Node3D, path: int) -> String:
+	var next: UpgradeDefinition = tower.def.get_upgrade(path, tower.tiers[path] + 1)
+	if next == null:
+		return "max"
+	var tiers: Vector3i = tower.tiers
+	tiers[path] += 1
+	if not TowerDefinition.is_legal_crosspath(tiers):
+		return "locked"
+	if not next.is_available():
+		return "soon"
+	return "ok" if ledger.cash >= next.price else "unaffordable"
+
+
+## The only way a tower gains a tier: legality + cash checked, charged once, stats rebuilt (P09-T04).
+func buy_upgrade(tower: Node3D, path: int) -> bool:
+	if is_over() or not is_instance_valid(tower) or not tower.def.can_upgrade(tower.tiers, path):
+		return false
+	var next: UpgradeDefinition = tower.def.get_upgrade(path, tower.tiers[path] + 1)
+	if not ledger.spend(clock.tick, next.price, &"upgrade", tower.entity_id):
+		Events.send(&"purchase_failed", tower.entity_id, 0, next.price, tower.position, ["Not enough cash"])
+		return false
+	tower.tiers[path] += 1
+	tower.spent += next.price
+	tower.rebuild_stats()
+	Events.send(&"tower_upgraded", tower.entity_id, 0, next.price, tower.position, [next.id])
+	changed.emit()
+	return true
+
+
 func sell_value(tower: Node3D) -> int:
 	return roundi(tower.spent * Content.rules.sell_ratio)
 

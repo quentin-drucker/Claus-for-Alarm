@@ -51,9 +51,38 @@ func rebuild_stats() -> void:
 	attacks.clear()
 	for attack: AttackDefinition in def.attacks:
 		attacks.append(attack.duplicate_deep())
-	cooldowns.resize(attacks.size())
+	for path: int in 3:
+		for tier: int in range(1, tiers[path] + 1):
+			for effect: UpgradeEffect in def.get_upgrade(path, tier).effects:
+				_apply(effect)
+	cooldowns.resize(attacks.size())  # keeps running cooldowns; an attack added by an upgrade starts ready
 	var range_m: float = range_units * GameDefinition.UNIT_M
 	_range.scale = Vector3(range_m, 1.0, range_m)  # Range mesh radius is 1
+
+
+func _apply(effect: UpgradeEffect) -> void:
+	var target: Object = self if effect.target == &"" else find_attack(effect.target)
+	if target == null:
+		return  # an attack another path adds; this tower does not own it
+	var current: Variant = target.get(effect.field)
+	match effect.op:
+		UpgradeEffect.Op.ADD:
+			target.set(effect.field, type_convert(current + effect.value, typeof(current)))
+		UpgradeEffect.Op.MULTIPLY:
+			target.set(effect.field, type_convert(current * effect.value, typeof(current)))
+		UpgradeEffect.Op.SET:
+			target.set(effect.field, effect.text if effect.text != &"" else type_convert(effect.value, typeof(current)))
+		UpgradeEffect.Op.APPEND:
+			current.append(effect.attack.duplicate_deep())
+
+
+## Working attack (or sub-attack) with this id, or null.
+func find_attack(attack_id: StringName) -> AttackDefinition:
+	for attack: AttackDefinition in attacks:
+		for sub: AttackDefinition in attack.tree():
+			if sub.id == attack_id:
+				return sub
+	return null
 
 
 ## Footprint for placement checks: Vector3(x, z, radius).
