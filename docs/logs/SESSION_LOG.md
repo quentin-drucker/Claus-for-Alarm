@@ -159,3 +159,42 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   yield); whether to accept assumed numbers for the unsourced tiers above or keep them coming soon.
 - **Repo commit after:** this entry's commit; ZIP `build/archive/claus_for_alarm_g4_web_aa11956.zip`.
 - **Next suggested task IDs:** P10-T01… (Camel Claus hero) after go-ahead.
+
+#### SESSION 2026-11-14 — Claude (Opus 5.5) — owner decisions DEC-023/024, P10, P13 essentials
+- **Goal:** Booth economy deviation + filler tiers (owner); Camel Claus hero (P10); title / How to Play / tooltips /
+  disabled reasons / volume settings (P13 essentials); hero + mixed bot, Web export, browser smoke, itch ZIP.
+- **Read:** master §§4, 6.4, 12, P10, P13; HYB-M M-04, M-07, M-09, M-10, M-11; teemo.dev Quincy, heroes system,
+  19 upgrade pages (v56).
+- **Repo commit before:** `f484a7b`. Commits: `93f6437` (DEC-023/024 + mechanics), `57381c8` (P10 hero),
+  `6ff78dd` (P13 essentials), `b3620ca` (hero bot), this entry's commit.
+- **Files changed:** `scripts/data/{attack,tower,upgrade,hero}_definition.gd` (bounce, DoT, bank/auto-collect/sell
+  bonus/role, filler statuses ship, HeroDefinition extends TowerDefinition), `scripts/core/{content,events}.gd`,
+  `scenes/main/match.gd` (ricochet + chained global hits, corrosive DoT, bank, Marketplace, EZ collect, hero XP/Frenzy/
+  Focus/singleton, debug F4), `scenes/towers/tower.gd`, `scenes/enemies/snowball.gd`, `scenes/ui/match_hud.*` (hero
+  panel, tooltips, reasons, Main menu), `scenes/ui/title_screen.*` (new, main scene), `default_bus_layout.tres` (Music,
+  SFX), `resources/towers/*.tres` (19 tiers + roles), `resources/heroes/camel_claus.tres`, `tests/test_{hero,ui}.gd`
+  (new), `test_{data,towers,upgrades,full_run}.gd`, `tests/tools/build_p10_data.gd` (data builder, kept for provenance).
+- **Tests run:** all 9 suites PASS (`docs/COMMANDS.md` loop); editor process runs 0 errors; `--export-release "Web"`
+  exit 0, 0 ERROR/WARNING (`p10_web_export.log`); `--main-pack` title + match scene, 0 ERROR (`p10_main_pack.log`).
+- **Web result / browser:** extracted `claus_for_alarm_p10p13_web_b3620ca.zip`, `http.server`, Chrome via playwright-cli
+  1280×720: single-threaded, 0 console errors/warnings; title → Play, round 1 at 2×, hero placed, XP 40/180 after
+  round 1, "(on the course)" / "need $X" reasons, "Start round 2" (`p13_web_*.png`, `p13_web_console.log`).
+- **Bot results (`p10_full_run.txt`):** hero + mixed roster **WON, 102/150 lives, ~9.8 min**, hero level 5, Frenzy ×6;
+  Rookie-only WON 143; old mixed WON 80; Booth-economy (Booth bought round 10, 2-0-0) WON 128, Booth paid $3,600 on
+  $2,350 (+$1,250); solo Cannon/Ranger/Sorcerer WON (~53–55 pops/$100); solo Wax LOST round 4 (support by design).
+  Hero is the most cost-efficient unit (118 pops/$100 in the mixed bot vs Rookie 65): strong but not run-breaking.
+  The bots never afford a tier 3 ($1,450–$3,650) while also defending: tier 3s are a deliberate focus purchase here.
+- **Hero XP (`p10_hero_levels.txt`):** placed before round 1: level 2 after round 3, 3 after 7 (Frenzy), 4 after 12
+  (Focus), 5 after 18. Max level in a normal match = **5**; levels 6–20 data only, fixtures tested.
+- **Finished and checked tasks:** P10-T01…T06, T09…T14; P13-T01…T04, T10.
+- **Partial tasks / why:** P10-T07 (camo flag works, no camo snowballs: DEC-019), P10-T08 (level 7/17 explosions,
+  8/14 large bonus, 10 Blizzard Barrage are data only, unreachable). F4 cheat not driven by the MCP input tool (keys
+  F-row not delivered); `set_hero_level` covered by tests.
+- **New assumptions / deviations:** DEC-023 (Booth $50 tickets, Valuable ×1.5, Bank $112), DEC-024 fillers (see
+  `IMPLEMENTATION_ASSUMPTIONS.md`); hero XP 20r+20 (community formula), Frenzy 8 s, ricochet/Bouncing Bullet reach 30 u
+  (PROTOTYPE_ASSUMPTION).
+- **Placeholders needing owner art decisions:** title screen (default theme, grey #2b2b2b background), hero = grey
+  labelled cylinder, hero panel/tooltip look, no music/SFX (sliders ready), no ability VFX.
+- **Repo commit after:** this entry's commit; ZIP `build/archive/claus_for_alarm_p10p13_web_b3620ca.zip`.
+- **Next suggested task IDs:** owner art direction (P15) or P12-T04/T05 balance workbook, P13-T05/T06/T11 (legend,
+  feedback placeholders, fresh-player test), P14 freeze.

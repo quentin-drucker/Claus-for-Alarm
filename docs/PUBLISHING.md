@@ -2,7 +2,7 @@
 
 Every verified milestone leaves an upload-ready ZIP in `build/archive/` (git-ignored, local only):
 `claus_for_alarm_<milestone>_web_<commit>.zip` — `index.html` at the zip root, single-threaded Web export
-(no SharedArrayBuffer / COOP-COEP needed). Latest: **`claus_for_alarm_g4_web_aa11956.zip`** (G4, ~10 MB).
+(no SharedArrayBuffer / COOP-COEP needed). Latest: **`claus_for_alarm_p10p13_web_b3620ca.zip`** (P10 hero + P13 title/settings, ~10 MB).
 
 ## Rebuild the ZIP
 

@@ -178,7 +178,7 @@ To facilitate reuse of BTD6 balance, retain for each original mechanic: attack t
 | G2 | Data-driven match skeleton | P02–P04 | Path + towers + states work independently of final art | ✅ | `tests/test_{data,map,match}.gd` PASS; `docs/logs/evidence/p0[234]_*`; tag `g2-match-skeleton` |
 | G3 | Complete combat/economy vertical slice | P05–P07 | Layer changes, money, rounds, leaks, win/lose verified | ✅ | `tests/test_{combat,full_run}.gd` PASS; `docs/logs/evidence/p05_*, p06_*, p07_*`; itch ZIP `claus_for_alarm_g3_web_d2f1bba.zip`; specials DEFERRED (DEC-019) |
 | G4 | Initial six-tower mechanical roster | P08–P09 | All six tower **base kits** validated; at least a small verified upgrade sample; path locks | ✅ | `tests/test_{towers,upgrades,full_run}.gd` PASS; `docs/logs/evidence/p08_*, p09_*`; 35/90 tiers shipped; itch ZIP `claus_for_alarm_g4_web_aa11956.zip` |
-| G5 | Hero & special-property interactions | P10–P11 | Camel Claus auto-level, abilities/toggles; basic immunities, wax, economy | ⬜ | — |
+| G5 | Hero & special-property interactions | P10–P11 | Camel Claus auto-level, abilities/toggles; basic immunities, wax, economy | ⬜ (P10 done; P11 special snowballs DEFERRED, DEC-019) | `tests/test_hero.gd`, `p10_hero_levels.txt`, `p10_full_run.txt`; ZIP `claus_for_alarm_p10p13_web_b3620ca.zip` |
 | G6 | Technical alpha with functional UX | P12–P14 | Multiple rounds, upgrades, pause/restart, stress/debug and Web sanity | ⬜ | — |
 | G7 | Art asset pipeline established | P15 | One polished character + one snowball + one prop pass modeling QA and Web import | ⬜ | — |
 | G8 | Visual/audio beta | P16–P18 | Cohesive models, map, UI, VFX, sound, animation integrate without sim regressions | ⬜ | — |
@@ -1034,15 +1034,15 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 
 | Field | Value |
 |---|---|
-| Current milestone | G4 ✅ — next: G5 (hero + special-property interactions) |
-| Current phase | P08–P09 done (P08-T12, P09-T04 partial) |
-| Active task IDs | None — awaiting owner go-ahead for P10 |
+| Current milestone | G4 ✅; G5: P10 done, P11 DEFERRED (DEC-019) |
+| Current phase | P10 done (T07/T08 partial); P13 essentials (T01–T04, T10) done |
+| Active task IDs | None — awaiting owner go-ahead |
 | Latest verified commit | see SESSION_LOG 2026-11-14 P08–P09 entry |
-| Latest passing editor test | editor process run, six-tower shop + upgrade panel, 0 errors (2026-11-14) |
-| Latest passing Web build URL | local only: extracted `claus_for_alarm_g4_web_aa11956.zip` on `http://localhost:8000` (Chrome, 0 console errors); no hosted URL yet |
-| Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,full_run}.gd` — all PASS |
-| Current blockers | Owner decisions: Ticket Booth payback on a 19-round match; unsourced tiers (Guided Magic, Wall of Fire, Corrosive/Stronger Glue, EZ Collect, Banana Salvage); deadline Sun Nov 15 10:00 AM |
-| Primary next action | Owner go-ahead for P10 (Camel Claus hero) |
+| Latest passing editor test | editor process run: title → match, hero panel, Frenzy/Focus, 0 errors (2026-11-14) |
+| Latest passing Web build URL | local only: extracted `claus_for_alarm_p10p13_web_b3620ca.zip` on `http://localhost:8000` (Chrome, 0 console errors/warnings); no hosted URL yet |
+| Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,hero,ui,full_run}.gd` — all PASS |
+| Current blockers | HARD STOP before P15–P18 (art/UI skin/VFX/audio) — owner directs those; deadline Sun Nov 15 10:00 AM |
+| Primary next action | Owner go-ahead (art direction decisions, or P12/P14 hardening) |
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 
