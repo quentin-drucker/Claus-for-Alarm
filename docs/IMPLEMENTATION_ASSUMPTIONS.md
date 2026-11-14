@@ -30,5 +30,5 @@ Entries are **PROPOSED defaults** unless marked APPROVED (master plan §5 / §12
 | Minimum acceptance | Stranger can open the hosted URL, place/upgrade towers, finish or lose a match, restart | Master plan §13 |
 | Hackathon deadline & submission rules | **Sun Nov 15, 10:00 AM**; game on itch.io + public studio website (`docs/HACKATHON.md`) | ~38 h total; drives scope cuts |
 | Game speed | 1× / 2× / 4× (DEC-029, ORIGINAL_DEVIATION) | Faster demo; identical simulation results |
-| Ticket Booth tuning | DEC-023 was tuned for 19 rounds; re-check payback for the 25-round match | DEC-025 |
+| Ticket Booth tuning | Re-checked for 25 rounds (2026-11-14): no retune. Booth bot (bought round 10, 2-0-0, $2,350) returned $6,000 by round 25 (+$3,650) but finished with fewer lives (125) than Rookie-only (147): strong, not run-breaking. DEC-023 values kept (ORIGINAL_DEVIATION) | `p12_full_run_25.txt` |
 | Upgrade/hero depth | All tiers 1–5 + abilities and hero levels 6–20 implemented for Endless (DEC-030); "coming soon" only until then | Continue mode reaches round 80 |

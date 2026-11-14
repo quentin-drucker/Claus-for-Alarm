@@ -198,3 +198,48 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Repo commit after:** this entry's commit; ZIP `build/archive/claus_for_alarm_p10p13_web_b3620ca.zip`.
 - **Next suggested task IDs:** owner art direction (P15) or P12-T04/T05 balance workbook, P13-T05/T06/T11 (legend,
   feedback placeholders, fresh-player test), P14 freeze.
+
+#### SESSION 2026-11-14 — Claude (Opus 5.5) — 25 exact rounds, specials, 1×/2×/4×, technical alpha (DEC-025…031, P11–P14)
+- **Goal:** exact BTD6 rounds 1–25 (win = round 25), the special types they need, 1×/2×/4× speed with identical results,
+  hero reach for 25 rounds, Booth re-check, bots, P13-T05/T06/T11, P14 freeze, Web export + ZIP.
+- **Read:** SESSION_LOG, master §12.1/§12.3 (DEC-025…031), P11–P14, REGISTRY backburner; teemo.dev v56 round pages
+  16–25 and bloons-and-properties (speeds, children, immunity wording).
+- **Repo commit before:** `cc1d3de`. Commits: `726ae36` (rounds 17–25 + specials), `92a85d2` (speed + tick-driven
+  bots), `e75493f` (legend, feedback, test script), `619af86` (Web arrow-glyph fix + baseline), this entry's commit
+  (tag `technical-alpha`).
+- **Files changed:** `resources/rounds/round_17…25.tres`, `resources/enemies/{black,white,purple,camo_mint,camo_blue,
+  camo_powder}.tres` (builder `tests/tools/build_rounds_17_25.gd`), `scenes/main/match.gd` (split, lineage hit
+  history, SPEEDS), `scenes/enemies/snowball.gd` (ancestors, B/W/P/C markers), `scripts/core/content.gd`,
+  `scripts/data/{enemy,hero}_definition.gd`, `scenes/ui/feedback_layer.gd` (new), `match_hud.gd`, `title_screen.tscn`,
+  tests `test_{data,combat,hero,ui,full_run}.gd`; docs REGISTRY, IMPLEMENTATION_ASSUMPTIONS, BUGS (new), STABLE_IDS
+  (new), FRESH_PLAYER_TEST (new), PUBLISHING, master plan ticks/status.
+- **Tests run:** 9/9 suites PASS (`p14_alpha_baseline.txt`); editor process runs 0 errors (4×, markers, feedback);
+  `--export-release "Web"` exit 0, 0 ERROR/WARNING; `--main-pack` 0 ERROR.
+- **Web result / browser:** extracted `claus_for_alarm_alpha_web_619af86.zip`, `http.server 8010`, Chrome via
+  playwright-cli 1280×720, single-threaded, 0 console errors/warnings. By mouse/keyboard: How to Play (legend), Play,
+  three Rookies (a track spot refused with "On the ski track"), 4×, rounds 1–5 played with Rookies added between rounds,
+  round 1 cash $171 (= 650 − 600 + 20 + 101), round 6 banner (`p14_web_*.png`, `p14_web_console.log`).
+- **Rounds:** 17 Violet×12 (Regrow Yellow, DEC-031), 18 Mint 60+20, 19 Mint/Violet/Coral/Violet, 20 Black×6, 21 Violet×40
+  + Coral 10+4, 22 White×16, 23 Black×7 + White×7, 24 Camo Mint×1 + Blue×20, 25 Violet×25 (Regrow) + Purple×10; all RBEs
+  match the pages.
+- **Bots (`p12_full_run_25.txt`):** Rookie-only WON 147 lives, 11.4 min at 1× / 4.4 min at 4×; mixed WON 145; hero + mixed
+  WON 150 (no leaks), hero level 6 (7,120 XP), Frenzy ×7; Booth economy WON 125 (Booth $2,350 → $6,000); solo Cannon WON
+  with 4 lives (Black leaks 143), solo Sorcerer WON 37 (Purple leaks 110), solo Ranger WON 147, solo Wax LOST round 4.
+  Hardest round: 24 (Camo Mint, 3 lives) for every bot without camo detection; 23/20 (Black) for explosion-only, 25
+  (Purple) for energy-only. Shipped counters: camo = Rookie Bottom 2, Ranger Middle 1, Sorcerer Bottom 2, hero level 5;
+  Black = any sharp/energy; Purple = sharp/explosion. No round is unwinnable with shipped tiers.
+- **Speed (DEC-029):** Hero + mixed at 1×/2×/4× and Rookie-only/Booth at 1×/4× give identical event digest, ledger,
+  lives and end tick. Bots now act inside the clock tick, as a player's input does.
+- **Hero:** max level in a normal match = 6, reached only as round 25 is won (7,300 XP if placed before round 1; level 7
+  needs 11,960). Level 6 double shot implemented and tested in play; 7+ data only (DEC-030).
+- **Finished and checked tasks:** P11-T01/T02/T03; P12-T01/T02/T09/T13; P13-T05/T06; P14-T01/T03/T04/T09.
+- **Partial tasks / why:** P13-T11 (script written; owner runs the test), P14-T02 (browser rounds 1–5 by hand, full
+  game by bots headless only), P14-T05–T08 not started, P11-T08 (no Lead/Zebra combos in ≤ 25 rounds).
+- **New assumptions:** split children 0.15 m behind, overflow into every child, wax copied; damage types vs immunities
+  (`IMPLEMENTATION_ASSUMPTIONS.md`). Booth re-checked: no retune.
+- **Defects fixed:** BUG-001 How to Play `→` showed as boxes on Web (font has no arrow glyph). Tooling: port 8000 was
+  held by another process and served an old build; used 8010.
+- **Placeholders needing owner art decisions:** special snowball colours (dark/white/purple) + letter markers; text
+  feedback in place of VFX/SFX; names Black/White/Purple are provisional.
+- **Repo commit after:** this entry's commit; tag `technical-alpha`; ZIP `build/archive/claus_for_alarm_alpha_web_619af86.zip`.
+- **Next suggested task IDs:** owner fresh-player test (P13-T11) → fixes; P14-T05–T08 art-swap layer; P15 after go-ahead.

@@ -626,9 +626,9 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-03/M-05/M-07/M-10/M-11/M-12; HYB-A A-05/A-08; HYB-B B-07.  
 **Gate:** G5 / extended G6.
 
-- [ ] **P11-T01** — Choose specific special snowball types actually appearing in the release's waves; do not implement the entire late-game enemy catalog prematurely.
-- [ ] **P11-T02** — Implement property-specific damage restrictions (explosion-resistant, cold/white-resistant, magic-resistant, lead-like armored, camo, regrow, fortified) as appropriate to referenced counterparts.
-- [ ] **P11-T03** — Implement multi-descendant splitting including shell overkill handling and appropriate propagation of status/flags; verify per source type.
+- [x] **P11-T01** — Choose specific special snowball types actually appearing in the release's waves; do not implement the entire late-game enemy catalog prematurely. → BTD6 rounds 17–25 need Black, White, Purple and Camo Green only (DEC-025); `REGISTRY.md` ACTIVE rows; Rainbow/Ceramic/Lead/Zebra stay deferred, Regrow dropped (DEC-031)
+- [x] **P11-T02** — Implement property-specific damage restrictions (explosion-resistant, cold/white-resistant, magic-resistant, lead-like armored, camo, regrow, fortified) as appropriate to referenced counterparts. → `camo` (detection required; kept by camo children), `immune_explosion` (Black), `immune_cold` (White), `immune_energy/fire/plasma` (Purple) through the single damage path; regrow DEC-031 not used, lead/fortified deferred (`test_combat` `_test_specials`)
+- [x] **P11-T03** — Implement multi-descendant splitting including shell overkill handling and appropriate propagation of status/flags; verify per source type. → 2-child splits: first child keeps the node with a fresh id, siblings trail 0.15 m; overflow damage into every child, stopping at an immune child; lineage hit history (no re-hit by the popping shot); wax copied (`test_combat`, PROTOTYPE_ASSUMPTION logged)
 - [ ] **P11-T04** — Implement wax interactions: slowing, priority/overwrite, corrosive damage, application scope and expiry without duplicating cash.
 - [ ] **P11-T05** — Implement special attacks and their necessary subsystems when their corresponding tower branch is playable: Wizard fire wall, summon logic; Bomb special stun/fragment; Sniper ammo supply; Farm bank/automation.
 - [ ] **P11-T06** — Implement consistent large enemy classes and typed damage bonuses only as selected waves require; create placeholder distinct sizes/shapes for danger visibility.
@@ -646,19 +646,19 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-03/M-04/M-07/M-09/M-12/M-13; source `REF-M` round and economy index; HYB-A A-02.  
 **Gate:** G6.
 
-- [ ] **P12-T01** — Choose D-03 final match structure: faithful sourced rounds with exact group data, OR a clearly labeled custom short-round jam progression.
-- [ ] **P12-T02** — For reference-style rounds, transcribe/verify every selected group enemy ID, count, spawn interval/start/end and tier; cross-check total RBE/cash.
+- [x] **P12-T01** — Choose D-03 final match structure: faithful sourced rounds with exact group data, OR a clearly labeled custom short-round jam progression. → DEC-025/026: exact BTD6 rounds 1–25, win = survive round 25
+- [x] **P12-T02** — For reference-style rounds, transcribe/verify every selected group enemy ID, count, spawn interval/start/end and tier; cross-check total RBE/cash. → rounds 17–25 transcribed from teemo.dev v56 round pages (`tests/tools/build_rounds_17_25.gd`); all 25 round RBEs asserted against the pages (`test_data`); DEC-031 regrow rounds 17/19/25 labelled ORIGINAL_DEVIATION
 - [ ] **P12-T03** — For jam-custom rounds, define deliberate introductions: basic layer → fast layer → crowd density → branching/resistance → advanced defense test → meaningful finale.
 - [ ] **P12-T04** — Build one balance workbook/log from simulation traces: opening cash, per-round reward/pop cash, expected player cash, purchase milestones, lifetime farm/ticket revenue and leaked lives.
 - [ ] **P12-T05** — Test canonical builds: starter-only, Rookie+Cannon, Rookie+Wax, Biathlon plus cheap crowd clear, Wizard handling immunity and Booth early investment.
 - [ ] **P12-T06** — Test losing scenarios intentionally; player must be able to fail from bad strategy, not from RNG or opaque immunity rules.
 - [ ] **P12-T07** — Test winning scenarios without developer cheats and document minimum viable strategy, not one rigid forced solution.
 - [ ] **P12-T08** — Check the number of encounters required to make a chosen upgrade affordable; a T5 with source price > entire demo's cash cannot be claimed as accessible.
-- [ ] **P12-T09** — Check hero XP milestone pacing: if Lv10 cannot be reached in the jam game under Quincy XP rate, do **not** silently accelerate it without labeling the deviation.
+- [x] **P12-T09** — Check hero XP milestone pacing: if Lv10 cannot be reached in the jam game under Quincy XP rate, do **not** silently accelerate it without labeling the deviation. → Quincy XP unchanged (20r+20, 40r−380 after 20): level 6 only as round 25 is won; 7+ unreachable, data only (`p10_hero_levels.txt`)
 - [ ] **P12-T10** — Evaluate geometry sensitivity: move tower placement to bend/straight, compare engagement time and balance; if original map heavily changes roles, log it.
 - [ ] **P12-T11** — Resolve D-02 Gold special class within tutorial and actual wave table; do not mix Gold HP semantics in different rounds.
 - [ ] **P12-T12** — Provide difficulty and round report with expected enemy totals, properties, initial/total money, normalized speed and win/loss checkpoints.
-- [ ] **P12-T13** — Run full deterministic replay / fixed-seed logs where random mechanics exist; compare key numbers across two runs and 1×/2× modes.
+- [x] **P12-T13** — Run full deterministic replay / fixed-seed logs where random mechanics exist; compare key numbers across two runs and 1×/2× modes. → full matches at 1×/2×/4× give identical event digest, ledger, lives and end tick (bots act on sim ticks; `p12_full_run_25.txt`)
 - [ ] **P12-T14** — Freeze `balance_release_candidate.json` or equivalent source data snapshot for art phase; any later changes require an explicit balance ticket and regression run.
 
 **P12 exit proof:** playable content has documented round-by-round intention, tested affordability, hero milestone coverage and at least two distinct winning strategies. Reproducible balance log exists.
@@ -672,8 +672,8 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 - [x] **P13-T02** — Make six tower purchase panels with source-based cost, unaffordable state, tooltip and placement workflow; no excluded icons. → seven shop buttons (6 towers + hero) with data cost, "need $X" when unaffordable, tooltip with cost/role/stats, ghost placement with reasons (`p13_shop_reasons.png`)
 - [x] **P13-T03** — Make selected tower panel show true legal three-path upgrades, targeting modes, sellback and reason when a button is disabled. → upgrade buttons: price, "need $X", "locked: only two paths per defender" / "locked: only one path past tier 2", coming soon, max; effect tooltip; Target + Sell; Start button says "Round in progress" / "Paused" / "Match over" (`test_ui`)
 - [x] **P13-T04** — Implement hero panel with level progress, skills, Focus stance and unambiguous ready/active/cooldown states. → hero panel: level, XP bar, next milestone, Frenzy locked/ready/active/recharging, Focus on/off (P10-T10)
-- [ ] **P13-T05** — Implement readable layer-color legend with icon/shape explanation for each special-property class used in demo; include Gold warning if relevant.
-- [ ] **P13-T06** — Implement clear visual/sound placeholders for damage success vs immunity, wave arrival/finish, income, leak and hero ability; placeholders may be diagnostic text and flashes.
+- [x] **P13-T05** — Implement readable layer-color legend with icon/shape explanation for each special-property class used in demo; include Gold warning if relevant. → How to Play: layer chain + B/W/P/C letter legend with immunities, camo detection sources, 11-life leaks (`test_ui`, `p14_web_how_to_play.png`)
+- [x] **P13-T06** — Implement clear visual/sound placeholders for damage success vs immunity, wave arrival/finish, income, leak and hero ability; placeholders may be diagnostic text and flashes. → `scenes/ui/feedback_layer.gd`: `*` per hit, IMMUNE, −N lives + red stats flash, +$N income, Frenzy/Focus and round start/complete banners; capped visuals (`test_ui`, `p14_web_round6_banner.png`). No sound yet (owner)
 - [ ] **P13-T07** — Handle hover, press, selection, escape, cancel, click elsewhere, keyboard shortcuts and fullscreen without losing pointer synchronization.
 - [ ] **P13-T08** — Verify HUD never obscures critical enemy exit; check 16:9 normal desktop and a narrower browser window.
 - [ ] **P13-T09** — Implement accessible contrast independent of color: valid/invalid symbol, status pattern, selection ring, text description, readable font scaling.
@@ -688,15 +688,15 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** all three hybrids; HYB-B B-16; master §§4/6/9.  
 **Gate:** G6.
 
-- [ ] **P14-T01** — Run full unit/integration/scenario suite with release content; save `alpha_baseline` results and benchmark device/profile.
+- [x] **P14-T01** — Run full unit/integration/scenario suite with release content; save `alpha_baseline` results and benchmark device/profile. → `p14_alpha_baseline.txt`: 9/9 suites PASS at `e75493f`, Windows 11 / Godot 4.7.2 headless
 - [ ] **P14-T02** — Perform browser export, load and complete whole game at least twice; test restart without reload.
-- [ ] **P14-T03** — Record bug list with blocker/high/medium/low; fix blockers and game-state correctness bugs first.
-- [ ] **P14-T04** — Freeze stable IDs for tower, upgrades, enemy families, hero skills, event names, asset sockets and model placeholder resource paths.
+- [x] **P14-T03** — Record bug list with blocker/high/medium/low; fix blockers and game-state correctness bugs first. → `docs/BUGS.md` (BUG-001 high fixed; no blockers)
+- [x] **P14-T04** — Freeze stable IDs for tower, upgrades, enemy families, hero skills, event names, asset sockets and model placeholder resource paths. → `docs/STABLE_IDS.md` (generated from data)
 - [ ] **P14-T05** — Implement `PresentationProfile` / art-binding layer mapping `gameplay_id`→model, animation, portrait, VFX, audio without reading source names in UI.
 - [ ] **P14-T06** — Ensure Godot render/animation nodes can be swapped while data-driven combat logic and placements remain identical.
 - [ ] **P14-T07** — Save an asset-independent test scene for each type: enemy layer break, bomb explosion, wax slow, global sniper, Wizard magical impact, farm income, hero ability.
 - [ ] **P14-T08** — Produce screenshots/video of current greybox at game camera so art decisions can be compared to same composition.
-- [ ] **P14-T09** — Create release branch/checkpoint named meaningfully (e.g., `technical-alpha`) and store commit hash.
+- [x] **P14-T09** — Create release branch/checkpoint named meaningfully (e.g., `technical-alpha`) and store commit hash. → git tag `technical-alpha` (25 exact rounds, specials, 1×/2×/4×; ZIP `claus_for_alarm_alpha_web_619af86.zip`)
 - [ ] **P14-T10** — Review whether remaining unverified mechanics are intentionally deferred or should stop release; do not declare exact parity if marked prototype.
 - [ ] **P14-T11** — Approve **G6** only when the simulation and full UI loop work without polished assets.
 
@@ -1034,15 +1034,15 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 
 | Field | Value |
 |---|---|
-| Current milestone | G4 ✅; G5: P10 done, P11 DEFERRED (DEC-019) |
-| Current phase | P10 done (T07/T08 partial); P13 essentials (T01–T04, T10) done |
+| Current milestone | G4 ✅; technical alpha tagged `technical-alpha` (25 exact rounds, specials, 1×/2×/4×); G6 pending owner fresh-player test + P14-T02/T05–T08 |
+| Current phase | P11 specials for rounds ≤ 25 (T01–T03); P12 round set + determinism (T01/T02/T09/T13); P13-T05/T06; P14-T01/T03/T04/T09 |
 | Active task IDs | None — awaiting owner go-ahead |
-| Latest verified commit | see SESSION_LOG 2026-11-14 P08–P09 entry |
-| Latest passing editor test | editor process run: title → match, hero panel, Frenzy/Focus, 0 errors (2026-11-14) |
-| Latest passing Web build URL | local only: extracted `claus_for_alarm_p10p13_web_b3620ca.zip` on `http://localhost:8000` (Chrome, 0 console errors/warnings); no hosted URL yet |
-| Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,hero,ui,full_run}.gd` — all PASS |
+| Latest verified commit | see SESSION_LOG 2026-11-14 "25 rounds + technical alpha" entry |
+| Latest passing editor test | editor process run: match at 4×, B/W/P/C markers, hit feedback, 0 errors (2026-11-14) |
+| Latest passing Web build URL | local only: extracted `claus_for_alarm_alpha_web_619af86.zip` on `http://localhost:8010` (Chrome, rounds 1–5 by mouse/keyboard, 0 console errors/warnings); no hosted URL yet |
+| Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,hero,ui,full_run}.gd` — all PASS (`p14_alpha_baseline.txt`) |
 | Current blockers | HARD STOP before P15–P18 (art/UI skin/VFX/audio) — owner directs those; deadline Sun Nov 15 10:00 AM |
-| Primary next action | Owner go-ahead (art direction decisions, or P12/P14 hardening) |
+| Primary next action | Owner: fresh-player test (`docs/FRESH_PLAYER_TEST.md`), art direction go-ahead |
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 

@@ -1,0 +1,36 @@
+### Result
+Total messages: 28 (Errors: 0, Warnings: 0)
+
+[LOG] Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org @ http://localhost:8010/index.js:451
+[LOG] OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL @ http://localhost:8010/index.js:451
+[LOG] Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support. @ http://localhost:8010/index.js:451
+[LOG] STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650 @ http://localhost:8010/index.js:451
+[LOG] STATE PREPARE -> ROUND_SPAWN tick=1350 round=1 lives=150 cash=50 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_SPAWN -> ROUND_CLEANUP tick=2401 round=1 lives=150 cash=68 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_CLEANUP -> ROUND_REWARD tick=2498 round=1 lives=150 cash=70 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_REWARD -> PREPARE tick=2498 round=1 lives=150 cash=171 @ http://localhost:8010/index.js:451
+[LOG] STATE PREPARE -> ROUND_SPAWN tick=6372 round=2 lives=150 cash=171 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_SPAWN -> ROUND_CLEANUP tick=7512 round=2 lives=150 cash=200 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_CLEANUP -> ROUND_REWARD tick=7720 round=2 lives=150 cash=206 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_REWARD -> PREPARE tick=7720 round=2 lives=150 cash=308 @ http://localhost:8010/index.js:451
+[LOG] STATE PREPARE -> ROUND_SPAWN tick=9664 round=3 lives=150 cash=108 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_SPAWN -> ROUND_CLEANUP tick=10667 round=3 lives=150 cash=137 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_CLEANUP -> ROUND_REWARD tick=10845 round=3 lives=150 cash=143 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_REWARD -> PREPARE tick=10845 round=3 lives=150 cash=246 @ http://localhost:8010/index.js:451
+[LOG] STATE PREPARE -> ROUND_SPAWN tick=12950 round=4 lives=150 cash=46 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_SPAWN -> ROUND_CLEANUP tick=13989 round=4 lives=150 cash=83 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_CLEANUP -> ROUND_REWARD tick=15104 round=4 lives=133 cash=100 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_REWARD -> PREPARE tick=15104 round=4 lives=133 cash=204 @ http://localhost:8010/index.js:451
+[LOG] STATE PREPARE -> ROUND_SPAWN tick=16246 round=5 lives=133 cash=4 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_SPAWN -> ROUND_CLEANUP tick=17236 round=5 lives=133 cash=46 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_CLEANUP -> ROUND_REWARD tick=17885 round=5 lives=133 cash=63 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_REWARD -> PREPARE tick=17885 round=5 lives=133 cash=168 @ http://localhost:8010/index.js:451
+[LOG] STATE PREPARE -> ROUND_SPAWN tick=21372 round=6 lives=133 cash=168 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_SPAWN -> ROUND_CLEANUP tick=22494 round=6 lives=133 cash=205 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_CLEANUP -> ROUND_REWARD tick=23519 round=6 lives=133 cash=225 @ http://localhost:8010/index.js:451
+[LOG] STATE ROUND_REWARD -> PREPARE tick=23519 round=6 lives=133 cash=331 @ http://localhost:8010/index.js:451
+### Page
+- Page URL: http://localhost:8010/
+- Page Title: Claus for Alarm
+### Events
+- New console entries: .playwright-cli\console-2026-11-14T14-50-17-292Z.log#L26-L28
