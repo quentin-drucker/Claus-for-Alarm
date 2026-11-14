@@ -123,10 +123,10 @@ ear = chain([(0.17, -0.02, HEAD_Z), (0.27, -0.05, HEAD_Z + 0.03), (0.37, -0.085,
             [0.05, 0.032, 0.007], step=0.01)
 SKULL = [
     {"type": "ELLIPSOID", "co": (0, 0, HEAD_Z), "radius": 0.225, "size": (1.0, 0.9, 0.93)},
-    {"type": "ELLIPSOID", "co": (0, 0.04, HEAD_Z - 0.08), "radius": 0.18, "size": (1.15, 0.9, 0.7)},
-    {"co": (0.13, 0.12, HEAD_Z - 0.085), "radius": 0.068},
-    {"co": (-0.13, 0.12, HEAD_Z - 0.085), "radius": 0.068},
-    {"co": (0, 0.1, HEAD_Z - 0.18), "radius": 0.055},  # small round chin
+    {"type": "ELLIPSOID", "co": (0, 0.04, HEAD_Z - 0.07), "radius": 0.175, "size": (1.05, 0.88, 0.68)},
+    {"co": (0.105, 0.11, HEAD_Z - 0.07), "radius": 0.055},
+    {"co": (-0.105, 0.11, HEAD_Z - 0.07), "radius": 0.055},
+    {"co": (0, 0.09, HEAD_Z - 0.155), "radius": 0.048},  # small round chin
     {"co": (0, 0, HEAD_Z - 0.23), "radius": 0.07},  # neck
 ]
 skull = metaball_mesh("tmp_skull", SKULL, resolution=0.01, remesh=0.01, smooth=0)  # ear-free projection target
@@ -138,20 +138,27 @@ def onto(co, off, target=None):
     return tuple(loc + nrm * off)
 
 
+def front(co, off):
+    """Projects a face landmark straight back (-Y) onto the skin: keeps the drawn x/z layout (closest-point
+    snapping pulls features toward the nose bump)."""
+    ok, loc, nrm, _ = skin.ray_cast(Vector((co[0], 1.0, co[2])), Vector((0, -1, 0)))
+    return tuple(loc + nrm * off)
+
+
 def face_chain(name, pts, radii, off, mat, step=0.005):
-    return metaball_mesh(name, chain([onto(p, off) for p in pts], radii, step=step),
+    return metaball_mesh(name, chain([front(p, off) for p in pts], radii, step=step),
                          resolution=0.004, remesh=0, smooth=0, mat=mat)
 
 
 # ---- eyes: bulging eyeballs with planar UVs (front hemisphere -> one painted texture), dark lid rim, lashes ----
-EYE_R = 0.06
-EYE_DEPTH = 0.6  # eyeball scale along the face normal
-EYE_SINK = 0.015  # centre this far under the skin: protrudes EYE_R*EYE_DEPTH - EYE_SINK
+EYE_R = 0.043
+EYE_DEPTH = 0.5  # eyeball scale along the face normal
+EYE_SINK = 0.01  # centre this far under the skin: protrudes EYE_R*EYE_DEPTH - EYE_SINK
 EYES = {}
 
 
 def eye_frame(sx):
-    ok, loc, nrm, _ = skin.closest_point_on_mesh(Vector((sx * 0.125, 0.4, HEAD_Z - 0.005)))
+    ok, loc, nrm, _ = skin.ray_cast(Vector((sx * 0.082, 1.0, HEAD_Z - 0.045)), Vector((0, -1, 0)))
     y = nrm.normalized()
     z = (Vector((0, 0, 1)) - y * y.z).normalized()
     x = y.cross(z).normalized()
@@ -199,7 +206,7 @@ def paint_eye_texture(path, size=256):
     def put(c, col):
         rgb[:] = rgb * (1 - c[..., None]) + np.array(col) * c[..., None]
 
-    ir, pr = 0.27, 0.125  # radii in UV: iris ~55% of the visible eye, big pupil
+    ir, pr = 0.36, 0.16  # radii in UV: iris fills most of the visible eye (less white = less staring)
     cx, cy = 0.5, 0.49
     t = np.clip(np.hypot(u - cx, v - cy) / ir, 0, 1)
     base, dark = np.array(hex_srgb(PAL["iris"])), np.array(hex_srgb(PAL["iris_dark"]))
@@ -235,24 +242,24 @@ for sx in (1, -1):
     c, x, y, z = EYES[sx]
     rim_r = EYE_R * math.sin(math.acos(EYE_SINK / (EYE_R * EYE_DEPTH)))  # where the eyeball meets the skin
     rim, radii = [], []
-    for k in range(49):  # dark outline ring: thick over the top, thin under (closed by overlapping the start)
-        a = math.radians(-90 + 7.5 * k)  # from the bottom, over the outer side, top, inner side, back to bottom
+    for k in range(29):  # upper lid line only: outer corner, over the top, to the inner corner
+        a = math.radians(-15 + 7.5 * k)
         rim.append(c + y * (EYE_SINK + 0.003) + x * (sx * rim_r * math.cos(a)) + z * (rim_r * math.sin(a)))
-        radii.append(0.0035 + 0.005 * max(0.0, math.sin(a)))
+        radii.append(0.0018 + 0.0032 * max(0.0, math.sin(a)))
     tube("elf_lid", rim, radii, M["lid"])
     for a_deg in (25, 52):  # two lashes flicking off the outer upper corner
         a = math.radians(a_deg)
         radial = (x * (sx * math.cos(a)) + z * math.sin(a)).normalized()
         p0 = c + y * (EYE_SINK + 0.003) + radial * (rim_r - 0.003)
         up = (radial * 0.7 + z * 0.6 + y * 0.15).normalized()
-        tube("elf_lash", [p0, p0 + up * 0.012, p0 + up * 0.024, p0 + up * 0.032], [0.007, 0.0055, 0.003, 0.0006],
+        tube("elf_lash", [p0, p0 + up * 0.007, p0 + up * 0.013, p0 + up * 0.018], [0.0045, 0.0035, 0.002, 0.0005],
              M["lid"])
-    face_chain("elf_brow", [(sx * 0.06, 0.3, HEAD_Z + 0.082), (sx * 0.12, 0.3, HEAD_Z + 0.096),
-                            (sx * 0.18, 0.3, HEAD_Z + 0.084)], [0.012, 0.015, 0.008], 0.004, M["brow"])
-metaball_mesh("elf_nose", [{"co": onto((0, 0.3, HEAD_Z - 0.08), -0.006), "radius": 0.029}],
+    face_chain("elf_brow", [(sx * 0.05, 0.3, HEAD_Z + 0.012), (sx * 0.085, 0.3, HEAD_Z + 0.024),
+                            (sx * 0.12, 0.3, HEAD_Z + 0.016)], [0.008, 0.01, 0.005], 0.003, M["brow"])
+metaball_mesh("elf_nose", [{"co": front((0, 0.3, HEAD_Z - 0.085), -0.005), "radius": 0.021}],
               resolution=0.004, remesh=0, smooth=0, mat=M["nose"])
-face_chain("elf_smile", [(-0.04, 0.3, HEAD_Z - 0.135), (-0.013, 0.3, HEAD_Z - 0.148), (0.013, 0.3, HEAD_Z - 0.148),
-                         (0.04, 0.3, HEAD_Z - 0.135)], [0.0045, 0.0055, 0.0055, 0.0045], 0.001, M["mouth"])
+face_chain("elf_smile", [(-0.035, 0.3, HEAD_Z - 0.128), (-0.012, 0.3, HEAD_Z - 0.141), (0.012, 0.3, HEAD_Z - 0.141),
+                         (0.035, 0.3, HEAD_Z - 0.128)], [0.005, 0.006, 0.006, 0.005], 0.002, M["mouth"])
 
 # ---- hair (sheet 02): swept forelock, side tufts in front of the ears, clumps around the back under the hat ----
 def lay(pts, radii, k=0.5, size=None):
@@ -273,15 +280,16 @@ for a in (-55, -28, 0, 28, 55):  # back clumps
     s, cth = math.sin(math.radians(a)), math.cos(math.radians(a))
     hair_el += lay([(0.4 * s, -0.4 * cth, HEAD_Z + 0.05), (0.4 * s, -0.4 * cth, HEAD_Z - 0.08),
                     (0.4 * s, -0.4 * cth, HEAD_Z - 0.17)], [0.05, 0.048, 0.024], size=FLAT_Y)
+hair_el.append({"type": "ELLIPSOID", "co": (0, -0.035, HEAD_Z + 0.02), "radius": 0.232, "size": (1.03, 0.9, 0.97)})  # shell under the clumps: no scalp gaps
 hair = metaball_mesh("elf_hair", hair_el, resolution=0.006, remesh=0.005, smooth=4, mat=M["hair"])
 bpy.data.objects.remove(skull, do_unlink=True)
 
 # ---- knit beanie: rounded dome over the skull and hair, fur band, big pompom at the top back (no drooping tip) ----
 BRIM_N = Vector((0, -0.08, 1)).normalized()  # band nearly level, a touch lower at the back
-BRIM_C = Vector((0, 0.0, HEAD_Z + 0.125))
+BRIM_C = Vector((0, 0.0, HEAD_Z + 0.1))
 cap = metaball_mesh("elf_cap", [
-    {"type": "ELLIPSOID", "co": (0, -0.01, HEAD_Z + 0.1), "radius": 0.26, "size": (1.0, 0.95, 0.9)},
-    {"type": "ELLIPSOID", "co": (0, -0.02, HEAD_Z + 0.24), "radius": 0.175, "size": (1.0, 0.95, 0.92)},
+    {"type": "ELLIPSOID", "co": (0, -0.01, HEAD_Z + 0.075), "radius": 0.26, "size": (1.0, 0.95, 0.9)},
+    {"type": "ELLIPSOID", "co": (0, -0.02, HEAD_Z + 0.215), "radius": 0.175, "size": (1.0, 0.95, 0.92)},
 ], mat=M["red"])
 bm = bmesh.new()
 bm.from_mesh(cap.data)
@@ -291,7 +299,7 @@ bm.to_mesh(cap.data)
 bm.free()
 band = metaball_mesh("elf_cap_band", band_elements(cap, BRIM_C + BRIM_N * 0.012, BRIM_N, 0.045, push=0.006),
                      mat=M["trim"])
-POM = Vector((0.11, -0.1, HEAD_Z + 0.4))
+POM = Vector((0.11, -0.1, HEAD_Z + 0.375))
 pompom = metaball_mesh("elf_pompom", [{"co": tuple(POM), "radius": 0.08}]
                        + [{"co": tuple(POM + Vector((0.04 * math.cos(a), 0.04 * math.sin(a) * 0.6, 0.04 * math.sin(a)))),
                            "radius": 0.034} for a in (0.4, 1.7, 3.0, 4.3, 5.4)], mat=M["trim"])

@@ -84,7 +84,7 @@ _tex = _nt.nodes.new("ShaderNodeTexImage")
 _tex.image = bpy.data.images["elf_eye"]
 _nt.links.new(_tex.outputs["Color"], next(n for n in _nt.nodes if n.type == "BSDF_PRINCIPLED").inputs["Base Color"])
 # Blush centres ON the cheek surface: ray straight back from in front of each cheek onto the skin.
-CHEEKS = [bpy.data.objects["elf_skin"].ray_cast(Vector((sx * 0.15, 0.4, HEAD_Z - 0.1)), Vector((0, -1, 0)))[1]
+CHEEKS = [bpy.data.objects["elf_skin"].ray_cast(Vector((sx * 0.12, 0.4, HEAD_Z - 0.1)), Vector((0, -1, 0)))[1]
           for sx in (1, -1)]
 
 
@@ -100,7 +100,7 @@ def paint(g, key):
         c = base.copy()
         p = v.co
         if key == "elf_skin":  # round blush ovals on the cheeks (sheet 02)
-            w = max(math.exp(-(((p - ch).x / 0.04) ** 2 + ((p - ch).z / 0.03) ** 2) ** 1.5) for ch in CHEEKS)
+            w = max(math.exp(-(((p - ch).x / 0.03) ** 2 + ((p - ch).z / 0.022) ** 2) ** 1.5) for ch in CHEEKS)
             c = c.lerp(lin("blush"), 0.85 * min(1.0, w))
         elif key == "elf_cap":  # knit ribs
             rib = 0.5 + 0.5 * math.cos(28 * math.atan2(p.x, p.y + 0.03))

@@ -429,3 +429,15 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   DEC-039); draws per Rookie 4 → 6 (third material + overlay); eye detail is one 256² texture (first texture in the game).
 - **Repo commit after:** this entry's commit.
 - **Next suggested task IDs:** owner review 1 → review 2 (re-rig) → P15-T09 sign-off.
+
+#### SESSION 2026-11-14 16:00 — Claude Code (Opus 5.5) — DEC-039 review 1 owner fixes (hat, hair, face)
+- **Owner feedback:** hat sat too high; hair patchy; face proportions uncanny ("just make an elf head/face").
+- **Changes (`build_elf_rookie.py`, `rig_elf.py` blush spot):** beanie, band and pompom 2.5 cm lower; one hair shell under
+  the clumps (no scalp gaps); normal face layout: smaller, flatter eyes (r 4.3 cm, was 6) set closer and at mid-face,
+  bigger iris, upper lid line only (no googly ring), shorter lashes, thinner brows, smaller nose, mouth closer under it,
+  slimmer cheeks and chin; face features now projected straight back onto the skin (`front()`), not snapped to the
+  closest point (that pulled everything toward the nose).
+- **Checks:** headless rebuild 17.3k tris / 3 materials; QA renders `p15b_elf_rookie_*` refreshed; editor process run of
+  `match.tscn` (Rookie placed, round 1) 0 errors/warnings (`p15b_godot_gamecam.png`). Test suites and Web not rerun
+  (model-only change, same nodes/sockets/actions as the previous verified export).
+- **Repo commit after:** this entry's commit. **Next:** owner review 1 verdict → review 2 (re-rig).
