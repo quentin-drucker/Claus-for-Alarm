@@ -51,6 +51,8 @@ func _run() -> void:
 	_check(m.try_place(rookie, Vector2(-5.5, 0)) == null and m.ledger.cash == 450, "overlap refused, no charge")
 	_check(m.try_place(content.get_tower(&"ski_resort_ticket_booth"), Vector2(-5.5, -3.5)) == null, "unaffordable refused")
 	_check(m.ledger.cash == 450, "refusals never change cash")
+	m.sell(tower)  # towers attack since P06; this flow test needs an undefended round
+	_check(m.ledger.cash == 450 + 140 and m.towers_root.get_child_count() == 0, "sell returns 70%")
 
 	# Round 1: SPAWN -> CLEANUP -> REWARD -> PREPARE (P04-T10).
 	_check(m.start_round() and m.state == S.ROUND_SPAWN, "start round 1")
@@ -68,10 +70,9 @@ func _run() -> void:
 	_check(_sim(m, 60.0, func() -> bool: return m.state == S.PREPARE), "round ends back in PREPARE")
 	_check(seen == [S.PREPARE, S.ROUND_SPAWN, S.ROUND_CLEANUP, S.ROUND_REWARD, S.PREPARE], "state sequence %s" % [seen])
 	_check(m.lives == rules.start_lives - 20, "20 Powder leaks cost exactly 20 lives (got %d)" % m.lives)
-	_check(m.ledger.cash == 450 + rules.round_bonus_base + 1, "round 1 bonus $101 (got %d)" % m.ledger.cash)
+	_check(m.ledger.cash == 590 + rules.round_bonus_base + 1, "round 1 bonus $101 (got %d)" % m.ledger.cash)
+	_check(m.ledger.transactions.all(func(t: Dictionary) -> bool: return t.reason != &"pop"), "leaks never pay pop cash")
 	var round_one_end: int = m.clock.tick
-	m.sell(tower)
-	_check(m.ledger.cash == 551 + 140 and m.towers_root.get_child_count() == 0, "sell returns 70%")
 	print("round 1 ended at tick %d; ledger: %s" % [round_one_end, m.ledger.transactions])
 	m.free()
 

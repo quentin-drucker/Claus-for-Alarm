@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_ax803"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_hy4u4"]
+
+[sub_resource type="Resource" id="Resource_egkw2"]
+script = ExtResource("1_ax803")
+enemy_id = &"blue"
+count = 50
+duration_s = 30.0
+
+[sub_resource type="Resource" id="Resource_b1j6s"]
+script = ExtResource("1_ax803")
+enemy_id = &"mint"
+count = 23
+start_s = 2.21
+duration_s = 30.0
+
+[resource]
+script = ExtResource("2_hy4u4")
+groups = Array[ExtResource("1_ax803")]([SubResource("Resource_egkw2"), SubResource("Resource_b1j6s")])
+id = &"round_13"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-13/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 13 (counts, start, sent-over)."

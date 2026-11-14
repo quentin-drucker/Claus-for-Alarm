@@ -9,7 +9,8 @@ extends GameDefinition
 @export var child_id: StringName
 @export var child_count: int = 0
 @export var cash_per_pop: int = 1
-## Property flags for later phases: camo, regrow, lead_like, purple_like, armored.
+## Property flags. Live now: `camo` (needs AttackDefinition.detects_camo), `immune_<damage_type>`
+## (e.g. immune_explosion = Black, immune_sharp = Lead). Reserved for DEFERRED specials (REGISTRY.md): regrow, fortified.
 @export var properties: Array[StringName] = []  # not Packed*: see HeroDefinition.level_xp
 
 

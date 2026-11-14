@@ -1,0 +1,69 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_1287x"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_uiolq"]
+
+[sub_resource type="Resource" id="Resource_e8yw8"]
+script = ExtResource("1_1287x")
+enemy_id = &"powder"
+count = 18
+duration_s = 9.707
+
+[sub_resource type="Resource" id="Resource_pe2ib"]
+script = ExtResource("1_1287x")
+enemy_id = &"powder"
+count = 31
+start_s = 9.5
+duration_s = 17.13
+
+[sub_resource type="Resource" id="Resource_eirc7"]
+script = ExtResource("1_1287x")
+enemy_id = &"blue"
+count = 5
+start_s = 2.854
+duration_s = 1.117
+
+[sub_resource type="Resource" id="Resource_myfcp"]
+script = ExtResource("1_1287x")
+enemy_id = &"blue"
+count = 10
+start_s = 15.96
+duration_s = 1.38
+
+[sub_resource type="Resource" id="Resource_6prsv"]
+script = ExtResource("1_1287x")
+enemy_id = &"mint"
+count = 5
+start_s = 5.71
+duration_s = 1.116
+
+[sub_resource type="Resource" id="Resource_tqs1r"]
+script = ExtResource("1_1287x")
+enemy_id = &"mint"
+count = 5
+start_s = 19.84
+duration_s = 1.387
+
+[sub_resource type="Resource" id="Resource_ugook"]
+script = ExtResource("1_1287x")
+enemy_id = &"violet"
+count = 4
+start_s = 8.564
+duration_s = 0.95
+
+[sub_resource type="Resource" id="Resource_rm0q1"]
+script = ExtResource("1_1287x")
+enemy_id = &"violet"
+count = 5
+start_s = 23.71
+duration_s = 1.554
+
+[resource]
+script = ExtResource("2_uiolq")
+groups = Array[ExtResource("1_1287x")]([SubResource("Resource_e8yw8"), SubResource("Resource_pe2ib"), SubResource("Resource_eirc7"), SubResource("Resource_myfcp"), SubResource("Resource_6prsv"), SubResource("Resource_tqs1r"), SubResource("Resource_ugook"), SubResource("Resource_rm0q1")])
+id = &"round_14"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-14/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 14 (counts, start, sent-over)."

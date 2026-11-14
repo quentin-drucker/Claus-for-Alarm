@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_qve87"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_lul4a"]
+
+[sub_resource type="Resource" id="Resource_we575"]
+script = ExtResource("1_qve87")
+enemy_id = &"mint"
+count = 20
+duration_s = 10.85
+
+[sub_resource type="Resource" id="Resource_fcpml"]
+script = ExtResource("1_qve87")
+enemy_id = &"violet"
+count = 8
+start_s = 14.59
+duration_s = 1.433
+
+[sub_resource type="Resource" id="Resource_aeobg"]
+script = ExtResource("1_qve87")
+enemy_id = &"mint"
+count = 20
+start_s = 0.2
+duration_s = 10.85
+
+[resource]
+script = ExtResource("2_lul4a")
+groups = Array[ExtResource("1_qve87")]([SubResource("Resource_we575"), SubResource("Resource_fcpml"), SubResource("Resource_aeobg")])
+id = &"round_16"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-16/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 16 (counts, start, sent-over)."

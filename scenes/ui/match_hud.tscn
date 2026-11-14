@@ -62,6 +62,12 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 
+[node name="TargetButton" type="Button" parent="InfoPanel/InfoBox" unique_id=1927838887]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Target: First (T)"
+
 [node name="SellButton" type="Button" parent="InfoPanel/InfoBox" unique_id=1079952859]
 unique_name_in_owner = true
 layout_mode = 2
@@ -112,7 +118,7 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0.90588236, 0.95686275, 0.972549, 1)
 theme_override_colors/font_outline_color = Color(0.09019608, 0.23529412, 0.30588236, 1)
 theme_override_constants/outline_size = 6
-text = "1-6 pick defender · click to place / select · Esc or right-click cancels · F3 debug"
+text = "1 pick defender · click to place / select · T target · Esc or right-click cancels · F3 debug"
 
 [node name="Overlay" type="ColorRect" parent="." unique_id=1225822617]
 unique_name_in_owner = true

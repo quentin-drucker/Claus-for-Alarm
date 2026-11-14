@@ -14,6 +14,8 @@ status = Dictionary[String, String]({
 "interval_s": "VERIFIED_SOURCE",
 "pierce": "VERIFIED_SOURCE",
 "projectile_count": "VERIFIED_SOURCE",
+"projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
+"projectile_speed_units": "PROTOTYPE_ASSUMPTION",
 "slow_factor": "NOT_APPLICABLE",
 "splash_pierce": "NOT_APPLICABLE"
 })

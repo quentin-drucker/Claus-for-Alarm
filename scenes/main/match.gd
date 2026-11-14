@@ -21,6 +21,25 @@ const FAST_SPEED: float = 2.0
 const GROUND: Plane = Plane(Vector3.UP, 0.0)
 const TOWER_SCENE: PackedScene = preload("res://scenes/towers/tower.tscn")
 const SNOWBALL_SCENE: PackedScene = preload("res://scenes/enemies/snowball.tscn")
+## Contact radius of a snowball for projectile hits (snowball mesh radius, metres).
+## ponytail: one size for all five basic layers; per-type size when large specials arrive (P11).
+const HIT_RADIUS_M: float = 0.4
+## ponytail: only the Snowball Rookie attacks until P08 implements the other five base kits.
+const ARMED_TOWERS: Array[StringName] = [&"snowball_rookie"]
+const SHOT_MESH: SphereMesh = preload("res://scenes/main/shot_mesh.tres")
+
+
+## One flying projectile (simulation state; `node` is its placeholder visual).
+class Shot:
+	var node: MeshInstance3D
+	var pos: Vector3
+	var velocity: Vector3
+	var life: float
+	var pierce: int
+	var attack: AttackDefinition
+	var source_id: int
+	## Entity ids already hit: a snowball keeps its id when a layer breaks, so one shot never hits it twice.
+	var hit: Dictionary[int, bool] = {}
 
 var state: State = State.BOOT
 ## Index of the current (or last finished) round in Content.rounds; -1 before round 1.
@@ -32,6 +51,7 @@ var ledger: EconomyLedger
 var lives: int = 0
 ## Live snowballs in spawn order (authoritative; nodes are freed after removal from this list).
 var snowballs: Array[Node3D] = []
+var shots: Array[Shot] = []
 ## Tower type being placed (null = not placing).
 var placing: TowerDefinition
 var selected: Node3D
@@ -39,6 +59,7 @@ var _next_id: int = 1
 var _schedule: Array = []
 var _spawn_cursor: int = 0
 var _round_time: float = 0.0
+var _shots_root: Node3D = Node3D.new()
 
 @onready var course: Node3D = $SkiCircuit
 @onready var camera: Camera3D = $Camera3D
@@ -53,9 +74,11 @@ func _ready() -> void:
 	clock.ticked.connect(_on_tick)
 	ledger = EconomyLedger.new(Content.rules.start_cash)
 	lives = Content.rules.start_lives
-	shop.assign(Content.towers)
+	shop.assign(Content.towers.filter(func(t: TowerDefinition) -> bool: return t.id in ARMED_TOWERS))
 	shop.sort_custom(func(a: TowerDefinition, b: TowerDefinition) -> bool: return a.price < b.price)
 	ghost.visible = false
+	_shots_root.name = "Shots"
+	add_child(_shots_root)
 	_set_state(State.PREPARE)
 
 
@@ -81,6 +104,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				toggle_speed()
 			KEY_ESCAPE:
 				cancel()
+			KEY_T:
+				cycle_priority(selected)
 			_:
 				if key.keycode >= KEY_1 and key.keycode < KEY_1 + shop.size():
 					begin_placing(shop[key.keycode - KEY_1])
@@ -138,7 +163,13 @@ func restart() -> void:
 	get_tree().reload_current_scene()
 
 
-# --- Simulation tick. Fixed order: spawn -> move -> leaks -> round state. ---
+func cycle_priority(tower: Node3D) -> void:
+	if is_instance_valid(tower):
+		tower.priority = (tower.priority + 1) % Targeting.Priority.size()
+		changed.emit()
+
+
+# --- Simulation tick. Fixed order: spawn -> move -> leaks -> towers fire -> shots hit -> round state. ---
 
 func _on_tick(dt: float) -> void:
 	Events.tick = clock.tick
@@ -155,6 +186,8 @@ func _on_tick(dt: float) -> void:
 			_leak(snowball)
 		else:
 			snowball.position = course.position_at(snowball.distance)
+	_fire_towers(dt)
+	_move_shots(dt)
 	if lives <= 0:
 		lives = 0
 		_set_state(State.LOST)
@@ -163,6 +196,82 @@ func _on_tick(dt: float) -> void:
 		_set_state(State.ROUND_CLEANUP)
 	elif state == State.ROUND_CLEANUP and snowballs.is_empty():
 		_reward()
+
+
+func _fire_towers(dt: float) -> void:
+	for tower: Node3D in towers_root.get_children():
+		if tower.def.attacks.is_empty():
+			continue
+		var attack: AttackDefinition = tower.def.attacks[0]
+		tower.cooldown -= dt
+		if tower.cooldown > 1e-6:
+			continue
+		# In range when the range circle touches the snowball, not only its centre (BTD6 behaviour).
+		var target: Node3D = Targeting.pick(snowballs, tower.position,
+				tower.def.range_units * GameDefinition.UNIT_M + HIT_RADIUS_M, tower.priority, attack.detects_camo)
+		if target == null:
+			tower.cooldown = 0.0  # ready, fires the moment something enters range
+			continue
+		tower.cooldown += attack.interval_s
+		# ponytail: one projectile per attack, aimed at the target's current position (no lead, no spread);
+		# multi-projectile volleys arrive with the upgrades that need them (P09).
+		var shot: Shot = Shot.new()
+		shot.pos = tower.position
+		shot.velocity = (target.position - tower.position).normalized() * attack.projectile_speed_units * GameDefinition.UNIT_M
+		shot.life = attack.projectile_lifetime_s
+		shot.pierce = attack.pierce
+		shot.attack = attack
+		shot.source_id = tower.entity_id
+		shot.node = MeshInstance3D.new()
+		shot.node.mesh = SHOT_MESH
+		shot.node.position = shot.pos + Vector3.UP * 0.5
+		_shots_root.add_child(shot.node)
+		shots.append(shot)
+		Events.send(&"attack_fired", tower.entity_id, target.entity_id, attack.damage, tower.position, [attack.id])
+
+
+## Swept hits along each shot's step, so fast shots cannot tunnel through a snowball.
+func _move_shots(dt: float) -> void:
+	for shot: Shot in shots.duplicate():
+		var from: Vector3 = shot.pos
+		shot.pos += shot.velocity * dt
+		shot.life -= dt
+		for s: Node3D in snowballs.duplicate():
+			if shot.pierce <= 0:
+				break
+			if shot.hit.has(s.entity_id) or not snowballs.has(s):
+				continue
+			if Geometry3D.get_closest_point_to_segment(s.position, from, shot.pos).distance_to(s.position) > HIT_RADIUS_M:
+				continue
+			shot.hit[s.entity_id] = true
+			shot.pierce -= 1  # an immune contact still uses pierce (BTD6: Lead blocks darts)
+			damage_snowball(s, shot.attack.damage, shot.attack.damage_type, shot.source_id)
+		if shot.pierce <= 0 or shot.life <= 0.0:
+			shots.erase(shot)
+			shot.node.queue_free()
+		else:
+			shot.node.position = shot.pos + Vector3.UP * 0.5
+
+
+## The single damage path (P05-T04, P06-T10): immunity, layer breaks with overflow, pop cash, events.
+## Each broken layer pays its cash_per_pop exactly once; the last layer removes the snowball.
+func damage_snowball(s: Node3D, damage: int, damage_type: StringName, source_id: int) -> void:
+	if StringName("immune_" + damage_type) in s.def.properties:
+		Events.send(&"enemy_immune", source_id, s.entity_id, 0, s.position, [damage_type])
+		return
+	Events.send(&"enemy_hit", source_id, s.entity_id, damage, s.position, [s.def.id])
+	while damage > 0:
+		damage -= 1
+		var old: EnemyDefinition = s.def
+		ledger.credit(clock.tick, old.cash_per_pop, &"pop", source_id)
+		if old.child_id == &"":
+			snowballs.erase(s)
+			s.queue_free()
+			Events.send(&"layer_broken", source_id, s.entity_id, old.cash_per_pop, s.position, [old.id, ""])
+			break
+		s.set_layer(Content.enemies[old.child_id])  # 1:1 basic chain: same snowball, next layer
+		Events.send(&"layer_broken", source_id, s.entity_id, old.cash_per_pop, s.position, [old.id, old.child_id])
+	changed.emit()
 
 
 func _spawn(enemy_id: StringName) -> void:

@@ -16,8 +16,8 @@ func _initialize() -> void:
 	var content: Node = content_script.new()
 	content.load_from("res://resources/")
 	_check(content.errors.is_empty(), "real content validates: %s" % "\n".join(content.errors))
-	_check(content.towers.size() == 6 and content.enemies.size() == 5 and content.rounds.size() == 10,
-			"6 towers, 5 enemies, 10 rounds")
+	_check(content.towers.size() == 6 and content.enemies.size() == 5 and content.rounds.size() == 19,
+			"6 towers, 5 enemies, 19 rounds (16 source + 3 finale)")
 	for tower: Resource in content.towers:
 		_check(tower.upgrades.size() == 15, "%s has 3x5 upgrades" % tower.id)
 
@@ -31,11 +31,15 @@ func _initialize() -> void:
 	DirAccess.make_dir_recursive_absolute("res://docs/logs/evidence")
 	FileAccess.open("res://docs/logs/evidence/p02_status_report.txt", FileAccess.WRITE).store_string(report + "\n")
 
-	# Golden RBE: layer chain Powder..Coral = 1..5; rounds 1-10 match the source round pages.
-	var expected_rbe: Array[int] = [20, 35, 35, 71, 59, 57, 75, 92, 90, 204]
-	for i: int in 10:
+	# Golden RBE: layer chain Powder..Coral = 1..5; rounds 1-16 match the source round pages' RBE.
+	var expected_rbe: Array[int] = [20, 35, 35, 71, 59, 57, 75, 92, 90, 204, 78, 80, 169, 145, 151, 152]
+	for i: int in 16:
 		_check(content.round_rbe(i) == expected_rbe[i], "round %d RBE %d" % [i + 1, content.round_rbe(i)])
 	_check([&"powder", &"blue", &"mint", &"violet", &"coral"].map(content.rbe) == [1, 2, 3, 4, 5], "layer RBE")
+	for i: int in content.rounds.size():  # D-03: 1-16 exact source, 17-19 labelled original finale
+		var r: Resource = content.rounds[i]
+		_check((r.custom_label == "Finale") == (i >= 16) and r.status.groups == ("ORIGINAL_DEVIATION" if i >= 16
+				else "VERIFIED_SOURCE"), "round %d label/provenance" % (i + 1))
 	var r1: Array = content.rounds[0].schedule()
 	_check(r1.size() == 20 and is_equal_approx(r1[-1][0], 17.51), "round 1: 20 spawns over 17.51 s")
 
@@ -65,7 +69,8 @@ func _test_fixtures(content_script: GDScript) -> void:
 			"start_lives": "PROTOTYPE_ASSUMPTION", "round_bonus_base": "PROTOTYPE_ASSUMPTION", "sell_ratio": "PROTOTYPE_ASSUMPTION"})
 	var attack: Resource = _def("attack_definition", &"fx_attack", {"interval_s": "PROTOTYPE_ASSUMPTION",
 			"damage": "PROTOTYPE_ASSUMPTION", "pierce": "PROTOTYPE_ASSUMPTION", "projectile_count": "PROTOTYPE_ASSUMPTION",
-			"splash_pierce": "NOT_APPLICABLE", "slow_factor": "NOT_APPLICABLE"})
+			"splash_pierce": "NOT_APPLICABLE", "slow_factor": "NOT_APPLICABLE",
+			"projectile_speed_units": "PROTOTYPE_ASSUMPTION", "projectile_lifetime_s": "PROTOTYPE_ASSUMPTION"})
 	c.hero = _def("hero_definition", &"fx_hero", {"price": "PROTOTYPE_ASSUMPTION", "range_units": "PROTOTYPE_ASSUMPTION",
 			"footprint_units": "PROTOTYPE_ASSUMPTION"})
 	c.hero.attack = attack
@@ -85,7 +90,7 @@ func _test_fixtures(content_script: GDScript) -> void:
 	var outer: Resource = inner.duplicate()
 	outer.id = &"fx_outer"
 	outer.child_id = &"fx_inner"
-	outer.child_count = 2
+	outer.child_count = 1
 	c.enemies[inner.id] = inner
 	c.enemies[outer.id] = outer
 	var round_def: Resource = _def("round_definition", &"fx_round", {"groups": "PROTOTYPE_ASSUMPTION"})
@@ -95,7 +100,8 @@ func _test_fixtures(content_script: GDScript) -> void:
 	round_def.groups.append(group)
 	c.rounds.append(round_def)
 	_check(c.validate().is_empty(), "fixture validates: %s" % "\n".join(c.validate()))
-	_check(c.rbe(&"fx_outer") == 3 and c.round_rbe(0) == 9, "fixture RBE")
+	_check(c.rbe(&"fx_outer") == 2 and c.round_rbe(0) == 6, "fixture RBE")
+	_expect_error(c, func() -> void: outer.child_count = 2, "DEFERRED", func() -> void: outer.child_count = 1)
 
 	_expect_error(c, func() -> void: tower.price = -5, "negative value", func() -> void: tower.price = 0)
 	_expect_error(c, func() -> void: tower.status.erase("price"), "missing status",

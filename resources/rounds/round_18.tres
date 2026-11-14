@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_ilmd2"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_kfps1"]
+
+[sub_resource type="Resource" id="Resource_2tr3x"]
+script = ExtResource("1_ilmd2")
+enemy_id = &"mint"
+count = 50
+duration_s = 10.0
+
+[sub_resource type="Resource" id="Resource_gsi28"]
+script = ExtResource("1_ilmd2")
+enemy_id = &"coral"
+count = 25
+start_s = 6.0
+duration_s = 8.0
+
+[sub_resource type="Resource" id="Resource_hlwju"]
+script = ExtResource("1_ilmd2")
+enemy_id = &"violet"
+count = 20
+start_s = 10.0
+duration_s = 5.0
+
+[resource]
+script = ExtResource("2_kfps1")
+custom_label = "Finale"
+groups = Array[ExtResource("1_ilmd2")]([SubResource("Resource_2tr3x"), SubResource("Resource_gsi28"), SubResource("Resource_hlwju")])
+id = &"round_18"
+status = Dictionary[String, String]({
+"groups": "ORIGINAL_DEVIATION"
+})
+notes = "Custom finale round 2 of 3 (owner decision D-03): basic layers only, dense/fast mix."

@@ -3,6 +3,7 @@ extends CanvasLayer
 ## Refreshes on `match.changed` (event-driven), except the dev-only debug overlay which updates per frame.
 
 const PATH_NAMES: PackedStringArray = ["Top", "Middle", "Bottom"]
+const PRIORITY_NAMES: PackedStringArray = ["First", "Last", "Close", "Strong"]  # Targeting.Priority order
 
 var match_node: Node3D
 var _shop_buttons: Array[Button] = []
@@ -12,6 +13,7 @@ var _shop_buttons: Array[Button] = []
 @onready var _info_panel: PanelContainer = %InfoPanel
 @onready var _info_text: Label = %InfoText
 @onready var _sell: Button = %SellButton
+@onready var _target: Button = %TargetButton
 @onready var _start: Button = %StartButton
 @onready var _pause: Button = %PauseButton
 @onready var _speed: Button = %SpeedButton
@@ -39,6 +41,7 @@ func _ready() -> void:
 	_pause.pressed.connect(func() -> void: match_node.set_paused(not match_node.clock.paused))
 	_speed.pressed.connect(match_node.toggle_speed)
 	_sell.pressed.connect(func() -> void: match_node.sell(match_node.selected))
+	_target.pressed.connect(func() -> void: match_node.cycle_priority(match_node.selected))
 	_resume.pressed.connect(match_node.set_paused.bind(false))
 	_restart.pressed.connect(match_node.restart)
 	match_node.changed.connect(_refresh)
@@ -94,7 +97,10 @@ func _refresh_info() -> void:
 		lines.append("Range: whole map (line of sight)")
 	elif def.range_units > 0.0:
 		lines.append("Range: %s (%.1f m)" % [def.range_units, def.range_units * GameDefinition.UNIT_M])
-	lines.append("Target: First" if not def.attacks.is_empty() else "Income building")
+	_target.visible = not def.attacks.is_empty()
+	_target.text = "Target: %s (T)" % PRIORITY_NAMES[tower.priority]
+	if def.attacks.is_empty():
+		lines.append("Income building")
 	lines.append("Invested $%d" % tower.spent)
 	lines.append("Upgrades %d-%d-%d (coming soon):" % [tower.tiers.x, tower.tiers.y, tower.tiers.z])
 	for path: int in 3:
@@ -113,7 +119,7 @@ func _debug_lines() -> String:
 	var lines: PackedStringArray = [
 		"tick %d   speed %sx   paused %s" % [m.clock.tick, m.clock.speed, m.clock.paused],
 		"state %s   round %d   spawned %d/%d" % [m.State.keys()[m.state], m.round_index + 1, m._spawn_cursor, m._schedule.size()],
-		"snowballs %d   towers %d   effects 0" % [m.snowballs.size(), m.towers_root.get_child_count()],
+		"snowballs %d   towers %d   shots %d" % [m.snowballs.size(), m.towers_root.get_child_count(), m.shots.size()],
 		"last transactions:",
 	]
 	for t: Dictionary in m.ledger.transactions.slice(-5):

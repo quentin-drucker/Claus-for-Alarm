@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_tjdm0"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_sq88p"]
+
+[sub_resource type="Resource" id="Resource_yjniw"]
+script = ExtResource("1_tjdm0")
+enemy_id = &"powder"
+count = 20
+duration_s = 25.0
+
+[sub_resource type="Resource" id="Resource_5ibm2"]
+script = ExtResource("1_tjdm0")
+enemy_id = &"coral"
+count = 5
+start_s = 17.55
+duration_s = 3.0
+
+[sub_resource type="Resource" id="Resource_rrs6c"]
+script = ExtResource("1_tjdm0")
+enemy_id = &"mint"
+count = 12
+start_s = 5.68
+duration_s = 15.0
+
+[sub_resource type="Resource" id="Resource_r2e12"]
+script = ExtResource("1_tjdm0")
+enemy_id = &"violet"
+count = 10
+start_s = 8.87
+duration_s = 12.0
+
+[sub_resource type="Resource" id="Resource_au25a"]
+script = ExtResource("1_tjdm0")
+enemy_id = &"blue"
+count = 15
+start_s = 2.78
+duration_s = 20.0
+
+[resource]
+script = ExtResource("2_sq88p")
+groups = Array[ExtResource("1_tjdm0")]([SubResource("Resource_yjniw"), SubResource("Resource_5ibm2"), SubResource("Resource_rrs6c"), SubResource("Resource_r2e12"), SubResource("Resource_au25a")])
+id = &"round_15"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-15/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 15 (counts, start, sent-over)."

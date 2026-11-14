@@ -14,6 +14,10 @@ var entity_id: int = 0
 ## Cash invested (base + upgrades), for the sell value.
 var spent: int = 0
 var tiers: Vector3i = Vector3i.ZERO
+## Seconds until the next attack may fire (simulation time).
+var cooldown: float = 0.0
+## Targeting.Priority; new towers target First.
+var priority: int = 0
 
 @onready var _body: MeshInstance3D = $Body
 @onready var _label: Label3D = $Label

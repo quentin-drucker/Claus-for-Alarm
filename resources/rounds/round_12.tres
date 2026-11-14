@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_1kot5"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_lauif"]
+
+[sub_resource type="Resource" id="Resource_jtuql"]
+script = ExtResource("1_1kot5")
+enemy_id = &"mint"
+count = 10
+duration_s = 5.13
+
+[sub_resource type="Resource" id="Resource_dc2d8"]
+script = ExtResource("1_1kot5")
+enemy_id = &"blue"
+count = 15
+start_s = 5.7
+duration_s = 6.07
+
+[sub_resource type="Resource" id="Resource_1xjma"]
+script = ExtResource("1_1kot5")
+enemy_id = &"violet"
+count = 5
+start_s = 14.27
+duration_s = 3.117
+
+[resource]
+script = ExtResource("2_lauif")
+groups = Array[ExtResource("1_1kot5")]([SubResource("Resource_jtuql"), SubResource("Resource_dc2d8"), SubResource("Resource_1xjma")])
+id = &"round_12"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-12/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 12 (counts, start, sent-over)."

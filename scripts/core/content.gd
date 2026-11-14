@@ -71,6 +71,8 @@ func validate() -> PackedStringArray:
 	for def: GameDefinition in defs:
 		out.append_array(def.validate())
 	for enemy: EnemyDefinition in enemies.values():
+		if enemy.child_count > 1:
+			out.append("%s: multi-child splits are DEFERRED with the special snowballs (P11)" % enemy.id)
 		if enemy.child_id != &"" and not enemies.has(enemy.child_id):
 			out.append("%s: undefined child type %s" % [enemy.id, enemy.child_id])
 		elif rbe(enemy.id) < 0:
