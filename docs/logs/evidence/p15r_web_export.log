@@ -1,0 +1,337 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+Godot MCP: another Godot editor (pid 52588) is already serving this project's MCP bridge; not starting a second one here.
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (8 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | EnemyDefinition[39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (45 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | defeat.ogg[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | gameplay.ogg[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | gameplay_late.ogg[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | menu.ogg[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | victory.ogg[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | ability_ready.ogg[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | cannon_boom.ogg[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | cannon_fire.ogg[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | chime.ogg[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | click.ogg[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | crunch_01.ogg[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | crunch_02.ogg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | crunch_03.ogg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | crunch_04.ogg[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | crunch_05.ogg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | crunch_06.ogg[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | crunch_07.ogg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | crunch_08.ogg[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | crunch_09.ogg[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | crunch_10.ogg[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | crunch_11.ogg[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | crunch_12.ogg[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | crunch_heavy.ogg[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | deny.ogg[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | fireball.ogg[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | focus_off.ogg[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | focus_on.ogg[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | frenzy.ogg[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | hero_shot.ogg[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | hover.ogg[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | immune.ogg[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | leak.ogg[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | level_up.ogg[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | place.ogg[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | place_hero.ogg[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | ranger.ogg[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | round_complete.ogg[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | round_start.ogg[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | sell.ogg[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | throw.ogg[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | ticket.ogg[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | ticket_bank.ogg[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | ticket_spawn.ogg[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | upgrade.ogg[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | wax.ogg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1msavepack[22m | Started Packing (102 steps)[39m[0m
+[   1% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-19246414aa9fb561ced4b8dce477acec-default_bus_layout.res[39m[0m
+[   1% ] [90m[1msavepack[22m | Storing File: res://.mcp.json[39m[0m
+[   2% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-183ff0e27172a62fbbfeadaf378f75e7-round_22.res[39m[0m
+[   3% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-b0c9199ed15b12c67ac98e56223e20f6-round_23.res[39m[0m
+[   4% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-6f273a2fae99420c255169643b656423-round_24.res[39m[0m
+[   4% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-ee90e0ad47aed080e20e0f249732f6ae-round_25.res[39m[0m
+[   5% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-e900b2187ebffdf60cbf6a9f4f2734a5-rules_medium.res[39m[0m
+[   6% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-8ff5153cab8bfdc6ae07a5223e0c657d-avalanche_cannon.res[39m[0m
+[   7% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-6c9abcf147839a759587e94638457b23-biathlon_ranger.res[39m[0m
+[   7% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-085f5993ea4e832372c2094f211b0ba7-ski_resort_ticket_booth.res[39m[0m
+[   8% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-7b0fbc0fd15970392a3935678ae9ddc3-slope_wax_sprayer.res[39m[0m
+[   9% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-76d041e519f605629c6cdc955b6462ac-snowball_rookie.res[39m[0m
+[  10% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-e26456093ad8f382af9b3bd0abbf1020-round_20.res[39m[0m
+[  11% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-8c59281a17c49aebc86ef258d3e828d8-round_21.res[39m[0m
+[  11% ] [90m[1msavepack[22m | Storing File: res://scripts/data/upgrade_effect.gdc[39m[0m
+[  12% ] [90m[1msavepack[22m | Storing File: res://scripts/data/upgrade_definition.gdc[39m[0m
+[  13% ] [90m[1msavepack[22m | Storing File: res://scripts/data/tower_definition.gdc[39m[0m
+[  14% ] [90m[1msavepack[22m | Storing File: res://scripts/data/spawn_group.gdc[39m[0m
+[  14% ] [90m[1msavepack[22m | Storing File: res://scripts/data/round_definition.gdc[39m[0m
+[  15% ] [90m[1msavepack[22m | Storing File: res://scripts/data/match_rules.gdc[39m[0m
+[  16% ] [90m[1msavepack[22m | Storing File: res://scripts/data/hero_definition.gdc[39m[0m
+[  17% ] [90m[1msavepack[22m | Storing File: res://scripts/data/game_definition.gdc[39m[0m
+[  17% ] [90m[1msavepack[22m | Storing File: res://scripts/data/enemy_definition.gdc[39m[0m
+[  18% ] [90m[1msavepack[22m | Storing File: res://scripts/data/attack_definition.gdc[39m[0m
+[  19% ] [90m[1msavepack[22m | Storing File: res://scripts/core/targeting.gdc[39m[0m
+[  20% ] [90m[1msavepack[22m | Storing File: res://scripts/core/sim_clock.gdc[39m[0m
+[  21% ] [90m[1msavepack[22m | Storing File: res://scripts/core/placement.gdc[39m[0m
+[  21% ] [90m[1msavepack[22m | Storing File: res://scripts/core/game_event.gdc[39m[0m
+[  22% ] [90m[1msavepack[22m | Storing File: res://scripts/core/events.gdc[39m[0m
+[  23% ] [90m[1msavepack[22m | Storing File: res://scripts/core/economy_ledger.gdc[39m[0m
+[  24% ] [90m[1msavepack[22m | Storing File: res://scripts/core/content.gdc[39m[0m
+[  24% ] [90m[1msavepack[22m | Storing File: res://scripts/audio/audio_router.gdc[39m[0m
+[  25% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-d6857edab8caad3aa887f5492aec159d-ski_circuit.scn[39m[0m
+[  26% ] [90m[1msavepack[22m | Storing File: res://scenes/world/ski_circuit.gdc[39m[0m
+[  27% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-5eabcd2865b627a14b0c7b9586988c63-title_screen.scn[39m[0m
+[  27% ] [90m[1msavepack[22m | Storing File: res://scenes/ui/title_screen.gdc[39m[0m
+[  28% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-26c2f8ca1e7da07c53690249089add2c-match_hud.scn[39m[0m
+[  29% ] [90m[1msavepack[22m | Storing File: res://scenes/ui/match_hud.gdc[39m[0m
+[  30% ] [90m[1msavepack[22m | Storing File: res://scenes/ui/feedback_layer.gdc[39m[0m
+[  31% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-0c2c6b062064f77bd59cebb2e77a68f1-tower.scn[39m[0m
+[  31% ] [90m[1msavepack[22m | Storing File: res://scenes/towers/tower.gdc[39m[0m
+[  32% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-7efcf7f7642f4e2263c7ab715a35d36c-lodge.scn[39m[0m
+[  33% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-32ba0115d4570cb8b88895e675ea0f32-match.scn[39m[0m
+[  33% ] [90m[1msavepack[22m | Storing File: res://scenes/main/match.gdc[39m[0m
+[  33% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-c0c61bb99e9c804213338e378ee3b007-snowball.scn[39m[0m
+[  34% ] [90m[1msavepack[22m | Storing File: res://scenes/enemies/snowball.gdc[39m[0m
+[  35% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-0fecfeffb6a62f09eb22788764aa5710-snow_sorcerer.res[39m[0m
+[  36% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-2944d09272ee27e7914858605da5323e-shot_mesh.res[39m[0m
+[  36% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex[39m[0m
+[  36% ] [90m[1msavepack[22m | Storing File: res://icon.svg.import[39m[0m
+[  37% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/defeat.ogg-ad7d2594dacb268d2023990a4787123d.oggvorbisstr[39m[0m
+[  37% ] [90m[1msavepack[22m | Storing File: res://assets/audio/music/defeat.ogg.import[39m[0m
+[  38% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/gameplay.ogg-a11529bd057539971e26d56ecc5d7be7.oggvorbisstr[39m[0m
+[  38% ] [90m[1msavepack[22m | Storing File: res://assets/audio/music/gameplay.ogg.import[39m[0m
+[  39% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/gameplay_late.ogg-6a83b66cab3825c1ce9c5b73d70ba886.oggvorbisstr[39m[0m
+[  39% ] [90m[1msavepack[22m | Storing File: res://assets/audio/music/gameplay_late.ogg.import[39m[0m
+[  40% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/menu.ogg-aab10d387dfb675baa2b9efa7822be3c.oggvorbisstr[39m[0m
+[  40% ] [90m[1msavepack[22m | Storing File: res://assets/audio/music/menu.ogg.import[39m[0m
+[  40% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/victory.ogg-33d5b2f1b18c9508122d91b2c7b51a0a.oggvorbisstr[39m[0m
+[  40% ] [90m[1msavepack[22m | Storing File: res://assets/audio/music/victory.ogg.import[39m[0m
+[  41% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/ability_ready.ogg-792374a385a49e4082884278b9c4b35f.oggvorbisstr[39m[0m
+[  41% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/ability_ready.ogg.import[39m[0m
+[  42% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/cannon_boom.ogg-d64100086c568cced450412b0904ee9a.oggvorbisstr[39m[0m
+[  42% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/cannon_boom.ogg.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/cannon_fire.ogg-5a8f8726824007bc1e1136e43f5b5585.oggvorbisstr[39m[0m
+[  43% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/cannon_fire.ogg.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/chime.ogg-ee86bb98b1c97f94bb4df5db1225a0de.oggvorbisstr[39m[0m
+[  43% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/chime.ogg.import[39m[0m
+[  44% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/click.ogg-3cad29b0a7122f4b91444dafe5dd3781.oggvorbisstr[39m[0m
+[  44% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/click.ogg.import[39m[0m
+[  45% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_01.ogg-9165d8f2a3e810ed1d9b3c29f3afc2af.oggvorbisstr[39m[0m
+[  45% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_01.ogg.import[39m[0m
+[  46% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_02.ogg-97411f9172fca0b3ca77471615d259a0.oggvorbisstr[39m[0m
+[  46% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_02.ogg.import[39m[0m
+[  46% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_03.ogg-d47a06aa7ce61aeeff4f2c098e4a212a.oggvorbisstr[39m[0m
+[  46% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_03.ogg.import[39m[0m
+[  47% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_04.ogg-db7bf76360a0c5cd63cdc7b516101efe.oggvorbisstr[39m[0m
+[  47% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_04.ogg.import[39m[0m
+[  48% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_05.ogg-db3d98cf2b2f2dd4d04b772f3d6f20d3.oggvorbisstr[39m[0m
+[  48% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_05.ogg.import[39m[0m
+[  49% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_06.ogg-75e47be8809638064c99737395092cac.oggvorbisstr[39m[0m
+[  49% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_06.ogg.import[39m[0m
+[  50% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_07.ogg-7e64c21426649845594c20583c36f549.oggvorbisstr[39m[0m
+[  50% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_07.ogg.import[39m[0m
+[  50% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_08.ogg-41f7a8e98370911ac0efbfc63d1aad29.oggvorbisstr[39m[0m
+[  50% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_08.ogg.import[39m[0m
+[  51% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_09.ogg-5bec6bfc9b40a083ff98da0e2ac3fa76.oggvorbisstr[39m[0m
+[  51% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_09.ogg.import[39m[0m
+[  52% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_10.ogg-13564481f168e96339ed75cc1c52802d.oggvorbisstr[39m[0m
+[  52% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_10.ogg.import[39m[0m
+[  53% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_11.ogg-7db6ef54cd5e101cdb228cbe114e53bf.oggvorbisstr[39m[0m
+[  53% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_11.ogg.import[39m[0m
+[  53% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_12.ogg-3a35cc14f0871a127c2cd376a3570173.oggvorbisstr[39m[0m
+[  53% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_12.ogg.import[39m[0m
+[  54% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/crunch_heavy.ogg-b1f996772eac8a87f03406b313c0c3a5.oggvorbisstr[39m[0m
+[  54% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/crunch_heavy.ogg.import[39m[0m
+[  55% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/deny.ogg-5f9b8701a3a7ba392d4f98cec197bc04.oggvorbisstr[39m[0m
+[  55% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/deny.ogg.import[39m[0m
+[  56% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/fireball.ogg-0a4631e5ea52d8b3b74b18d6c8a998d1.oggvorbisstr[39m[0m
+[  56% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/fireball.ogg.import[39m[0m
+[  56% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/focus_off.ogg-68ffed97b75399e8ac9093d7c70d49ca.oggvorbisstr[39m[0m
+[  56% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/focus_off.ogg.import[39m[0m
+[  57% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/focus_on.ogg-df3e6bbf71b1e24d4bcc30b2608aaea6.oggvorbisstr[39m[0m
+[  57% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/focus_on.ogg.import[39m[0m
+[  58% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/frenzy.ogg-116483b21babcf7ff441bd052d22e927.oggvorbisstr[39m[0m
+[  58% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/frenzy.ogg.import[39m[0m
+[  59% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/hero_shot.ogg-7091300757562eb378ed52f9f9ea8261.oggvorbisstr[39m[0m
+[  59% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/hero_shot.ogg.import[39m[0m
+[  60% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/hover.ogg-8ec46d9cc14ab135990705249f5b7efe.oggvorbisstr[39m[0m
+[  60% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/hover.ogg.import[39m[0m
+[  60% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/immune.ogg-0dfb8f437a37979ea67ba2051f09ec47.oggvorbisstr[39m[0m
+[  60% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/immune.ogg.import[39m[0m
+[  61% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/leak.ogg-5500cb380917d8a6ff9d316bcce00a1e.oggvorbisstr[39m[0m
+[  61% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/leak.ogg.import[39m[0m
+[  62% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/level_up.ogg-8ee2ef9ea34ea23f46be4dd8ec3086db.oggvorbisstr[39m[0m
+[  62% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/level_up.ogg.import[39m[0m
+[  63% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/place.ogg-0054298c9bc06a068e13087338e0f2ec.oggvorbisstr[39m[0m
+[  63% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/place.ogg.import[39m[0m
+[  63% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/place_hero.ogg-d46130ebf8269cf96a98362b1a084f0b.oggvorbisstr[39m[0m
+[  63% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/place_hero.ogg.import[39m[0m
+[  64% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/ranger.ogg-82dc03c0bcd785dc1dc8b137755e2074.oggvorbisstr[39m[0m
+[  64% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/ranger.ogg.import[39m[0m
+[  65% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/round_complete.ogg-0a8b99c3318a4d3b350510a9229882d9.oggvorbisstr[39m[0m
+[  65% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/round_complete.ogg.import[39m[0m
+[  66% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/round_start.ogg-636577137a66afea9458172b366ee1a8.oggvorbisstr[39m[0m
+[  66% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/round_start.ogg.import[39m[0m
+[  66% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/sell.ogg-685314b85df3c90fde7451715150dd8c.oggvorbisstr[39m[0m
+[  66% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/sell.ogg.import[39m[0m
+[  66% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/throw.ogg-3fd23d16ac1b462b7ec703e2d1e2d027.oggvorbisstr[39m[0m
+[  66% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/throw.ogg.import[39m[0m
+[  67% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/ticket.ogg-da4e0ca14f12a0dbcdc11cdccfff36ac.oggvorbisstr[39m[0m
+[  67% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/ticket.ogg.import[39m[0m
+[  68% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/ticket_bank.ogg-677edbd4bf2c25da61a26018233b9b0e.oggvorbisstr[39m[0m
+[  68% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/ticket_bank.ogg.import[39m[0m
+[  69% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/ticket_spawn.ogg-d7761ef0920812c1a0386582ffa798be.oggvorbisstr[39m[0m
+[  69% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/ticket_spawn.ogg.import[39m[0m
+[  69% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/upgrade.ogg-b6dced840be01baa4fe19875e47af6ef.oggvorbisstr[39m[0m
+[  69% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/upgrade.ogg.import[39m[0m
+[  70% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/wax.ogg-d011f665b10c655bd96afb11e39d0e31.oggvorbisstr[39m[0m
+[  70% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx/wax.ogg.import[39m[0m
+[  71% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/sfx_smoke_blip.wav-8cf6f7f03a2f750a508f0ec13001f486.sample[39m[0m
+[  71% ] [90m[1msavepack[22m | Storing File: res://assets/audio/sfx_smoke_blip.wav.import[39m[0m
+[  72% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/elf_rookie.glb-a27872cb21e9567108e185182f063df8.scn[39m[0m
+[  72% ] [90m[1msavepack[22m | Storing File: res://assets/models/elf_rookie.glb.import[39m[0m
+[  72% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/lodge.glb-b9766a1dcb36d08e592c7ddead263928.scn[39m[0m
+[  72% ] [90m[1msavepack[22m | Storing File: res://assets/models/lodge.glb.import[39m[0m
+[  73% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/snowball_marker.glb-28903c6d9b83e8c19c8b283404a70767.scn[39m[0m
+[  73% ] [90m[1msavepack[22m | Storing File: res://assets/models/snowball_marker.glb.import[39m[0m
+[  74% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/snowball_shell.glb-11e84ecc0ed59b0e9ed23af82e678b04.scn[39m[0m
+[  74% ] [90m[1msavepack[22m | Storing File: res://assets/models/snowball_shell.glb.import[39m[0m
+[  75% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-8c00565a30fa84cc86342aefd55e55a3-black.res[39m[0m
+[  75% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-17505364c6b792bf85ae9d64ce6bb4f9-blue.res[39m[0m
+[  76% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-4581aa87200f9d5655e816cfb8b7213a-camo_blue.res[39m[0m
+[  77% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-025e768aa339ecf1f73acbd8958a69d0-camo_mint.res[39m[0m
+[  78% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-2800f4b6ae8ca0faf7fb8e00f7003b8c-camo_powder.res[39m[0m
+[  79% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-12640c32a126a206458e78a72f5ae36e-coral.res[39m[0m
+[  79% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-427885295c0240341fa20ddc50af73b2-mint.res[39m[0m
+[  80% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-0934f83fd744a91a059113349329abf7-powder.res[39m[0m
+[  81% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-cde66e596e868a3473ca9b0a0b91a099-purple.res[39m[0m
+[  82% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-37979f94b807dce5266cccab15a7015f-violet.res[39m[0m
+[  82% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-fed3af11fc461379be325b7c7c742825-white.res[39m[0m
+[  83% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-46ee2449d9898e8b52706d7ea7a6935f-camel_claus.res[39m[0m
+[  84% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-3a165309bd993b1b9243251fc6273fdb-round_01.res[39m[0m
+[  85% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-3e42f791378c50d0b9de813fe1b4c565-round_02.res[39m[0m
+[  85% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-affc69af377d5dcb0869ca5a00292799-round_03.res[39m[0m
+[  86% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-6c0769aee8914d939383cccd92fbe13b-round_04.res[39m[0m
+[  87% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-d5977a9bad821287ff0ccd17f7095c1b-round_05.res[39m[0m
+[  88% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-23ed0c5d92980a80f7bbd64df8f2323d-round_06.res[39m[0m
+[  89% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-d68e62b5c2a4213b28f665b754dfeeb5-round_07.res[39m[0m
+[  89% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-50d4452daf6643a09270459a9c9cedec-round_08.res[39m[0m
+[  90% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-35d2a93a5bf6ec5871950ed7bb870503-round_09.res[39m[0m
+[  91% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-45e281a47a6952bbc8ce6df13209707a-round_10.res[39m[0m
+[  92% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-ff299f456a5c45dafe2fc2121383d54a-round_11.res[39m[0m
+[  92% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-9cad61717e3f554a6142d75cf5c2a584-round_12.res[39m[0m
+[  93% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-8cb04b6853895f0d246adc467ee097ff-round_13.res[39m[0m
+[  94% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-9ebe70060cfdeca23a7d857397523985-round_14.res[39m[0m
+[  95% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-111ba72c9b88d07165219f1962e0e069-round_15.res[39m[0m
+[  95% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-3b055d9879b3099475c27ed025531028-round_16.res[39m[0m
+[  96% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-6f4d11baae23af6d8ecfcf7fadfe14f8-round_17.res[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-8d326afca1f355d2e6af75aee96a224e-round_18.res[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-0acd63a997f1f4d8c7e6306e9c1c5af0-round_19.res[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://default_bus_layout.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_22.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_23.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_24.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_25.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rules/rules_medium.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/towers/avalanche_cannon.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/towers/biathlon_ranger.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/towers/ski_resort_ticket_booth.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/towers/slope_wax_sprayer.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/towers/snowball_rookie.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_20.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_21.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/upgrade_effect.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/upgrade_definition.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/tower_definition.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/spawn_group.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/round_definition.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/match_rules.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/hero_definition.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/game_definition.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/enemy_definition.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/data/attack_definition.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/core/targeting.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/core/sim_clock.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/core/placement.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/core/game_event.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/core/events.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/core/economy_ledger.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/core/content.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scripts/audio/audio_router.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/world/ski_circuit.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/world/ski_circuit.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/ui/title_screen.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/ui/title_screen.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/ui/match_hud.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/ui/match_hud.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/ui/feedback_layer.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/towers/tower.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/towers/tower.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/props/lodge.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/main/match.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/main/match.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/enemies/snowball.tscn.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/enemies/snowball.gd.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/towers/snow_sorcerer.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://scenes/main/shot_mesh.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/black.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/blue.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/camo_blue.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/camo_mint.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/camo_powder.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/coral.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/mint.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/powder.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/purple.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/violet.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/enemies/white.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/heroes/camel_claus.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_01.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_02.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_03.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_04.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_05.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_06.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_07.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_08.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_09.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_10.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_11.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_12.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_13.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_14.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_15.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_16.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_17.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_18.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://resources/rounds/round_19.tres.remap[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://.godot/global_script_class_cache.cfg[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://icon.svg[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://.godot/uid_cache.bin[39m[0m
+[  98% ] [90m[1msavepack[22m | Storing File: res://project.binary[39m[0m
+[92m[ DONE ][39m [1msavepack[22m
+[0m

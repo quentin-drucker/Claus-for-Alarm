@@ -62,6 +62,51 @@ def seg_dist(p, h, t):
     return (p - Vector(h).lerp(Vector(t), f)).length
 
 
+# ---- vertex-colour "atlas": every part's colour + painted detail lives in COLOR_0, so the whole elf needs only two
+# materials (matte + gloss) instead of one per part (B-09 draw-call budget). ----
+from mathutils import noise
+BASE = {"elf_skin": "skin", "elf_jacket": "navy", "elf_trousers": "teal", "elf_trims": "snow", "elf_cap_band": "snow",
+        "elf_pompom": "snow", "elf_cap": "red", "elf_mittens": "red", "elf_pouch": "red", "elf_boots": "dark_timber",
+        "elf_buckle": "gold", "elf_zipper": "gold", "elf_eye": "spruce", "elf_glint": "white_pure",
+        "elf_brow": "dark_timber", "elf_smile": "mouth", "elf_strap": "spruce", "elf_pellet": "snow",
+        "elf_spare_snow": "snow"}
+COLS = dict(PAL, white_pure="#FFFFFF", mouth="#8E2F3A")
+GLOSS = {"elf_eye", "elf_glint", "elf_buckle", "elf_zipper"}
+M_MATTE = material("M_elf_matte", "#FFFFFF", 0.8, use_vcol=True)
+M_GLOSS = material("M_elf_gloss", "#FFFFFF", 0.22, use_vcol=True)
+# Blush centres ON the cheek surface: ray straight back from in front of each cheek onto the skin.
+CHEEKS = [bpy.data.objects["elf_skin"].ray_cast(Vector((sx * 0.095, 0.4, 0.745)), Vector((0, -1, 0)))[1]
+          for sx in (1, -1)]
+
+
+def lin(h):
+    return Vector(hex_lin(COLS[h])[:3])
+
+
+def paint(g, key):
+    base = lin(BASE[key])
+    attr = g.data.color_attributes.new("Col", "FLOAT_COLOR", "POINT")
+    g.data.color_attributes.active_color = attr
+    for v in g.data.vertices:
+        c = base.copy()
+        p = v.co
+        if key == "elf_skin":  # soft blush on the exposed cheeks, warmer ear tips
+            w = max(math.exp(-((p - ch).length / 0.03) ** 2) for ch in CHEEKS)
+            c = c.lerp(lin("blush"), 0.8 * w)
+        elif key in ("elf_cap", "elf_mittens"):  # knit ribs
+            rib = 0.5 + 0.5 * math.cos(28 * math.atan2(p.x, p.y + 0.03))
+            c = c * (0.86 + 0.14 * rib)
+        elif key in ("elf_trims", "elf_cap_band", "elf_pompom"):  # fluffy fur
+            c = c * (0.9 + 0.1 * noise.noise(p * 60))
+        elif key in ("elf_jacket", "elf_trousers"):  # light from above + faint fabric grain
+            c = c * (0.9 + 0.18 * min(1.0, max(0.0, (p.z - 0.25) / 0.4)) + 0.03 * noise.noise(p * 90))
+        elif key == "elf_boots":  # scuffed toe caps
+            c = c.lerp(lin("timber"), 0.35 * min(1.0, max(0.0, (p.y - 0.08) / 0.1)))
+        attr.data[v.index].color = (c.x, c.y, c.z, 1.0)
+    g.data.materials.clear()
+    g.data.materials.append(M_GLOSS if key in GLOSS else M_MATTE)
+
+
 game = []
 for o in parts:
     o.users_collection[0].objects.unlink(o)
@@ -85,6 +130,7 @@ for o in parts:
         for w, b in ws:
             if w / tot > 0.02:
                 g.vertex_groups[b].add([v.index], w / tot, "REPLACE")
+    paint(g, o.name.split(".")[0])
     game.append(g)
 hi.hide_viewport = True
 hi.hide_render = True
@@ -93,6 +139,19 @@ body = join(game, "elf_rookie")
 body.parent = rig
 mod = body.modifiers.new("rig", "ARMATURE")
 mod.object = rig
+# Baked ambient occlusion into the vertex colours (rest pose): short hemisphere rays against the whole elf.
+from mathutils.bvhtree import BVHTree
+bvh = BVHTree.FromObject(body, bpy.context.evaluated_depsgraph_get())
+DIRS = [Vector((math.cos(a) * math.sin(e), math.sin(a) * math.sin(e), math.cos(e))) for e in (0.5, 1.1)
+        for a in [2 * math.pi * k / 6 for k in range(6)]]
+col = body.data.color_attributes["Col"]
+for v in body.data.vertices:
+    n = v.normal
+    basis = n.to_track_quat("Z", "Y")
+    hits = sum(1 for d in DIRS if bvh.ray_cast(v.co + n * 0.003, basis @ d, 0.07)[0] is not None)
+    k = 1.0 - 0.5 * hits / len(DIRS)
+    r, g_, b_, a_ = col.data[v.index].color
+    col.data[v.index].color = (r * k, g_ * k, b_ * k, 1.0)
 print("game tris", tri_count(body), "materials", len(body.data.materials))
 
 # ---- B-11 sockets (empties; bone-parented ones follow the animation) ----
@@ -111,9 +170,9 @@ socket("shadow_anchor", (0, 0, 0.002))
 socket("aim_pivot", (0, 0, 0.45))
 socket("effect_center", (0, 0, 0.5), "spine")
 socket("portrait_focus", (0, 0.15, 0.8), "head")
-socket("weapon_hand_r", (0.34, 0.1, 0.27), "hand.R")
+socket("weapon_hand_r", (0.338, 0.065, 0.29), "hand.R")
 socket("weapon_hand_l", (-0.34, 0.1, 0.27), "hand.L")
-socket("muzzle_A", (0.34, 0.135, 0.28), "hand.R")
+socket("muzzle_A", tuple(PELLET), "hand.R")
 
 # ---- actions: idle_loop (cocked throw stance, breathing, cap sway) and attack (overhand throw) ----
 rig.animation_data_create()

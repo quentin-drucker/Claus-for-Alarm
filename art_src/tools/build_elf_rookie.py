@@ -7,7 +7,7 @@ exec(open(r"C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm\art_src\to
 
 clear_scene()
 M = {
-    "skin": material("M_elf_skin", PAL["skin"], 0.55),
+    "skin": material("M_elf_skin", PAL["skin"], 0.55),  # DEC-036 rosy skin
     "jacket": material("M_puffy_cloth_navy", PAL["navy"], 0.85),
     "trousers": material("M_puffy_cloth_teal", PAL["teal"], 0.85),
     "trim": material("M_fur_trim", PAL["snow"], 0.95),
@@ -97,9 +97,15 @@ boot = [{"type": "ELLIPSOID", "co": (0.095, 0.035, 0.055), "radius": 0.065, "siz
 boots = metaball_mesh("elf_boots", mirror(boot), mat=M["boot"])
 
 # ---- mittens with thumbs ----
-mitt = [{"type": "ELLIPSOID", "co": (0.335, 0.06, 0.285), "radius": 0.068, "size": (0.85, 0.85, 1.05)},
-        {"co": (0.31, 0.115, 0.315), "radius": 0.03}]
-mittens = metaball_mesh("elf_mittens", mirror(mitt), mat=M["red"])
+# Right mitten GRIPS the snowball: palm behind it, the finger lobe curls over its top-front, thumb on the inner side.
+PELLET = Vector((0.35, 0.12, 0.25))  # snowball centre = muzzle_A socket (rig_elf.py)
+PELLET_R = 0.05
+grip = [{"type": "ELLIPSOID", "co": (0.338, 0.065, 0.29), "radius": 0.06, "size": (0.9, 0.8, 1.0)}]     + chain([(0.345, 0.09, 0.322), (0.352, 0.145, 0.312), (0.356, 0.178, 0.272), (0.354, 0.172, 0.232)],
+            [0.03, 0.026, 0.022, 0.018], step=0.008)     + chain([(0.302, 0.085, 0.272), (0.3, 0.125, 0.252), (0.31, 0.155, 0.238)], [0.026, 0.022, 0.018], step=0.008)
+# Left mitten: relaxed, thumb up.
+open_mitt = [{"type": "ELLIPSOID", "co": (-0.335, 0.06, 0.285), "radius": 0.068, "size": (0.85, 0.85, 1.05)},
+             {"co": (-0.31, 0.115, 0.315), "radius": 0.03}]
+mittens = metaball_mesh("elf_mittens", grip + open_mitt, mat=M["red"])
 
 # ---- fur trims hugging the real garment sections: wrist cuffs, jacket hem, collar, boot cuffs ----
 cuff_n = Vector((0.06, 0.02, -0.1)).normalized()
@@ -144,13 +150,15 @@ def face_chain(name, pts, radii, off, mat):
 
 brow_mat = material("M_brow", PAL["dark_timber"], 0.9)
 for sx in (1, -1):
-    eye_c = onto((sx * 0.07, 0.2, HEAD_Z + 0.018), -0.002)  # half sunk into a shallow socket
-    metaball_mesh("elf_eye", [{"type": "ELLIPSOID", "co": eye_c, "radius": 0.04, "size": (0.8, 0.35, 1.1),
-                               "rot": (0, 0, sx * 22)}], resolution=0.004, remesh=0, smooth=0, mat=M["eye"])
+    ok, loc, nrm, _ = skin.closest_point_on_mesh(Vector((sx * 0.07, 0.2, HEAD_Z + 0.018)))
+    eye_c = tuple(loc - nrm * 0.001)  # seated on the face, thin axis along the face normal (no uneven sinking)
+    eye_rot = [math.degrees(a) for a in Vector((0, 1, 0)).rotation_difference(nrm).to_euler()]
+    metaball_mesh("elf_eye", [{"type": "ELLIPSOID", "co": eye_c, "radius": 0.044, "size": (0.8, 0.3, 1.1),
+                               "rot": eye_rot}], resolution=0.004, remesh=0, smooth=0, mat=M["eye"])
     metaball_mesh("elf_glint", [{"co": tuple(Vector(eye_c) + Vector((0.011, 0.014, 0.017))), "radius": 0.01}],
                   resolution=0.003, remesh=0, smooth=0, mat=M["trim"])
     face_chain("elf_brow", [(sx * 0.04, 0.2, HEAD_Z + 0.06), (sx * 0.075, 0.2, HEAD_Z + 0.072),
-                            (sx * 0.102, 0.2, HEAD_Z + 0.064)], [0.011, 0.012, 0.008], 0.002, brow_mat)
+                            (sx * 0.102, 0.2, HEAD_Z + 0.064)], [0.013, 0.014, 0.009], 0.002, brow_mat)
 face_chain("elf_smile", [(-0.045, 0.2, HEAD_Z - 0.075), (0, 0.2, HEAD_Z - 0.095), (0.045, 0.2, HEAD_Z - 0.075)],
            [0.009, 0.011, 0.009], 0.0, material("M_mouth", "#8E2F3A", 0.6))
 
@@ -163,13 +171,14 @@ strap_n = Vector((1, 0, 0.75)).normalized()  # diagonal plane: right shoulder ->
 strap = metaball_mesh("elf_strap", [e for e in band_elements(jacket, (0, 0, 0.42), strap_n, 0.016, push=0.006,
                                                               max_r=0.35, spacing=0.008)],
                       resolution=0.005, remesh=0, smooth=0, mat=material("M_strap", PAL["spruce"], 0.7))
-buckle = metaball_mesh("elf_buckle", [{"type": "ELLIPSOID", "co": (-0.25, 0.135, 0.255), "radius": 0.022,
-                                       "size": (1, 0.45, 1)}], resolution=0.004, remesh=0, smooth=0, mat=M["gold"])
+ok, b_loc, b_nrm, _ = pouch.closest_point_on_mesh(Vector((-0.25, 0.2, 0.255)))
+buckle = metaball_mesh("elf_buckle", [{"type": "ELLIPSOID", "co": tuple(b_loc), "radius": 0.022, "size": (1, 0.45, 1)}],
+                       resolution=0.004, remesh=0, smooth=0, mat=M["gold"])
 spare = metaball_mesh("elf_spare_snow", [{"co": (-0.25 + 0.035 * k, 0.04, 0.29 + 0.01 * k), "radius": 0.034}
                                          for k in (0, 1)], mat=M["snow"])
-pellet = metaball_mesh("elf_pellet", [{"co": (0.34, 0.135, 0.28), "radius": 0.058}]
-                       + [{"co": (0.34 + 0.032 * math.cos(a), 0.135 + 0.032 * math.sin(a), 0.28 + 0.022 * math.sin(2 * a)),
-                           "radius": 0.034} for a in (0.3, 1.9, 3.3, 4.8)], mat=M["snow"])
+pellet = metaball_mesh("elf_pellet", [{"co": tuple(PELLET), "radius": PELLET_R}]
+                       + [{"co": tuple(PELLET + Vector((0.028 * math.cos(a), 0.028 * math.sin(a), 0.018 * math.sin(2 * a)))),
+                           "radius": 0.028} for a in (0.3, 1.9, 3.3, 4.8)], mat=M["snow"])
 zip_pts = section_points(jacket, Vector((0, 0, 0)), Vector((1, 0, 0)), max_r=2.0, spacing=0.01)
 zip_pts = [p for p in zip_pts if p.y > 0 and 0.3 < p.z < 0.6]
 zipper = metaball_mesh("elf_zipper", [{"co": tuple(p + Vector((0, 0.004, 0))), "radius": 0.012} for p in zip_pts],

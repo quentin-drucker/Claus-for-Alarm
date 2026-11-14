@@ -16,8 +16,8 @@ EVIDENCE = os.path.join(PROJ, "docs", "logs", "evidence")
 # HYB-A A-01 tokens + ART_STYLE.md proposals.
 PAL = {
     "navy": "#20517A", "red": "#D9545C", "snow": "#E7F4F8", "shadow_snow": "#AFC7D5", "gold": "#F9C96D",
-    "timber": "#A8795A", "spruce": "#173C4E", "teal": "#1B6D68", "skin": "#F2C7A5", "dark_timber": "#6E4B37",
-    "stone": "#8C9AA6", "glacier": "#8FD8E8",
+    "timber": "#A8795A", "spruce": "#173C4E", "teal": "#1B6D68", "skin": "#EEA88A", "blush": "#E2787A",
+    "dark_timber": "#563826", "stone": "#7D8995", "glacier": "#8FD8E8",
     "powder": "#DBE9F5", "blue": "#72CEF5", "mint": "#4ACAAA", "violet": "#BD8DF1", "coral": "#F59471",
     "black": "#2B2F36", "white": "#F7FBFF", "purple": "#7A3FD6",
 }

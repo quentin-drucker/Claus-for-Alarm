@@ -52,6 +52,10 @@ Scripts in `art_src/tools/` rebuild each asset from scratch, save the `.blend` i
 | Lodge | `build_lodge.py` | `art_src/environment/lodge.blend`, `lodge.glb` |
 | QA renders | set `ASSET = "elf_rookie" \| "snowball" \| "lodge"`, run `qa_render.py` | `docs/logs/evidence/p15_<asset>_{clay_turnaround,silhouette,closeup}.png` |
 
+Checks: `check_rig_reuse.py` (Blender, with `elf_rookie.blend` open) measures how the Rookie actions transfer to
+other elf proportions; `python art_src/tools/zoom_crop.py in.png out.png x y w h scale` makes nearest-neighbour zooms of
+game-camera captures for readability checks.
+
 Shared helpers and the palette: `cc_art.py` (`metaball_mesh` = continuous sculpted forms, `band_elements` = trims that
 follow a garment's real cross-section, `export_glb`). After re-export: reimport in Godot (focus the editor), run the
 tests, then the Web export check above.

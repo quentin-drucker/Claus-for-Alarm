@@ -38,3 +38,31 @@ catenary; torus wreath → fir-clump wreath + bow; invalid joined mesh → valid
 ## Known remaining defects
 Snowball high-res master shows a beaded ridge along the spiral lip (game mesh is clean). Elf: 12 material slots
 (atlas later), snowball not gripped, muzzle not wired to projectile visuals. Lodge back gable is plain.
+
+---
+
+# Rookie revision (DEC-036) — re-score 2026-11-14
+
+Changes: 1.5× display scale; right mitten now grips the snowball (palm behind, finger lobe over the top-front, thumb
+inside); shots start at `muzzle_A` in the hand and blend onto the simulated flight line in ~0.2 s (presentation only);
+12 materials → 2 (matte + gloss) with a vertex-colour atlas: rosy skin `#EEA88A` + cheek blush, knit ribs on cap and
+mittens, fluffy fur, scuffed boot toes, light-from-above cloth gradient, baked AO; eyes enlarged and aligned to the face
+normal, bolder brows; buckle seated on the satchel; label lifted clear of the cap.
+
+| Category | Before | After | Evidence |
+|---|---|---|---|
+| Silhouette | 2 | 2 | `p15r_elf_rookie_silhouette.png` |
+| Organic connections | 2 | 2 | `p15r_elf_rookie_clay_turnaround.png` |
+| Fitted clothing / gear | 1 | **2** — snowball gripped; face details, buckle and trims seated on their surfaces | clay turnaround, close-up |
+| Hard-surface construction | 1 | **n/a (2)** — no mechanical parts by design (DEC-036 C: hand-throw; sling = later upgrade look) | — |
+| Material coherence | 1 | **2** — matte cloth/skin/fur vs gloss eyes/gold; painted knit, fur, blush, AO | `p15r_elf_rookie_closeup.png` |
+| Rig / action | 1 | **2** — shots leave the hand (`muzzle_A`), faces target, idle + attack; skeleton reuse proven (`p15r_rig_reuse.md`) | `p15r_godot_gamecam.png` |
+| Art family cohesion | 2 | 2 | — |
+| Gameplay readability | 1 | **2** — ~33 px at 1152×648: cap, ears, jacket, raised snowball read; face reads as skin + eyes when facing the camera (fine features are portrait-scale, B-01 scale 3) | `p15r_godot_idle_zoom.png`, `p15r_godot_zoom.png` vs `p15_godot_zoom4x_before.png` |
+| Godot Web suitability | 1 | **2** — 4 draws per Rookie (was 24); stress 12 Rookies + ~120 snowballs: 240 fps (vsync), p95 4.3 ms, max 6.2 ms, 0 spikes, ~1,060 draws, 21 MB VRAM (desktop); Web 1280×720 240 fps, worst 4.6 ms, 0 console errors | `p15r_godot_stress.png`, `p15r_web_*` |
+| Originality | 2 | 2 | — |
+| **2s / 1s / 0s** | 4 / 6 / 0 | **10 / 0 / 0 → passes the gate** | |
+
+Still open: the stress test ran on a desktop RTX GPU, not a low-end laptop, and ~1,060 draw calls is high for weak
+WebGL devices. If needed, the shell outline `next_pass` can be dropped for small layers. Face detail is not legible at
+game scale; that is a camera limit, not a model defect.

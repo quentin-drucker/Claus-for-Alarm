@@ -51,6 +51,7 @@ var priority: int = 0
 @onready var _range: MeshInstance3D = $Range
 var _model: Node3D
 var _anim: AnimationPlayer
+var _muzzle: Node3D
 
 
 func setup(definition: TowerDefinition, id: int) -> void:
@@ -73,10 +74,11 @@ func _set_model(scene: PackedScene) -> void:
 		_model.free()
 		_model = null
 		_anim = null
+		_muzzle = null
 	_body.visible = scene == null
 	_body.scale.y = 1.0 if scene == null else 0.04
 	_body.position.y = 0.5 if scene == null else 0.02
-	_label.position.y = 1.5 if scene == null else 2.1  # above the 1.5x model's cap
+	_label.position.y = 1.5 if scene == null else 2.7  # clear of the 1.5x model cap at the game camera
 	if scene == null:
 		return
 	_model = scene.instantiate()
@@ -91,8 +93,21 @@ func _set_model(scene: PackedScene) -> void:
 	outline.grow_amount = 0.012
 	for mesh: MeshInstance3D in _model.find_children("*", "MeshInstance3D"):
 		mesh.material_overlay = outline
+		for i: int in mesh.mesh.get_surface_count():
+			# Elf colour lives in COLOR_0 (vertex-colour atlas); the glTF import does not always flag it.
+			var material: BaseMaterial3D = mesh.mesh.surface_get_material(i) as BaseMaterial3D
+			if material:
+				material.vertex_color_use_as_albedo = true
 	_anim = _model.find_child("AnimationPlayer")
+	_muzzle = _model.find_child("muzzle_A")
 	_anim.play(&"idle")
+
+
+## Where shot visuals start: the model's muzzle_A socket (in the thrower's hand), else the greybox 0.5 m point.
+func muzzle_position() -> Vector3:
+	if _muzzle and _muzzle.is_inside_tree():
+		return _muzzle.global_position
+	return position + Vector3.UP * 0.5
 
 
 ## Presentation only (called after the simulation fired): face the shot and play the throw.

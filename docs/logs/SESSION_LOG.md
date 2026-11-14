@@ -311,3 +311,40 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Known defects:** see scorecard (hi-res snowball lip beading, 12 elf material slots, snowball not gripped, plain back gable).
 - **Repo commit after:** this entry's commit.
 - **Next suggested task IDs:** owner review of the slice → Rookie revise pass → DEC-032 order (map + snowballs → hero → towers).
+
+#### SESSION 2026-11-14 — Claude (Opus 5.5) — DEC-036 owner review + Rookie revision to the B-14 gate (P15-T03/T04/T07–T10)
+- **Goal:** apply DEC-036 (1.5× elf/hero scale, colour tokens, Rookie hand-throw base look, Purple → Aurora, Blender
+  add-on update), then revise the Rookie until it passes B-14; re-render; skeleton reuse check; STOP for owner review.
+- **Read:** owner review notes; HYB-B B-03/B-09/B-11/B-14; previous P15 entry and scorecard.
+- **Repo commit before:** `cd32f1f`. Commits: `1508a0f` (DEC-036: scale, tokens, Aurora rename, docs), this entry's commit.
+- **Tools:** Blender MCP add-on updated 1.8 → 2.0 (protocol 16; reloaded in-session, no restart). An audio chat works in
+  the same checkout: commits are by explicit pathspec; their staged SFX deletions, `tests/test_audio.gd`, `audio_router.gd`,
+  `CREDITS.md`, `sfx_synth.gd` were left untouched (`CREDITS.md`/`sfx_synth.gd` still say "Purple" in comments).
+- **Files changed:** `scenes/towers/tower.gd` (MODEL_SCALE 1.5, label 2.7 m, `muzzle_position()`, vertex-colour albedo on
+  model materials), `scenes/main/match.gd` (Shot.offset: shot visuals start at the muzzle and blend onto the simulated line
+  at 6 m/s; simulation untouched), `scenes/enemies/snowball.gd` (marker letter A), `resources/enemies/purple.tres`
+  (display_name Aurora), `scenes/ui/title_screen.tscn` (legend), `tests/test_ui.gd`, `tests/tools/build_rounds_17_25.gd`,
+  `art_src/tools/{build_elf_rookie,rig_elf,cc_art,check_rig_reuse,zoom_crop}.py`, `elf_rookie.blend/.glb`, `lodge.blend/.glb`,
+  docs ART_STYLE/REGISTRY/FRESH_PLAYER_TEST/IMPLEMENTATION_ASSUMPTIONS/COMMANDS, master plan (DEC-036, P15 ticks, status).
+- **Rookie revision:** gripping right mitten (palm + finger lobe over the snowball + thumb), `muzzle_A` = snowball centre;
+  12 materials → 2 with a vertex-colour atlas (rosy skin + ray-cast cheek blush, knit ribs, fluffy fur, scuffed toes, cloth
+  gradient, baked AO); eyes enlarged and aligned to the face normal; buckle projected onto the satchel.
+- **Defects found and fixed:** colour-space check: imported COLOR_0 is linear (cap 0.65/0.08/0.10), so `vertex_color_is_srgb`
+  must stay false (a wrong `true` was tried, measured and reverted); matte material lacked the vertex-colour flag after
+  import (set in the binding); blush initially landed on the nose (closest-point) → ray cast; Blender 5 slotted actions
+  need `action_slot` when sharing actions (rig check).
+- **Tests run:** 10/10 suites PASS (`p15r_tests.txt`); the one exit-time "resources still in use" line per suite and in
+  `--main-pack` is the audio chat's SFX/music, not art.
+- **Web result:** export exit 0, 0 ERROR/WARNING; Chrome 1280×720 by mouse/keyboard: 3 Rookies, round 1, 0 console errors,
+  240 fps, worst frame 4.6 ms (`p15r_web_*`).
+- **Stress (desktop):** 12 Rookies + ~120 snowballs: p95 4.3 ms, max 6.2 ms, 0 spikes, ~1,060 draws, 285k prims, 21 MB VRAM.
+- **Stone vs track (owner B):** measured luma snow 255 · track 216 · stone 176 (after darkening): stone is darker than
+  snow but also darker than the track. Both requested constraints can't hold with the current light track; owner decision
+  for the map slice.
+- **Skeleton reuse:** reusable for all five elves; arm poses drift 4–10° across builds and are re-baked by `rig_elf.py`'s
+  direction-based posing (`p15r_rig_reuse.md`).
+- **B-14 re-score:** Rookie 4×2/6×1 → 10×2 (gate passed); snowball 8×2, Lodge 10×2 unchanged.
+- **Finished and checked tasks:** P15-T03, T04, T07, T08, T10 (plus T01/T05/T06/T11 earlier). **Open:** T09 owner sign-off;
+  T02 concept sheets skipped.
+- **Repo commit after:** this entry's commit.
+- **Next suggested task IDs:** owner sign-off of the Rookie → DEC-032 order: map + snowballs → hero → towers.

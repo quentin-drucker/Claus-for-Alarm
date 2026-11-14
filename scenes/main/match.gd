@@ -28,6 +28,8 @@ const HIT_RADIUS_M: float = 0.4
 ## Split children trail their parent along the track by this much each (PROTOTYPE_ASSUMPTION, metres).
 const SPLIT_GAP_M: float = 0.15
 const SHOT_MESH: SphereMesh = preload("res://scenes/main/shot_mesh.tres")
+## How fast a shot visual slides from the muzzle onto its simulated flight line (m/s, presentation only).
+const MUZZLE_BLEND_MPS: float = 6.0
 const BURST_COLOR: Color = Color(1.0, 0.85, 0.6, 0.45)
 const PICKUP_COLOR: Color = Color("f9c96d")
 ## Click distance that collects a ticket pickup (metres).
@@ -45,6 +47,8 @@ class Shot:
 	var source_id: int
 	## Entity ids already hit: a snowball keeps its id when a layer breaks, so one shot never hits it twice.
 	var hit: Dictionary[int, bool] = {}
+	## Presentation only: the visual starts at the thrower's hand and this offset fades out (never read by the sim).
+	var offset: Vector3 = Vector3.ZERO
 
 ## One uncollected ticket pickup (simulation state; `node` is its placeholder visual).
 class Pickup:
@@ -266,7 +270,12 @@ func _fire_towers(dt: float) -> void:
 			if tower.def.global_range:
 				_instant_hit(attack, target, dir, tower.entity_id)
 			else:
+				var first: int = shots.size()
 				_launch(attack, tower.position, dir, {}, tower.entity_id)
+				var offset: Vector3 = tower.muzzle_position() - tower.position - Vector3.UP * 0.5
+				for k: int in range(first, shots.size()):
+					shots[k].offset = offset
+					shots[k].node.position += offset
 
 
 ## Global towers hit at once, no projectile; with bounce_range_units the hit chains to up to `pierce` snowballs.
@@ -433,7 +442,8 @@ func _move_shots(dt: float) -> void:
 			for sub: AttackDefinition in shot.attack.on_expire:
 				_launch(sub, shot.pos, shot.velocity, shot.hit, shot.source_id)
 		else:
-			shot.node.position = shot.pos + Vector3.UP * 0.5
+			shot.offset = shot.offset.move_toward(Vector3.ZERO, MUZZLE_BLEND_MPS * dt)
+			shot.node.position = shot.pos + Vector3.UP * 0.5 + shot.offset
 
 
 ## The single damage path (P05-T04, P06-T10): immunity, layer breaks with overflow, pop cash, events.
