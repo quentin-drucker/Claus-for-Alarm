@@ -13,7 +13,7 @@ const ENEMIES: Array = [
 		"BTD6 Black Bloon (v56): 45 u/s, 2 Pink, RBE 11. \"Black blocks Explosion.\""],
 	[&"white", "White", 50.0, &"coral", 2, [&"immune_cold"],
 		"BTD6 White Bloon (v56): 50 u/s, 2 Pink, RBE 11. \"White blocks freezing (Cold, Metal Freeze, Frigid).\" No shipped attack is cold."],
-	[&"purple", "Purple", 75.0, &"coral", 2, [&"immune_energy", &"immune_fire", &"immune_plasma"],
+	[&"purple", "Aurora", 75.0, &"coral", 2, [&"immune_energy", &"immune_fire", &"immune_plasma"],
 		"BTD6 Purple Bloon (v56): 75 u/s, 2 Pink, RBE 11. \"Purple blocks Plasma, Fire and Energy.\""],
 	[&"camo_mint", "Camo Mint", 45.0, &"camo_blue", 1, [&"camo"], "BTD6 Camo Green: Green stats, camo kept by its children."],
 	[&"camo_blue", "Camo Blue", 35.0, &"camo_powder", 1, [&"camo"], "BTD6 Camo Blue: Blue stats + camo."],

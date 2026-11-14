@@ -5,11 +5,11 @@ extends Node3D
 const COLORS: Dictionary[StringName, Color] = {
 	&"powder": Color("dbe9f5"), &"blue": Color("72cef5"), &"mint": Color("4acaaa"),
 	&"violet": Color("bd8df1"), &"coral": Color("f59471"),
-	# Neutral placeholders for the specials (no art decision): plain dark / white / purple.
+	# Specials (ART_STYLE tokens): Black / White / Aurora (internal id `purple`, DEC-036).
 	&"black": Color("262626"), &"white": Color("ffffff"), &"purple": Color("7a3fd6"),
 }
 ## Placeholder letter marker for special types, so they read without colour (P13-T09). Camo adds "C".
-const MARKERS: Dictionary[StringName, String] = {&"black": "B", &"white": "W", &"purple": "P"}
+const MARKERS: Dictionary[StringName, String] = {&"black": "B", &"white": "W", &"purple": "A"}
 ## Dark outline so pale Powder still reads on snow (P05-T10); shared by every layer.
 const OUTLINE: Color = Color("173548")
 ## P15 art: one shared shell (vertex-colour AO, tinted per layer) and one marker band with material variants.

@@ -1,7 +1,7 @@
 # Claus for Alarm — Art Style Sheet (P15-T01)
 
 One page. Sources: HYB-A A-01/A-03/A-05/A-12, HYB-B B-01/B-03/B-07/B-09/B-14, decisions DEC-032…035.
-Status: **PROPOSED — owner directs the look.** Values marked *(proposal)* are not A-01 tokens and need sign-off.
+Status: **APPROVED direction (DEC-036, 2026-11-14)** — owner directs the look; later changes are logged as decisions.
 
 ## 1. Shape language
 
@@ -21,6 +21,9 @@ Silhouettes read in this order at the game camera: **track → snowball threats 
 | Elf base (Snowball Rookie) | **1.20 m** to cap top (1.35 m with cap tip) | ≈ 0.40 of body height | fits the Rookie footprint (r 0.6 m) |
 | Other elves (later) | 0.95–1.15 × base | same head | build differs per tower (DEC-034): slim Ranger, broad Wax tech, short robed Sorcerer |
 | Camel Claus | **1.4 × elf** (≈ 1.7 m) | — | hero must out-scale every elf (B-02) |
+
+**Display scale (DEC-036):** elf towers and the hero are drawn at **1.5×** their modelled size in the match
+(`tower.gd` `MODEL_SCALE`); footprint, range and placement stay as data. A Rookie therefore shows ~1.8 m tall.
 | Snowball shell | ⌀ 0.80 m (sim contact radius 0.4 m) | — | a snowball is ~⅔ of an elf's height |
 | Lodge | 5 × 4 m footprint, ~3.6 m to ridge | — | sits exactly on the Lodge blocker box |
 
@@ -34,9 +37,11 @@ Characters: jacket **College navy `#20517A`**, trims/cap **Festive red `#D9545C`
 Snowballs: Powder `#DBE9F5`, Blue `#72CEF5`, Mint `#4ACAAA`, Violet `#BD8DF1`, Coral `#F59471` (A-01 enemy swatches).
 Environment: Snow base / Shadow snow `#AFC7D5`, Cabin timber, Festive red, Warm gold (lit windows), Forest teal.
 
-*Proposals (no A-01 token exists):* elf skin **`#F2C7A5`** (warm peach); dark timber **`#6E4B37`** for beams;
-stone plinth **`#8C9AA6`**; special-shell colours Black **`#2B2F36`**, White **`#F7FBFF`**, Purple **`#7A3FD6`** (the
-P11 placeholders, kept).
+Added tokens (DEC-036, beyond A-01): elf skin **`#EEA88A`** (rosy) with cheek blush **`#E2787A`** (vertex-painted,
+soft); dark timber **`#563826`** (beams, boots); stone **`#7D8995`** (plinths, chimneys); special shells Black
+**`#2B2F36`**, White **`#F7FBFF`**, Aurora **`#7A3FD6`** (internal id `purple`).
+Measured at the game camera (Godot, 2026-11-14): snow 255, track 216, stone plinth ≈ 175–200 (luma): stone reads
+**darker** than the current track, which is lighter than A-02 asks; to be resolved in the map slice (owner decision).
 
 ## 4. Materials (B-09 families, Compatibility renderer, no textures in this slice)
 
@@ -69,8 +74,8 @@ hide geometry (A-12).
 
 ## 7. Readability rules at the game camera (ortho, 46 m wide, 60° pitch ≈ 25 px per metre at 1152 px)
 
-1. Measured: a 1.2 m elf is only **~22 px tall** at 1152×648, so the face does not read in play; cap colour, jacket
-   colour and the role prop must each cover ≥ 4 px blocks. Visual scale (1.0× vs 1.5×) is an open owner decision.
+1. Measured: a 1.2 m elf is ~22 px tall at 1152×648 at 1.0×, so it is shown at **1.5× (~33 px, DEC-036)**; cap colour,
+   jacket colour, face and the role prop must each cover ≥ 4 px blocks.
 2. The role prop is oversized (≥ ¼ body height) and held away from the body so it breaks the silhouette.
 3. Value contrast: dark jacket body against white snow; light trims separate head from body.
 4. Snowball tiers must differ in hue **and** pattern; specials keep their B/W/P/C letter markers (non-colour cue).

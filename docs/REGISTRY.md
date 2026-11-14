@@ -31,7 +31,7 @@ Ice Monkey, Tack Shooter, Alchemist (and any reskin of them).
 | ACTIVE | `coral` | Coral | Pink | → Violet, 87.5 u/s |
 | ACTIVE | `black` | Black (provisional) | Black | 45 u/s, → 2 Coral, RBE 11, `immune_explosion`; rounds 20, 23. Placeholder: dark + "B" |
 | ACTIVE | `white` | White (provisional) | White | 50 u/s, → 2 Coral, RBE 11, `immune_cold` (no shipped attack is cold); rounds 22, 23. Placeholder: white + "W" |
-| ACTIVE | `purple` | Purple (provisional) | Purple | 75 u/s, → 2 Coral, RBE 11, `immune_energy/fire/plasma` (Sorcerer bolt); round 25. Placeholder: purple + "P" |
+| ACTIVE | `purple` | Aurora (DEC-036; id frozen) | Purple | 75 u/s, → 2 Coral, RBE 11, `immune_energy/fire/plasma` (Sorcerer bolt); round 25. Art (P15): Aurora shell `#7A3FD6` + marker band + letter "A" |
 | ACTIVE | `camo_mint` → `camo_blue` → `camo_powder` | Camo Mint/Blue/Powder | Camo Green/Blue/Red | `camo` kept by children; needs detection; round 24. Placeholder: layer colour + "C" |
 | DEFERRED | — | Rainbow (provisional) | Rainbow | same role and children |
 | DEFERRED | — | Stone (provisional) | Ceramic | |

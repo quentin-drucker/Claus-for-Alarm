@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="EnemyDefinition" format=3]
+[gd_resource type="Resource" script_class="EnemyDefinition" format=3 uid="uid://bro2sy2lq2m2t"]
 
-[ext_resource type="Script" path="res://scripts/data/enemy_definition.gd" id="1_qkr5l"]
+[ext_resource type="Script" uid="uid://bxkhu1g4lu24p" path="res://scripts/data/enemy_definition.gd" id="1_qkr5l"]
 
 [resource]
 script = ExtResource("1_qkr5l")
-display_name = "Purple"
+display_name = "Aurora"
 speed_units = 75.0
 child_id = &"coral"
 child_count = 2

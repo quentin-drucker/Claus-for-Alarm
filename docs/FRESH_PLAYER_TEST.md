@@ -24,7 +24,7 @@ Chrome at a normal desktop window size.
 | 8 | Buys Camel Claus; uses Snowball Frenzy (Q) when it is ready (level 3) | | |
 | 9 | Ticket Booth: understands tickets must be clicked | | |
 | 10 | Round 20/23 Black (B): notices "IMMUNE" on explosions and adapts | | |
-| 11 | Round 22 White (W) / round 25 Purple (P): reads the letter, adapts if the Sorcerer is blocked | | |
+| 11 | Round 22 White (W) / round 25 Aurora (A): reads the letter, adapts if the Sorcerer is blocked | | |
 | 12 | Round 24 Camo (C): understands why nothing shoots it | | |
 | 13 | Reaches the result screen; finds Restart / Main menu | | |
 

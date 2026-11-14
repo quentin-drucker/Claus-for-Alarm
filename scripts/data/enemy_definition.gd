@@ -10,7 +10,7 @@ extends GameDefinition
 @export var child_count: int = 0
 @export var cash_per_pop: int = 1
 ## Property flags: `camo` (needs AttackDefinition.detects_camo; camo types chain to camo children),
-## `immune_<damage_type>` (Black immune_explosion, White immune_cold, Purple immune_energy/fire/plasma).
+## `immune_<damage_type>` (Black immune_explosion, White immune_cold, Aurora (`purple`) immune_energy/fire/plasma).
 ## Regrow is not used (DEC-031); fortified is DEFERRED (REGISTRY.md).
 @export var properties: Array[StringName] = []  # not Packed*: see HeroDefinition.level_xp
 

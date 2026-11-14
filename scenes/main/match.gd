@@ -447,7 +447,7 @@ func damage_snowball(s: Node3D, damage: int, damage_type: StringName, source_id:
 	changed.emit()
 
 
-## Removes `damage` layers. A multi-child break (Black/White/Purple -> 2 Coral) splits, and the leftover damage
+## Removes `damage` layers. A multi-child break (Black/White/Aurora -> 2 Coral) splits, and the leftover damage
 ## goes on into every child (PROTOTYPE_ASSUMPTION, BTD6 overflow), stopping at a child immune to the type.
 func _break_layers(s: Node3D, damage: int, damage_type: StringName, source_id: int) -> void:
 	while damage > 0:

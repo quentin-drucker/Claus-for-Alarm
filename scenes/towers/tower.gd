@@ -8,6 +8,8 @@ const COLORS: Dictionary[StringName, Color] = {
 }
 ## P15 art binding (presentation only): tower id -> model. Towers without one keep the greybox body.
 const MODELS: Dictionary[StringName, PackedScene] = {&"snowball_rookie": preload("res://assets/models/elf_rookie.glb")}
+## Display scale for elf towers and the hero (DEC-036). Presentation only: footprint and range stay as data.
+const MODEL_SCALE: float = 1.5
 ## Dark inverted-hull outline for character models (docs/ART_STYLE.md section 6).
 const OUTLINE: Color = Color("173c4e")
 const VALID: Color = Color("3f9b7b")
@@ -74,10 +76,12 @@ func _set_model(scene: PackedScene) -> void:
 	_body.visible = scene == null
 	_body.scale.y = 1.0 if scene == null else 0.04
 	_body.position.y = 0.5 if scene == null else 0.02
+	_label.position.y = 1.5 if scene == null else 2.1  # above the 1.5x model's cap
 	if scene == null:
 		return
 	_model = scene.instantiate()
 	_model.rotation.y = PI  # models face -Z; idle towers face the camera (+Z)
+	_model.scale = Vector3.ONE * MODEL_SCALE
 	add_child(_model)
 	var outline: StandardMaterial3D = StandardMaterial3D.new()
 	outline.albedo_color = OUTLINE
