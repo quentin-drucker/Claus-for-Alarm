@@ -1,0 +1,10 @@
+tests/test_audio.gd exit=0 | test_audio: PASS | errors=1
+tests/test_combat.gd exit=0 | test_combat: PASS | errors=1
+tests/test_data.gd exit=0 | test_data: PASS | errors=0
+tests/test_full_run.gd exit=0 | test_full_run: PASS | errors=1
+tests/test_hero.gd exit=0 | test_hero: PASS | errors=1
+tests/test_map.gd exit=0 | test_map: PASS | errors=0
+tests/test_match.gd exit=0 | test_match: PASS | errors=1
+tests/test_towers.gd exit=0 | test_towers: PASS | errors=1
+tests/test_ui.gd exit=0 | test_ui: PASS | errors=1
+tests/test_upgrades.gd exit=0 | test_upgrades: PASS | errors=0

@@ -262,6 +262,7 @@ func _fire_towers(dt: float) -> void:
 			tower.cooldowns[i] += attack.interval_s
 			var dir: Vector3 = _lead(target, tower.position, attack.projectile_speed_units * GameDefinition.UNIT_M) - tower.position
 			Events.send(&"attack_fired", tower.entity_id, target.entity_id, attack.damage, tower.position, [attack.id])
+			tower.play_attack(dir)
 			if tower.def.global_range:
 				_instant_hit(attack, target, dir, tower.entity_id)
 			else:

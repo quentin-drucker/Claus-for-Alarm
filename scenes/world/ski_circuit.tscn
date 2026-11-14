@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://yw5i67cssy66"]
 
 [ext_resource type="Script" uid="uid://dil6j78ag8mrk" path="res://scenes/world/ski_circuit.gd" id="1_bw5wo"]
+[ext_resource type="PackedScene" path="res://scenes/props/lodge.tscn" id="2_2cj0k"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2cj0k"]
 albedo_color = Color(0.105882354, 0.42745098, 0.40784314, 1)
@@ -44,6 +45,7 @@ mesh = SubResource("PlaneMesh_jjqak")
 
 [node name="Lodge" type="MeshInstance3D" parent="Blockers" unique_id=1615607263 groups=["blocks_sight"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.5, -3)
+visible = false
 mesh = SubResource("BoxMesh_6ydw0")
 
 [node name="Pond" type="MeshInstance3D" parent="Blockers" unique_id=1712873383]
@@ -87,3 +89,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
 
 [node name="W7" type="Marker3D" parent="Waypoints" unique_id=1319972743]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 6)
+
+[node name="LodgeArt" parent="." unique_id=1989801151 instance=ExtResource("2_2cj0k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0, -3)

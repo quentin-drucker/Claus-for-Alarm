@@ -6,6 +6,10 @@ const COLORS: Dictionary[StringName, Color] = {
 	&"snowball_rookie": Color("20517a"), &"avalanche_cannon": Color("173c4e"), &"biathlon_ranger": Color("1b6d68"),
 	&"slope_wax_sprayer": Color("d9545c"), &"snow_sorcerer": Color("7a4fb0"), &"ski_resort_ticket_booth": Color("f9c96d"),
 }
+## P15 art binding (presentation only): tower id -> model. Towers without one keep the greybox body.
+const MODELS: Dictionary[StringName, PackedScene] = {&"snowball_rookie": preload("res://assets/models/elf_rookie.glb")}
+## Dark inverted-hull outline for character models (docs/ART_STYLE.md section 6).
+const OUTLINE: Color = Color("173c4e")
 const VALID: Color = Color("3f9b7b")
 const INVALID: Color = Color("c73e49")
 
@@ -43,6 +47,8 @@ var priority: int = 0
 @onready var _body: MeshInstance3D = $Body
 @onready var _label: Label3D = $Label
 @onready var _range: MeshInstance3D = $Range
+var _model: Node3D
+var _anim: AnimationPlayer
 
 
 func setup(definition: TowerDefinition, id: int) -> void:
@@ -54,7 +60,45 @@ func setup(definition: TowerDefinition, id: int) -> void:
 	_body.scale = Vector3(radius / 0.5, 1.0, radius / 0.5)  # Body mesh radius is 0.5
 	_label.text = def.display_name.get_slice(" ", def.display_name.get_slice_count(" ") - 1)
 	_set_color(COLORS.get(def.id, Color.GRAY))
+	_set_model(MODELS.get(def.id))
 	set_selected(false)
+
+
+## Swaps the art model (the ghost is re-setup for every tower type). With a model, the greybox body only
+## shows as a flat footprint disc under the ghost.
+func _set_model(scene: PackedScene) -> void:
+	if _model:
+		_model.free()
+		_model = null
+		_anim = null
+	_body.visible = scene == null
+	_body.scale.y = 1.0 if scene == null else 0.04
+	_body.position.y = 0.5 if scene == null else 0.02
+	if scene == null:
+		return
+	_model = scene.instantiate()
+	_model.rotation.y = PI  # models face -Z; idle towers face the camera (+Z)
+	add_child(_model)
+	var outline: StandardMaterial3D = StandardMaterial3D.new()
+	outline.albedo_color = OUTLINE
+	outline.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	outline.cull_mode = BaseMaterial3D.CULL_FRONT
+	outline.grow = true
+	outline.grow_amount = 0.012
+	for mesh: MeshInstance3D in _model.find_children("*", "MeshInstance3D"):
+		mesh.material_overlay = outline
+	_anim = _model.find_child("AnimationPlayer")
+	_anim.play(&"idle")
+
+
+## Presentation only (called after the simulation fired): face the shot and play the throw.
+func play_attack(dir: Vector3) -> void:
+	if _anim == null:
+		return
+	_model.rotation.y = atan2(-dir.x, -dir.z)
+	_anim.stop()
+	_anim.play(&"attack")
+	_anim.queue(&"idle")
 
 
 ## Recomputes the working stats from `def`. Attack resources are deep copies so upgrades never touch shared data.
@@ -160,6 +204,7 @@ func set_selected(on: bool) -> void:
 ## Ghost look: translucent green/red body, range ring, reason text when invalid.
 func show_ghost(reason: String) -> void:
 	_set_color(Color(VALID if reason == "" else INVALID, 0.55))
+	_body.visible = true
 	_label.text = reason if reason != "" else def.display_name
 	_label.modulate = INVALID if reason != "" else Color("173548")
 	set_selected(true)
