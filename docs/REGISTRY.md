@@ -49,3 +49,15 @@ first, placeholder visuals). The rest stay deferred until the game is functional
 
 DDT (round 90+) and later are out of scope.
 Names and materials are provisional; the owner may rename them.
+
+## Backburner — may not make the hackathon
+
+| Item | Decision | Note |
+|---|---|---|
+| Regrow snowballs | DEC-031 | Regrow rounds spawn the plain type instead; add the property far later if ever |
+| Endless "Continue" rounds 26–80 | DEC-027 | Exact BTD6 rounds; hard cap 80 (ZOMG final boss) |
+| Blimp class (MOAB r40, BFB r60, ZOMG r80) | DEC-028 | Ice-sled look, crack/melt damage states, tip-over death |
+| Tiers 4–5 + abilities, hero levels beyond round-25 reach | DEC-030 | Needed for Endless |
+| Remaining deferred specials (Rainbow, Stone/Ceramic, Metal/Lead, …) | DEC-019/025 | Only types needed by rounds ≤ 25 ship now |
+| Planned towers (Hockey Slapper, Snowboard Trickster, Winter Games Lodge, Track Gritter) | M-08 | Post-jam |
+| Gold snowball | DEC-018 | Not needed |
