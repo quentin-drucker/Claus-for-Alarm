@@ -25,6 +25,7 @@ func _run() -> void:
 	content = root.get_node("Content")
 	root.get_node("Events").emitted.connect(func(e: RefCounted) -> void: _events.append(e))
 	_test_cannon()
+	_test_ranger()
 	print("test_towers: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -99,4 +100,38 @@ func _test_cannon() -> void:
 		_park(m, &"powder", d)
 	_sim(m, 0.5)
 	_check(m.snowballs.size() == 2, "blast pierce 2 pops 2 of 4 (left %d)" % m.snowballs.size())
+	m.free()
+
+
+## P08-T03: whole-map targeting with line of sight (the Lodge blocks it), not a big radius. Instant hit,
+## damage 2, pierce 1; Strong picks the highest RBE anywhere visible; undetected camo is skipped.
+func _test_ranger() -> void:
+	var ranger: Resource = content.get_tower(&"biathlon_ranger")
+	_check(ranger.global_range and ranger.range_units == 0.0, "ranger: global targeting, no radius")
+	var m: Node3D = _new_match()
+	var t: Node3D = m.try_place(ranger, Vector2(15.0, -3.0))  # east of the Lodge (x 9..14, z -5..-1)
+	_check(t != null, "ranger placed beside the Lodge")
+	t.priority = 1  # Last: would pick the hidden snowball if sight were ignored
+	var hidden: Node3D = _park(m, &"coral", 46.0)  # (6, -3): the Lodge is in between
+	var seen: Node3D = _park(m, &"coral", 61.0)  # (12, 6): clear line
+	_check(not m.course.has_line_of_sight(t.position, hidden.position), "Lodge blocks the line to (6, -3)")
+	_sim(m, 0.1)
+	_check(seen.def.id == &"mint" and hidden.def.id == &"coral", "instant hit on the visible one, damage 2 (seen %s, hidden %s)"
+			% [seen.def.id, hidden.def.id])
+	m.free()
+
+	m = _new_match()
+	t = m.try_place(ranger, Vector2(0.0, 8.5))
+	t.priority = 3  # Strong
+	var weak: Node3D = _park(m, &"powder", 61.0)
+	var strong: Node3D = _park(m, &"coral", 12.0)
+	var camo: Node3D = _park(m, &"coral", 13.0, [&"camo"])
+	var twin: Node3D = _park(m, &"coral", 12.0)  # same spot as `strong`: pierce 1 must leave it alone
+	_check(t.position.distance_to(strong.position) > 10.0, "target is far beyond any tower radius")
+	_sim(m, 0.1)
+	_check(strong.def.id == &"mint" and twin.def.id == &"coral" and camo.def.id == &"coral" and weak.def.id == &"powder",
+			"Strong: highest visible RBE, pierce 1, camo skipped (strong %s twin %s camo %s)" % [strong.def.id,
+			twin.def.id, camo.def.id])
+	_sim(m, 1.6)  # second shot after 1.59 s: next strongest (the twin Coral)
+	_check(twin.def.id == &"mint", "second shot after the 1.59 s interval")
 	m.free()

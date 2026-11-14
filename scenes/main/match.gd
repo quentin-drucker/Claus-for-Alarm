@@ -25,7 +25,7 @@ const SNOWBALL_SCENE: PackedScene = preload("res://scenes/enemies/snowball.tscn"
 ## ponytail: one size for all five basic layers; per-type size when large specials arrive (P11).
 const HIT_RADIUS_M: float = 0.4
 ## ponytail: only the Snowball Rookie attacks until P08 implements the other five base kits.
-const ARMED_TOWERS: Array[StringName] = [&"snowball_rookie", &"avalanche_cannon"]
+const ARMED_TOWERS: Array[StringName] = [&"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger"]
 const SHOT_MESH: SphereMesh = preload("res://scenes/main/shot_mesh.tres")
 const BURST_COLOR: Color = Color(1.0, 0.85, 0.6, 0.45)
 
@@ -215,6 +215,7 @@ func _fire_towers(dt: float) -> void:
 			var dir: Vector3 = target.position - tower.position
 			Events.send(&"attack_fired", tower.entity_id, target.entity_id, attack.damage, tower.position, [attack.id])
 			if tower.def.global_range:
+				_flash(target.position, 0.3)
 				_hit(attack, target, {target.entity_id: true}, dir, tower.entity_id)  # instant hit, no projectile
 			else:
 				# ponytail: aimed at the target's current position (no lead); fine at these projectile speeds.
@@ -269,7 +270,11 @@ func _burst(attack: AttackDefinition, center: Vector3, source_id: int) -> void:
 		if snowballs.has(s) and Vector2(s.position.x - center.x, s.position.z - center.z).length() <= radius + HIT_RADIUS_M:
 			left -= 1
 			_apply(attack, s, source_id)
-	# Placeholder flash (presentation only).
+	_flash(center, radius)
+
+
+## Placeholder hit/explosion flash (presentation only).
+func _flash(center: Vector3, radius: float) -> void:
 	var flash: MeshInstance3D = MeshInstance3D.new()
 	var disc: CylinderMesh = CylinderMesh.new()
 	disc.top_radius = radius
