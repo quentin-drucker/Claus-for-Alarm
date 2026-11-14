@@ -691,13 +691,15 @@ func _tick_hero(dt: float) -> void:
 	if hero == null:
 		return
 	if hero.frenzy_cooldown_left > 0.0:
-		hero.frenzy_cooldown_left = maxf(0.0, hero.frenzy_cooldown_left - dt)
-		if hero.frenzy_cooldown_left == 0.0:
+		hero.frenzy_cooldown_left -= dt
+		if hero.frenzy_cooldown_left <= 1e-6:  # epsilon: 60 steps of 1/60 s do not sum to exactly 1.0
+			hero.frenzy_cooldown_left = 0.0
 			Events.send(&"ability_ready", hero.entity_id, 0, 0, hero.position, ["snowball_frenzy"])
 			changed.emit()
 	if hero.frenzy_left > 0.0:
-		hero.frenzy_left = maxf(0.0, hero.frenzy_left - dt)
-		if hero.frenzy_left == 0.0:
+		hero.frenzy_left -= dt
+		if hero.frenzy_left <= 1e-6:
+			hero.frenzy_left = 0.0
 			hero.rebuild_stats()
 			changed.emit()
 

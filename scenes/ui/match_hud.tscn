@@ -50,7 +50,7 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -262.0
-offset_top = 270.0
+offset_top = 300.0
 offset_right = -12.0
 grow_horizontal = 0
 
@@ -118,7 +118,7 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0.90588236, 0.95686275, 0.972549, 1)
 theme_override_colors/font_outline_color = Color(0.09019608, 0.23529412, 0.30588236, 1)
 theme_override_constants/outline_size = 6
-text = "1-6 pick defender · click to place / select / collect tickets · T target · Esc or right-click cancels · F3 debug"
+text = "1-7 buy · click place/select/collect · T target · Q Frenzy · E Focus · Esc cancel · F3 debug"
 
 [node name="Overlay" type="ColorRect" parent="." unique_id=1225822617]
 unique_name_in_owner = true

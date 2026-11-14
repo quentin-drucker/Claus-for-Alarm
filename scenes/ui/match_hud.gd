@@ -8,6 +8,12 @@ const PRIORITY_NAMES: PackedStringArray = ["First", "Last", "Close", "Strong"]  
 var match_node: Node3D
 var _shop_buttons: Array[Button] = []
 var _upgrade_buttons: Array[Button] = []
+## Hero panel (P10-T10), bottom-left, shown while Camel Claus is on the course.
+var _hero_panel: PanelContainer = PanelContainer.new()
+var _hero_text: Label = Label.new()
+var _hero_xp: ProgressBar = ProgressBar.new()
+var _frenzy: Button = Button.new()
+var _focus: Button = Button.new()
 
 @onready var _stats: Label = %Stats
 @onready var _shop: VBoxContainer = %Shop
@@ -46,6 +52,7 @@ func _ready() -> void:
 		_target.add_sibling(button)
 		_target.get_parent().move_child(button, _target.get_index())
 		_upgrade_buttons.append(button)
+	_build_hero_panel()
 	_start.pressed.connect(match_node.start_round)
 	_pause.pressed.connect(func() -> void: match_node.set_paused(not match_node.clock.paused))
 	_speed.pressed.connect(match_node.toggle_speed)
@@ -69,6 +76,76 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	if _debug_panel.visible:
 		_debug_text.text = _debug_lines()
+	if _hero_panel.visible:
+		_refresh_hero()  # cooldown seconds change every tick; reading state only
+
+
+func _build_hero_panel() -> void:
+	add_child(_hero_panel)
+	_hero_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+	_hero_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_hero_panel.offset_left = 12.0
+	_hero_panel.offset_bottom = -42.0
+	_hero_panel.custom_minimum_size.x = 280.0
+	var box: VBoxContainer = VBoxContainer.new()
+	_hero_panel.add_child(box)
+	_hero_xp.show_percentage = false
+	_hero_xp.custom_minimum_size.y = 10.0
+	for c: Control in [_hero_text, _hero_xp, _frenzy, _focus]:
+		box.add_child(c)
+	for b: Button in [_frenzy, _focus]:
+		b.focus_mode = Control.FOCUS_NONE
+		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_frenzy.pressed.connect(match_node.use_frenzy)
+	_focus.pressed.connect(match_node.toggle_focus)
+	_hero_panel.visible = false
+
+
+## Level, XP to next level, next milestone, Frenzy ready/active/cooldown, Focus on/off (state from the match).
+func _refresh_hero() -> void:
+	var hero: Node3D = match_node.hero_node()
+	_hero_panel.visible = hero != null
+	if hero == null:
+		return
+	var def: HeroDefinition = hero.def
+	var lines: PackedStringArray = []
+	if hero.level < def.level_xp.size():
+		var lo: int = def.level_xp[hero.level - 1]
+		var hi: int = def.level_xp[hero.level]
+		_hero_xp.min_value = lo
+		_hero_xp.max_value = hi
+		_hero_xp.value = hero.xp
+		lines.append("%s  Lv %d   XP %d / %d" % [def.display_name, hero.level, hero.xp, hi])
+		lines.append("Next: %s" % def.level_changes[hero.level].get("summary", ""))
+	else:
+		_hero_xp.value = _hero_xp.max_value
+		lines.append("%s  Lv %d (max)" % [def.display_name, hero.level])
+	_hero_panel.tooltip_text = "Camel Claus earns XP at the end of every round and levels up on his own."
+	_hero_text.text = "
+".join(lines)
+	var over: bool = match_node.is_over()
+	match match_node.frenzy_state():
+		"locked":
+			_frenzy.text = "Snowball Frenzy (Q) - unlocks at level %d" % _unlock_level(def, "snowball_frenzy")
+		"active":
+			_frenzy.text = "Snowball Frenzy - active %.1f s" % hero.frenzy_left
+		"cooldown":
+			_frenzy.text = "Snowball Frenzy - recharging %d s (during rounds)" % ceili(hero.frenzy_cooldown_left)
+		_:
+			_frenzy.text = "Snowball Frenzy (Q) - READY: 3x attack speed"
+	_frenzy.disabled = over or match_node.clock.paused or match_node.frenzy_state() != "ready"
+	if hero.has_unlock("focused_shot"):
+		_focus.text = "Focused Shot (E): %s" % ("ON - slower, faster shots, more range" if hero.focus else "off")
+	else:
+		_focus.text = "Focused Shot (E) - unlocks at level %d" % _unlock_level(def, "focused_shot")
+	_focus.disabled = over or not hero.has_unlock("focused_shot")
+
+
+func _unlock_level(def: HeroDefinition, what: String) -> int:
+	for i: int in def.level_changes.size():
+		if what in [def.level_changes[i].get("unlock_ability", ""), def.level_changes[i].get("unlock_stance", "")]:
+			return i + 1
+	return 0
 
 
 func _refresh() -> void:
@@ -78,12 +155,13 @@ func _refresh() -> void:
 	_stats.text = "Lives %d    Cash $%d    Round %d / %d    %s" % [m.lives, m.ledger.cash,
 			m.round_index + 1, Content.rounds.size(), state_name.capitalize()]
 	for i: int in _shop_buttons.size():
-		_shop_buttons[i].disabled = over or m.ledger.cash < m.shop[i].price
+		_shop_buttons[i].disabled = over or m.ledger.cash < m.shop[i].price or (m.shop[i] is HeroDefinition and m.hero_node() != null)
 	_start.disabled = not m.can_start_round()
 	_pause.disabled = over
 	_pause.text = "Resume (P)" if m.clock.paused else "Pause (P)"
 	_speed.text = "Speed %sx (F)" % m.clock.speed
 	_refresh_info()
+	_refresh_hero()
 	_overlay.visible = over or m.clock.paused
 	_resume.visible = not over
 	if m.state == m.State.WON:
@@ -101,7 +179,10 @@ func _refresh_info() -> void:
 	if not _info_panel.visible:
 		return
 	var def: TowerDefinition = tower.def
+	var is_hero: bool = def is HeroDefinition
 	var lines: PackedStringArray = ["%s  %d-%d-%d" % [def.display_name, tower.tiers.x, tower.tiers.y, tower.tiers.z]]
+	if is_hero:
+		lines = ["%s  Level %d" % [def.display_name, tower.level], "Hero: levels up from rounds, no upgrades"]
 	if def.global_range:
 		lines.append("Range: whole map (line of sight)")
 	elif tower.range_units > 0.0:
@@ -113,6 +194,7 @@ func _refresh_info() -> void:
 	lines.append("Invested $%d" % tower.spent)
 	for path: int in 3:
 		var button: Button = _upgrade_buttons[path]
+		button.visible = not is_hero
 		var next: UpgradeDefinition = def.get_upgrade(path, tower.tiers[path] + 1)
 		var state: String = match_node.upgrade_state(tower, path)
 		var head: String = "%s %d/5" % [PATH_NAMES[path], tower.tiers[path]]
