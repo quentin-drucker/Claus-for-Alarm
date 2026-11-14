@@ -25,7 +25,7 @@ const SNOWBALL_SCENE: PackedScene = preload("res://scenes/enemies/snowball.tscn"
 ## ponytail: one size for all five basic layers; per-type size when large specials arrive (P11).
 const HIT_RADIUS_M: float = 0.4
 ## ponytail: only the Snowball Rookie attacks until P08 implements the other five base kits.
-const ARMED_TOWERS: Array[StringName] = [&"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger", &"slope_wax_sprayer"]
+const ARMED_TOWERS: Array[StringName] = [&"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger", &"slope_wax_sprayer", &"snow_sorcerer"]
 const SHOT_MESH: SphereMesh = preload("res://scenes/main/shot_mesh.tres")
 const BURST_COLOR: Color = Color(1.0, 0.85, 0.6, 0.45)
 

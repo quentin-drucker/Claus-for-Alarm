@@ -27,6 +27,7 @@ func _run() -> void:
 	_test_cannon()
 	_test_ranger()
 	_test_wax()
+	_test_sorcerer()
 	print("test_towers: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -177,4 +178,32 @@ func _test_wax() -> void:
 	var immune: Node3D = _park(m, &"blue", 30.0, [&"immune_glue"])
 	m._apply(a, immune, 1)
 	_check(immune.slow_left <= 0.0, "glue-immune snowball ignores wax")
+	m.free()
+
+
+## P08-T05: energy bolt, damage 1, pierce 3: four snowballs on one spot -> three pop; an energy-immune one
+## still uses a pierce (like Lead vs darts) and takes nothing, while sharp damage still works on it.
+func _test_sorcerer() -> void:
+	var sorcerer: Resource = content.get_tower(&"snow_sorcerer")
+	var a: Resource = sorcerer.attacks[0]
+	_check(a.damage_type == &"energy" and a.pierce == 3 and a.damage == 1 and is_equal_approx(a.interval_s, 1.1),
+			"sorcerer data")
+	var m: Node3D = _new_match()
+	m.try_place(sorcerer, SPOT)
+	for i: int in 4:
+		_park(m, &"powder", 14.0)
+	_sim(m, 0.5)
+	_check(m.snowballs.size() == 1 and _cash(m, &"pop") == 3, "pierce 3 pops 3 of 4 (left %d)" % m.snowballs.size())
+	m.free()
+
+	m = _new_match()
+	m.try_place(sorcerer, SPOT)
+	var immune: Node3D = _park(m, &"blue", 14.0, [&"immune_energy"])
+	for i: int in 3:
+		_park(m, &"powder", 14.0)
+	_sim(m, 0.5)
+	_check(immune.def.id == &"blue" and m.snowballs.size() == 2, "immune contact uses a pierce: 2 Powders pop (left %d)"
+			% m.snowballs.size())
+	m.damage_snowball(immune, 1, &"sharp", 1)
+	_check(immune.def.id == &"powder", "other damage types still work on an energy-immune layer")
 	m.free()
