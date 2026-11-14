@@ -14,4 +14,4 @@ All entries are **PROPOSED defaults** until the owner confirms them (master plan
 | Upgrade depth shipped | Architecture supports 3×5; ship only verified, tested tiers (D-07) | Data gaps GAP-001 |
 | Gold snowball | Configurable special class, not a 6th linear layer (D-02) | Pending owner |
 | Minimum acceptance | Stranger can open the hosted URL, place/upgrade towers, finish or lose a match, restart | Master plan §13 |
-| Hackathon deadline & submission rules | **Unknown** — needed from owner (`docs/HACKATHON.md`) | Drives scope cuts |
+| Hackathon deadline & submission rules | **Sun Nov 15, 10:00 AM**; game on itch.io + public studio website (`docs/HACKATHON.md`) | ~38 h total; drives scope cuts |

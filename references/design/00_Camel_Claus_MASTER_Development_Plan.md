@@ -1040,7 +1040,7 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | Latest passing editor test | TBD |
 | Latest passing Web build URL | TBD |
 | Latest passing test suite | TBD |
-| Current blockers | Godot MCP not yet connected; D-02…D-12 PROPOSED; hackathon deadline unknown |
+| Current blockers | Godot MCP not yet connected; D-02…D-12 PROPOSED; deadline Sun Nov 15 10:00 AM |
 | Primary next action | Open Claude in `claus-for-alarm/` (MCP loads), then authorize P01 |
 
 ### 12.2 Session log template (append entries; do not rewrite history)
@@ -1083,7 +1083,7 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | DEC-012 | 2026-11-13 | D-08 per-field provenance, no "exact parity" claims | PROPOSED | |
 | DEC-013 | 2026-11-13 | D-09 hero pose/weapon/costume | DEFERRED | Needed before P15/P16 |
 | DEC-014 | 2026-11-13 | D-10 boss / giant snowmass | DEFERRED | Only if scripted + tested |
-| DEC-015 | 2026-11-13 | D-11 studio website / host | DEFERRED | Needs hackathon rules (`docs/HACKATHON.md`) |
+| DEC-015 | 2026-11-13 | D-11 studio website / host | REQUIRED by rules | Game on itch.io (HTML, single-threaded) + public studio website linking to it; 25/100 judging points (`docs/HACKATHON.md`) |
 | DEC-016 | 2026-11-13 | D-12 original college-inspired look, no official marks | PROPOSED | |
 
 ### 12.4 Risk register and responses
