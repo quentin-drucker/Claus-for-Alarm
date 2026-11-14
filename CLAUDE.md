@@ -25,5 +25,9 @@ master checkboxes only after evidence, and do not overwrite approved files or st
 - Git: after every verified step (each task batch, phase, plan/log update), commit and immediately `git push` to
   `origin`, then confirm `git status -sb` shows `main...origin/main` with nothing ahead. Report the pushed commit hash
   in each status update. No AI attribution in commits.
+- Keep `references/design/00_Camel_Claus_MASTER_Development_Plan.md` current every step (checkboxes with evidence,
+  status table, decision log, new deviations) and push it with the work. Leave design docs 01/02/03 unchanged
+  unless they contain factually incorrect info; record owner changes as decisions in the master plan instead
+  (balance follows BTD6 — don't re-tune the specs).
 - Roster: `docs/REGISTRY.md`. Open assumptions: `docs/IMPLEMENTATION_ASSUMPTIONS.md`. Commands: `docs/COMMANDS.md`.
 - `art_src/` holds Blender sources and has a `.gdignore`; export game-ready `.glb` into `assets/models/`.
