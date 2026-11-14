@@ -6,7 +6,7 @@
 **Created:** 2026-11-13  
 **Execution status:** `NOT STARTED — planning artifact only`  
 **Owner / creative director:** You. **Primary implementation agent:** Claude Code in Cursor (or another coding agent with the project folder). **Art production agent:** Blender-capable AI workflow, supervised by the owner.  
-**Project folder:** `C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm\claus-for-alarm` (Godot project root).  
+**Project folder:** `C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm` (Godot project root).  
 **Studio/team:** Camel Claus. **Game title:** **Claus for Alarm**.  
 **Event:** festive / Christmas-at-Connecticut-College with secret **Winter Sports** sub-theme.  
 **Primary deliverable:** playable, self-contained, attractive **3D desktop-browser Godot game**. **Secondary deliverable:** separate studio / submission website if the hackathon actually requires it; check its specific submission rules.
@@ -79,7 +79,7 @@ Always distinguish: `implemented` / `automated tests passing` / `visually review
 
 ### 2.1 Primary files — **MUST read before corresponding tasks**
 
-Assumed home for this master: `claus-for-alarm/references/design/00_Camel_Claus_MASTER_Development_Plan.md`. Links below are relative from that location.
+Assumed home for this master: `Claus for Alarm/references/design/00_Camel_Claus_MASTER_Development_Plan.md`. Links below are relative from that location.
 
 | Shorthand | Project document | Domain authority | Must-read chapters before work |
 |---|---|---|---|
@@ -279,7 +279,7 @@ FX budget priority: critical match state/hero abilities > ordinary hits/status >
 ### 7.1 Proposed source tree (not yet created)
 
 ```text
-claus-for-alarm/
+Claus for Alarm/
   project.godot
   CLAUDE.md                       # small persistent agent policy, preserve user setup
   AGENTS.md                       # may coexist with CLAUDE.md; inspect before editing
@@ -404,7 +404,7 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 - [x] **P00-T01** — Copy all three hybrid docs into `references/design/` with **exact expected filenames**, and place this master alongside them; confirm no `.md.md` extensions or renamed `(1)` duplicates.
 - [x] **P00-T02** — Confirm the three original BTD6 MD references are in `references/research/` and clarify any missing optional JSON without blocking work.
 - [x] **P00-T03** — Read `CLAUDE.md`, `AGENTS.md`, `.mcp.json`, `project.godot`, Git status and existing project content; report actual current game implementation rather than assuming project is blank.
-- [ ] **P00-T04** — Verify engine executable, version, Compatibility renderer, Godot MCP editor connection, and that Claude Code is acting in the correct Cursor workspace. — **PARTIAL:** exe, version 4.7.2 and Compatibility renderer verified; MCP connection not verified. 2026-11-13 P01 session: `claude mcp list` shows server `godot` **⏸ Pending approval** (owner must approve it via `/mcp` or by restarting `claude` in `claus-for-alarm/`); no `godot_*` tools loaded, `addons/godot_mcp` absent.
+- [ ] **P00-T04** — Verify engine executable, version, Compatibility renderer, Godot MCP editor connection, and that Claude Code is acting in the correct Cursor workspace. — **PARTIAL:** exe, version 4.7.2 and Compatibility renderer verified; MCP connection not verified. 2026-11-13 P01 session: `claude mcp list` shows server `godot` **⏸ Pending approval** (owner must approve it via `/mcp` or by restarting `claude` in the project root); no `godot_*` tools loaded, `addons/godot_mcp` absent.
 - [x] **P00-T05** — Create initial Git commit/checkpoint of current working configuration; protect existing work and configuration.
 - [x] **P00-T06** — Record every user-approved roster entry, its source counterpart, and every explicit exclusion in the game-facing design registry (not yet content scenes).
 - [x] **P00-T07** — Confirm owner decisions D-01–D-12 as LOCKED, PROPOSED or DEFERRED; do not unilaterally resolve high-impact ambiguities.

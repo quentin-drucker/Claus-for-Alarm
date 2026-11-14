@@ -1,6 +1,6 @@
 # Claus for Alarm — Commands (P00-T10)
 
-Run from the project root (`claus-for-alarm/`) in Git Bash.
+Run from the project root (`Claus for Alarm/`) in Git Bash.
 
 ```bash
 GODOT="/c/Program Files/Godot_v4.7.2-stable_win64.exe/Godot_v4.7.2-stable_win64.exe"
