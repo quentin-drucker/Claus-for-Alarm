@@ -42,7 +42,7 @@ mesh = SubResource("PlaneMesh_jjqak")
 
 [node name="Blockers" type="Node3D" parent="." unique_id=1120667754]
 
-[node name="Lodge" type="MeshInstance3D" parent="Blockers" unique_id=1615607263]
+[node name="Lodge" type="MeshInstance3D" parent="Blockers" unique_id=1615607263 groups=["blocks_sight"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.5, -3)
 mesh = SubResource("BoxMesh_6ydw0")
 

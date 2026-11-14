@@ -16,7 +16,8 @@ status = Dictionary[String, String]({
 "projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
 "projectile_speed_units": "PROTOTYPE_ASSUMPTION",
 "slow_factor": "NOT_APPLICABLE",
-"splash_pierce": "NOT_APPLICABLE"
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "NOT_APPLICABLE"
 })
 
 [resource]

@@ -17,8 +17,9 @@ status = Dictionary[String, String]({
 "projectile_count": "VERIFIED_SOURCE",
 "projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
 "projectile_speed_units": "PROTOTYPE_ASSUMPTION",
-"slow_factor": "NOT_APPLICABLE",
-"splash_pierce": "NOT_APPLICABLE"
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
 })
 
 [sub_resource type="Resource" id="Resource_ogiox"]
@@ -236,6 +237,7 @@ source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monke
 status = Dictionary[String, String]({
 "cash_per_pickup": "NOT_APPLICABLE",
 "footprint_units": "PROTOTYPE_ASSUMPTION",
+"pickup_lifetime_s": "NOT_APPLICABLE",
 "pickups_per_round": "NOT_APPLICABLE",
 "price": "VERIFIED_SOURCE",
 "range_units": "VERIFIED_SOURCE"

@@ -25,8 +25,9 @@ const SNOWBALL_SCENE: PackedScene = preload("res://scenes/enemies/snowball.tscn"
 ## ponytail: one size for all five basic layers; per-type size when large specials arrive (P11).
 const HIT_RADIUS_M: float = 0.4
 ## ponytail: only the Snowball Rookie attacks until P08 implements the other five base kits.
-const ARMED_TOWERS: Array[StringName] = [&"snowball_rookie"]
+const ARMED_TOWERS: Array[StringName] = [&"snowball_rookie", &"avalanche_cannon"]
 const SHOT_MESH: SphereMesh = preload("res://scenes/main/shot_mesh.tres")
+const BURST_COLOR: Color = Color(1.0, 0.85, 0.6, 0.45)
 
 
 ## One flying projectile (simulation state; `node` is its placeholder visual).
@@ -181,7 +182,8 @@ func _on_tick(dt: float) -> void:
 			_spawn(_schedule[_spawn_cursor][1])
 			_spawn_cursor += 1
 	for snowball: Node3D in snowballs.duplicate():
-		snowball.distance += snowball.def.speed_units * GameDefinition.UNIT_M * dt
+		snowball.distance += snowball.current_speed() * GameDefinition.UNIT_M * dt
+		snowball.slow_left -= dt
 		if snowball.distance >= course.length():
 			_leak(snowball)
 		else:
@@ -200,34 +202,106 @@ func _on_tick(dt: float) -> void:
 
 func _fire_towers(dt: float) -> void:
 	for tower: Node3D in towers_root.get_children():
-		if tower.def.attacks.is_empty():
-			continue
-		var attack: AttackDefinition = tower.def.attacks[0]
-		tower.cooldown -= dt
-		if tower.cooldown > 1e-6:
-			continue
-		# In range when the range circle touches the snowball, not only its centre (BTD6 behaviour).
-		var target: Node3D = Targeting.pick(snowballs, tower.position,
-				tower.def.range_units * GameDefinition.UNIT_M + HIT_RADIUS_M, tower.priority, attack.detects_camo)
-		if target == null:
-			tower.cooldown = 0.0  # ready, fires the moment something enters range
-			continue
-		tower.cooldown += attack.interval_s
-		# ponytail: one projectile per attack, aimed at the target's current position (no lead, no spread);
-		# multi-projectile volleys arrive with the upgrades that need them (P09).
+		for i: int in tower.attacks.size():
+			var attack: AttackDefinition = tower.attacks[i]
+			tower.cooldowns[i] -= dt
+			if tower.cooldowns[i] > 1e-6:
+				continue
+			var target: Node3D = _pick_target(tower, attack)
+			if target == null:
+				tower.cooldowns[i] = 0.0  # ready, fires the moment something becomes eligible
+				continue
+			tower.cooldowns[i] += attack.interval_s
+			var dir: Vector3 = target.position - tower.position
+			Events.send(&"attack_fired", tower.entity_id, target.entity_id, attack.damage, tower.position, [attack.id])
+			if tower.def.global_range:
+				_hit(attack, target, {target.entity_id: true}, dir, tower.entity_id)  # instant hit, no projectile
+			else:
+				# ponytail: aimed at the target's current position (no lead); fine at these projectile speeds.
+				_launch(attack, tower.position, dir, {}, tower.entity_id)
+
+
+## Eligible target for one attack: range (edge contact) or whole map with line of sight, then priority.
+func _pick_target(tower: Node3D, attack: AttackDefinition) -> Node3D:
+	var range_m: float = tower.range_units * GameDefinition.UNIT_M + HIT_RADIUS_M
+	var accept: Callable = Callable()
+	if tower.def.global_range:
+		range_m = INF
+		accept = func(s: Node3D) -> bool: return course.has_line_of_sight(tower.position, s.position)
+	elif attack.damage == 0 and attack.slow_factor > 0.0 and attack.on_contact.is_empty():
+		# ponytail: pure wax skips already-waxed snowballs (PROTOTYPE_ASSUMPTION; BTD6 Glue behaviour unverified).
+		accept = func(s: Node3D) -> bool: return s.slow_left <= 0.0
+	return Targeting.pick(snowballs, tower.position, range_m, tower.priority, attack.detects_camo, accept)
+
+
+## Creates `attack` at `origin`: a burst hits around it at once; otherwise a volley flies along `dir`,
+## `spread_deg` apart and centred on it. Every projectile starts with a copy of `hit` (no double hits).
+func _launch(attack: AttackDefinition, origin: Vector3, dir: Vector3, hit: Dictionary[int, bool], source_id: int) -> void:
+	if attack.radius_units > 0.0:
+		_burst(attack, origin, source_id)
+		return
+	var heading: float = atan2(dir.x, dir.z)
+	for k: int in attack.projectile_count:
+		var angle: float = heading + deg_to_rad(attack.spread_deg * (k - (attack.projectile_count - 1) / 2.0))
 		var shot: Shot = Shot.new()
-		shot.pos = tower.position
-		shot.velocity = (target.position - tower.position).normalized() * attack.projectile_speed_units * GameDefinition.UNIT_M
+		shot.pos = Vector3(origin.x, 0.0, origin.z)
+		shot.velocity = Vector3(sin(angle), 0.0, cos(angle)) * attack.projectile_speed_units * GameDefinition.UNIT_M
 		shot.life = attack.projectile_lifetime_s
 		shot.pierce = attack.pierce
 		shot.attack = attack
-		shot.source_id = tower.entity_id
+		shot.source_id = source_id
+		shot.hit = hit.duplicate()
 		shot.node = MeshInstance3D.new()
 		shot.node.mesh = SHOT_MESH
 		shot.node.position = shot.pos + Vector3.UP * 0.5
 		_shots_root.add_child(shot.node)
 		shots.append(shot)
-		Events.send(&"attack_fired", tower.entity_id, target.entity_id, attack.damage, tower.position, [attack.id])
+
+
+## Instant area hit: up to `pierce` snowballs touching the circle, in spawn order. Explosions ignore camo
+## (they do not target) and include the snowball the projectile hit.
+func _burst(attack: AttackDefinition, center: Vector3, source_id: int) -> void:
+	var radius: float = attack.radius_units * GameDefinition.UNIT_M
+	var left: int = attack.pierce
+	for s: Node3D in snowballs.duplicate():
+		if left <= 0:
+			break
+		if snowballs.has(s) and Vector2(s.position.x - center.x, s.position.z - center.z).length() <= radius + HIT_RADIUS_M:
+			left -= 1
+			_apply(attack, s, source_id)
+	# Placeholder flash (presentation only).
+	var flash: MeshInstance3D = MeshInstance3D.new()
+	var disc: CylinderMesh = CylinderMesh.new()
+	disc.top_radius = radius
+	disc.bottom_radius = radius
+	disc.height = 0.05
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_color = BURST_COLOR
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	disc.material = material
+	flash.mesh = disc
+	flash.position = Vector3(center.x, 0.3, center.z)
+	_shots_root.add_child(flash)
+	get_tree().create_timer(0.15, false).timeout.connect(flash.queue_free)
+
+
+## A projectile touches snowball `s`: its own effect, then its contact sub-attacks at the contact point.
+func _hit(attack: AttackDefinition, s: Node3D, hit: Dictionary[int, bool], dir: Vector3, source_id: int) -> void:
+	var where: Vector3 = s.position
+	_apply(attack, s, source_id)
+	for sub: AttackDefinition in attack.on_contact:
+		_launch(sub, where, dir, hit, source_id)
+
+
+## Wax status (unless immune to the attack's type), then damage (+ camo bonus) through the single damage path.
+func _apply(attack: AttackDefinition, s: Node3D, source_id: int) -> void:
+	if attack.slow_factor > 0.0 and StringName("immune_" + attack.damage_type) not in s.def.properties:
+		s.apply_slow(attack.slow_factor, attack.slow_duration_s, attack.soaks_layers)
+		Events.send(&"status_applied", source_id, s.entity_id, attack.slow_duration_s, s.position, [attack.id])
+	var damage: int = attack.damage + (attack.bonus_vs_camo if &"camo" in s.def.properties else 0)
+	if damage > 0:
+		damage_snowball(s, damage, attack.damage_type, source_id)
 
 
 ## Swept hits along each shot's step, so fast shots cannot tunnel through a snowball.
@@ -245,10 +319,12 @@ func _move_shots(dt: float) -> void:
 				continue
 			shot.hit[s.entity_id] = true
 			shot.pierce -= 1  # an immune contact still uses pierce (BTD6: Lead blocks darts)
-			damage_snowball(s, shot.attack.damage, shot.attack.damage_type, shot.source_id)
+			_hit(shot.attack, s, shot.hit, shot.velocity, shot.source_id)
 		if shot.pierce <= 0 or shot.life <= 0.0:
 			shots.erase(shot)
 			shot.node.queue_free()
+			for sub: AttackDefinition in shot.attack.on_expire:
+				_launch(sub, shot.pos, shot.velocity, shot.hit, shot.source_id)
 		else:
 			shot.node.position = shot.pos + Vector3.UP * 0.5
 
@@ -270,6 +346,8 @@ func damage_snowball(s: Node3D, damage: int, damage_type: StringName, source_id:
 			Events.send(&"layer_broken", source_id, s.entity_id, old.cash_per_pop, s.position, [old.id, ""])
 			break
 		s.set_layer(Content.enemies[old.child_id])  # 1:1 basic chain: same snowball, next layer
+		if not s.slow_soaks:
+			s.slow_left = 0.0  # a break sheds ordinary wax; Glue Soak keeps it
 		Events.send(&"layer_broken", source_id, s.entity_id, old.cash_per_pop, s.position, [old.id, old.child_id])
 	changed.emit()
 

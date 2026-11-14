@@ -4,11 +4,32 @@
 [ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_tqine"]
 [ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_p04ft"]
 
+[sub_resource type="Resource" id="Resource_vxxcx"]
+script = ExtResource("1_vxxcx")
+pierce = 22
+damage_type = &"explosion"
+radius_units = 18.0
+id = &"avalanche_cannon_blast"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "NOT_APPLICABLE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"projectile_lifetime_s": "NOT_APPLICABLE",
+"projectile_speed_units": "NOT_APPLICABLE",
+"radius_units": "PROTOTYPE_ASSUMPTION",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
+})
+notes = "Explosion on contact: damage 1, pierce 22 (M-10, teemo.dev v56). Radius not on the source page."
+
 [sub_resource type="Resource" id="Resource_7nbab"]
 script = ExtResource("1_vxxcx")
 interval_s = 1.5
+damage = 0
 damage_type = &"explosion"
-splash_pierce = 22
+on_contact = Array[ExtResource("1_vxxcx")]([SubResource("Resource_vxxcx")])
 id = &"avalanche_cannon_base"
 status = Dictionary[String, String]({
 "damage": "VERIFIED_SOURCE",
@@ -17,9 +38,11 @@ status = Dictionary[String, String]({
 "projectile_count": "VERIFIED_SOURCE",
 "projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
 "projectile_speed_units": "PROTOTYPE_ASSUMPTION",
-"slow_factor": "NOT_APPLICABLE",
-"splash_pierce": "VERIFIED_SOURCE"
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
 })
+notes = "Contact projectile: pierce 1, no damage of its own; creates one explosion (M-10)."
 
 [sub_resource type="Resource" id="Resource_0gewn"]
 script = ExtResource("3_p04ft")
@@ -236,6 +259,7 @@ source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter
 status = Dictionary[String, String]({
 "cash_per_pickup": "NOT_APPLICABLE",
 "footprint_units": "PROTOTYPE_ASSUMPTION",
+"pickup_lifetime_s": "NOT_APPLICABLE",
 "pickups_per_round": "NOT_APPLICABLE",
 "price": "VERIFIED_SOURCE",
 "range_units": "VERIFIED_SOURCE"

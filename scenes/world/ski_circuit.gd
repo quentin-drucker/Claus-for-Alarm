@@ -52,12 +52,33 @@ func check_placement(pos: Vector2, radius: float, towers: Array[Vector3]) -> Str
 	var track: PackedVector2Array = []
 	for point: Vector3 in waypoints:
 		track.append(Vector2(point.x, point.z))
-	var blockers: Array[Rect2] = []
+	return Placement.check(pos, radius, bounds, track, track_half_width, _blocker_rects(false), towers)
+
+
+## True unless the XZ segment between the points crosses a blocker in group `blocks_sight` (Biathlon Ranger LOS).
+func has_line_of_sight(from: Vector3, to: Vector3) -> bool:
+	var a: Vector2 = Vector2(from.x, from.z)
+	var b: Vector2 = Vector2(to.x, to.z)
+	for r: Rect2 in _blocker_rects(true):
+		var c: PackedVector2Array = [r.position, Vector2(r.end.x, r.position.y), r.end, Vector2(r.position.x, r.end.y)]
+		if r.has_point(a) or r.has_point(b):
+			return false
+		for i: int in 4:
+			if Geometry2D.segment_intersects_segment(a, b, c[i], c[(i + 1) % 4]) != null:
+				return false
+	return true
+
+
+## Blocker boxes as XZ rects; `sight_only` keeps those that block line of sight (the Lodge, not the Pond).
+func _blocker_rects(sight_only: bool) -> Array[Rect2]:
+	var out: Array[Rect2] = []
 	for child: Node in get_node("Blockers").get_children():
 		var box: MeshInstance3D = child as MeshInstance3D
+		if sight_only and not box.is_in_group(&"blocks_sight"):
+			continue
 		var size: Vector3 = (box.mesh as BoxMesh).size
-		blockers.append(Rect2(box.position.x - size.x / 2.0, box.position.z - size.z / 2.0, size.x, size.z))
-	return Placement.check(pos, radius, bounds, track, track_half_width, blockers, towers)
+		out.append(Rect2(box.position.x - size.x / 2.0, box.position.z - size.z / 2.0, size.x, size.z))
+	return out
 
 
 func _build_cumulative() -> void:

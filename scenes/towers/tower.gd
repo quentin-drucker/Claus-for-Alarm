@@ -14,8 +14,14 @@ var entity_id: int = 0
 ## Cash invested (base + upgrades), for the sell value.
 var spent: int = 0
 var tiers: Vector3i = Vector3i.ZERO
-## Seconds until the next attack may fire (simulation time).
-var cooldown: float = 0.0
+## Working stats: copies of `def` values with owned upgrades applied (rebuild_stats). The simulation reads these.
+var range_units: float = 0.0
+var attacks: Array[AttackDefinition] = []
+var pickups_per_round: int = 0
+var cash_per_pickup: int = 0
+var pickup_lifetime_s: float = 0.0
+## Seconds until each attack may fire again (simulation time), parallel to `attacks`.
+var cooldowns: Array[float] = []
 ## Targeting.Priority; new towers target First.
 var priority: int = 0
 
@@ -28,13 +34,26 @@ func setup(definition: TowerDefinition, id: int) -> void:
 	def = definition
 	entity_id = id
 	spent = def.price
+	rebuild_stats()
 	var radius: float = def.footprint_units * GameDefinition.UNIT_M
 	_body.scale = Vector3(radius / 0.5, 1.0, radius / 0.5)  # Body mesh radius is 0.5
-	var range_m: float = def.range_units * GameDefinition.UNIT_M
-	_range.scale = Vector3(range_m, 1.0, range_m)  # Range mesh radius is 1
 	_label.text = def.display_name.get_slice(" ", def.display_name.get_slice_count(" ") - 1)
 	_set_color(COLORS.get(def.id, Color.GRAY))
 	set_selected(false)
+
+
+## Recomputes the working stats from `def`. Attack resources are deep copies so upgrades never touch shared data.
+func rebuild_stats() -> void:
+	range_units = def.range_units
+	pickups_per_round = def.pickups_per_round
+	cash_per_pickup = def.cash_per_pickup
+	pickup_lifetime_s = def.pickup_lifetime_s
+	attacks.clear()
+	for attack: AttackDefinition in def.attacks:
+		attacks.append(attack.duplicate_deep())
+	cooldowns.resize(attacks.size())
+	var range_m: float = range_units * GameDefinition.UNIT_M
+	_range.scale = Vector3(range_m, 1.0, range_m)  # Range mesh radius is 1
 
 
 ## Footprint for placement checks: Vector3(x, z, radius).
@@ -43,7 +62,7 @@ func footprint() -> Vector3:
 
 
 func set_selected(on: bool) -> void:
-	_range.visible = on and def.range_units > 0.0
+	_range.visible = on and range_units > 0.0
 
 
 ## Ghost look: translucent green/red body, range ring, reason text when invalid.

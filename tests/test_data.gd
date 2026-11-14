@@ -69,7 +69,7 @@ func _test_fixtures(content_script: GDScript) -> void:
 			"start_lives": "PROTOTYPE_ASSUMPTION", "round_bonus_base": "PROTOTYPE_ASSUMPTION", "sell_ratio": "PROTOTYPE_ASSUMPTION"})
 	var attack: Resource = _def("attack_definition", &"fx_attack", {"interval_s": "PROTOTYPE_ASSUMPTION",
 			"damage": "PROTOTYPE_ASSUMPTION", "pierce": "PROTOTYPE_ASSUMPTION", "projectile_count": "PROTOTYPE_ASSUMPTION",
-			"splash_pierce": "NOT_APPLICABLE", "slow_factor": "NOT_APPLICABLE",
+			"radius_units": "NOT_APPLICABLE", "slow_factor": "NOT_APPLICABLE", "slow_duration_s": "NOT_APPLICABLE",
 			"projectile_speed_units": "PROTOTYPE_ASSUMPTION", "projectile_lifetime_s": "PROTOTYPE_ASSUMPTION"})
 	c.hero = _def("hero_definition", &"fx_hero", {"price": "PROTOTYPE_ASSUMPTION", "range_units": "PROTOTYPE_ASSUMPTION",
 			"footprint_units": "PROTOTYPE_ASSUMPTION"})
@@ -78,7 +78,7 @@ func _test_fixtures(content_script: GDScript) -> void:
 	c.hero.level_changes.append_array([{}, {"pierce": 4}])
 	var tower: Resource = _def("tower_definition", &"fx_tower", {"price": "PROTOTYPE_ASSUMPTION",
 			"range_units": "PROTOTYPE_ASSUMPTION", "footprint_units": "PROTOTYPE_ASSUMPTION",
-			"pickups_per_round": "NOT_APPLICABLE", "cash_per_pickup": "NOT_APPLICABLE"})
+			"pickups_per_round": "NOT_APPLICABLE", "cash_per_pickup": "NOT_APPLICABLE", "pickup_lifetime_s": "NOT_APPLICABLE"})
 	tower.attacks.append(attack)
 	for tier: int in [1, 2]:
 		var upgrade: Resource = _def("upgrade_definition", StringName("fx_up%d" % tier), {"price": "PROTOTYPE_ASSUMPTION"})

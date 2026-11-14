@@ -9,6 +9,7 @@ script = ExtResource("1_knms1")
 damage = 0
 damage_type = &"glue"
 slow_factor = 0.5
+slow_duration_s = 11.0
 id = &"slope_wax_sprayer_base"
 status = Dictionary[String, String]({
 "damage": "VERIFIED_SOURCE",
@@ -17,9 +18,11 @@ status = Dictionary[String, String]({
 "projectile_count": "VERIFIED_SOURCE",
 "projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
 "projectile_speed_units": "PROTOTYPE_ASSUMPTION",
-"slow_factor": "VERIFIED_SOURCE",
-"splash_pierce": "NOT_APPLICABLE"
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "PROTOTYPE_ASSUMPTION",
+"slow_factor": "VERIFIED_SOURCE"
 })
+notes = "No damage, 50% slow (M-10). Duration not on the source page: 11 s recalled, unverified."
 
 [sub_resource type="Resource" id="Resource_nosd2"]
 script = ExtResource("3_ss2kr")
@@ -236,6 +239,7 @@ source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/
 status = Dictionary[String, String]({
 "cash_per_pickup": "NOT_APPLICABLE",
 "footprint_units": "PROTOTYPE_ASSUMPTION",
+"pickup_lifetime_s": "NOT_APPLICABLE",
 "pickups_per_round": "NOT_APPLICABLE",
 "price": "VERIFIED_SOURCE",
 "range_units": "VERIFIED_SOURCE"

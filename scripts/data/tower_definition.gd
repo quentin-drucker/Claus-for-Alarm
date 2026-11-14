@@ -16,10 +16,12 @@ extends GameDefinition
 ## Income towers (Ticket Booth): pickups per round and cash per pickup.
 @export var pickups_per_round: int = 0
 @export var cash_per_pickup: int = 0
+## Seconds an uncollected pickup lies on the ground before it is lost (Banana Farm: 15).
+@export var pickup_lifetime_s: float = 0.0
 
 
 func balance_fields() -> PackedStringArray:
-	return ["price", "range_units", "footprint_units", "pickups_per_round", "cash_per_pickup"]
+	return ["price", "range_units", "footprint_units", "pickups_per_round", "cash_per_pickup", "pickup_lifetime_s"]
 
 
 func validate() -> PackedStringArray:

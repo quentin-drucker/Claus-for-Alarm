@@ -13,11 +13,29 @@ var def: EnemyDefinition
 var entity_id: int = 0
 ## Metres travelled along the track from the entry.
 var distance: float = 0.0
+## Wax status: fraction of speed removed, seconds left, and whether it survives layer breaks (Glue Soak).
+var slow_factor: float = 0.0
+var slow_left: float = 0.0
+var slow_soaks: bool = false
 
 
 func setup(definition: EnemyDefinition, id: int) -> void:
 	entity_id = id
 	set_layer(definition)
+
+
+## Speed in reference units/s after the wax status.
+func current_speed() -> float:
+	return def.speed_units * (1.0 - slow_factor if slow_left > 0.0 else 1.0)
+
+
+## A stronger or equal wax replaces the current one and refreshes its time; a weaker one is ignored (no stacking).
+func apply_slow(factor: float, duration: float, soaks: bool) -> void:
+	if slow_left > 0.0 and factor < slow_factor:
+		return
+	slow_factor = factor
+	slow_left = duration
+	slow_soaks = soaks
 
 
 ## Current outer layer; a break swaps it in place, keeping id, distance and position.
