@@ -1,5 +1,5 @@
-// Replace this one line with the real itch.io page once it is public.
-const ITCH_URL = "https://YOUR-ITCH-USERNAME.itch.io/claus-for-alarm";
+// The itch.io game page; change it here only.
+const ITCH_URL = "https://quentin-drucker.itch.io/claus-for-alarm";
 
 document.querySelectorAll("[data-itch]").forEach((a) => { a.href = ITCH_URL; });
 
