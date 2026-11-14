@@ -245,10 +245,10 @@ func _test_pierce_and_history(content: Node) -> void:
 	m.free()
 
 
-## P06-T11: 2x speed changes wall time only. Same ticks -> identical ledgers and lives.
+## P06-T11 / DEC-029: 2x and 4x change wall time only. Same ticks -> identical ledgers and lives.
 func _test_speed_equivalence(content: Node) -> void:
 	var results: Array = []
-	for speed: float in [1.0, 2.0]:
+	for speed: float in [1.0, 2.0, 4.0]:
 		var m: Node3D = _new_match()
 		m.try_place(content.get_tower(&"snowball_rookie"), SPOT)
 		m.try_place(content.get_tower(&"snowball_rookie"), Vector2(0, -3))
@@ -260,5 +260,5 @@ func _test_speed_equivalence(content: Node) -> void:
 			_check(m.state == m.State.PREPARE, "round %d done within 60 s at %sx" % [r + 1, speed])
 		results.append([m.clock.tick, m.lives, str(m.ledger.transactions)])
 		m.free()
-	_check(results[0] == results[1], "1x and 2x identical: %s vs %s" % [results[0].slice(0, 2), results[1].slice(0, 2)])
+	_check(results[0] == results[1] and results[0] == results[2], "1x, 2x and 4x identical: %s" % [results.map(func(r: Array) -> Array: return r.slice(0, 2))])
 	_check(results[0][2].contains("pop"), "towers actually popped snowballs")
