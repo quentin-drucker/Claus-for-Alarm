@@ -29,8 +29,9 @@ extends GameDefinition
 @export var detects_camo: bool = false
 ## Sub-attacks created where a projectile hits (explosion, shrapnel), and where it ends (pierce used up or
 ## lifetime over: cluster bombs). Sub-projectiles inherit the parent's hit history and direction.
-@export var on_contact: Array[AttackDefinition] = []
-@export var on_expire: Array[AttackDefinition] = []
+## Elements are AttackDefinitions; typed Array[Resource] because a self-typed array leaks the script at exit.
+@export var on_contact: Array[Resource] = []
+@export var on_expire: Array[Resource] = []
 
 
 func balance_fields() -> PackedStringArray:
