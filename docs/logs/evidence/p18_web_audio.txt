@@ -29,3 +29,12 @@ place (elf_poof) 0.687, round_start (sleigh bells) 0.422, throw 0.170, crunch va
             0.232,0.170,0.112,0.155,0.170,0.232,0.250,0.170,0.209,0.155,0.170,0.181,0.232,0.966"}
            <- Rookie throws interleaved with rotating crunch variants (no back-to-back repeat), round complete
 Console: 0 errors, 0 warnings. --main-pack check: 0 ERROR.
+
+=== Re-run 2026-11-14: mix v2 (DEC-038) — Towers bus, ambience, 168 BPM gameplay ===
+{"beforeGesture":"",
+ "howToPlay":"52.174,30.000,60.000,60.000,0.054",   <- menu loop + wind (30 s) + market calm & intense (60 s, started
+                                                        together, intense silent) + click
+ "playAsFirstGesture":"52.174,30.000,60.000,60.000,0.054,57.143",  <- ... then the 168 BPM sleigh chase (57.143 s)
+ "shopBtn":"0.069,0.054", "place":"0.687", "roundStart":"0.422",
+ "combat":"30.000,0.170,0.112,0.170,0.163,..."}       <- wind loop wraps seamlessly at 30 s; throws + crunch variants
+Console 0 errors/warnings; --main-pack 0 ERROR; 10/10 suites PASS (test_ui: Towers slider 0.5 -> 0 dB, 1.0 -> +6 dB).

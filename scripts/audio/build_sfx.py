@@ -1,4 +1,4 @@
-"""P18: build the game's SFX/music from the licensed Willosuna packs (DEC-036).
+"""P18: build the game's SFX/music/ambience from the licensed Willosuna packs (DEC-037/038).
 
 Not run by Godot. Usage (Python 3.10+ with numpy + soundfile):
     python scripts/audio/build_sfx.py <dir with the unzipped Willosuna packs> assets/audio
@@ -23,7 +23,8 @@ PEAK_CEILING_DB = -1.0
 SFX = {
     # Snowball layers (frequent): 12 recorded snow crunches, pitched per layer depth by the router.
     "crunch": ([f"snow_crunch_{i:02d}.wav" for i in range(1, 13)], 0.25),
-    "crunch_heavy": (["snowball_hit_01.wav"], 0.35),   # Black / White / Purple shells
+    # Black / White / Aurora shells: a packed snowball hit + 4 fast-attack ice breaks.
+    "crunch_heavy": (["snowball_hit_01.wav"] + [f"ice_break_{i:02d}.wav" for i in (1, 2, 6, 10)], 0.4),
     "immune": (["ornament_clink_01.wav"], None),
     "leak": (["alert_01.wav@cozy"], None),
     # Attacks
@@ -60,10 +61,16 @@ SFX = {
 # Music: the composer's own OGG files copied unchanged (mastered to -16 LUFS, seamless loops). slot: source.
 MUSIC = {
     "menu": "we_wish_you_menu_loop.ogg@music",
-    "gameplay": "town_snowy_village_loop.ogg@music",
-    "gameplay_late": "god_rest_ye_sleigh_chase_loop.ogg@music",
+    "gameplay": "god_rest_ye_sleigh_chase_loop.ogg@music",  # 168 BPM, all rounds
     "victory": "victory.ogg@music",
     "defeat": "game_over.ogg@music",
+}
+# Ambience beds: the author's seamless loops copied unchanged. The two market loops are sample aligned
+# (calm -> intense crossfade for late waves). slot: source.
+AMBIENCE = {
+    "wind": "wind_light_loop_01.ogg",
+    "market_calm": "winter_market_calm.ogg",
+    "market_intense": "winter_market_intense.ogg",
 }
 # "@pack" picks a file when several packs share a basename.
 PACK_HINT = {"cozy": "cozy-ui-sfx-lite", "christmas": "christmas-sfx-lite", "music": "christmas-music-pack"}
@@ -105,7 +112,8 @@ def process(path: str, max_s: float | None) -> np.ndarray:
 def main() -> None:
     src_root, out_root = sys.argv[1], sys.argv[2]
     sfx_dir, music_dir = os.path.join(out_root, "sfx"), os.path.join(out_root, "music")
-    for d in (sfx_dir, music_dir):
+    ambience_dir = os.path.join(out_root, "ambience")
+    for d in (sfx_dir, music_dir, ambience_dir):
         os.makedirs(d, exist_ok=True)
     for slot, (sources, max_s) in SFX.items():
         for i, name in enumerate(sources):
@@ -115,6 +123,9 @@ def main() -> None:
     for slot, name in MUSIC.items():
         shutil.copyfile(find(src_root, name), os.path.join(music_dir, slot + ".ogg"))
         print("music", slot, "<-", name)
+    for slot, name in AMBIENCE.items():
+        shutil.copyfile(find(src_root, name), os.path.join(ambience_dir, slot + ".ogg"))
+        print("ambience", slot, "<-", name)
 
 
 if __name__ == "__main__":

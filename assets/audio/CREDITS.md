@@ -1,9 +1,9 @@
-# Audio provenance ledger (DEC-036, P18-T02/T10)
+# Audio provenance ledger (DEC-037/038, P18-T02/T10)
 
 Every audio file shipped in the game, where it came from, and its license. Add a row before adding a file.
 No BTD6 (or any other game's) samples, melodies or recordings; BTD6 informed the *style* only (HYB-A A-10, REF-A V-11).
 
-## Source: Willosuna (all SFX and music)
+## Source: Willosuna (all SFX, music and ambience)
 
 Author: **Willosuna** — https://willosuna.itch.io/ (downloaded 2026-11-14, free "Lite"/demo editions).
 License (identical in every pack's `LICENSE.txt`): royalty free for personal and commercial games; editing allowed;
@@ -19,6 +19,8 @@ pack / sound library, or registering them with Content ID. Author states the pac
 | Game & UI Sound Effects (Free) — `willosuna.itch.io/free-game-ui-sound-pack` | throw, cannon_boom, wax |
 | Card Game SFX Lite v2 — `willosuna.itch.io/card-game-sfx-lite` | ticket_bank, ticket_spawn |
 | Christmas Music Pack (free demo) v2 — `willosuna.itch.io/christmas-music-pack` | all music |
+| Pixel Weather SFX Lite v2 — `willosuna.itch.io/pixel-weather-sfx-lite` | crunch_heavy ice breaks, wind ambience |
+| Fantasy Ambience Loops Lite v2 — `willosuna.itch.io/fantasy-ambience-loops-lite` | winter-market ambience (calm + intense) |
 
 ### SFX (`sfx/`) — built by `scripts/audio/build_sfx.py`
 
@@ -29,7 +31,7 @@ peak ≤ −1 dBFS, mono 44.1 kHz OGG Vorbis. Pitch/variant/level variation happ
 | File | Source file (pack) | Event (HYB-M M-02) |
 |---|---|---|
 | `crunch_01..12.ogg` | `snow_crunch_01..12.wav` (Cozy UI) | `layer_broken` Powder…Coral (pitched per layer) |
-| `crunch_heavy.ogg` | `snowball_hit_01.wav` (Christmas) | `layer_broken` Black / White / Purple |
+| `crunch_heavy_01..05.ogg` | `snowball_hit_01.wav` (Christmas) + `ice_break_01/02/06/10.wav` (Pixel Weather), cut 0.4 s | `layer_broken` Black / White / Aurora |
 | `immune.ogg` | `ornament_clink_01.wav` (Christmas) | `enemy_immune` |
 | `leak.ogg` | `alert_01.wav` (Cozy UI) | `enemy_leaked` |
 | `throw.ogg` | `throw.wav` (Game & UI) | `attack_fired` Snowball Rookie |
@@ -61,10 +63,17 @@ peak ≤ −1 dBFS, mono 44.1 kHz OGG Vorbis. Pitch/variant/level variation happ
 | File | Source track (Christmas Music Pack demo) | Use |
 |---|---|---|
 | `menu.ogg` | `we_wish_you_menu_loop` — "We Wish You a Merry Menu", F major, 138 BPM, seamless | title screen |
-| `gameplay.ogg` | `town_snowy_village_loop` — "Snowy Village", G major, 104 BPM, seamless | rounds 1–15 |
-| `gameplay_late.ogg` | `god_rest_ye_sleigh_chase_loop` — sleigh chase, 168 BPM, seamless | rounds 16+ (escalation) |
+| `gameplay.ogg` | `god_rest_ye_sleigh_chase_loop` — "God Rest Ye" sleigh chase, 168 BPM, seamless | all rounds |
 | `victory.ogg` | `victory` jingle | match won |
 | `defeat.ogg` | `game_over` jingle | match lost |
+
+### Ambience (`ambience/`) — the author's seamless loops, unchanged
+
+| File | Source | Use |
+|---|---|---|
+| `wind.ogg` | `wind_light_loop_01` (Pixel Weather Lite), 30 s | menu + matches |
+| `market_calm.ogg` | `winter_market_calm` (Fantasy Ambience Lite), 60 s: crowd, sleigh bells, carillon, braziers | matches, rounds 1–15 |
+| `market_intense.ogg` | `winter_market_intense`, 60 s, sample aligned with calm | rounds 16+ |
 
 Carol melodies in the music are public domain (per the pack README); the arrangements/recordings are Willosuna's.
 
@@ -76,5 +85,5 @@ Carol melodies in the music are public domain (per the pack README); the arrange
 
 ## Submission credit line (hackathon form)
 
-Sound effects and music: Willosuna (willosuna.itch.io) — Christmas SFX, Cozy UI SFX, Combat SFX, Magic Spells SFX,
-Game & UI SFX, Card Game SFX and Christmas Music Pack (free editions), used under the Willosuna royalty-free license.
+Sound effects, music and ambience: Willosuna (willosuna.itch.io) — Christmas SFX, Cozy UI SFX, Combat SFX, Magic Spells
+SFX, Game & UI SFX, Card Game SFX, Pixel Weather SFX, Fantasy Ambience Loops and Christmas Music Pack (free editions), used under the Willosuna royalty-free license.

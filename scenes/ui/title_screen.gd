@@ -1,15 +1,19 @@
 extends Control
-## Title screen (P13-T01): Play, a one-screen How to Play, Settings (Music/SFX volume on their audio buses,
-## P13-T10). Plain default-theme placeholder: the visual skin is the owner's call (P17).
+## Title screen (P13-T01): Play, a one-screen How to Play, Settings (Music / SFX / Tower SFX / Ambience volume on
+## their audio buses, P13-T10, P18-T05). Plain default-theme placeholder: the visual skin is the owner's call (P17).
 
 const MATCH: String = "res://scenes/main/match.tscn"
 const SETTINGS_PATH: String = "user://settings.cfg"
-const BUSES: PackedStringArray = ["Music", "SFX"]
+const BUSES: PackedStringArray = ["Music", "SFX", "Towers", "Ambience"]
+## Slider value on first run (no saved settings).
+const DEFAULTS: Dictionary[String, float] = {"Music": 1.0, "SFX": 1.0, "Towers": 0.5, "Ambience": 1.0}
+## Slider -> bus gain multiplier: Towers sits at 50% by default with headroom, so 0.5 = 0 dB and 1.0 = +6 dB.
+const GAIN: Dictionary[String, float] = {"Towers": 2.0}
 
 @onready var _menu: Control = %Menu
 @onready var _how: Control = %HowPanel
 @onready var _settings: Control = %SettingsPanel
-@onready var _sliders: Array[HSlider] = [%MusicSlider, %SfxSlider]
+@onready var _sliders: Array[HSlider] = [%MusicSlider, %SfxSlider, %TowerSlider, %AmbienceSlider]
 
 
 func _ready() -> void:
@@ -21,7 +25,7 @@ func _ready() -> void:
 	var config: ConfigFile = ConfigFile.new()
 	config.load(SETTINGS_PATH)  # missing file (first run, private window) = defaults
 	for i: int in BUSES.size():
-		_sliders[i].value = config.get_value("audio", BUSES[i], 1.0)
+		_sliders[i].value = config.get_value("audio", BUSES[i], DEFAULTS[BUSES[i]])
 		_set_volume(BUSES[i], _sliders[i].value)
 		_sliders[i].value_changed.connect(_on_volume_changed.bind(BUSES[i]))
 	_show(_menu)
@@ -40,10 +44,10 @@ func _on_volume_changed(value: float, bus: String) -> void:
 	config.save(SETTINGS_PATH)
 
 
-## Linear 0..1 slider -> bus volume in dB; 0 mutes.
+## Linear 0..1 slider (times the bus's GAIN) -> bus volume in dB; 0 mutes.
 static func _set_volume(bus: String, linear: float) -> void:
 	var index: int = AudioServer.get_bus_index(bus)
 	if index < 0:
 		return
-	AudioServer.set_bus_volume_db(index, linear_to_db(maxf(linear, 0.0001)))
+	AudioServer.set_bus_volume_db(index, linear_to_db(maxf(linear * GAIN.get(bus, 1.0), 0.0001)))
 	AudioServer.set_bus_mute(index, linear <= 0.0)

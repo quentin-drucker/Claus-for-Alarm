@@ -377,3 +377,22 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Owner decision:** commit the Willosuna files to the public repo (license says don't share files as a pack).
 - **Next suggested task IDs:** owner listening pass (`docs/logs/evidence/p18_web_audio.txt` lists what plays when);
   retune levels in the `SFX` table of `audio_router.gd`; T05/T09/T11.
+
+#### SESSION 2026-11-14 15:00 — Claude Code (Opus 5.5) — P18 mix v2 (DEC-038): T01 update, T05
+- **Goal (owner listening feedback):** faster gameplay music like BTD6; tower sounds +40% with their own slider at a
+  50% default; consider an ambience layer under the music.
+- **Changes:** gameplay music = `god_rest_ye_sleigh_chase` (168 BPM) for all rounds (`town_snowy_village` and the
+  separate late track dropped); new buses Towers (→ SFX) and Ambience; tower attack + snowball-hit slots +5 dB on
+  Towers; Settings gains "Tower sound effects" (default 0.5 = 0 dB, max +6 dB) and "Ambience" sliders, saved like the
+  others; ambience beds from two more Willosuna free packs (Pixel Weather Lite: wind loop + ice breaks; Fantasy
+  Ambience Lite: winter market calm/intense, sample aligned): wind on the menu, wind + market in matches, crossfade
+  to intense market from round 16 (replaces the late music track as escalation); market one-shot accents skipped
+  (pitched bells would clash with the music key and round-start bells); heavy shells 5 variants.
+- **Decision IDs:** the earlier audio decision is renumbered DEC-037 (DEC-036 was taken by the P15 art review; commit
+  `6a2370f` still says DEC-036). This change: DEC-038.
+- **Files:** `scripts/audio/{audio_router.gd,build_sfx.py}`, `assets/audio/{music/gameplay.ogg, ambience/*,
+  sfx/crunch_heavy_01..05.ogg, CREDITS.md}`, `default_bus_layout.tres`, `scenes/ui/title_screen.{gd,tscn}` (two
+  sliders via MCP, note text), `tests/test_{audio,ui}.gd`, plan (DEC-037/038, P18-T01/T05), evidence.
+- **Tests:** 10/10 PASS; Web export exit 0, `--main-pack` 0 ERROR; Chrome sample-start trace in `p18_web_audio.txt`.
+- **Open:** listening pass (ambience level under the chase, tower level at 50%); one 57 s gameplay loop repeats over a
+  full match — the paid full Christmas Music Pack (32 loops) or a CC BY track could add rotation if it tires.

@@ -1,6 +1,7 @@
 extends Node
 ## Autoload `Audio` (P18-T04/T06/T07/T08): the one place gameplay Events become sound. Presentation only: it listens
-## to Events, scene changes and buttons, and never feeds back into the simulation. SFX go to "SFX", music to "Music".
+## to Events, scene changes and buttons, and never feeds back into the simulation. Buses: tower attacks + snowball hits
+## on "Towers" (feeds "SFX"; own Settings slider, default 50%), other SFX on "SFX", "Music", "Ambience".
 ## Sounds: licensed Willosuna packs built by scripts/audio/build_sfx.py (provenance: assets/audio/CREDITS.md).
 
 const SFX_DIR: String = "res://assets/audio/sfx/"
@@ -10,11 +11,11 @@ const MAX_VARIANTS: int = 12
 ## Frequent combat sounds are quiet, rate-limited and capped (A-10: merge pop storms); warnings (leak, immune,
 ## deny) never change pitch so they always read the same; player actions sit above combat.
 const SFX: Dictionary[StringName, Array] = {
-	&"crunch": [-13.0, 1, 1.06, 0.03], &"crunch_heavy": [-9.0, 2, 1.05, 0.07],
+	&"crunch": [-8.0, 1, 1.06, 0.03], &"crunch_heavy": [-4.0, 1, 1.05, 0.07],
 	&"immune": [-11.0, 2, 1.0, 0.12], &"leak": [-4.0, 1, 1.0, 0.35],
-	&"throw": [-17.0, 3, 1.1, 0.07], &"cannon_fire": [-14.0, 2, 1.08, 0.1], &"cannon_boom": [-9.0, 3, 1.08, 0.09],
-	&"ranger": [-15.0, 3, 1.06, 0.06], &"chime": [-17.0, 2, 1.06, 0.12], &"fireball": [-14.0, 2, 1.06, 0.12],
-	&"wax": [-12.0, 2, 1.1, 0.1], &"hero_shot": [-12.0, 3, 1.08, 0.06],
+	&"throw": [-12.0, 3, 1.1, 0.07], &"cannon_fire": [-9.0, 2, 1.08, 0.1], &"cannon_boom": [-4.0, 3, 1.08, 0.09],
+	&"ranger": [-10.0, 3, 1.06, 0.06], &"chime": [-12.0, 2, 1.06, 0.12], &"fireball": [-9.0, 2, 1.06, 0.12],
+	&"wax": [-7.0, 2, 1.1, 0.1], &"hero_shot": [-7.0, 3, 1.08, 0.06],
 	&"place": [-5.0, 2, 1.04, 0.0], &"place_hero": [-5.0, 1, 1.0, 0.0], &"upgrade": [-5.0, 2, 1.0, 0.0],
 	&"sell": [-6.0, 2, 1.0, 0.0], &"deny": [-6.0, 1, 1.0, 0.15], &"ticket": [-9.0, 3, 1.05, 0.06],
 	&"ticket_bank": [-12.0, 2, 1.08, 0.05], &"ticket_spawn": [-13.0, 2, 1.08, 0.05],
@@ -22,6 +23,9 @@ const SFX: Dictionary[StringName, Array] = {
 	&"level_up": [-5.0, 1, 1.0, 0.0], &"ability_ready": [-8.0, 1, 1.0, 0.5],
 	&"round_start": [-6.0, 1, 1.0, 0.0], &"round_complete": [-5.0, 1, 1.0, 0.0],
 	&"click": [-8.0, 2, 1.04, 0.03], &"hover": [-18.0, 1, 1.04, 0.06]}
+## Slots on the "Towers" bus. Owner: tower sounds +40% louder (+5 dB above the first mix) at the 50% default.
+const TOWER_SLOTS: Array[StringName] = [&"crunch", &"crunch_heavy", &"throw", &"cannon_fire", &"cannon_boom",
+	&"ranger", &"chime", &"fireball", &"wax", &"hero_shot"]
 ## attack_fired tag prefix -> sound; first match wins. Wax has none: its splat plays when the slow lands.
 const ATTACK_SFX: Array[Array] = [["snow_sorcerer_fireball", &"fireball"], ["snowball_rookie", &"throw"],
 	["avalanche_cannon", &"cannon_fire"], ["biathlon_ranger", &"ranger"], ["snow_sorcerer", &"chime"],
@@ -29,9 +33,14 @@ const ATTACK_SFX: Array[Array] = [["snow_sorcerer_fireball", &"fireball"], ["sno
 ## Broken layer -> crunch pitch: outer Powder bright and light, deep Coral fuller (camo shares its colour).
 ## Other shells (Black / White / Purple) use crunch_heavy.
 const LAYER_PITCH: Dictionary[String, float] = {"powder": 1.18, "blue": 1.1, "mint": 1.02, "violet": 0.95, "coral": 0.88}
-const MUSIC_LOOPS: Dictionary[StringName, bool] = {&"menu": true, &"gameplay": true, &"gameplay_late": true,
-	&"victory": false, &"defeat": false}
-## Rounds from here on switch to the faster sleigh-chase loop (wave escalation, P18-T01).
+const MUSIC_LOOPS: Dictionary[StringName, bool] = {&"menu": true, &"gameplay": true, &"victory": false, &"defeat": false}
+const AMBIENCE_DIR: String = "res://assets/audio/ambience/"
+## Ambience beds (atonal wind + festive crowd, ~12 dB under the music so they never fight it): level when on.
+const AMBIENCE_DB: Dictionary[StringName, float] = {&"wind": -12.0, &"market_calm": -13.0, &"market_intense": -15.0}
+const AMBIENCE_MENU: Array[StringName] = [&"wind"]
+const AMBIENCE_MATCH: Array[StringName] = [&"wind", &"market_calm"]
+const AMBIENCE_LATE: Array[StringName] = [&"wind", &"market_intense"]
+## From this round the crowd swells to the intense market bed (wave escalation, P18-T01).
 const LATE_ROUND: int = 16
 const MUSIC_DB: float = -7.0
 const SILENT_DB: float = -40.0
@@ -45,6 +54,8 @@ var _last_variant: Dictionary[StringName, int] = {}
 var _tower_kind: Dictionary[int, String] = {}
 var _music: Array[AudioStreamPlayer] = [AudioStreamPlayer.new(), AudioStreamPlayer.new()]
 var _music_slot: StringName = &""
+var _ambience: Dictionary[StringName, AudioStreamPlayer] = {}
+var _ambience_on: Array[StringName] = []
 ## Browsers block audio until a user gesture; nothing plays before the first click/key/touch (A-10, P18-T08).
 var _unlocked: bool = not OS.has_feature("web")
 var _duck: Tween
@@ -59,7 +70,7 @@ func _ready() -> void:
 			player.stream = load(path)
 			player.volume_db = SFX[slot][0]
 			player.max_polyphony = SFX[slot][1]
-			player.bus = &"SFX"
+			player.bus = &"Towers" if slot in TOWER_SLOTS else &"SFX"
 			add_child(player)
 			variants.append(player)
 		if variants.is_empty():
@@ -68,6 +79,15 @@ func _ready() -> void:
 	for player: AudioStreamPlayer in _music:
 		player.bus = &"Music"
 		add_child(player)
+	for bed: StringName in AMBIENCE_DB:
+		var player: AudioStreamPlayer = AudioStreamPlayer.new()
+		var stream: AudioStreamOggVorbis = load(AMBIENCE_DIR + bed + ".ogg")
+		stream.loop = true
+		player.stream = stream
+		player.bus = &"Ambience"
+		player.volume_db = SILENT_DB
+		add_child(player)
+		_ambience[bed] = player
 	Events.emitted.connect(_on_event)
 	get_tree().node_added.connect(_on_node_added)
 	# The main scene is already in the tree before autoloads get _ready, so node_added missed its buttons.
@@ -84,6 +104,7 @@ func _input(event: InputEvent) -> void:
 		var slot: StringName = _music_slot
 		_music_slot = &""
 		play_music(slot)
+		set_ambience(_ambience_on)
 
 
 ## Plays a slot: a random variant (never the same one twice in a row), small random pitch and level, times
@@ -132,6 +153,19 @@ func play_music(slot: StringName) -> void:
 	new.play()
 	if MUSIC_LOOPS[slot]:
 		create_tween().tween_property(new, ^"volume_db", MUSIC_DB, CROSSFADE_S)
+
+
+## Fades the ambience beds in `beds` up to their level and the rest out. All beds start together and keep running
+## (silent when off), so the sample-aligned calm and intense market loops crossfade without a jump.
+func set_ambience(beds: Array[StringName]) -> void:
+	_ambience_on = beds
+	if not _unlocked:
+		return
+	for bed: StringName in _ambience:
+		var player: AudioStreamPlayer = _ambience[bed]
+		if not player.playing:
+			player.play()
+		create_tween().tween_property(player, ^"volume_db", AMBIENCE_DB[bed] if bed in beds else SILENT_DB, 2.5)
 
 
 ## Lowers the Music bus for `seconds`, then recovers smoothly (hero ability).
@@ -199,7 +233,7 @@ func _on_event(e: GameEvent) -> void:
 		&"round_started":
 			play(&"round_start")
 			if e.magnitude >= LATE_ROUND:
-				play_music(&"gameplay_late")
+				set_ambience(AMBIENCE_LATE)
 		&"round_complete":
 			play(&"round_complete")
 		&"match_won":
@@ -234,4 +268,6 @@ func _on_scene_changed() -> void:
 	var scene: Node = get_tree().current_scene
 	if scene:
 		_tower_kind.clear()
-		play_music(&"menu" if scene.scene_file_path.contains("title") else &"gameplay")
+		var menu: bool = scene.scene_file_path.contains("title")
+		play_music(&"menu" if menu else &"gameplay")
+		set_ambience(AMBIENCE_MENU if menu else AMBIENCE_MATCH)

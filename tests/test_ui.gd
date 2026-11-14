@@ -49,6 +49,13 @@ func _test_title() -> void:
 			"music slider 0.5 -> %.1f dB" % linear_to_db(0.5))
 	t.get_node("%SfxSlider").value = 0.0
 	_check(AudioServer.is_bus_mute(sfx), "sfx slider 0 mutes the bus")
+	var towers: int = AudioServer.get_bus_index("Towers")
+	t.get_node("%TowerSlider").value = 0.5
+	_check(absf(AudioServer.get_bus_volume_db(towers)) < 0.01, "tower slider default 0.5 -> 0 dB (P18)")
+	t.get_node("%TowerSlider").value = 1.0
+	_check(absf(AudioServer.get_bus_volume_db(towers) - linear_to_db(2.0)) < 0.01, "tower slider 1.0 -> +6 dB")
+	t.get_node("%TowerSlider").value = 0.5
+	_check(AudioServer.get_bus_index("Ambience") > 0, "Ambience bus exists")
 	t.get_node("%MusicSlider").value = 1.0  # leave the saved settings at their defaults
 	t.get_node("%SfxSlider").value = 1.0
 	_check(not AudioServer.is_bus_mute(sfx) and is_zero_approx(AudioServer.get_bus_volume_db(music)), "back to 0 dB")

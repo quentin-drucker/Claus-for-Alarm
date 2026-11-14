@@ -26,11 +26,22 @@ func _run() -> void:
 	var events: Node = root.get_node("Events")
 	for slot: StringName in audio.SFX:
 		_check(not audio._players[slot].is_empty(), "%s has a file" % slot)
+		var bus: StringName = &"Towers" if slot in audio.TOWER_SLOTS else &"SFX"
 		for p: AudioStreamPlayer in audio._players[slot]:
-			_check(p.stream != null and p.bus == &"SFX", "%s loaded on SFX bus" % slot)
+			_check(p.stream != null and p.bus == bus, "%s loaded on %s bus" % [slot, bus])
 	_check(audio._players[&"crunch"].size() == 12, "12 snow-crunch variants")
 	for slot: StringName in audio.MUSIC_LOOPS:
 		_check(ResourceLoader.exists(audio.MUSIC_DIR + slot + ".ogg"), "music %s on disk" % slot)
+	_check(AudioServer.get_bus_index(&"Towers") > 0 and AudioServer.get_bus_send(AudioServer.get_bus_index(&"Towers")) == &"SFX",
+			"Towers bus feeds SFX")
+	_check(audio._players[&"crunch_heavy"].size() == 5, "5 heavy-shell variants")
+	for bed: StringName in audio.AMBIENCE_DB:
+		_check(audio._ambience[bed].stream != null and audio._ambience[bed].bus == &"Ambience", "ambience %s loaded" % bed)
+	audio.set_ambience(audio.AMBIENCE_MATCH)
+	_check(audio._ambience.values().all(func(p: AudioStreamPlayer) -> bool: return p.playing),
+			"all ambience beds run together (aligned calm/intense)")
+	events.send(&"round_started", 0, 0, audio.LATE_ROUND, Vector3.ZERO, PackedStringArray())
+	_check(audio._ambience_on == audio.AMBIENCE_LATE, "late round swells to the intense market bed")
 	var cases: Array = [
 		[&"layer_broken", ["camo_mint", "blue"], &"crunch"], [&"layer_broken", ["black", "coral"], &"crunch_heavy"],
 		[&"enemy_immune", ["explosion"], &"immune"], [&"enemy_leaked", ["coral"], &"leak"],

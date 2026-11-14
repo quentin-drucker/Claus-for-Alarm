@@ -123,9 +123,31 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
+[node name="TowerLabel" type="Label" parent="Center/SettingsPanel/Box" unique_id=326563571]
+layout_mode = 2
+text = "Tower sound effects (attacks + snowball hits)"
+
+[node name="TowerSlider" type="HSlider" parent="Center/SettingsPanel/Box" unique_id=773303528]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="AmbienceLabel" type="Label" parent="Center/SettingsPanel/Box" unique_id=499804596]
+layout_mode = 2
+text = "Ambience volume"
+
+[node name="AmbienceSlider" type="HSlider" parent="Center/SettingsPanel/Box" unique_id=615798024]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
 [node name="SettingsNote" type="Label" parent="Center/SettingsPanel/Box" unique_id=629130196]
 layout_mode = 2
-text = "No music or sound effects yet; these sliders are ready for them."
+text = "Tower sounds start at 50% so there is room to turn them up. Sound effects also scales tower sounds."
 autowrap_mode = 3
 
 [node name="SettingsBack" type="Button" parent="Center/SettingsPanel/Box" unique_id=2130178570]
