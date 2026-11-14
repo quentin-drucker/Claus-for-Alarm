@@ -36,5 +36,16 @@ Ice Monkey, Tack Shooter, Alchemist (and any reskin of them).
 | DEFERRED | — | camo variants | Camo | `camo` flag, needs detection |
 | NOT NOW | — | Gold | — | D-02: not needed (DEC-018) |
 
-Deferred specials get no data, waves or visuals until the game is functional and most towers + art are in.
+**DEC-025:** any special type that appears in BTD6 rounds 17–25 is needed now for the 25-round demo (mechanics
+first, placeholder visuals). The rest stay deferred until the game is functional and most towers + art are in.
+
+## Blimp class — Endless only (DEC-027/028, DEFERRED)
+
+| BTD6 | First source round | Snowball counterpart (look) |
+|---|---|---|
+| MOAB | 40 | Ice sled carrying ice blocks; ice cracks/melts/chips as it takes damage; on death the sled tips over and despawns smoothly |
+| BFB | 60 | Same family, bigger/heavier sled |
+| ZOMG | 80 | Same family; final boss of the round-80 hard cap |
+
+DDT (round 90+) and later are out of scope.
 Names and materials are provisional; the owner may rename them.

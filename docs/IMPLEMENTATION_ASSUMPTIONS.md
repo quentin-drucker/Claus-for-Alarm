@@ -9,7 +9,7 @@ Entries are **PROPOSED defaults** unless marked APPROVED (master plan §5 / §12
 | Primary test browser | Chrome (Chromium) on Windows 11; Firefox/Edge as spot checks | Owner's machine |
 | Input | Mouse + keyboard only; no touch/controller requirement | Desktop target |
 | Play time goal | One match ≈ 10–15 minutes | Short judge-friendly session |
-| Rounds | **APPROVED (DEC-020):** exact BTD6 v56 rounds 1–16 + 3 custom finale rounds (ORIGINAL_DEVIATION, basic layers). Round 17 is the first source round with a non-basic type (Regrow Yellow) | Measured ~9.9 min with a greedy Rookie-only bot (`p07_full_run.txt`) |
+| Rounds | **APPROVED (DEC-025/026):** exact BTD6 rounds 1–25, 1:1 (groups, counts, timing, types → snowball counterparts); win = survive round 25. Endless "Continue" to round 80 later (DEC-027) | Owner: rounds must match BTD6 exactly for balance comparison |
 | Prices | BTD6 v56 Medium baseline + verified v57 overrides, configurable | D-04 |
 | Upgrade depth shipped | **APPROVED (DEC-024):** tiers 1–3 purchasable on all paths of all six towers (54/90, `p10_upgrade_coverage.txt`); tiers 4–5 "coming soon". Sourced from the teemo.dev v56 upgrade pages / M-11 v57 except these fillers (PROTOTYPE_ASSUMPTION, page has no numbers): Guided Magic pierce +1 + lifetime ×1.5; Wall of Fire = one 15 u fire burst where it lands (no lingering wall); Corrosive Glue 1 layer / 2 s; Stronger Glue slow 70%; MOAB Glue (large-only, none in this build) wax +2 s; Bouncing Bullet reach 30 u; Banana Salvage auto-collect 90%. Not modelled: Shimmer de-camo, Deadly Precision ceramic bonus, Semi-Automatic pierce 5 (global hit has one target), EZ Collect radius | Owner 2026-11-14 |
 | Ticket Booth economy | **APPROVED (DEC-023) ORIGINAL_DEVIATION:** ticket value $50 (source $20), Valuable Bananas ×1.5 (source ×1.25), Bank tickets $112 (source $45, scaled). Bank: tickets go straight in, 15% interest at each round end, cap $7,000, withdraw from the card, paid out on sale. Marketplace pays 16 tickets directly | Base payback 6.25 rounds in a 19-round match |
@@ -27,3 +27,5 @@ Entries are **PROPOSED defaults** unless marked APPROVED (master plan §5 / §12
 | Footprints | Sniper 6, Glue 6, Farm 15 (source pages); Cannon/Sorcerer 6 (`PROTOTYPE_ASSUMPTION`) | |
 | Minimum acceptance | Stranger can open the hosted URL, place/upgrade towers, finish or lose a match, restart | Master plan §13 |
 | Hackathon deadline & submission rules | **Sun Nov 15, 10:00 AM**; game on itch.io + public studio website (`docs/HACKATHON.md`) | ~38 h total; drives scope cuts |
+| Game speed | 1× / 2× / 4× (DEC-029, ORIGINAL_DEVIATION) | Faster demo; identical simulation results |
+| Ticket Booth tuning | DEC-023 was tuned for 19 rounds; re-check payback for the 25-round match | DEC-025 |
