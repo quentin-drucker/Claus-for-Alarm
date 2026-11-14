@@ -9,7 +9,8 @@ extends GameDefinition
 @export var footprint_units: float = 6.0
 @export var attack: AttackDefinition
 ## Cumulative XP for levels 1..20; index 0 = level 1 = 0 XP.
-@export var level_xp: PackedInt32Array = []
+## Array[int], not PackedInt32Array: the Web export dropped the packed version from the .tres (2026-11-13).
+@export var level_xp: Array[int] = []
 ## Changes gained at each level, same indexing (stat values, unlocks); applied from P10.
 @export var level_changes: Array[Dictionary] = []
 

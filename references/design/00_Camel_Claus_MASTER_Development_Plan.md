@@ -175,7 +175,7 @@ To facilitate reuse of BTD6 balance, retain for each original mechanic: attack t
 |---|---|---|---|---|---|
 | G0 | Specifications and decisions recorded | P00 | All three hybrid MDs found; unresolved defaults tracked; source precedence accepted | ✅ | `docs/logs/SESSION_LOG.md` (2026-11-13), baseline `d1567e1` |
 | G1 | Editor & Web smoke | P01 | Project boots in editor; minimal Web export actually opens in browser | ✅ | `docs/logs/evidence/p01_*`, tag `p01-web-smoke` |
-| G2 | Data-driven match skeleton | P02–P04 | Path + towers + states work independently of final art | ⬜ | — |
+| G2 | Data-driven match skeleton | P02–P04 | Path + towers + states work independently of final art | ✅ | `tests/test_{data,map,match}.gd` PASS; `docs/logs/evidence/p0[234]_*`; tag `g2-match-skeleton` |
 | G3 | Complete combat/economy vertical slice | P05–P07 | Layer changes, money, rounds, leaks, win/lose verified | ⬜ | — |
 | G4 | Initial six-tower mechanical roster | P08–P09 | All six tower **base kits** validated; at least a small verified upgrade sample; path locks | ⬜ | — |
 | G5 | Hero & special-property interactions | P10–P11 | Camel Claus auto-level, abilities/toggles; basic immunities, wax, economy | ⬜ | — |
@@ -479,16 +479,16 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-02/M-04; HYB-A A-06/A-07; HYB-B B-16.  
 **Gate:** G2.
 
-- [ ] **P04-T01** — Implement main match states: BOOT/READY/PREPARE/ROUND_SPAWN/ROUND_CLEANUP/ROUND_REWARD/WON/LOST and PAUSED; define allowed transitions.
-- [ ] **P04-T02** — Implement `Start round`, pause/resume, normal/fast time and restart; capture which controls are enabled in each state.
-- [ ] **P04-T03** — Build crude but usable HUD with lives, money, round number, speed, start, pause, and a six-slot tower list with temporary text labels.
-- [ ] **P04-T04** — Add simple placeholder info panel for selected defender: range, target mode, price, sell, upgrade slots and blocking status.
-- [ ] **P04-T05** — Make inputs safe in a browser: mouse focus, escape-cancel, key conflicts, fullscreen resize and UI-to-3D click-through handling.
-- [ ] **P04-T06** — Create a debug overlay (only for development) showing simulation ticks, active snowballs, towers, effects, cash transactions and active state.
-- [ ] **P04-T07** — Prevent round completion while scheduled spawn events or spawned descendants remain; differentiate SPAWNING and CLEANUP.
-- [ ] **P04-T08** — Implement minimal win/lose/replay screens with plain typography and actual state changes; no final visual design required.
-- [ ] **P04-T09** — Add match reset tests covering towers, cash, XP, ability cooldowns, statuses, children, bank balance and event subscriptions.
-- [ ] **P04-T10** — Record one uninterrupted PREPARE→ROUND→REWARD→PREPARE session without invalid transitions.
+- [x] **P04-T01** — Implement main match states: BOOT/READY/PREPARE/ROUND_SPAWN/ROUND_CLEANUP/ROUND_REWARD/WON/LOST and PAUSED; define allowed transitions. — `match.gd` `State` + `TRANSITIONS` (BOOT/PREPARE/ROUND_SPAWN/ROUND_CLEANUP/ROUND_REWARD/WON/LOST); READY folded into PREPARE; pause is an orthogonal clock freeze, not a state (`docs/ARCHITECTURE.md` §Match).
+- [x] **P04-T02** — Implement `Start round`, pause/resume, normal/fast time and restart; capture which controls are enabled in each state. — Start (Space/button), pause (P/button/overlay), 1×/2× (F/button), restart (overlay → `reload_current_scene`); per-state control table in ARCHITECTURE §Match. Double start ignored (test).
+- [x] **P04-T03** — Build crude but usable HUD with lives, money, round number, speed, start, pause, and a six-slot tower list with temporary text labels. — `scenes/ui/match_hud.tscn`: lives/cash/round/state, six price-sorted text shop buttons (disabled when unaffordable), start/pause/speed. Screenshots `docs/logs/evidence/p04_*.png`.
+- [x] **P04-T04** — Add simple placeholder info panel for selected defender: range, target mode, price, sell, upgrade slots and blocking status. — Selected-tower card: range (units + m / global), target mode, invested, sell (70 %, works), next tier per path from data with crosspath "locked" flag; purchase of upgrades deferred to P09.
+- [x] **P04-T05** — Make inputs safe in a browser: mouse focus, escape-cancel, key conflicts, fullscreen resize and UI-to-3D click-through handling. — Buttons `focus_mode = NONE`; world input via `_unhandled_input` (HUD clicks never reach the world, MCP click report); Esc/right-click cancel only; Chrome resize 1280×720/1366×768/1920×1080/900×700: ghost under cursor each time (`p04_web_*.png`). Fullscreen = browser F11 (P01 `F` key now = speed).
+- [x] **P04-T06** — Create a debug overlay (only for development) showing simulation ticks, active snowballs, towers, effects, cash transactions and active state. — F3 dev overlay (debug builds only): tick, speed, paused, state, spawned/scheduled, snowballs, towers, effects, last 5 ledger transactions (`p04_round_running.png`).
+- [x] **P04-T07** — Prevent round completion while scheduled spawn events or spawned descendants remain; differentiate SPAWNING and CLEANUP. — ROUND_SPAWN → CLEANUP when schedule exhausted; REWARD only when no snowballs remain; asserted in `tests/test_match.gd` (20 spawned, still rolling in CLEANUP).
+- [x] **P04-T08** — Implement minimal win/lose/replay screens with plain typography and actual state changes; no final visual design required. — Overlay with title + Resume/Restart: Paused / Victory / Defeat; WON/LOST state changes proven by `tests/test_match.gd`; paused overlay screenshot `p04_web_paused.png` (win/lose overlay not screenshotted).
+- [x] **P04-T09** — Add match reset tests covering towers, cash, XP, ability cooldowns, statuses, children, bank balance and event subscriptions. — `tests/test_match.gd`: new match after a played one has start cash/lives, tick 0, round −1, no towers/snowballs, 1 ledger entry, no leaked `Events` subscriptions. XP, cooldowns, statuses, bank do not exist yet; extend this test when they land.
+- [x] **P04-T10** — Record one uninterrupted PREPARE→ROUND→REWARD→PREPARE session without invalid transitions. — `docs/logs/evidence/p04_test_match.log`: PREPARE→ROUND_SPAWN(t0)→ROUND_CLEANUP(t1051)→ROUND_REWARD→PREPARE(t2635), 20 lives lost, +$101, deterministic across runs; same result in Chrome (130 lives, $551).
 
 **P04 exit proof:** all control states work; no overlapping rounds on repeated clicks; pause genuinely freezes simulation; restart restores clean state.
 
@@ -1033,15 +1033,15 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 
 | Field | Value |
 |---|---|
-| Current milestone | G1 ✅ — next: G2 (data-driven match skeleton) |
-| Current phase | P01 done; P00-T04 still partial (MCP pending approval) → P02 next |
-| Active task IDs | None — awaiting owner authorization for P02 |
-| Latest verified commit | `8fa3293` (tag `p01-web-smoke`) — see SESSION_LOG |
-| Latest passing editor test | P01 smoke scene, 0 errors/warnings (2026-11-13) |
-| Latest passing Web build URL | local only: `http://localhost:8000` (tag `p01-web-smoke`); no hosted URL yet |
-| Latest passing test suite | TBD |
-| Current blockers | Godot MCP `godot` pending owner approval; D-02…D-12 PROPOSED; deadline Sun Nov 15 10:00 AM |
-| Primary next action | Approve Godot MCP, then authorize P02 |
+| Current milestone | G2 ✅ — next: G3 (combat/economy vertical slice) |
+| Current phase | P02–P04 done; P00-T04 done |
+| Active task IDs | None — awaiting owner go-ahead for P05 |
+| Latest verified commit | see SESSION_LOG 2026-11-13 P02–P04 entry (tag `g2-match-skeleton`) |
+| Latest passing editor test | match scene in editor run + MCP input, 0 errors (2026-11-13) |
+| Latest passing Web build URL | local only: `http://localhost:8000` (Chrome, 0 console errors); no hosted URL yet |
+| Latest passing test suite | `tests/test_data.gd`, `tests/test_map.gd`, `tests/test_match.gd` — all PASS |
+| Current blockers | D-02 (Gold), D-03 (round set: currently exact source rounds 1–10 as placeholder), lives 150 unverified; deadline Sun Nov 15 10:00 AM |
+| Primary next action | Owner go-ahead for P05 (layered snowballs) |
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 

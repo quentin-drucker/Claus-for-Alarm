@@ -69,7 +69,7 @@ func _test_fixtures(content_script: GDScript) -> void:
 	c.hero = _def("hero_definition", &"fx_hero", {"price": "PROTOTYPE_ASSUMPTION", "range_units": "PROTOTYPE_ASSUMPTION",
 			"footprint_units": "PROTOTYPE_ASSUMPTION"})
 	c.hero.attack = attack
-	c.hero.level_xp = PackedInt32Array([0, 10])
+	c.hero.level_xp.assign([0, 10])
 	c.hero.level_changes.append_array([{}, {"pierce": 4}])
 	var tower: Resource = _def("tower_definition", &"fx_tower", {"price": "PROTOTYPE_ASSUMPTION",
 			"range_units": "PROTOTYPE_ASSUMPTION", "footprint_units": "PROTOTYPE_ASSUMPTION",

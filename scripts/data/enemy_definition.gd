@@ -10,7 +10,7 @@ extends GameDefinition
 @export var child_count: int = 0
 @export var cash_per_pop: int = 1
 ## Property flags for later phases: camo, regrow, lead_like, purple_like, armored.
-@export var properties: PackedStringArray = []
+@export var properties: Array[StringName] = []  # not Packed*: see HeroDefinition.level_xp
 
 
 func balance_fields() -> PackedStringArray:

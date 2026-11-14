@@ -10,10 +10,12 @@ GODOT="/c/Program Files/Godot_v4.7.2-stable_win64.exe/Godot_v4.7.2-stable_win64.
 "$GODOT" --headless --path . --import                # refresh import/UID cache
 "$GODOT" --path .                                    # run main scene
 "$GODOT" --headless --path . -s res://tests/<t>.gd   # run a test (exit 1 = fail)
+for t in test_data test_map test_match; do "$GODOT" --headless --path . -s res://tests/$t.gd || echo "$t FAILED"; done
 
 # Web export (preset "Web" in export_presets.cfg: single-threaded, no GDExtension, desktop VRAM compression)
 rm -rf build/web && mkdir -p build/web
 "$GODOT" --headless --path . --export-release "Web" build/web/index.html   # exit 0, no ERROR/WARNING lines
+"$GODOT" --headless --main-pack build/web/index.pck --quit-after 5   # exported data loads: no ERROR lines
 python -m http.server 8000 -d build/web              # then open http://localhost:8000 (never file://)
 ```
 

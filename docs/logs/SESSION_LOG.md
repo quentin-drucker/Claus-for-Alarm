@@ -51,3 +51,37 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Known defects:** none.
 - **Repo commit after:** `8fa3293` (tag `p01-web-smoke`) + this log commit; local archive `build/archive/p01_smoke_web.zip`.
 - **Next suggested 1–4 task IDs:** approve MCP → close P00-T04; then P02-T01…T04 after owner go-ahead.
+
+#### SESSION 2026-11-13 — Claude (Opus 5.5) — P00-T04, P02, P03, P04 (G2)
+- **Goal:** close P00-T04; data definitions + sim clock (P02), greybox map (P03), match loop + HUD (P04) → G2.
+- **Read:** master §§2.3, 3, 4, 6, 7, P02–P04; HYB-M M-00…M-14; HYB-A A-01, A-02, A-06, A-07, A-11, A-12; HYB-B B-08, B-16.
+  Source facts fetched from teemo.dev (snowball speeds 25/35/45/80/87.5 u/s, $650 start cash, rounds 1–10 groups,
+  Dart footprint 6).
+- **Repo commit before:** `aa12a53`. Commits: `a849605` (P00-T04), `e8ca45a` (P02), `d526f6e` (P03), P04 commit + tag
+  `g2-match-skeleton` (this entry's commit).
+- **Files changed:** `addons/godot_mcp/` (0.1.2); `scripts/data/*` (8 definition classes), `scripts/core/{content,events,
+  game_event,sim_clock,economy_ledger,placement}.gd`, autoloads `Events`, `Content`; `resources/{towers,enemies,rounds,
+  heroes,rules}/*.tres` (22 files, generated once by a scratchpad builder that parsed doc 01's upgrade tables, builder
+  not kept); `scenes/world/ski_circuit.*`, `scenes/towers/tower.*`, `scenes/enemies/snowball.*`, `scenes/main/match.*`,
+  `scenes/ui/match_hud.*`; `tests/test_{data,map,match}.gd`; `docs/ARCHITECTURE.md` (new), `COMMANDS.md`, `CONVENTIONS.md`;
+  main scene → `match.tscn`; Web preset excludes `addons/*, tests/*`.
+- **Tests run:** `-s res://tests/test_data.gd`, `test_map.gd`, `test_match.gd` → PASS (exit 0); editor process runs driven
+  with MCP input/screenshots; `--export-release "Web"` exit 0, 0 warnings; `--main-pack build/web/index.pck` clean boot.
+- **Editor/game result:** 0 errors; placement, selection, sell, start, pause, 2×, restart verified in-game.
+- **Web result / browser:** Chrome (playwright-cli, local `http.server`): console 0 errors/0 warnings; ghost under cursor
+  at 1280×720, 1366×768, 1920×1080, 900×700; round 1 → 130 lives, $551 (same as headless); pause overlay. 39 MB raw,
+  wasm 10.1 MB gzip.
+- **Screenshots/logs:** `docs/logs/evidence/p02_status_report.txt`, `p03_placement_invalid_track.png`, `p04_*.png`,
+  `p04_test_match.log`, `p04_web_console.log`, `p04_web_export.log`.
+- **Finished and checked tasks:** P00-T04; P02-T01…T14; P03-T01…T11; P04-T01…T10; G2.
+- **Partial tasks / why:** P02 kept lean by owner instruction (no ability/crosspath-transform fields, no status
+  resistances yet; added when P05/P09 need them). Upgrade purchase UI shows next tiers only (P09). Win/lose overlay
+  proven by tests, not screenshotted. Fullscreen not re-tested in browser (P01 covered it; `F` is now speed).
+- **New gap/deviation IDs:** none filed. Assumptions in data: Medium lives 150 (`PROTOTYPE_ASSUMPTION`), footprint 6
+  for all towers/hero except Dart (`PROTOTYPE_ASSUMPTION`), wax slow duration missing (needed in P06).
+- **Known defects / findings:** (1) Web export dropped a `PackedInt32Array` export from `camel_claus.tres` (desktop fine)
+  → switched to `Array[int]`, rule added to CONVENTIONS. (2) MCP can't set `PackedVector3Array` exports → map waypoints
+  are `Marker3D` children. (3) Editor crashed once mid-session (relaunched, no data loss). (4) Owner declined deleting
+  `scenes/main/smoke_test.*`; it is no longer the main scene but still in the repo/export.
+- **Approved owner decisions:** none new. Rounds = exact source rounds 1–10 as a placeholder until D-03.
+- **Next suggested 1–4 task IDs:** P05-T01…T04 (layer chain, shell damage, children, pop cash) after owner go-ahead.

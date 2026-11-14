@@ -57,6 +57,12 @@ references/  design/ (00 master plan, 01–03 hybrid specs) and research/ (BTD6,
 - After changing a data script's fields or defaults, the editor may keep the old script cached; saving a `.tres` through
   MCP then drops values equal to the *old* defaults. Check the `.tres` text afterwards (or write it explicitly).
 
+- No `Packed*Array` exports in data Resources: the Web export dropped a `PackedInt32Array` from a `.tres`
+  (desktop runs were fine). Use `Array[int]` / `Array[StringName]`. MCP also can't set `PackedVector3Array`
+  exports; for map points use `Marker3D` children.
+- After an export, run the exported pack once (`--main-pack build/web/index.pck`) — it catches data the
+  editor and tests load fine but the export breaks.
+
 ## Art pipeline
 
 - Follow `references/design/03_Camel_Claus_Hybrid_3D_Assets_Blender.md` (anti-primitive charter, QA gates, sockets).

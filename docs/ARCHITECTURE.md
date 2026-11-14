@@ -50,3 +50,34 @@ listens to events. Nothing in presentation may change cash, lives, damage or rou
   2.5 m right of the map so the right-hand shop never covers the course. Orthographic keeps range rings true
   circles in size everywhere and makes cursor → ground picking exact at any window size.
 - Geometry is frozen by `tests/test_map.gd`; changing the route/blockers requires a balance review.
+
+## Match (P04) — `scenes/main/match.tscn` + `scenes/ui/match_hud.tscn`
+
+States (`match.gd` `State`, legal moves in `TRANSITIONS`; illegal ones push an error and are ignored):
+
+```
+BOOT → PREPARE → ROUND_SPAWN → ROUND_CLEANUP → ROUND_REWARD → PREPARE … → WON
+                  ROUND_SPAWN / ROUND_CLEANUP → LOST (lives ≤ 0)
+```
+
+- READY is folded into PREPARE. **Pause is not a state**: it freezes `SimClock` in any live state and resumes
+  exactly where it was.
+- ROUND_SPAWN ends when the round's schedule is fully spawned; ROUND_CLEANUP ends only when no snowball is
+  left, so a round can't complete while snowballs are still on the course. ROUND_REWARD credits
+  `round_bonus_base + round` through the ledger.
+- Tick order: spawn due enemies → move snowballs → leaks (lives −= RBE, once) → state checks.
+- `match.changed` fires on every HUD-visible change; the HUD refreshes only then (debug overlay excepted).
+
+| Control | PREPARE | ROUND_SPAWN / CLEANUP | Paused | WON / LOST |
+|---|---|---|---|---|
+| Start round (Space / button) | ✔ | — (ignored) | — | — |
+| Pause / resume (P / button) | ✔ | ✔ | ✔ | — |
+| Speed 1×/2× (F / button) | ✔ | ✔ | ✔ | — |
+| Buy (1–6 / shop), place (click), sell | ✔ | ✔ | ✔ | — |
+| Cancel (Esc / right-click) | ✔ | ✔ | ✔ | — |
+| Restart (overlay button) | — | — | ✔ | ✔ |
+
+- Browser input: HUD buttons use `focus_mode = NONE`, so Space can't re-press a focused button; world clicks
+  come through `_unhandled_input`, so clicks on HUD panels never place or select in the world. Esc only
+  cancels (browsers reserve Esc to leave fullscreen). F3 debug overlay exists only in debug builds.
+- Restart = `reload_current_scene()`: fresh clock, ledger, towers, snowballs, event connections.
