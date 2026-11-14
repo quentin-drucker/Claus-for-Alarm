@@ -1,0 +1,18 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Export output
+/build/
+
+# Raw third-party research (BTD6). Our own hybrid docs in references/ are committed.
+/references/**/BTD6_*
+
+# Local machine / tool config
+/.claude/
+/.mcp.json
+.playwright-cli/
+__pycache__/
+
+# Blender backup files
+*.blend1
