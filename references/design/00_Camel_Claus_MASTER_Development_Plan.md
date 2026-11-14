@@ -1082,7 +1082,7 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | DEC-010 | 2026-11-13 | D-06 winter names + overlays, separate mechanic flags | PROPOSED | |
 | DEC-011 | 2026-11-13 | D-07 3×5 architecture, ship only verified tiers | PROPOSED | |
 | DEC-012 | 2026-11-13 | D-08 per-field provenance, no "exact parity" claims | PROPOSED | |
-| DEC-013 | 2026-11-13 | D-09 hero pose/weapon/costume | DEFERRED | Needed before P15/P16 |
+| DEC-013 | 2026-11-13 | D-09 hero pose/weapon/costume | CLOSED by DEC-033 | Needed before P15/P16 |
 | DEC-014 | 2026-11-13 | D-10 boss / giant snowmass | DEFERRED | Only if scripted + tested |
 | DEC-015 | 2026-11-13 | D-11 studio website / host | REQUIRED by rules | Game on itch.io (HTML, single-threaded) + public studio website linking to it; 25/100 judging points (`docs/HACKATHON.md`) |
 | DEC-016 | 2026-11-13 | D-12 original college-inspired look, no official marks | PROPOSED | |
@@ -1101,6 +1101,10 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | DEC-029 | 2026-11-14 | Game speeds 1× / 2× / **4×** (ORIGINAL_DEVIATION; BTD6 is 1×/fast) | APPROVED (owner) | Speed only makes the simulation run faster: every round looks and resolves identically at 1×/2×/4× (same spawns, hits, pops, cash, outcomes) |
 | DEC-030 | 2026-11-14 | **Full upgrade depth for Endless:** every tier 1–5 on all three paths of all six towers (incl. abilities, e.g. Supply Drop) and Camel Claus levels 6–20 (Blizzard Barrage etc.) get fully implemented, even if a normal 25-round demo never reaches them, because Continue runs to round 80. Missing source numbers use DEC-024 fillers | APPROVED (owner), DEFERRED | Do after the 25-round demo is solid; ships with DEC-027 Endless |
 | DEC-031 | 2026-11-14 | **No Regrow snowballs (backburner).** Source rounds with Regrow bloons keep the exact same groups, counts and timing, but spawn the plain snowball type without the regrow property (e.g. round 17's 12 Regrow Yellow → 12 Violet). Logged as a deliberate deviation from DEC-026 | APPROVED (owner) | Regrow may be added far later; see REGISTRY backburner |
+| DEC-032 | 2026-11-14 | **Art scope: everything polished** — hero, all six towers (+ upgrade looks for shipped tiers), snowballs, map and UI aim for HYB-B quality; nothing ships as a primitive collage | APPROVED (owner) | Order: style slice → map + snowballs → hero → towers → upgrade looks; owner approves each slice |
+| DEC-033 | 2026-11-14 | **D-09 Camel Claus = bipedal mascot**, upright, two-handed ski-pole launcher | APPROVED (owner) | Closes D-09 (was DEC-013 DEFERRED) |
+| DEC-034 | 2026-11-14 | **Tower characters = chibi elves** (not chibi humans): same chibi athlete base form, but elf traits (e.g. ears, proportions, festive trims). Elves differ visibly per tower in size, build, outfit and look, and each tower's look evolves as upgrades are bought (tier 1–2 accessories, tier 3 path identity per HYB-B B-05/A-04) | APPROVED (owner) | Overrides HYB-A A-03 "generic athletes" naming; mechanics unchanged |
+| DEC-035 | 2026-11-14 | **Audio = AI-generated music + code-synthesized SFX** for now; owner may later swap some for CC0/free downloads. Keep a provenance/credits ledger per file | APPROVED (owner) | HYB-A A-10 mixing/bus rules still apply |
 
 ### 12.4 Risk register and responses
 
