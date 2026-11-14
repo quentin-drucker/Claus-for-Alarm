@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claus for Alarm by Camel Claus</title>
+  <meta name="description" content="Camel Claus is a student game studio at Connecticut College. Play Claus for Alarm, a winter-sports tower defense game, free in your browser.">
+  <meta property="og:title" content="Claus for Alarm by Camel Claus">
+  <meta property="og:description" content="Winter athletes defend a snowy college ski course from layered rolling snowballs. Free, in your browser.">
+  <meta name="theme-color" content="#173C4E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F59471' stroke='%23173C4E' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='10.5' fill='%23BD8DF1'/%3E%3Ccircle cx='16' cy='16' r='6.5' fill='%234ACAAA'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23DBE9F5'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bowlby+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="hero">
+    <nav class="topbar" aria-label="Main">
+      <a class="wordmark" href="#studio">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#F59471" stroke="#E7F4F8" stroke-width="2"/><circle cx="16" cy="16" r="10.5" fill="#BD8DF1"/><circle cx="16" cy="16" r="6.5" fill="#4ACAAA"/><circle cx="16" cy="16" r="3" fill="#DBE9F5"/></svg>
+        Camel Claus
+      </a>
+      <ul>
+        <li><a href="#game">The game</a></li>
+        <li><a href="#themes">Themes</a></li>
+        <li><a href="#ai">How we built it</a></li>
+        <li><a href="#team">Team</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1>Claus for Alarm</h1>
+        <p class="lede">Rolling snowballs are crashing the college winter games. Line the ski course with toy-like
+          winter athletes and keep every last snowball from reaching the bottom.</p>
+        <p class="actions">
+          <a class="btn btn-play" data-itch href="#game">Play in your browser</a>
+          <a class="btn btn-ghost" href="#how">How to play</a>
+        </p>
+        <p class="fine">Free on itch.io. Best on a computer with a mouse and keyboard.</p>
+      </div>
+
+      <svg class="slope" viewBox="0 0 800 640" role="img" aria-labelledby="slope-title">
+        <title id="slope-title">Colored snowballs rolling down a winding ski course past pine trees and a lit lodge</title>
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#173C4E"/><stop offset="1" stop-color="#20517A"/>
+          </linearGradient>
+          <path id="course" d="M650 70 C760 150 690 210 520 235 S250 300 320 385 S610 470 420 540 S110 600 40 660"/>
+          <g id="pine"><path d="M0-46 L16-18 H8 L22 6 H-22 L-8-18 H-16Z" fill="#1B6D68"/><rect x="-3" y="6" width="6" height="8" fill="#A8795A"/></g>
+          <g id="seam"><path d="M-14 0 Q0-7 14 0" fill="none" stroke="#173C4E" stroke-opacity=".35" stroke-width="2"/></g>
+        </defs>
+
+        <path d="M0 330 L250 170 L420 210 L620 40 L800 130 V640 H0Z" fill="#2C6487" opacity=".55"/>
+        <path d="M0 470 C140 380 330 230 470 150 C560 115 620 60 680 40 C740 70 780 110 800 130 V640 H0Z" fill="#E7F4F8"/>
+        <path d="M680 40 C650 120 600 160 540 190 M230 400 C265 430 275 480 245 520" fill="none" stroke="#AFC7D5" stroke-width="5" stroke-linecap="round"/>
+
+        <use href="#course" fill="none" stroke="#C9DCE6" stroke-width="54" stroke-linecap="round"/>
+        <use href="#course" fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round"/>
+        <use href="#course" fill="none" stroke="#AFC7D5" stroke-width="2" stroke-dasharray="10 14"/>
+
+        <g stroke-width="3">
+          <path d="M486 205 v-30" stroke="#173C4E"/><path d="M486 175 l18 6 -18 6Z" fill="#D9545C"/>
+          <path d="M355 350 v-30" stroke="#173C4E"/><path d="M355 320 l18 6 -18 6Z" fill="#20517A"/>
+          <path d="M470 520 v-30" stroke="#173C4E"/><path d="M470 490 l18 6 -18 6Z" fill="#D9545C"/>
+        </g>
+
+        <use href="#pine" x="120" y="530"/><use href="#pine" x="165" y="555"/>
+        <use href="#pine" x="610" y="330"/><use href="#pine" x="650" y="360"/><use href="#pine" x="700" y="300"/>
+        <use href="#pine" x="265" y="340"/><use href="#pine" x="560" y="610"/>
+
+        <g transform="translate(600 470)">
+          <rect x="0" y="40" width="150" height="80" fill="#A8795A"/>
+          <path d="M-14 46 L75 -4 L164 46Z" fill="#D9545C"/>
+          <path d="M-14 46 L75 -4 L164 46" fill="none" stroke="#E7F4F8" stroke-width="7" stroke-linejoin="round"/>
+          <rect x="18" y="62" width="28" height="24" rx="3" fill="#F9C96D"/>
+          <rect x="104" y="62" width="28" height="24" rx="3" fill="#F9C96D"/>
+          <rect x="61" y="76" width="28" height="44" rx="3" fill="#173C4E"/>
+          <circle cx="75" cy="58" r="11" fill="none" stroke="#1B6D68" stroke-width="5"/>
+        </g>
+
+        <g class="balls">
+          <g><g><circle r="15" fill="#F59471" stroke="#173C4E" stroke-width="2.5"/><use href="#seam"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="0.9s" repeatCount="indefinite"/></use><ellipse cx="-5" cy="-6" rx="5" ry="3" fill="#fff" opacity=".7"/></g>
+            <animateMotion dur="8s" repeatCount="indefinite" begin="0s"><mpath href="#course"/></animateMotion></g>
+          <g><g><circle r="14" fill="#BD8DF1" stroke="#173C4E" stroke-width="2.5"/><use href="#seam"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1s" repeatCount="indefinite"/></use><ellipse cx="-5" cy="-6" rx="5" ry="3" fill="#fff" opacity=".7"/></g>
+            <animateMotion dur="8s" repeatCount="indefinite" begin="-1.6s"><mpath href="#course"/></animateMotion></g>
+          <g><g><circle r="13" fill="#4ACAAA" stroke="#173C4E" stroke-width="2.5"/><use href="#seam"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.1s" repeatCount="indefinite"/></use><ellipse cx="-4" cy="-5" rx="4.5" ry="2.6" fill="#fff" opacity=".7"/></g>
+            <animateMotion dur="8s" repeatCount="indefinite" begin="-3.2s"><mpath href="#course"/></animateMotion></g>
+          <g><g><circle r="12" fill="#72CEF5" stroke="#173C4E" stroke-width="2.5"/><use href="#seam"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.2s" repeatCount="indefinite"/></use><ellipse cx="-4" cy="-5" rx="4" ry="2.4" fill="#fff" opacity=".7"/></g>
+            <animateMotion dur="8s" repeatCount="indefinite" begin="-4.8s"><mpath href="#course"/></animateMotion></g>
+          <g><g><circle r="11" fill="#DBE9F5" stroke="#173C4E" stroke-width="2.5"/><use href="#seam"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.3s" repeatCount="indefinite"/></use><ellipse cx="-3" cy="-4" rx="3.5" ry="2" fill="#fff" opacity=".9"/></g>
+            <animateMotion dur="8s" repeatCount="indefinite" begin="-6.4s"><mpath href="#course"/></animateMotion></g>
+        </g>
+      </svg>
+    </div>
+
+    <svg class="lights" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 8 Q150 50 300 8 T600 8 T900 8 T1200 8" fill="none" stroke="#0E2735" stroke-width="2"/>
+      <g>
+        <circle cx="60" cy="22" r="6" fill="#F9C96D"/><circle cx="150" cy="29" r="6" fill="#D9545C"/>
+        <circle cx="240" cy="22" r="6" fill="#4ACAAA"/><circle cx="360" cy="22" r="6" fill="#72CEF5"/>
+        <circle cx="450" cy="29" r="6" fill="#F9C96D"/><circle cx="540" cy="22" r="6" fill="#D9545C"/>
+        <circle cx="660" cy="22" r="6" fill="#4ACAAA"/><circle cx="750" cy="29" r="6" fill="#F9C96D"/>
+        <circle cx="840" cy="22" r="6" fill="#BD8DF1"/><circle cx="960" cy="22" r="6" fill="#D9545C"/>
+        <circle cx="1050" cy="29" r="6" fill="#72CEF5"/><circle cx="1140" cy="22" r="6" fill="#F9C96D"/>
+      </g>
+    </svg>
+  </header>
+
+  <main id="main">
+    <section id="studio" class="band studio">
+      <div class="wrap narrow">
+        <h2>We are Camel Claus</h2>
+        <p>Camel Claus is a student game studio from Connecticut College, home of the Camels. We make small, bright
+          games you can play in a browser tab. Claus for Alarm is our entry for the Camel Code Jam: Holiday Edition,
+          designed and built in one weekend, November 13 to 15, 2026.</p>
+      </div>
+    </section>
+
+    <section id="game" class="band game">
+      <div class="wrap">
+        <h2>The game</h2>
+        <p class="intro">Claus for Alarm is a tower defense game set on a snowy, fictional version of campus during
+          the holidays. Snowballs roll down the college ski course in colored layers, and your crew of winter athletes
+          has to stop them before the finish.</p>
+
+        <div class="trail-board" id="how">
+          <h3>How to play</h3>
+          <dl>
+            <dt>Controls</dt>
+            <dd>Press <kbd>1</kbd>–<kbd>6</kbd> or click a card to pick a defender, then click the snow to place it.
+              <kbd>Space</kbd> starts the next round. Click a defender to upgrade it; <kbd>T</kbd> changes its target,
+              <kbd>P</kbd> pauses, <kbd>F</kbd> toggles 2× speed, and <kbd>Esc</kbd> or right-click cancels.</dd>
+            <dt>Objective</dt>
+            <dd>Every hit knocks one shell off a snowball and reveals a slower one underneath. Clearing snowballs earns
+              cash for more defenders and upgrades.</dd>
+            <dt>Win or lose</dt>
+            <dd>Survive the final round to win. Each snowball that reaches the bottom of the course costs lives; run out
+              and the winter games are cancelled.</dd>
+          </dl>
+          <a class="btn btn-play" data-itch href="#game">Play Claus for Alarm</a>
+        </div>
+
+        <h3 class="sub">Know your snowballs</h3>
+        <ol class="layers" aria-label="Snowball layers from toughest to weakest">
+          <li><span class="ball" style="--c:#F59471"></span>Coral<small>fastest</small></li>
+          <li><span class="ball" style="--c:#BD8DF1"></span>Violet</li>
+          <li><span class="ball" style="--c:#4ACAAA"></span>Mint</li>
+          <li><span class="ball" style="--c:#72CEF5"></span>Blue</li>
+          <li><span class="ball" style="--c:#DBE9F5"></span>Powder<small>last layer</small></li>
+        </ol>
+
+        <h3 class="sub">The defenders</h3>
+        <dl class="roster">
+          <div><dt>Snowball Rookie</dt><dd>Cheap and quick. Throws snowballs at anything in reach.</dd></div>
+          <div><dt>Avalanche Cannon</dt><dd>Lobs packed snow that bursts across a whole cluster.</dd></div>
+          <div><dt>Biathlon Ranger</dt><dd>A marksman on skis who hits from across the map.</dd></div>
+          <div><dt>Slope Wax Sprayer</dt><dd>Coats snowballs in sticky wax so they crawl down the course.</dd></div>
+          <div><dt>Snow Sorcerer</dt><dd>Winter magic for the layers the others struggle with.</dd></div>
+          <div><dt>Ski Resort Ticket Booth</dt><dd>Sells lift tickets. Click them to collect extra cash.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="themes" class="band themes">
+      <div class="wrap">
+        <h2>Two themes, one ski hill</h2>
+        <div class="theme-cols">
+          <article>
+            <h3>Christmas at Conn</h3>
+            <p>The map is a snowy, made-up take on campus at the holidays: lodge cabins with lit windows, fir trees,
+              garlands, presents and falling snow. The studio and the game are named for Camel Claus, a festive spin on
+              Conn's camel mascot, and the enemies are the snowballs every December brings.</p>
+          </article>
+          <article>
+            <h3>Winter sports</h3>
+            <p>Every defender is a winter athlete or a piece of ski-hill gear: a snowball thrower, a biathlete, an
+              avalanche cannon, a wax crew that slicks the track and a lift-ticket booth that funds the team. The path
+              is a downhill ski course, and the snowballs race down it.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="screens" class="band screens">
+      <div class="wrap">
+        <h2>Screenshots</h2>
+        <div class="shots">
+          <figure><div class="frame"><img src="img/shot-1.png" alt="The ski course mid-round with defenders and snowballs" loading="lazy" onerror="this.remove()"><span>Screenshot coming soon</span></div><figcaption>The ski course mid-round</figcaption></figure>
+          <figure><div class="frame"><img src="img/shot-2.png" alt="Upgrading a defender" loading="lazy" onerror="this.remove()"><span>Screenshot coming soon</span></div><figcaption>Upgrading a defender</figcaption></figure>
+          <figure><div class="frame"><img src="img/shot-3.png" alt="The victory screen" loading="lazy" onerror="this.remove()"><span>Screenshot coming soon</span></div><figcaption>Winning the winter games</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai" class="band ai">
+      <div class="wrap narrow">
+        <h2>How we built it with AI</h2>
+        <p>AI-assisted development was part of the plan from the first hour. We worked with an AI coding agent
+          (Claude Code) in small, checked steps rather than asking for a whole game at once.</p>
+        <ol class="steps">
+          <li><h3>A phased master plan</h3>
+            <p>We turned the jam rules and both themes into a master development plan: 22 phases and about 300 numbered
+              tasks, each with a gate that only gets ticked when there is evidence, such as a passing test, a screenshot
+              or a browser run.</p></li>
+          <li><h3>Design docs as the source of truth</h3>
+            <p>Three companion documents cover gameplay and balance, art, UI and audio, and 3D models in Blender. Before
+              each task the agent reads the exact sections that task names, so the game stays consistent.</p></li>
+          <li><h3>Working inside Godot through MCP</h3>
+            <p>Through a Godot MCP server, the agent builds scenes, edits GDScript, runs the game and reads its errors
+              directly in the Godot editor, the same way a teammate at the keyboard would.</p></li>
+          <li><h3>Tests, bots and a paper trail</h3>
+            <p>Headless test scripts and bot players run full matches to check combat and balance. Every verified step
+              is committed and pushed, and each session ends with an entry in our development log.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="team" class="band team">
+      <div class="wrap">
+        <h2>Team and credits</h2>
+        <ul class="people">
+          <li><strong>Team member name</strong><span>Role, e.g. design and code</span></li>
+          <li><strong>Team member name</strong><span>Role, e.g. art and 3D models</span></li>
+          <li><strong>Team member name</strong><span>Role, e.g. audio and website</span></li>
+        </ul>
+        <h3 class="sub">Credits</h3>
+        <ul class="credits">
+          <li>Made with <a href="https://godotengine.org">Godot Engine</a> 4.7 (MIT license).</li>
+          <li>Fonts: <a href="https://fonts.google.com/specimen/Bowlby+One">Bowlby One</a> and
+            <a href="https://fonts.google.com/specimen/Atkinson+Hyperlegible">Atkinson Hyperlegible</a>
+            (SIL Open Font License).</li>
+          <li>3D models: credit or "made by the team" goes here.</li>
+          <li>Music and sound effects: credit and license go here.</li>
+          <li>Built with AI assistance, as allowed by the Camel Code Jam rules.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p>Claus for Alarm by Camel Claus, Camel Code Jam 2026, Connecticut College.</p>
+      <a class="btn btn-play" data-itch href="#game">Play now</a>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+</body>
+</html>
