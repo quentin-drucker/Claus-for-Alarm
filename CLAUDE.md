@@ -5,6 +5,7 @@
 # Claus for Alarm (hackathon entry)
 
 The hackathon's Camel Claus game. TODO: one-line pitch.
+Theme: festive / Christmas at Conn; secret sub-theme: Winter Sports (see `docs/HACKATHON.md`).
 
 @docs/CONVENTIONS.md
 

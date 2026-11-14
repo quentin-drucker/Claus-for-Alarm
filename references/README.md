@@ -1,10 +1,11 @@
 # References
 
-Notes and images from games that inspire Claus for Alarm (mainly BTD6). Not game assets (`.gdignore`d).
+Not game assets (`.gdignore`d).
 
-- `game_mechanics/` — how the reference games work: towers, upgrade paths, targeting, economy, rounds/waves,
-  enemy types, maps/paths, difficulty, UI flow, numbers.
-- `art_style/` — how they look and feel: palette, shapes, characters, UI, effects, animation, audio, mood.
-
-The game's own versions live in `docs/` (`ART_DIRECTION.md` etc.) and are built from these notes.
-Put third-party images in `.gitignore` if they shouldn't be committed.
+- `research/` — raw BTD6 research (gameplay/balance, art/UI/audio, 3D modeling). Study material only;
+  gitignored, not committed.
+- `design/` — our hybrid Camel Claus design docs built from that research. These are the direct guide
+  for the game:
+  - `01_Camel_Claus_Hybrid_Gameplay_and_Balance.md` — how the game functions
+  - `02_Camel_Claus_Hybrid_Art_UI_Audio.md` — how it looks, sounds and communicates
+  - `03_Camel_Claus_Hybrid_3D_Assets_Blender.md` — how to build the 3D assets

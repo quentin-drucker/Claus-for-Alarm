@@ -5,8 +5,8 @@
 # Export output
 /build/
 
-# Raw third-party research (BTD6). Our own hybrid docs in references/ are committed.
-/references/**/BTD6_*
+# Raw third-party research (BTD6). references/design/ (our hybrid docs) is committed.
+/references/research/
 
 # Local machine / tool config
 /.claude/
