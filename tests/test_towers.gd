@@ -26,6 +26,7 @@ func _run() -> void:
 	root.get_node("Events").emitted.connect(func(e: RefCounted) -> void: _events.append(e))
 	_test_cannon()
 	_test_ranger()
+	_test_wax()
 	print("test_towers: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -134,4 +135,46 @@ func _test_ranger() -> void:
 			twin.def.id, camo.def.id])
 	_sim(m, 1.6)  # second shot after 1.59 s: next strongest (the twin Coral)
 	_check(twin.def.id == &"mint", "second shot after the 1.59 s interval")
+	m.free()
+
+
+## P08-T04 / P06-T08: wax is status only: 50% slow for its duration, no layer damage, no pop cash; a waxed
+## snowball is not re-targeted; weaker wax never overrides stronger; a layer break sheds wax unless it soaks;
+## glue-immune snowballs ignore it.
+func _test_wax() -> void:
+	var wax: Resource = content.get_tower(&"slope_wax_sprayer")
+	var a: Resource = wax.attacks[0]
+	_check(a.damage == 0 and a.slow_factor == 0.5 and a.pierce == 1 and a.slow_duration_s > 0.0, "wax data")
+	var m: Node3D = _new_match()
+	m.try_place(wax, SPOT)
+	m._spawn(&"coral")
+	var s: Node3D = m.snowballs[-1]
+	s.distance = 12.5
+	s.position = m.course.position_at(12.5)
+	_events.clear()
+	_sim(m, 0.5)
+	_check(s.def.id == &"coral" and s.slow_left > a.slow_duration_s - 0.6, "waxed, no layer lost (%s, %.2f s left)"
+			% [s.def.id, s.slow_left])
+	_check(is_equal_approx(s.current_speed(), s.def.speed_units * 0.5), "speed halved (%.1f)" % s.current_speed())
+	_sim(m, 2.0)
+	var fired: int = _events.filter(func(e: RefCounted) -> bool: return e.type == &"attack_fired").size()
+	_check(fired == 1, "waxed snowball is not re-targeted (fired %d)" % fired)
+	_check(_cash(m, &"pop") == 0 and not _events.any(func(e: RefCounted) -> bool: return e.type == &"layer_broken"),
+			"no pop cash, no layer broken")
+	_sim(m, a.slow_duration_s)
+	_check(s.slow_left <= 0.0 and is_equal_approx(s.current_speed(), s.def.speed_units), "wax wears off")
+
+	s.apply_slow(0.5, 5.0, false)
+	s.apply_slow(0.3, 9.0, false)
+	_check(s.slow_factor == 0.5 and is_equal_approx(s.slow_left, 5.0), "weaker wax ignored")
+	s.apply_slow(0.5, 8.0, false)
+	_check(is_equal_approx(s.slow_left, 8.0), "equal wax refreshes the duration")
+	m.damage_snowball(s, 1, &"sharp", 1)
+	_check(s.slow_left <= 0.0, "a layer break sheds ordinary wax")
+	s.apply_slow(0.5, 8.0, true)
+	m.damage_snowball(s, 1, &"sharp", 1)
+	_check(s.slow_left > 0.0, "soaking wax survives a layer break")
+	var immune: Node3D = _park(m, &"blue", 30.0, [&"immune_glue"])
+	m._apply(a, immune, 1)
+	_check(immune.slow_left <= 0.0, "glue-immune snowball ignores wax")
 	m.free()
