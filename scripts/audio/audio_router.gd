@@ -31,7 +31,7 @@ const ATTACK_SFX: Array[Array] = [["snow_sorcerer_fireball", &"fireball"], ["sno
 	["avalanche_cannon", &"cannon_fire"], ["biathlon_ranger", &"ranger"], ["snow_sorcerer", &"chime"],
 	["camel_claus", &"hero_shot"]]
 ## Broken layer -> crunch pitch: outer Powder bright and light, deep Coral fuller (camo shares its colour).
-## Other shells (Black / White / Purple) use crunch_heavy.
+## Other shells (Black / White / Aurora; Aurora's id stays `purple`) use crunch_heavy.
 const LAYER_PITCH: Dictionary[String, float] = {"powder": 1.18, "blue": 1.1, "mint": 1.02, "violet": 0.95, "coral": 0.88}
 const MUSIC_LOOPS: Dictionary[StringName, bool] = {&"menu": true, &"gameplay": true, &"victory": false, &"defeat": false}
 const AMBIENCE_DIR: String = "res://assets/audio/ambience/"
