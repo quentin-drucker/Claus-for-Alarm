@@ -174,7 +174,7 @@ To facilitate reuse of BTD6 balance, retain for each original mechanic: attack t
 | ID | Milestone | Core phases | Gate / demonstration | Status | Evidence |
 |---|---|---|---|---|---|
 | G0 | Specifications and decisions recorded | P00 | All three hybrid MDs found; unresolved defaults tracked; source precedence accepted | ✅ | `docs/logs/SESSION_LOG.md` (2026-11-13), baseline `d1567e1` |
-| G1 | Editor & Web smoke | P01 | Project boots in editor; minimal Web export actually opens in browser | ⬜ | — |
+| G1 | Editor & Web smoke | P01 | Project boots in editor; minimal Web export actually opens in browser | ✅ | `docs/logs/evidence/p01_*`, tag `p01-web-smoke` |
 | G2 | Data-driven match skeleton | P02–P04 | Path + towers + states work independently of final art | ⬜ | — |
 | G3 | Complete combat/economy vertical slice | P05–P07 | Layer changes, money, rounds, leaks, win/lose verified | ⬜ | — |
 | G4 | Initial six-tower mechanical roster | P08–P09 | All six tower **base kits** validated; at least a small verified upgrade sample; path locks | ⬜ | — |
@@ -404,7 +404,7 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 - [x] **P00-T01** — Copy all three hybrid docs into `references/design/` with **exact expected filenames**, and place this master alongside them; confirm no `.md.md` extensions or renamed `(1)` duplicates.
 - [x] **P00-T02** — Confirm the three original BTD6 MD references are in `references/research/` and clarify any missing optional JSON without blocking work.
 - [x] **P00-T03** — Read `CLAUDE.md`, `AGENTS.md`, `.mcp.json`, `project.godot`, Git status and existing project content; report actual current game implementation rather than assuming project is blank.
-- [ ] **P00-T04** — Verify engine executable, version, Compatibility renderer, Godot MCP editor connection, and that Claude Code is acting in the correct Cursor workspace. — **PARTIAL:** exe, version 4.7.2 and Compatibility renderer verified; MCP connection not verified (session opened on parent folder, `addons/godot_mcp` not yet installed). Re-check at start of P01.
+- [ ] **P00-T04** — Verify engine executable, version, Compatibility renderer, Godot MCP editor connection, and that Claude Code is acting in the correct Cursor workspace. — **PARTIAL:** exe, version 4.7.2 and Compatibility renderer verified; MCP connection not verified. 2026-11-13 P01 session: `claude mcp list` shows server `godot` **⏸ Pending approval** (owner must approve it via `/mcp` or by restarting `claude` in `claus-for-alarm/`); no `godot_*` tools loaded, `addons/godot_mcp` absent.
 - [x] **P00-T05** — Create initial Git commit/checkpoint of current working configuration; protect existing work and configuration.
 - [x] **P00-T06** — Record every user-approved roster entry, its source counterpart, and every explicit exclusion in the game-facing design registry (not yet content scenes).
 - [x] **P00-T07** — Confirm owner decisions D-01–D-12 as LOCKED, PROPOSED or DEFERRED; do not unilaterally resolve high-impact ambiguities.
@@ -420,16 +420,16 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-01/M-12; HYB-A A-12; HYB-B B-15; official Godot Web docs.  
 **Gate:** G1.
 
-- [ ] **P01-T01** — Create a tiny main scene with camera, fixed test geometry and `PLAY TEST` text; set project main scene only after verifying existing project contents.
-- [ ] **P01-T02** — Run scene in Godot editor; check Output/Debugger for parse errors, script warnings and missing resources.
-- [ ] **P01-T03** — Install/check matching Godot Web export templates for actual installed engine version; do not assume templates installed because editor works.
-- [ ] **P01-T04** — Configure an export preset for Web with Compatibility/WebGL 2; start with single-threaded mode unless actual host/browser testing requires otherwise.
-- [ ] **P01-T05** — Export a minimal `index.html` plus required sibling files to local build directory; serve via HTTP(s), not unsupported `file://` assumptions.
-- [ ] **P01-T06** — Open in target desktop browser, check console, click/keyboard input, resize and fullscreen; document any restrictions.
-- [ ] **P01-T07** — Test audio gesture unlock with a tiny licensed/original sound stub so late-phase sound design does not surprise the release.
-- [ ] **P01-T08** — Measure initial baseline FPS/frametime/loading size; note device, browser and resolution for future comparisons.
-- [ ] **P01-T09** — Add a tiny script/shell note describing repeatable export, local serve and smoke test, including expected output paths.
-- [ ] **P01-T10** — Checkpoint the smoke-test state and keep an immediately restorable minimal Web build.
+- [x] **P01-T01** — Create a tiny main scene with camera, fixed test geometry and `PLAY TEST` text; set project main scene only after verifying existing project contents. — `scenes/main/smoke_test.tscn/.gd` (engine-generated via headless builder, MCP unavailable); `run/main_scene` set; project had no scenes before.
+- [x] **P01-T02** — Run scene in Godot editor; check Output/Debugger for parse errors, script warnings and missing resources. — windowed debug run with the editor binary (`--path . --quit-after 600`, exit 0, GL Compatibility on RTX 5080): 0 errors/warnings, `docs/logs/evidence/p01_editor_run.log`. In-editor F5 not driven (no MCP).
+- [x] **P01-T03** — Install/check matching Godot Web export templates for actual installed engine version; do not assume templates installed because editor works. — `export_templates/4.7.2.stable/web_*` present and used by a successful export.
+- [x] **P01-T04** — Configure an export preset for Web with Compatibility/WebGL 2; start with single-threaded mode unless actual host/browser testing requires otherwise. — `export_presets.cfg` preset `Web`, `thread_support=false`; browser log confirms `single-threaded`, WebGL 2.0.
+- [x] **P01-T05** — Export a minimal `index.html` plus required sibling files to local build directory; serve via HTTP(s), not unsupported `file://` assumptions. — headless `--export-release` exit 0, 0 warnings (`docs/logs/evidence/p01_web_export.log`); served by `python -m http.server`.
+- [x] **P01-T06** — Open in target desktop browser, check console, click/keyboard input, resize and fullscreen; document any restrictions. — Chrome 157 (Playwright, ANGLE/D3D11 GPU): console 0 errors/0 warnings, L/R click + keys logged, canvas tracks 1280×720/1366×768/900×700, `F` enters/leaves fullscreen. `docs/logs/evidence/p01_web_*.png`, `p01_web_console.log`. Not yet tested: Firefox/Edge, real-user zoom 90%.
+- [x] **P01-T07** — Test audio gesture unlock with a tiny licensed/original sound stub so late-phase sound design does not surprise the release. — original synthesized `assets/audio/sfx_smoke_blip.wav`; AudioContext `suspended` before gesture → `running` after first click, blip played on each input. Audibility not confirmed by ear (automated browser).
+- [x] **P01-T08** — Measure initial baseline FPS/frametime/loading size; note device, browser and resolution for future comparisons. — RTX 5080 laptop, Chrome 157 headless, 1920×1080 DPR 1: 1200 frames/5 s, avg 4.17 ms, p99 4.40, max 4.90 (rAF-capped); load event 34 ms local; build 39 MB raw / 10.2 MB gzip (wasm 38.6 MB).
+- [x] **P01-T09** — Add a tiny script/shell note describing repeatable export, local serve and smoke test, including expected output paths. — `docs/COMMANDS.md` §Web smoke test.
+- [x] **P01-T10** — Checkpoint the smoke-test state and keep an immediately restorable minimal Web build. — git tag `p01-web-smoke`; local archive `build/archive/p01_smoke_web.zip` (gitignored, 10 MB).
 
 **P01 exit proof:** archived `build/web` smoke test, browser screenshot, console-clean log or enumerated known warning, and export command. **Do not** wait until completion of final art to attempt the first browser build.
 
@@ -1033,15 +1033,15 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 
 | Field | Value |
 |---|---|
-| Current milestone | G0 ✅ — next: G1 (editor & Web smoke) |
-| Current phase | P00 done (T04 partial: MCP) → P01 next |
-| Active task IDs | None — awaiting owner authorization for P01 |
+| Current milestone | G1 ✅ — next: G2 (data-driven match skeleton) |
+| Current phase | P01 done; P00-T04 still partial (MCP pending approval) → P02 next |
+| Active task IDs | None — awaiting owner authorization for P02 |
 | Latest verified commit | `d1567e1` (baseline) + P00 commit — see SESSION_LOG |
-| Latest passing editor test | TBD |
-| Latest passing Web build URL | TBD |
+| Latest passing editor test | P01 smoke scene, 0 errors/warnings (2026-11-13) |
+| Latest passing Web build URL | local only: `http://localhost:8000` (tag `p01-web-smoke`); no hosted URL yet |
 | Latest passing test suite | TBD |
-| Current blockers | Godot MCP not yet connected; D-02…D-12 PROPOSED; deadline Sun Nov 15 10:00 AM |
-| Primary next action | Open Claude in `claus-for-alarm/` (MCP loads), then authorize P01 |
+| Current blockers | Godot MCP `godot` pending owner approval; D-02…D-12 PROPOSED; deadline Sun Nov 15 10:00 AM |
+| Primary next action | Approve Godot MCP, then authorize P02 |
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 
