@@ -131,21 +131,28 @@ pompom = metaball_mesh("elf_pompom", [{"co": (0.05, -0.37, HEAD_Z + 0.225), "rad
                        + [{"co": (0.05, -0.37 + 0.032 * math.cos(a), HEAD_Z + 0.225 + 0.032 * math.sin(a)), "radius": 0.026}
                           for a in (0.5, 2.0, 3.6, 5.0)], mat=M["trim"])
 
-# ---- face: glossy eyes seated in shallow sockets, brows, smile ----
-face = []
+# ---- face: every detail is projected onto the real skin surface so nothing floats (B-01) ----
+def onto(co, off):
+    ok, loc, nrm, _ = skin.closest_point_on_mesh(Vector(co))
+    return tuple(loc + nrm * off)
+
+
+def face_chain(name, pts, radii, off, mat):
+    return metaball_mesh(name, chain([onto(p, off) for p in pts], radii, step=0.005),
+                         resolution=0.004, remesh=0, smooth=0, mat=mat)
+
+
+brow_mat = material("M_brow", PAL["dark_timber"], 0.9)
 for sx in (1, -1):
-    eye = metaball_mesh("elf_eye", [{"type": "ELLIPSOID", "co": (sx * 0.07, 0.172, HEAD_Z + 0.005), "radius": 0.04,
-                                     "size": (0.8, 0.35, 1.1), "rot": (0, 0, sx * 22)}],
-                        resolution=0.004, remesh=0, smooth=0, mat=M["eye"])
-    glint = metaball_mesh("elf_glint", [{"co": (sx * 0.06 + 0.012, 0.19, HEAD_Z + 0.025), "radius": 0.011}],
-                          resolution=0.003, remesh=0, smooth=0, mat=M["trim"])
-    brow = metaball_mesh("elf_brow", chain([(sx * 0.04, 0.188, HEAD_Z + 0.06), (sx * 0.075, 0.18, HEAD_Z + 0.072),
-                                            (sx * 0.105, 0.162, HEAD_Z + 0.064)], [0.011, 0.012, 0.008], step=0.006),
-                         resolution=0.004, remesh=0, smooth=0, mat=material("M_brow", PAL["dark_timber"], 0.9))
-    face += [eye, glint, brow]
-smile = metaball_mesh("elf_smile", chain([(-0.045, 0.165, HEAD_Z - 0.075), (0, 0.178, HEAD_Z - 0.095),
-                                          (0.045, 0.165, HEAD_Z - 0.075)], [0.009, 0.011, 0.009], step=0.005),
-                      resolution=0.004, remesh=0, smooth=0, mat=material("M_mouth", "#8E2F3A", 0.6))
+    eye_c = onto((sx * 0.07, 0.2, HEAD_Z + 0.018), -0.002)  # half sunk into a shallow socket
+    metaball_mesh("elf_eye", [{"type": "ELLIPSOID", "co": eye_c, "radius": 0.04, "size": (0.8, 0.35, 1.1),
+                               "rot": (0, 0, sx * 22)}], resolution=0.004, remesh=0, smooth=0, mat=M["eye"])
+    metaball_mesh("elf_glint", [{"co": tuple(Vector(eye_c) + Vector((0.011, 0.014, 0.017))), "radius": 0.01}],
+                  resolution=0.003, remesh=0, smooth=0, mat=M["trim"])
+    face_chain("elf_brow", [(sx * 0.04, 0.2, HEAD_Z + 0.06), (sx * 0.075, 0.2, HEAD_Z + 0.072),
+                            (sx * 0.102, 0.2, HEAD_Z + 0.064)], [0.011, 0.012, 0.008], 0.002, brow_mat)
+face_chain("elf_smile", [(-0.045, 0.2, HEAD_Z - 0.075), (0, 0.2, HEAD_Z - 0.095), (0.045, 0.2, HEAD_Z - 0.075)],
+           [0.009, 0.011, 0.009], 0.0, material("M_mouth", "#8E2F3A", 0.6))
 
 # ---- Rookie kit: snowball satchel on the left hip (strap follows the jacket), snowball in the right mitten ----
 pouch = metaball_mesh("elf_pouch", [{"type": "ELLIPSOID", "co": (-0.235, 0.06, 0.225), "radius": 0.075,

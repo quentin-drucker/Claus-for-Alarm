@@ -7,4 +7,5 @@ tests/test_map.gd exit=0 | test_map: PASS | errors=0
 tests/test_match.gd exit=0 | test_match: PASS | errors=1
 tests/test_towers.gd exit=0 | test_towers: PASS | errors=1
 tests/test_ui.gd exit=0 | test_ui: PASS | errors=1
-tests/test_upgrades.gd exit=0 | test_upgrades: PASS | errors=0
+tests/test_upgrades.gd exit=0 | test_upgrades: PASS | errors=1
+note: the 1 ERROR line per suite is 'N resources still in use at exit' = assets/audio/sfx/*.wav held by the P18 audio router (verbose run), not P15 art; test_data/test_map load no audio.

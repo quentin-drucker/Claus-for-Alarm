@@ -707,17 +707,17 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-A A-01–A-05/A-08–A-12; HYB-B B-01–B-04/B-07–B-15.  
 **Gate:** G7.
 
-- [ ] **P15-T01** — Lock a compact visual style sheet: silhouette rules, facial proportions, character scale hierarchy, winter palette, material families, lighting and readability thresholds.
+- [x] **P15-T01** — Lock a compact visual style sheet: silhouette rules, facial proportions, character scale hierarchy, winter palette, material families, lighting and readability thresholds. → `docs/ART_STYLE.md` (PROPOSED; owner directs; skin/dark-timber/stone/special colours are proposals)
 - [ ] **P15-T02** — Build original concept sheets/front/side/three-quarter designs for Camel Claus, a generic athlete, a base snowball and a chalet prop.
-- [ ] **P15-T03** — Create **one** excellent athlete base `.blend`: continuous sculpted anatomy, planned joints, face, hands/boots and cloth contact; not a set of visible primitive intersections.
-- [ ] **P15-T04** — Create a deliberately small test set: one game-ready retopologized athlete, one rolling snowball mesh with color material variants, one environment prop.
-- [ ] **P15-T05** — Build `.blend`→`.glb` export conventions, naming, root axis, unit scale, sockets (`root_ground`, `aim_pivot`, `muzzle_A/B`, `shadow_anchor`) and animation playback tests.
-- [ ] **P15-T06** — Render clay orthographic, silhouette, 3/4 closeup and game-camera screenshots for the three test assets; correct all geometry defects at source.
-- [ ] **P15-T07** — Import the GLBs into Godot Compatibility mode; check normals/materials, shadow contact, scale, look direction, animation import and shooting muzzle alignment.
-- [ ] **P15-T08** — Open Web build and inspect the same assets in-browser; compare Blender versus Godot output and track texture/memory/frametime impact.
-- [ ] **P15-T09** — Accept only models meeting HYB-B B-14 rubric; no zero scores, sufficient 2s, and correct game-camera readability.
-- [ ] **P15-T10** — Document re-usable material palette, skeleton rig, Blender operation scripts and one reliable automatic export/test loop.
-- [ ] **P15-T11** — Make **no** gameplay stat or round-data edits during this art-pipeline milestone; any discovered footprint mismatch triggers owner approval.
+- [ ] **P15-T03** — *(built, awaiting owner approval: `art_src/characters/elf_rookie.blend`, continuous metaball sculpt per garment, face/ears/mittens/curled boots; B-14 4×2 / 6×1 → revise pass needed, `p15_b14_scorecard.md`)* Create **one** excellent athlete base `.blend`: continuous sculpted anatomy, planned joints, face, hands/boots and cloth contact; not a set of visible primitive intersections.
+- [ ] **P15-T04** — *(built, awaiting owner approval: elf 17.3k tris skinned; snowball shell 1.4k + marker band 1.5k with Black/White/Purple/Camo variants; Lodge 15.6k)* Create a deliberately small test set: one game-ready retopologized athlete, one rolling snowball mesh with color material variants, one environment prop.
+- [x] **P15-T05** — Build `.blend`→`.glb` export conventions, naming, root axis, unit scale, sockets (`root_ground`, `aim_pivot`, `muzzle_A/B`, `shadow_anchor`) and animation playback tests. → `cc_art.export_glb` (Y-up, applied, ACTIONS); elf sockets root_ground/shadow_anchor/aim_pivot/effect_center/portrait_focus/weapon_hand_l/r/muzzle_A import as BoneAttachment3D children; `idle_loop` (imports as looping `idle`) + `attack` play in Godot and Web
+- [x] **P15-T06** — Render clay orthographic, silhouette, 3/4 closeup and game-camera screenshots for the three test assets; correct all geometry defects at source. → `docs/logs/evidence/p15_*_{clay_turnaround,silhouette,closeup}.png`, `p15_godot_gamecam*.png`, `p15_web_gamecam.png`; 11 defects fixed at source (scorecard)
+- [ ] **P15-T07** — *(partial: import, normals, materials, shadows, scale, facing and animation checked in Compatibility, 0 errors; muzzle alignment open: shots still spawn at tower centre 0.5 m)* Import the GLBs into Godot Compatibility mode; check normals/materials, shadow contact, scale, look direction, animation import and shooting muzzle alignment.
+- [ ] **P15-T08** — *(partial: Web export 0 ERROR/WARNING, `--main-pack` clean, Chrome 1280×720 round 1 by mouse/keyboard, 0 console errors, ~240 fps capped; no stress scene / memory figure yet)* Open Web build and inspect the same assets in-browser; compare Blender versus Godot output and track texture/memory/frametime impact.
+- [ ] **P15-T09** — *(self-scored in `p15_b14_scorecard.md`: snowball + Lodge pass, Rookie needs a revise pass; owner acceptance pending)* Accept only models meeting HYB-B B-14 rubric; no zero scores, sufficient 2s, and correct game-camera readability.
+- [ ] **P15-T10** — *(partial: palette + materials in `ART_STYLE.md`/`cc_art.py`, rig in `rig_elf.py`, build/QA/export loop in `docs/COMMANDS.md`; shared skeleton for other elves not yet proven)* Document re-usable material palette, skeleton rig, Blender operation scripts and one reliable automatic export/test loop.
+- [x] **P15-T11** — Make **no** gameplay stat or round-data edits during this art-pipeline milestone; any discovered footprint mismatch triggers owner approval. → no `resources/` edits; Lodge blocker box kept (hidden) as gameplay data; 10/10 suites PASS (`p15_tests.txt`)
 
 **P15 exit proof:** a premium reusable character, layered snowball, prop and successful Godot Web import with evaluation renders; asset standard proven before mass production.
 
@@ -1035,14 +1035,14 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | Field | Value |
 |---|---|
 | Current milestone | G4 ✅; technical alpha tagged `technical-alpha` (25 exact rounds, specials, 1×/2×/4×); G6 pending owner fresh-player test + P14-T02/T05–T08 |
-| Current phase | P11 specials for rounds ≤ 25 (T01–T03); P12 round set + determinism (T01/T02/T09/T13); P13-T05/T06; P14-T01/T03/T04/T09 |
-| Active task IDs | P18 audio (SFX + router + music slots) — owner listening pass pending |
+| Current phase | P15 style slice (T01/T05/T06/T11 done; T03/T04/T07–T10 built or partial, awaiting owner review) |
+| Active task IDs | P18 audio (SFX + router + music slots) — owner listening pass pending; P15 style slice — STOPPED for owner review of renders (no hero/towers/map/UI/VFX until approved) |
 | Latest verified commit | see SESSION_LOG 2026-11-14 "25 rounds + technical alpha" entry |
 | Latest passing editor test | editor process run: match at 4×, B/W/P/C markers, hit feedback, 0 errors (2026-11-14) |
 | Latest passing Web build URL | local only: extracted `claus_for_alarm_alpha_web_619af86.zip` on `http://localhost:8010` (Chrome, rounds 1–5 by mouse/keyboard, 0 console errors/warnings); no hosted URL yet |
 | Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,hero,ui,full_run,audio}.gd` — all PASS (2026-11-14, P18 audio) |
 | Current blockers | HARD STOP before P15–P18 (art/UI skin/VFX/audio) — owner directs those; deadline Sun Nov 15 10:00 AM |
-| Primary next action | Owner: fresh-player test (`docs/FRESH_PLAYER_TEST.md`), art direction go-ahead |
+| Primary next action | Owner: review P15 slice (`p15_b14_scorecard.md`, renders), decide elf visual scale (1.0× vs 1.5×) and proposed colours |
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 

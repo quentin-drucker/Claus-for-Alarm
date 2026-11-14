@@ -39,3 +39,19 @@ Expected `build/web/`: `index.html`, `index.js`, `index.wasm` (~39 MB, ~10 MB gz
 No COOP/COEP headers needed while thread support stays off. Automated with playwright-cli against
 `http://localhost:8000` (see SESSION_LOG). Evidence: `docs/logs/evidence/p09_web_*` (G4), `p07_web_*` (G3). P01 smoke scene is gone
 (tag `p01-web-smoke`).
+
+## Art pipeline (P15, Blender 5.3 via MCP or the Blender Python console)
+
+Scripts in `art_src/tools/` rebuild each asset from scratch, save the `.blend` in `art_src/` and export the GLB to
+`assets/models/` (`exec(open(r"<project>/art_src/tools/<script>.py").read())`):
+
+| Asset | Run | Output |
+|---|---|---|
+| Rookie elf | `build_elf_rookie.py`, then `rig_elf.py` | `art_src/characters/elf_rookie.blend`, `assets/models/elf_rookie.glb` |
+| Snowball shell + marker band | `build_snowball.py` | `art_src/enemies/snowball_shells.blend`, `snowball_shell.glb`, `snowball_marker.glb` |
+| Lodge | `build_lodge.py` | `art_src/environment/lodge.blend`, `lodge.glb` |
+| QA renders | set `ASSET = "elf_rookie" \| "snowball" \| "lodge"`, run `qa_render.py` | `docs/logs/evidence/p15_<asset>_{clay_turnaround,silhouette,closeup}.png` |
+
+Shared helpers and the palette: `cc_art.py` (`metaball_mesh` = continuous sculpted forms, `band_elements` = trims that
+follow a garment's real cross-section, `export_glb`). After re-export: reimport in Godot (focus the editor), run the
+tests, then the Web export check above.

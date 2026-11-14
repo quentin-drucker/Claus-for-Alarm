@@ -275,3 +275,39 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   T05 (UI/Ambience buses + settings), T09–T11 not started.
 - **Next suggested task IDs:** owner listening pass → retune volumes in `audio_router.gd` SFX table; drop music files
   + fill CREDITS; P18-T05 buses if wanted.
+
+#### SESSION 2026-11-14 — Claude (Opus 5.5) — P15 style slice (T01, T03–T11)
+- **Goal:** style sheet + three polished assets (Rookie elf, snowball shells/markers, Lodge) through the B-13 loop, swapped
+  into the game via the presentation layer, with B-14 evidence; then STOP for owner review.
+- **Read:** SESSION_LOG (latest), master §12.1/§12.3 (DEC-025…035), HYB-A A-01–A-05/A-08/A-12, HYB-B B-01–B-04/B-07/B-09–B-15.
+- **Repo commit before:** `34ac418`. Commits: `2c48cb7` (style sheet), `8573a4e` (assets + Godot binding), this entry's commit.
+- **Tools:** Godot editor connected (4.7.2); Blender 5.3 via MCP (addon protocol 15 vs 16 expected: works, update advised).
+- **Files changed:** `docs/ART_STYLE.md` (new), `art_src/tools/{cc_art,build_elf_rookie,rig_elf,build_snowball,build_lodge,qa_render}.py`,
+  `art_src/{characters/elf_rookie,enemies/snowball_shells,environment/lodge}.blend`, `assets/models/{elf_rookie,snowball_shell,
+  snowball_marker,lodge}.glb`, `scenes/towers/tower.gd` (MODELS binding, outline overlay, idle/attack, ghost footprint disc),
+  `scenes/main/match.gd` (one presentation call `tower.play_attack(dir)` after a shot is authorised), `scenes/enemies/snowball.gd`
+  (shared shell mesh, one cached material per layer, marker band, roll about travel axis), `scenes/props/lodge.tscn` (new
+  wrapper: the MCP cannot instance a .glb), `scenes/world/ski_circuit.tscn` (LodgeArt; Lodge blocker box hidden, kept as data),
+  `docs/COMMANDS.md` (art pipeline), master plan P15 + status.
+- **Implementation:** organic forms = metaball groups per garment → voxel remesh → smooth (one continuous surface each);
+  trims/strap built from the garment's real cross-section; face details projected onto the skin; elf decimated to 17.3k
+  tris, 15-bone rig with per-garment smooth weights, 8 B-11 sockets, `idle_loop` + `attack`. Snowball: 1.4k-tri crust with
+  spiral rolled-snow wraps + vertex AO, tinted per layer in Godot; marker band with Black/White/Purple/Camo variants
+  (letters kept). Lodge: log chalet on stone plinth inside the 5×4 m blocker, red roof + snow load, lit windows, wreath,
+  wired lights, chimney.
+- **Tests run:** 10/10 suites PASS (`docs/logs/evidence/p15_tests.txt`); editor process run 0 errors/warnings. Each suite prints one exit-time "resources still in use" line from the P18 audio SFX (not art).
+- **Web result:** `--export-release "Web"` exit 0, 0 ERROR/WARNING; `--main-pack` 0 ERROR; Chrome (playwright-cli)
+  1280×720: Play, 3 Rookies by mouse, round 1, 0 console errors/warnings, ~240 fps (display cap), worst frame 8.3 ms.
+- **Screenshots/logs:** `p15_{elf_rookie,snowball,lodge}_{clay_turnaround,silhouette,closeup}.png`, `p15_godot_gamecam.png`,
+  `p15_godot_gamecam_elf_scale_1_5x.png`, `p15_web_gamecam.png`, `p15_web_{export,console}.log`, `p15_main_pack.log`,
+  `p15_b14_scorecard.md`.
+- **B-14:** snowball 8×2/2×1 and Lodge 10×2 pass; Rookie 4×2/6×1 → needs a revise pass (readability at camera, materials,
+  grip, muzzle wiring, draw calls).
+- **Finished and checked tasks:** P15-T01, T05, T06, T11. **Partial:** T03/T04 (built, owner approval), T07 (muzzle not wired
+  to shot visuals), T08 (no stress/memory), T09 (owner), T10 (skeleton reuse unproven). T02 concept sheets skipped (went
+  straight to blockout under owner direction).
+- **Needs owner decision:** elf visual scale 1.0× vs 1.5× (footprint unchanged); proposed colours (skin `#F2C7A5`, dark
+  timber, stone, special shells); whether Rookie's prop stays a held snowball + satchel.
+- **Known defects:** see scorecard (hi-res snowball lip beading, 12 elf material slots, snowball not gripped, plain back gable).
+- **Repo commit after:** this entry's commit.
+- **Next suggested task IDs:** owner review of the slice → Rookie revise pass → DEC-032 order (map + snowballs → hero → towers).

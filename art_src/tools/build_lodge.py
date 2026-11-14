@@ -126,9 +126,21 @@ for sx in (-1, 1):
 FY = -(D / 2 + 0.11)
 box("door_frame", (1.0, 0.12, 1.5), (0, FY, PLINTH + 0.75), M["dark"], bevel=0.03)
 box("door", (0.8, 0.14, 1.36), (0, FY - 0.02, PLINTH + 0.7), M["roof"], bevel=0.03)
-bpy.ops.mesh.primitive_torus_add(major_radius=0.17, minor_radius=0.05, location=(0, FY - 0.1, PLINTH + 1.05),
-                                 rotation=(math.radians(90), 0, 0))
-o = bpy.context.object; o.name = "wreath"; o.data.materials.append(M["teal"]); parts.append(o)
+WZ = PLINTH + 1.05  # wreath: lumpy fir-clump ring (not a torus) with a red bow, hung on the door
+parts.append(metaball_mesh("wreath", [{"co": (0.17 * math.cos(a) * (1 + 0.08 * math.sin(5 * a)), FY - 0.11,
+                                              WZ + 0.17 * math.sin(a)), "radius": 0.055 + 0.01 * math.sin(7 * a)}
+                                      for a in [2 * math.pi * k / 22 for k in range(22)]],
+                           resolution=0.012, remesh=0.012, mat=M["teal"]))
+decimate(parts[-1], min(1.0, 700 / tri_count(parts[-1])))
+parts.append(metaball_mesh("bow", [{"co": (0, FY - 0.16, WZ - 0.16), "radius": 0.035},
+                                   {"type": "ELLIPSOID", "co": (-0.06, FY - 0.15, WZ - 0.14), "radius": 0.045, "size": (1.3, 0.6, 0.8)},
+                                   {"type": "ELLIPSOID", "co": (0.06, FY - 0.15, WZ - 0.14), "radius": 0.045, "size": (1.3, 0.6, 0.8)},
+                                   {"co": (-0.025, FY - 0.15, WZ - 0.2), "radius": 0.028}, {"co": (-0.04, FY - 0.15, WZ - 0.24), "radius": 0.022},
+                                   {"co": (0.025, FY - 0.15, WZ - 0.2), "radius": 0.028}, {"co": (0.045, FY - 0.15, WZ - 0.235), "radius": 0.022}],
+                           resolution=0.01, remesh=0.01, mat=M["roof"]))
+decimate(parts[-1], min(1.0, 300 / tri_count(parts[-1])))
+parts.append(metaball_mesh("door_knob", [{"co": (0.28, FY - 0.12, PLINTH + 0.68), "radius": 0.04}],
+                           resolution=0.01, remesh=0, smooth=0, mat=material("M_gold_accent", PAL["gold"], 0.35, 0.8)))
 box("step", (1.3, 0.5, 0.18), (0, -(D / 2 + 0.4), 0.09), M["stone"], bevel=0.04)
 for sx in (-1, 1):
     x = sx * 1.4
@@ -154,19 +166,31 @@ parts.append(metaball_mesh("chimney_snow", [{"co": (cx + dx, 0.6 + dy, cz + 1.14
                            resolution=0.03, remesh=0.03, mat=M["snow"]))
 decimate(parts[-1], min(1.0, 400 / tri_count(parts[-1])))
 
-# ---- festive light string along both front eaves ----
+# ---- festive light string: a wire sagging between hooks under both front eaves, bulbs hanging from it ----
+LY = -(D / 2 + 0.38)  # under the front roof overhang
+
+
+def wire_z(t):
+    return WALL_TOP + RISE * (1 - t) - 0.02 - 0.08 * math.sin(t * 9 * math.pi) ** 2
+
+
 for sx in (-1, 1):
+    parts.append(metaball_mesh("light_wire", [{"co": (sx * t * HALF * 0.98, LY, wire_z(t)), "radius": 0.014}
+                                              for t in [i / 160 for i in range(161)]],
+                               resolution=0.008, remesh=0, smooth=0, mat=M["dark"]))
+    decimate(parts[-1], min(1.0, 500 / tri_count(parts[-1])))
     for k in range(9):
         t = (k + 0.5) / 9
-        x = sx * t * HALF
-        zz = WALL_TOP + RISE * (1 - t) - 0.05 - 0.06 * math.sin(t * 9 * math.pi) ** 2
-        bpy.ops.mesh.primitive_uv_sphere_add(segments=8, ring_count=6, radius=0.055, location=(x, -(D / 2 + 0.5), zz))
+        x = sx * t * HALF * 0.98
+        zz = wire_z(t) - 0.06
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=8, ring_count=6, radius=0.055, location=(x, LY, zz))
         o = bpy.context.object; o.name = "bulb"; o.data.materials.append(M["glow"] if k % 2 else M["roof"]); parts.append(o)
 
 for o in parts:
-    if o.type == "MESH" and o.name.startswith(("log", "roof_snow", "chimney_snow", "wreath", "bulb", "attic")):
+    if o.type == "MESH" and o.name.startswith(("log", "roof_snow", "chimney_snow", "wreath", "bow", "bulb", "attic")):
         shade_smooth(o)
 lodge = join(parts, "lodge")
+print("mesh fixed by validate:", lodge.data.validate())
 print("lodge tris", tri_count(lodge), "dims", tuple(round(d, 2) for d in lodge.dimensions))
 
 os.makedirs(os.path.join(PROJ, "art_src", "environment"), exist_ok=True)

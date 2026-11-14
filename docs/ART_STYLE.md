@@ -67,9 +67,10 @@ hide geometry (A-12).
   pale Powder snowballs stay legible on white snow. Environment has **no** outline (it reads by mass and value).
 - Shading is plain PBR-lite (StandardMaterial3D), no cel ramp; form comes from geometry + baked vertex AO.
 
-## 7. Readability rules at the game camera (ortho, 46 m wide, 60° pitch ≈ 28 px per metre at 1280 px)
+## 7. Readability rules at the game camera (ortho, 46 m wide, 60° pitch ≈ 25 px per metre at 1152 px)
 
-1. An elf is ~34 px tall: cap colour, jacket colour and the role prop must each cover ≥ 4 px blocks.
+1. Measured: a 1.2 m elf is only **~22 px tall** at 1152×648, so the face does not read in play; cap colour, jacket
+   colour and the role prop must each cover ≥ 4 px blocks. Visual scale (1.0× vs 1.5×) is an open owner decision.
 2. The role prop is oversized (≥ ¼ body height) and held away from the body so it breaks the silhouette.
 3. Value contrast: dark jacket body against white snow; light trims separate head from body.
 4. Snowball tiers must differ in hue **and** pattern; specials keep their B/W/P/C letter markers (non-colour cue).

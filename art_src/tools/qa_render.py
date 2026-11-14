@@ -32,5 +32,29 @@ sil = render_views(f"p15_{ASSET}_sil", target, [("gamecam", gc)], dist, ortho, "
 sil += render_views(f"p15_{ASSET}_sil", target, [("front", views[0][1])], dist, ortho, "silhouette", (420, 420), hide)
 tile_sheet(sil, os.path.join(E, f"p15_{ASSET}_silhouette.png"), 2)
 ct, cd, cdist, co = close
-render_views(f"p15_{ASSET}", ct, [("closeup", (cd[0], cd[1], cd[2]))], cdist, co, "material", (720, 720), hide)
+if ASSET == "snowball":  # material lineup: 5 layer tints, then Black/White/Purple shells + band, Camo Mint + band
+    shell, band = bpy.data.objects["snowball_shell"], bpy.data.objects["snowball_marker"]
+    for o in (shell, band, bpy.data.objects["snowball_shell_hi"]):
+        o.hide_render = True
+    hide |= {"snowball_shell", "snowball_marker", "snowball_shell_hi"}
+    row = [("powder", None), ("blue", None), ("mint", None), ("violet", None), ("coral", None),
+           ("black", "black"), ("white", "white"), ("purple", "purple"), ("mint", "camo")]
+    for k, (tint, mark) in enumerate(row):
+        x = (k - 4) * 0.95
+        s2 = shell.copy(); s2.data = shell.data.copy(); s2.name = f"QA_ball_{k}"
+        s2.data.materials[0] = material(f"QA_tint_{tint}", PAL[tint], 0.75, use_vcol=True)
+        s2.location = (x, 0, 0)
+        bpy.context.scene.collection.objects.link(s2)
+        if mark:
+            b2 = band.copy(); b2.data = band.data.copy(); b2.name = f"QA_band_{k}"
+            b2.data.materials[0] = bpy.data.materials[f"M_marker_{mark}"]
+            b2.location = (x, 0, 0)
+            b2.rotation_euler = (0.5, 0, 0.6)
+            bpy.context.scene.collection.objects.link(b2)
+    ct, cd, cdist, co = (0, 0, 0), (0, 1, 0.45), 12, 8.8
+    render_views("p15_snowball", ct, [("closeup", cd)], cdist, co, "material", (1400, 360), hide)
+    for o in [o for o in bpy.data.objects if o.name.startswith(("QA_ball", "QA_band"))]:
+        bpy.data.objects.remove(o, do_unlink=True)
+else:
+    render_views(f"p15_{ASSET}", ct, [("closeup", (cd[0], cd[1], cd[2]))], cdist, co, "material", (720, 720), hide)
 print("QA renders done for", ASSET)

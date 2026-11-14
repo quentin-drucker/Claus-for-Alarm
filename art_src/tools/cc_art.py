@@ -183,7 +183,7 @@ def render_views(prefix, target, views, dist, ortho_scale=None, mode="clay", res
     sc.render.resolution_percentage = 100
     sc.render.film_transparent = False
     for o in bpy.data.objects:
-        o.hide_render = o.name in hide or o.type in {"EMPTY", "ARMATURE"} or o.name.startswith("QA_") and o.type != "CAMERA"
+        o.hide_render = o.name in hide or o.type in {"EMPTY", "ARMATURE"}
     if mode in ("clay", "silhouette"):
         try:
             sc.render.engine = "BLENDER_WORKBENCH"
@@ -211,6 +211,7 @@ def render_views(prefix, target, views, dist, ortho_scale=None, mode="clay", res
             sc.render.engine = "BLENDER_EEVEE"
         except TypeError:
             sc.render.engine = "BLENDER_EEVEE_NEXT"
+        qa_lights()
     cam = _cam()
     out = []
     for vname, vdir in views:
@@ -220,6 +221,25 @@ def render_views(prefix, target, views, dist, ortho_scale=None, mode="clay", res
         bpy.ops.render.render(write_still=True)
         out.append(path)
     return out
+
+
+def qa_lights():
+    """Neutral QA rig for material renders: warm key sun from upper-left-front, cool sky world (ART_STYLE §5)."""
+    for name, energy, rot, color in (("QA_Key", 3.5, (50, 0, -35), (1.0, 0.96, 0.9)),
+                                     ("QA_Rim", 1.5, (60, 0, 160), (0.85, 0.92, 1.0))):
+        lo = bpy.data.objects.get(name)
+        if lo is None:
+            lo = bpy.data.objects.new(name, bpy.data.lights.new(name, "SUN"))
+            bpy.context.scene.collection.objects.link(lo)
+        lo.data.energy = energy
+        lo.data.color = color
+        lo.rotation_euler = [math.radians(a) for a in rot]
+    w = bpy.context.scene.world or bpy.data.worlds.new("QA_World")
+    bpy.context.scene.world = w
+    w.use_nodes = True
+    bg = next(n for n in w.node_tree.nodes if n.type == "BACKGROUND")
+    bg.inputs["Color"].default_value = (0.55, 0.65, 0.75, 1)
+    bg.inputs["Strength"].default_value = 0.8
 
 
 TURN = [("front", (0, 1, 0.12)), ("right", (1, 0, 0.12)), ("back", (0, -1, 0.12)), ("left", (-1, 0, 0.12)),
