@@ -2,7 +2,7 @@
 
 Every verified milestone leaves an upload-ready ZIP in `build/archive/` (git-ignored, local only):
 `claus_for_alarm_<milestone>_web_<commit>.zip` — `index.html` at the zip root, single-threaded Web export
-(no SharedArrayBuffer / COOP-COEP needed). Latest: **`claus_for_alarm_g3_web_d2f1bba.zip`** (G3, ~10 MB).
+(no SharedArrayBuffer / COOP-COEP needed). Latest: **`claus_for_alarm_g4_web_aa11956.zip`** (G4, ~10 MB).
 
 ## Rebuild the ZIP
 
@@ -23,7 +23,7 @@ Then run the Web smoke test in `docs/COMMANDS.md` against the extracted ZIP.
 3. Embed options: **Embed in page**, viewport **1280 × 720** (the game stretches to any size); tick
    **Fullscreen button**; leave **SharedArrayBuffer support** OFF; Mobile friendly OFF (mouse + keyboard game).
    Launch: *Click to launch in fullscreen* off; *Automatically start on page load* off is fine (the click also unlocks audio).
-4. Description: controls line — `1` pick Snowball Rookie · click to place/select · `T` target · `Space` start round ·
+4. Description: controls line — `1`–`6` pick a defender · click to place/select/collect tickets · upgrade buttons on the selected card · `T` target · `Space` start round ·
    `P` pause · `F` 2× speed · `Esc`/right-click cancel. Genre: Strategy; tags: tower-defense, winter, christmas.
 5. Visibility: **Draft** (or Restricted) → **Save** → open the page in a private window: game loads, round 1 plays,
    F12 console has 0 errors.

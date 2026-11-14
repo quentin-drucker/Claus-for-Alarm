@@ -177,7 +177,7 @@ To facilitate reuse of BTD6 balance, retain for each original mechanic: attack t
 | G1 | Editor & Web smoke | P01 | Project boots in editor; minimal Web export actually opens in browser | ✅ | `docs/logs/evidence/p01_*`, tag `p01-web-smoke` |
 | G2 | Data-driven match skeleton | P02–P04 | Path + towers + states work independently of final art | ✅ | `tests/test_{data,map,match}.gd` PASS; `docs/logs/evidence/p0[234]_*`; tag `g2-match-skeleton` |
 | G3 | Complete combat/economy vertical slice | P05–P07 | Layer changes, money, rounds, leaks, win/lose verified | ✅ | `tests/test_{combat,full_run}.gd` PASS; `docs/logs/evidence/p05_*, p06_*, p07_*`; itch ZIP `claus_for_alarm_g3_web_d2f1bba.zip`; specials DEFERRED (DEC-019) |
-| G4 | Initial six-tower mechanical roster | P08–P09 | All six tower **base kits** validated; at least a small verified upgrade sample; path locks | ⬜ | — |
+| G4 | Initial six-tower mechanical roster | P08–P09 | All six tower **base kits** validated; at least a small verified upgrade sample; path locks | ✅ | `tests/test_{towers,upgrades,full_run}.gd` PASS; `docs/logs/evidence/p08_*, p09_*`; 35/90 tiers shipped; itch ZIP `claus_for_alarm_g4_web_aa11956.zip` |
 | G5 | Hero & special-property interactions | P10–P11 | Camel Claus auto-level, abilities/toggles; basic immunities, wax, economy | ⬜ | — |
 | G6 | Technical alpha with functional UX | P12–P14 | Multiple rounds, upgrades, pause/restart, stress/debug and Web sanity | ⬜ | — |
 | G7 | Art asset pipeline established | P15 | One polished character + one snowball + one prop pass modeling QA and Web import | ⬜ | — |
@@ -502,8 +502,8 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 - [x] **P05-T03** — Implement rolling movement along route based on progress/speed; rotation is cosmetic and must not alter gameplay path. → distance/speed per tick in `match.gd`; no rotation yet
 - [x] **P05-T04** — Implement deterministic `apply_damage`/`break_shell`/`spawn_children` lifecycle and event IDs; preserve credited kills without double counting. → `match.damage_snowball` (overflow, $1/layer, `layer_broken` events); `test_combat` damage table + chain
 - [ ] **P05-T05** — Add data-driven child graphs for branching special types; test one 1→1 downgrade and one 1→multiple split fixture. → **DEFERRED** — multi-child specials (DEC-019); 1→1 tested; validator rejects child_count > 1 until P11
-- [ ] **P05-T06** — Separate `can_detect`, `can_target`, `can_damage`, and `can_apply_status` per attack; represent immunity tags independently. → **PARTIAL** — detect (`camo` vs `detects_camo`) and damage (`immune_<type>`) separate and tested; can_apply_status with Wax in P08
-- [ ] **P05-T07** — Implement stop/slow/regen/camo/fortified-like flags at framework level; do not create all 17 BTD6 enemy types in MVP unless required by active rounds. → **PARTIAL** — `camo` + immunity flags live; slow/regen/fortified DEFERRED with specials (DEC-019) / Wax (P08)
+- [x] **P05-T06** — Separate `can_detect`, `can_target`, `can_damage`, and `can_apply_status` per attack; represent immunity tags independently. → detect/target (camo), damage (`immune_<type>`) and status (wax skips `immune_glue`) separate and tested (`test_combat`, `test_towers`)
+- [x] **P05-T07** — Implement stop/slow/regen/camo/fortified-like flags at framework level; do not create all 17 BTD6 enemy types in MVP unless required by active rounds. → camo + immunity + slow (wax status) live and tested; regen/fortified DEFERRED with specials (DEC-019)
 - [ ] **P05-T08** — Create test versions of protective shell (Ceramic-like), blast-resistant, cold-resistant, magical-immune, and camouflaged snowballs where mechanical source supports them. → **DEFERRED** — special snowballs DEFERRED (DEC-019)
 - [x] **P05-T09** — On escape, remove child/parent appropriately and subtract leak damage *once*; never award destruction cash for a leak. → `test_match` "leaks never pay pop cash"; `test_full_run` pop $ = RBE − leaked
 - [x] **P05-T10** — On layer break, replace current visible placeholder color; ensure Powder has dark outline so it stands out against snowy terrain. → recolour on break + dark outline on every layer; `p06_editor_combat.png`
@@ -519,17 +519,17 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Gate:** G3.
 
 - [x] **P06-T01** — Implement base target priorities **First**, **Last**, **Close**, **Strong** where the active unit supports them; specify stable tie-breaking to avoid flicker. → `scripts/core/targeting.gd` First/Last/Close/Strong, tie → lower id; `test_combat`
-- [x] **P06-T02** — Compute range/detection/LOS eligibility before ranking targets; global-target Sniper is a separate policy, not a giant radius hack. → range (edge contact) + camo before ranking; global Sniper policy in P08
+- [x] **P06-T02** — Compute range/detection/LOS eligibility before ranking targets; global-target Sniper is a separate policy, not a giant radius hack. → range (edge contact) + camo before ranking; Biathlon Ranger is a separate whole-map policy with Lodge line of sight (`test_towers._test_ranger`)
 - [x] **P06-T03** — Define attack scheduler with cooldown/volley/projectile spawn semantics, fixed-step timing and projectiles remaining after target changes. → per-tower cooldown on sim ticks, shots fly on after retarget; volleys with P09 upgrades
 - [x] **P06-T04** — Implement moving projectile collision with attack hit history, pierce consumption, travel time, distinct-target and repeated-hit policies. → swept segment hits, pierce, per-shot hit history by entity id; `test_combat` pierce 1/2 + one-shot-one-layer
-- [ ] **P06-T05** — Implement area-of-effect explosion with **contact projectile pierce ≠ explosion pierce**, especially for Avalanche Cannon. → **MOVED** — to P08 (Avalanche Cannon); G3 uses the Rookie only (owner)
+- [x] **P06-T05** — Implement area-of-effect explosion with **contact projectile pierce ≠ explosion pierce**, especially for Avalanche Cannon. → Cannon contact projectile (pierce 1, no damage) creates one explosion (pierce 22); `test_towers` blast-pierce cap differs from contact pierce
 - [x] **P06-T06** — Implement damage tags and immunity interactions, including magic/energy, sharp, explosive, status-only wax and future typed bonus damage. → `immune_<damage_type>` check in the single damage path; `test_combat`
 - [x] **P06-T07** — Implement behavior when attack is immune: no damage, no unintended income, correct event; whether it consumes pierce must be specified/tested. → immune contact uses 1 pierce, no damage/cash, one `enemy_immune` event; `test_combat`
-- [ ] **P06-T08** — Implement status application, timing, refresh/override and stacking semantics with source/version fields rather than one global slow percentage. → **MOVED** — to P08 (Slope Wax Sprayer)
-- [ ] **P06-T09** — Implement attack bonus vs large snowballs, before/after armor debuffs, persistent effects and multi-attack order support even if later tiers aren't shipped yet. → **MOVED** — to P08/P09 with the towers/upgrades that use them
+- [x] **P06-T08** — Implement status application, timing, refresh/override and stacking semantics with source/version fields rather than one global slow percentage. → wax status: duration, refresh by equal/stronger, weaker ignored, no stacking, shed on layer break unless Glue Soak; `test_towers._test_wax`
+- [ ] **P06-T09** — Implement attack bonus vs large snowballs, before/after armor debuffs, persistent effects and multi-attack order support even if later tiers aren't shipped yet. → **PARTIAL** — camo bonus (`bonus_vs_camo`), multi-attack order (Sorcerer Fireball) and sub-attacks done; bonus vs large / armor debuffs DEFERRED (no MOAB-class or armored snowballs, DEC-019)
 - [x] **P06-T10** — Use a single gameplay damage resolver and one event emission path; ensure effects do not recursively cause unbounded chain loops. → `damage_snowball` is the only damage/event path; loop bounded by damage
 - [x] **P06-T11** — Test 1x and 2x game speed equivalence in **simulation results**, allowing wall-clock run time to differ. → `test_combat` identical ledgers at 1× and 2×
-- [ ] **P06-T12** — Build unit test fixtures: one layer, heavy shell, lead-like immunity, camo undetectable, pierce=1 vs pierce>1, overlapping explosion, cross-source status. → **PARTIAL** — one layer, lead-like immunity, camo, pierce 1 vs 2 done; heavy shell / explosion / cross-source status with P08/P11
+- [x] **P06-T12** — Build unit test fixtures: one layer, heavy shell, lead-like immunity, camo undetectable, pierce=1 vs pierce>1, overlapping explosion, cross-source status. → one layer, lead-like immunity, camo, pierce 1 vs 2 (`test_combat`); overlapping explosion, blast vs contact pierce, cross-source wax refresh (`test_towers`); heavy shell DEFERRED (DEC-019)
 - [ ] **P06-T13** — Profile 100+ proxy snowballs / many projectiles to find obvious O(N²) broadphase issues; optimize when evidenced. → **PARTIAL** — not profiled yet: round 19 (115 snowballs, 23 towers) runs headless without issue; browser FPS check in P14
 - [x] **P06-T14** — Expose development logs: attacks fired, hits, immune impacts, pierce used, pop credit and target choice to enable balance analysis. → `-- --log-events` prints attack_fired (with target), enemy_hit, enemy_immune, layer_broken; F3 ledger
 
@@ -540,7 +540,7 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-04/M-07/M-10/M-11/M-12; HYB-A A-06/A-07.  
 **Gate:** G3.
 
-- [x] **P07-T01** — Create one `EconomyLedger` for starting cash, price checks, purchase, upgrade, pop income, round reward, sell, Ticket Booth rewards and hero placement. → `EconomyLedger`: start, purchase, pop, round bonus, sale (booth/hero from P08/P10)
+- [x] **P07-T01** — Create one `EconomyLedger` for starting cash, price checks, purchase, upgrade, pop income, round reward, sell, Ticket Booth rewards and hero placement. → `EconomyLedger`: start, purchase, upgrade, pop, round bonus, sale, Ticket Booth `ticket_income` (hero in P10)
 - [x] **P07-T02** — Implement round-based income using verified source values; represent income brackets/difficulty modifiers as data rather than UI code. → round bonus 100 + n and $1/pop as data (`rules_medium`, enemy `cash_per_pop`); >R50 brackets N/A
 - [x] **P07-T03** — Implement Medium cost baseline and optional Easy/Hard/Impoppable price multipliers/rounding **only after** source rounding checks; use Medium for MVP. → Medium only
 - [x] **P07-T04** — Apply 70% default sell-back on invested amount in eligible modes; account for discounts separately when applicable. → 70% of invested (P04, `test_match`)
@@ -562,18 +562,18 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 
 **Implementation order:** Snowball Rookie → Avalanche Cannon → Biathlon Ranger → Slope Wax Sprayer → Snow Sorcerer → Ski Resort Ticket Booth. Make each unit pass smoke tests before adding the next. The initial six base numeric anchor rows are in `HYB-M M-10`; upgrade prices/path names are in `HYB-M M-07`. Do **not** choose stats from memory.
 
-- [ ] **P08-T01** — **Snowball Rookie (Dart Monkey)**: configure price, default projectile interval, range, pierce, sharp damage and legal placement using versioned data; test single-target and line/group cases.
-- [ ] **P08-T02** — **Avalanche Cannon (Bomb Shooter)**: explosion area with separate contact and blast parameters, group damage, immunity; test nearby independent snowballs and overlapping child spawns.
-- [ ] **P08-T03** — **Biathlon Ranger (Sniper Monkey)**: whole-map eligible targeting with LOS, base damage and rate; test prioritized Strong and hidden camo enemy behavior.
-- [ ] **P08-T04** — **Slope Wax Sprayer (Glue Gunner)**: wax status projectile whose base mode does not deal damage; slow duration/refresh and immunity tests; no accidental pop income.
-- [ ] **P08-T05** — **Snow Sorcerer (Wizard Monkey)**: energy/magic attack, multiple enemy pierce and immunity response; reserve interfaces for wall effects and summon branches.
-- [ ] **P08-T06** — **Ski Resort Ticket Booth (Banana Farm)**: no combat targeting; collectible income event or explicit cash-collection affordance; test per-round production, cash expiry and manual/auto collection where applicable.
-- [ ] **P08-T07** — Create one base-tower purchase tile/selection info for each initial unit; temporary icon names are enough while assets absent.
-- [ ] **P08-T08** — All six towers use a common placement/selection/upgrade interface; special mechanics extend it through data-driven capabilities, not copy-pasted scripts.
-- [ ] **P08-T09** — Add stable IDs and accurate BTD6 source counterparts to content manifests; no unused excluded roster resources.
-- [ ] **P08-T10** — Run comparative baseline tests of base purchase cost, cooldown, range, damage/pierce, targeting and legal placement for each, with version/citation fields.
-- [ ] **P08-T11** — Add mixed-roster automated scenario: Rookie handles low-tier snowballs, Cannon handles clusters, Biathlon heavy target, Wax slows, Sorcerer handles typed enemies, Booth generates income.
-- [ ] **P08-T12** — Rebuild and run Web alpha after the sixth tower; record performance and input errors.
+- [x] **P08-T01** — **Snowball Rookie (Dart Monkey)**: configure price, default projectile interval, range, pierce, sharp damage and legal placement using versioned data; test single-target and line/group cases. → base kit from G3 (`test_combat` pierce/line cases); in the six-tower shop
+- [x] **P08-T02** — **Avalanche Cannon (Bomb Shooter)**: explosion area with separate contact and blast parameters, group damage, immunity; test nearby independent snowballs and overlapping child spawns. → `test_towers._test_cannon` (independent snowballs in one blast, explosion-immune, out-of-radius, Coral loses one layer); blast radius 18 PROTOTYPE_ASSUMPTION
+- [x] **P08-T03** — **Biathlon Ranger (Sniper Monkey)**: whole-map eligible targeting with LOS, base damage and rate; test prioritized Strong and hidden camo enemy behavior. → instant hit, `global_range` + Lodge line of sight (group `blocks_sight`), Strong across the map, camo skipped; `test_towers._test_ranger`
+- [x] **P08-T04** — **Slope Wax Sprayer (Glue Gunner)**: wax status projectile whose base mode does not deal damage; slow duration/refresh and immunity tests; no accidental pop income. → status only, no pop cash, waxed snowballs not re-targeted (PROTOTYPE_ASSUMPTION), duration 11 s PROTOTYPE_ASSUMPTION; `test_towers._test_wax`
+- [x] **P08-T05** — **Snow Sorcerer (Wizard Monkey)**: energy/magic attack, multiple enemy pierce and immunity response; reserve interfaces for wall effects and summon branches. → energy damage, pierce 3, energy-immune contact uses pierce; wall/summon branches = later tiers (coming soon); `test_towers._test_sorcerer`
+- [x] **P08-T06** — **Ski Resort Ticket Booth (Banana Farm)**: no combat targeting; collectible income event or explicit cash-collection affordance; test per-round production, cash expiry and manual/auto collection where applicable. → 4 x $20 pickups spread over the round (timing PROTOTYPE_ASSUMPTION), click to collect, 15 s expiry (source), sold booth stops; `test_towers._test_booth`
+- [x] **P08-T07** — Create one base-tower purchase tile/selection info for each initial unit; temporary icon names are enough while assets absent. → six text tiles + hotkeys 1-6, price, greyed when unaffordable (`p08_editor_shop_round1.png`, `p09_web_boot.png`)
+- [x] **P08-T08** — All six towers use a common placement/selection/upgrade interface; special mechanics extend it through data-driven capabilities, not copy-pasted scripts. → one `tower.tscn`/`tower.gd` + data capabilities (attacks/sub-attacks, `global_range`, pickups); no per-tower scripts
+- [x] **P08-T09** — Add stable IDs and accurate BTD6 source counterparts to content manifests; no unused excluded roster resources. → id + `source_tower` + `source_url` per tower/attack/upgrade; exactly six towers (`test_towers._test_base_report`)
+- [x] **P08-T10** — Run comparative baseline tests of base purchase cost, cooldown, range, damage/pierce, targeting and legal placement for each, with version/citation fields. → `docs/logs/evidence/p08_base_stats.txt` (all six match M-10, provenance per field)
+- [x] **P08-T11** — Add mixed-roster automated scenario: Rookie handles low-tier snowballs, Cannon handles clusters, Biathlon heavy target, Wax slows, Sorcerer handles typed enemies, Booth generates income. → mixed-roster bot WON 80 lives ~10.2 min + solo bots per type (`tests/test_full_run.gd`, `p09_full_run.txt`)
+- [ ] **P08-T12** — Rebuild and run Web alpha after the sixth tower; record performance and input errors. → **PARTIAL** — Web alpha exported and browser-tested with 0 console errors/warnings and working input (`p09_web_*`); frame-time profiling not recorded (P14)
 
 **P08 exit proof:** six priced units available in shop, all function distinctly, first base-stat comparison report passes, and zero excluded families present.
 
@@ -582,20 +582,20 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-07/M-08 (later only), M-11/M-12; HYB-A A-04/A-06/A-07; HYB-B B-05/B-11.  
 **Gate:** G4.
 
-- [ ] **P09-T01** — Build upgrade legality engine for 3 paths × 5 tiers and exactly one permitted supporting path to tier 2 after a tier 3+ commitment.
-- [ ] **P09-T02** — Test legal edge states (`0-0-0`, `2-2-0`, `2-0-2`, `5-2-0`, `0-2-5`, `2-0-5`) and illegal states (`3-3-0`, `3-2-1`, `5-0-5`).
-- [ ] **P09-T03** — Build data-driven stat/attack mutation pipeline: additive/multiplicative stats, attack append/replace, ability attach, property bypass, spawned subattacks and crosspath overrides.
-- [ ] **P09-T04** — Build price display and purchase from actual source/patch price, with correct rounding and available cash; serialize/preserve selected path state for restart/replay.
-- [ ] **P09-T05** — Implement **one fully verified low-tier progression** for Snowball Rookie across all 3 paths including crosspath sample, then generalize to Cannon and others.
-- [ ] **P09-T06** — For each *shipped* upgrade, cross-check actual stat deltas and behavioral exceptions from source page instead of extrapolating description text.
-- [ ] **P09-T07** — Reconcile v57 changes: Rookie precision path projectile count/attack interval; Cannon fragments; Wax price/duration; Biathlon supply cash/ammo toggle.
-- [ ] **P09-T08** — Implement tier-3 identity transformations mechanically first: a distinct new attack/ability per branch where source verified, not simply +5% damage skins.
-- [ ] **P09-T09** — Implement tier-4/tier-5 data capability and placeholders even if disabled in short release; do not advertise unavailable upgrades as purchasable.
-- [ ] **P09-T10** — Build in-game upgrade grid and labels with owned/affordable/unaffordable/path-locked/max-tier states; the validator, not the panel, is authoritative.
-- [ ] **P09-T11** — Test secondary paths that affect projectile child attacks or status applications; non-linear transforms must override, not double-apply multiplicatively.
-- [ ] **P09-T12** — Create scenario fixtures for all newly active tiers with expected DPS, per-shot/projectile count, pierce, attack tags, cooldown, visual state and total invested price.
-- [ ] **P09-T13** — Update upgrade coverage report showing: verified reference + implemented + tested + deferred counts out of 90 initial tier entries.
-- [ ] **P09-T14** — Run full regression on wave, cash, hero scaffolding and pause/2× after first crosspath engine integration.
+- [x] **P09-T01** — Build upgrade legality engine for 3 paths × 5 tiers and exactly one permitted supporting path to tier 2 after a tier 3+ commitment. → `TowerDefinition.is_legal_crosspath` + `can_upgrade` (also requires a shipped tier)
+- [x] **P09-T02** — Test legal edge states (`0-0-0`, `2-2-0`, `2-0-2`, `5-2-0`, `0-2-5`, `2-0-5`) and illegal states (`3-3-0`, `3-2-1`, `5-0-5`). → `test_upgrades._test_legality` (all listed legal/illegal states) + purchase refusals for 3-2-0
+- [x] **P09-T03** — Build data-driven stat/attack mutation pipeline: additive/multiplicative stats, attack append/replace, ability attach, property bypass, spawned subattacks and crosspath overrides. → `UpgradeEffect` add/multiply/set/append on the tower or any attack in its tree; attack append (Fireball), sub-attack append (frags, shrapnel, splatter, cluster), property bypass (FMJ Normal); appends applied before stat changes; abilities DEFERRED (no shipped tier has one)
+- [ ] **P09-T04** — Build price display and purchase from actual source/patch price, with correct rounding and available cash; serialize/preserve selected path state for restart/replay. → **PARTIAL** — source/v57 prices (Glue Splatter $650), charged once via the ledger, invested + sell value; path state is per tower and restart is a fresh match by design, no replay serialization
+- [x] **P09-T05** — Implement **one fully verified low-tier progression** for Snowball Rookie across all 3 paths including crosspath sample, then generalize to Cannon and others. → Rookie T1-T3 on all three paths + crosspaths 2-0-3 and 3-2-0, then Cannon and the other four (`p09_fixtures.txt`)
+- [x] **P09-T06** — For each *shipped* upgrade, cross-check actual stat deltas and behavioral exceptions from source page instead of extrapolating description text. → each shipped tier from its teemo.dev upgrade page (v56) + M-11 v57; unverified tiers coming soon (`p09_upgrade_coverage.txt`)
+- [x] **P09-T07** — Reconcile v57 changes: Rookie precision path projectile count/attack interval; Cannon fragments; Wax price/duration; Biathlon supply cash/ammo toggle. → applied where the tier ships: Crossbow pierce 5, frag pierce 2, Glue Splatter $650, Stickier 18 s; Rookie xx5, Cannon xx5 cap and Sniper x4x Supply Drop toggle DEFERRED (tiers not shipped)
+- [x] **P09-T08** — Implement tier-3 identity transformations mechanically first: a distinct new attack/ability per branch where source verified, not simply +5% damage skins. → Spike-o-pult (Shatter, damage 2, pierce 18), Triple Shot (3 projectiles), Crossbow, Really Big Bombs, Cluster Bombs (exhaust explosions); `test_upgrades._test_behaviour`
+- [x] **P09-T09** — Implement tier-4/tier-5 data capability and placeholders even if disabled in short release; do not advertise unavailable upgrades as purchasable. → all 90 tiers in data; tiers 4-5 and unverified tiers show "coming soon" and cannot be bought (tested)
+- [x] **P09-T10** — Build in-game upgrade grid and labels with owned/affordable/unaffordable/path-locked/max-tier states; the validator, not the panel, is authoritative. → HUD button per path: owned n/5, price, unaffordable (disabled), locked (other paths), coming soon, max; `match.upgrade_state`, authority stays `can_upgrade` (`p09_editor_upgrade_panel.png`, `p09_web_upgraded.png`)
+- [x] **P09-T11** — Test secondary paths that affect projectile child attacks or status applications; non-linear transforms must override, not double-apply multiplicatively. → FMJ reaches Shrapnel, Stickier/Glue Soak reach Splatter, Cluster overrides frag damage; rebuild twice = same stats, shared data untouched
+- [x] **P09-T12** — Create scenario fixtures for all newly active tiers with expected DPS, per-shot/projectile count, pierce, attack tags, cooldown, visual state and total invested price. → stat fixtures per shipped tier + crosspaths (`p09_fixtures.txt`); DPS/visual state not part of the fixtures
+- [x] **P09-T13** — Update upgrade coverage report showing: verified reference + implemented + tested + deferred counts out of 90 initial tier entries. → 35 / 90 shipped (Rookie 9, Cannon 9, Ranger 6, Booth 4, Wax 4, Sorcerer 3), 55 coming soon (`p09_upgrade_coverage.txt`)
+- [x] **P09-T14** — Run full regression on wave, cash, hero scaffolding and pause/2× after first crosspath engine integration. → all 7 suites PASS after the engine (`test_data, map, match, combat, towers, upgrades, full_run`)
 
 **P09 exit proof:** crosspath behavior tested independent of UI, upgrade path progression works for representative branches, and shipped tiers have sourced values. **Do not mark all 90 upgrades completed because names/prices exist in MD.**
 
@@ -1033,15 +1033,15 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 
 | Field | Value |
 |---|---|
-| Current milestone | G2 ✅ — next: G3 (combat/economy vertical slice) |
-| Current phase | P02–P04 done; P00-T04 done |
-| Active task IDs | None — awaiting owner go-ahead for P05 |
-| Latest verified commit | see SESSION_LOG 2026-11-13 P02–P04 entry (tag `g2-match-skeleton`) |
-| Latest passing editor test | match scene in editor run + MCP input, 0 errors (2026-11-13) |
-| Latest passing Web build URL | local only: `http://localhost:8000` (Chrome, 0 console errors); no hosted URL yet |
-| Latest passing test suite | `tests/test_data.gd`, `tests/test_map.gd`, `tests/test_match.gd` — all PASS |
-| Current blockers | D-02 (Gold), D-03 (round set: currently exact source rounds 1–10 as placeholder), lives 150 unverified; deadline Sun Nov 15 10:00 AM |
-| Primary next action | Owner go-ahead for P05 (layered snowballs) |
+| Current milestone | G4 ✅ — next: G5 (hero + special-property interactions) |
+| Current phase | P08–P09 done (P08-T12, P09-T04 partial) |
+| Active task IDs | None — awaiting owner go-ahead for P10 |
+| Latest verified commit | see SESSION_LOG 2026-11-14 P08–P09 entry |
+| Latest passing editor test | editor process run, six-tower shop + upgrade panel, 0 errors (2026-11-14) |
+| Latest passing Web build URL | local only: extracted `claus_for_alarm_g4_web_aa11956.zip` on `http://localhost:8000` (Chrome, 0 console errors); no hosted URL yet |
+| Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,full_run}.gd` — all PASS |
+| Current blockers | Owner decisions: Ticket Booth payback on a 19-round match; unsourced tiers (Guided Magic, Wall of Fire, Corrosive/Stronger Glue, EZ Collect, Banana Salvage); deadline Sun Nov 15 10:00 AM |
+| Primary next action | Owner go-ahead for P10 (Camel Claus hero) |
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 
@@ -1125,6 +1125,7 @@ When owner wants to modify a tower, enemy, upgrade, map, art direction or scope:
 | Revision | Date | Author | Summary |
 |---|---|---|---|
 | v1.0 | 2026-11-13 | ChatGPT | Initial cross-referenced full master plan. No code run or game scene modified. |
+| v1.1 | 2026-11-14 | Claude (Opus 5.5) | P05/P06 leftovers ticked with P08 evidence; P08–P09 ticked; G4 ✅; status table refreshed. |
 
 ---
 

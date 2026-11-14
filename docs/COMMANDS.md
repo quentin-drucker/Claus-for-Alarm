@@ -31,10 +31,11 @@ Expected `build/web/`: `index.html`, `index.js`, `index.wasm` (~39 MB, ~10 MB gz
 2. Zip for itch (index.html at the zip root) — see `docs/PUBLISHING.md`; extract the zip into an empty folder and serve
    *that* folder (`python -m http.server 8000 -d <folder>`), so the test covers the exact upload.
 3. Browser console (F12): `Build configuration: ... single-threaded`, `STATE BOOT -> PREPARE`, 0 errors/warnings.
-4. Press `1`, place two Rookies beside the track, click one: info card shows Target + Sell. Click Target: First → Last.
+4. Press `1`, place two Rookies beside the track, click one: info card shows three upgrade buttons, Target + Sell.
+   Click Bottom (`Long-Distance Lob $90`): card shows 0-0-1, range 40, invested $290. Click Target: First → Last.
 5. `Space` starts round 1; snowballs pop; `F` = 2×. Round 1 ends in Prepare with 0 leaks if both Rookies cover the
-   first bend; cash = 650 − 400 + 20 pops + 101 bonus = **$371**, lives 150.
+   first bend; cash = 650 − 400 − 90 + 20 pops + 101 bonus = **$281**, lives 150.
 
 No COOP/COEP headers needed while thread support stays off. Automated with playwright-cli against
-`http://localhost:8000` (see SESSION_LOG). Evidence: `docs/logs/evidence/p07_web_*`. P01 smoke scene is gone
+`http://localhost:8000` (see SESSION_LOG). Evidence: `docs/logs/evidence/p09_web_*` (G4), `p07_web_*` (G3). P01 smoke scene is gone
 (tag `p01-web-smoke`).

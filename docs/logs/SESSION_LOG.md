@@ -116,3 +116,46 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Approved owner decisions:** DEC-017…DEC-022.
 - **Repo commit after:** this entry's commit; ZIP `build/archive/claus_for_alarm_g3_web_d2f1bba.zip`.
 - **Next suggested task IDs:** P08-T01…T04 (Avalanche Cannon, Biathlon Ranger, Slope Wax Sprayer base kits) after go-ahead.
+
+#### SESSION 2026-11-14 — Claude (Opus 5.5) — P08, P09 (G4)
+- **Goal:** the other five base kits (each tested before the next), six-tower shop, reusable 3×5 upgrade engine with
+  crosspath lock, shipped tiers only where the source pages give the numbers; mixed-roster bot; Web build + itch ZIP.
+- **Read:** master §§4, 12, P05–P09; HYB-M M-06, M-07, M-10, M-11, M-14; teemo.dev tower pages (6) and upgrade pages
+  (Dart 9, Bomb 9, Sniper 6, Farm 6, Glue 6, Wizard 4; v56). bloons.fandom.com returned HTTP 402 (paywalled), not used.
+- **Repo commit before:** `e0ba9b8`. Commits: `2d12ba4` (P08-T02 Cannon + sub-attack engine), `3787335` (T03 Ranger),
+  `15424b6` (T04 Wax), `1bf70b5` (T05 Sorcerer), `295ede1` (T06/T07/T10 Booth, shop, base report), `844a638` (P09 engine
+  + Rookie/Cannon T1–T3), `2465a33` (batch 2), `707dacd` (mixed bot + lead aim), `aa11956` (exit-leak fix), this entry's commit.
+- **Files changed:** `scripts/data/attack_definition.gd` (radius, spread, slow duration, soak, camo bonus, on_contact/
+  on_expire; `splash_pierce` removed), `upgrade_effect.gd` (new), `upgrade_definition.gd` (effects, `is_available`),
+  `tower_definition.gd` (pickup lifetime, shipped-only `can_upgrade`); `scenes/main/match.gd` (multi-attack fire path,
+  bursts, sub-attacks, instant global hits, lead aim, wax, ticket pickups, `buy_upgrade`/`upgrade_state`, shop = all six),
+  `scenes/towers/tower.gd` (working stats + `rebuild_stats`), `scenes/enemies/snowball.gd` (wax), `scripts/core/targeting.gd`
+  (accept filter), `scenes/world/ski_circuit.*` (line of sight, Lodge in `blocks_sight`), `scripts/core/events.gd` (pickup
+  events), HUD (upgrade buttons, hint); `resources/towers/*.tres` (base-kit sub-attacks, verified footprints, 35 upgrade
+  effect sets), hero status keys; `tests/test_towers.gd`, `tests/test_upgrades.gd` (new), `test_full_run.gd` (plan bots),
+  `test_data.gd`; docs (plan ticks, G4, status table, assumptions, COMMANDS, PUBLISHING, ARCHITECTURE).
+- **Tests run:** `test_data, test_map, test_match, test_combat, test_towers, test_upgrades, test_full_run` → all PASS;
+  editor process runs (shop, round 1, upgrade panel) 0 errors; `--export-release "Web"` exit 0, 0 ERROR/WARNING lines;
+  `--main-pack build/web/index.pck` clean boot.
+- **Web result / browser:** extracted `claus_for_alarm_g4_web_aa11956.zip`, local `http.server`, Chrome via playwright-cli,
+  1280×720: single-threaded, 0 console errors/warnings; two Rookies, Bottom 1 bought (0-0-1, range 40, invested $290,
+  sell $203), Target First→Last, round 1 at 2× → 150 lives, $281 (= expectation). `p09_web_*`.
+- **Bot results (`p09_full_run.txt`):** Rookie-only WON 143 lives 9.6 min; **mixed roster WON 80 lives ~10.2 min**;
+  solo Cannon / Ranger / Sorcerer all WON (~53–55 pops per $100, Rookie 53.5); solo Wax LOST round 4 (support only);
+  Booth-economy bot: Booth 2-0-0 cost $2,350, returned $1,360 by round 19 (net −$990) and won with 18 lives.
+- **Finished and checked tasks:** P05-T06/T07, P06-T05/T08/T12; P08-T01…T11; P09-T01…T03, T05…T14; G4.
+- **Partial tasks / why:** P08-T12 (no frame-time profile; P14), P09-T04 (no replay serialization; restart = fresh
+  match), P06-T09 (no large/armored snowballs, DEC-019). Unshipped (coming soon, never purchasable): every tier 4–5,
+  Rookie/Cannon all shipped to T3; Guided Magic (+ Arcane Blast behind it), Wall of Fire, Corrosive Glue, Stronger Glue,
+  EZ Collect, Banana Salvage (source gives behaviour without numbers). Abilities DEFERRED.
+- **Findings / defects fixed:** (1) shots aimed at the current position missed fast layers crossing them (0.4 m
+  contact radius) → one-step lead along the track. (2) a self-typed `Array[AttackDefinition]` export leaked the script at
+  exit ("ObjectDB instances leaked") → `Array[Resource]`. (3) a `-s` builder hit a script error and waited forever on the
+  debugger: run builders with `< /dev/null` and `timeout`. (4) a script error inside a test function was not counted
+  as a failure → test files now check every test function completed.
+- **Assumptions added:** blast/splatter radii, volley angles, wax duration 11 s and no re-targeting of waxed snowballs,
+  even ticket-drop timing, Cannon/Sorcerer footprint 6 (`IMPLEMENTATION_ASSUMPTIONS.md`).
+- **Owner decisions needed:** Ticket Booth economy on a 19-round match (keep BTD6 1:1, or an ORIGINAL_DEVIATION price/
+  yield); whether to accept assumed numbers for the unsourced tiers above or keep them coming soon.
+- **Repo commit after:** this entry's commit; ZIP `build/archive/claus_for_alarm_g4_web_aa11956.zip`.
+- **Next suggested task IDs:** P10-T01… (Camel Claus hero) after go-ahead.

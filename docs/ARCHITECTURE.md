@@ -65,7 +65,15 @@ BOOT → PREPARE → ROUND_SPAWN → ROUND_CLEANUP → ROUND_REWARD → PREPARE 
 - ROUND_SPAWN ends when the round's schedule is fully spawned; ROUND_CLEANUP ends only when no snowball is
   left, so a round can't complete while snowballs are still on the course. ROUND_REWARD credits
   `round_bonus_base + round` through the ledger.
-- Tick order: spawn due enemies → move snowballs → leaks (lives −= RBE, once) → state checks.
+- Tick order: spawn due enemies + ticket drops → pickup expiry → move snowballs (wax slows) → leaks (lives −= RBE,
+  once) → towers fire → shots move/hit → state checks.
+- Combat (P08): every attack is data (`AttackDefinition`). Top-level attacks fire as a projectile volley, or as an
+  instant hit for `global_range` towers (line of sight via `SkiCircuit.has_line_of_sight`, group `blocks_sight`).
+  `radius_units > 0` = burst. `on_contact` / `on_expire` sub-attacks chain (explosion, frags, shrapnel, cluster).
+  All damage goes through `damage_snowball`; status through `_apply`.
+- Upgrades (P09): towers keep working copies of their stats (`tower.rebuild_stats`), rebuilt from the definition
+  plus owned tiers' `UpgradeEffect`s (appends first, then add/multiply/set). `TowerDefinition.can_upgrade` is the
+  authority (crosspath + shipped tier); `match.buy_upgrade` is the only purchase path.
 - `match.changed` fires on every HUD-visible change; the HUD refreshes only then (debug overlay excepted).
 
 | Control | PREPARE | ROUND_SPAWN / CLEANUP | Paused | WON / LOST |
