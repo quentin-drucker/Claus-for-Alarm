@@ -4,12 +4,23 @@
 
 # Claus for Alarm (hackathon entry)
 
-The hackathon's Camel Claus game. TODO: one-line pitch.
+Winter-sports tower defense by team Camel Claus: toy-like athletes and the camel hero Camel Claus defend a snowy
+college ski course against layered rolling snowballs. Godot 4.7.2, GDScript, Compatibility renderer, browser build.
 Theme: festive / Christmas at Conn; secret sub-theme: Winter Sports (see `docs/HACKATHON.md`).
 
 @docs/CONVENTIONS.md
 
-- Before creating or changing any model, texture, material, UI art or audio, read `docs/ART_DIRECTION.md` and follow it. If it is TBD for what you need, ask instead of inventing a style.
-- Work follows `docs/PLAN.md` phase by phase; stop at each Checkpoint for review.
-- After meaningful work, add a dated entry at the top of `docs/DEVLOG.md` (what changed, why, what's next).
+## Project hierarchy (master plan §11.1)
+
+Before any feature implementation, read `references/design/00_Camel_Claus_MASTER_Development_Plan.md` and the exact
+sections of `references/design/01_Camel_Claus_Hybrid_Gameplay_and_Balance.md`,
+`references/design/02_Camel_Claus_Hybrid_Art_UI_Audio.md` and `references/design/03_Camel_Claus_Hybrid_3D_Assets_Blender.md`
+referenced by that task ID. `references/research/BTD6_*.md` are secondary inspiration/numeric baseline with explicit
+version gaps; never silently treat them as exact implementation specs. Work in small verified phases (only the task
+IDs the owner authorized), keep game mechanics independent of visual assets, test Godot editor **and** Web, update
+master checkboxes only after evidence, and do not overwrite approved files or start later phases without authorization.
+
+- Art, UI, audio and models follow design docs 02 and 03; if something needed is undecided there, ask instead of inventing.
+- After each session, append an entry to `docs/logs/SESSION_LOG.md` (template: master plan §12.2).
+- Roster: `docs/REGISTRY.md`. Open assumptions: `docs/IMPLEMENTATION_ASSUMPTIONS.md`. Commands: `docs/COMMANDS.md`.
 - `art_src/` holds Blender sources and has a `.gdignore`; export game-ready `.glb` into `assets/models/`.

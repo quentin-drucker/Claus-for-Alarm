@@ -27,7 +27,8 @@ scripts/     shared scripts not tied to one scene (autoloads, utils)
 resources/   .tres data
 assets/      models/, textures/, materials/, audio/, fonts/  (imported art)
 art_src/     .blend and other source files; has .gdignore so Godot won't auto-import .blend
-docs/        devlog, art direction, these conventions
+docs/        conventions, registry, commands, logs/ (session log + evidence)
+references/  design/ (00 master plan, 01–03 hybrid specs) and research/ (BTD6, gitignored)
 ```
 
 ## Godot MCP gotchas
@@ -58,9 +59,8 @@ docs/        devlog, art direction, these conventions
 
 ## Art pipeline
 
-- Model in Blender with `art_src/tools/pixel_bake.py` (`exec(open(path).read())` in Blender): build from
-  `part()` primitives with palette `mat()`s, `build_asset()` joins them, `bake_export(ob, name, px)` bakes one
-  albedo, palette-snaps it, exports `assets/models/<name>.glb` and saves `art_src/<name>.blend`.
+- Follow `references/design/03_Camel_Claus_Hybrid_3D_Assets_Blender.md` (anti-primitive charter, QA gates, sockets).
+  `art_src/tools/pixel_bake.py` is a legacy primitive/pixel-bake tool from North Pole; don't use it for final assets.
 - Models face Blender **+Y** (= Godot −Z); code turns them with `rotation.y = atan2(-dir.x, -dir.z)`.
 
 ## Web build
@@ -70,5 +70,5 @@ docs/        devlog, art direction, these conventions
 
 ## Workflow
 
-- After meaningful work, add an entry to `docs/DEVLOG.md`.
+- After each session, add an entry to `docs/logs/SESSION_LOG.md`.
 - Before calling something done: run the project and check for errors.

@@ -173,7 +173,7 @@ To facilitate reuse of BTD6 balance, retain for each original mechanic: attack t
 
 | ID | Milestone | Core phases | Gate / demonstration | Status | Evidence |
 |---|---|---|---|---|---|
-| G0 | Specifications and decisions recorded | P00 | All three hybrid MDs found; unresolved defaults tracked; source precedence accepted | ⬜ | — |
+| G0 | Specifications and decisions recorded | P00 | All three hybrid MDs found; unresolved defaults tracked; source precedence accepted | ✅ | `docs/logs/SESSION_LOG.md` (2026-11-13), baseline `d1567e1` |
 | G1 | Editor & Web smoke | P01 | Project boots in editor; minimal Web export actually opens in browser | ⬜ | — |
 | G2 | Data-driven match skeleton | P02–P04 | Path + towers + states work independently of final art | ⬜ | — |
 | G3 | Complete combat/economy vertical slice | P05–P07 | Layer changes, money, rounds, leaks, win/lose verified | ⬜ | — |
@@ -401,17 +401,17 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** all three hybrid files (especially M-00/M-01/M-13, A-00, B-00/B-17), this plan §§1–7.  
 **Gate:** G0. **No gameplay implementation yet.**
 
-- [ ] **P00-T01** — Copy all three hybrid docs into `references/design/` with **exact expected filenames**, and place this master alongside them; confirm no `.md.md` extensions or renamed `(1)` duplicates.
-- [ ] **P00-T02** — Confirm the three original BTD6 MD references are in `references/research/` and clarify any missing optional JSON without blocking work.
-- [ ] **P00-T03** — Read `CLAUDE.md`, `AGENTS.md`, `.mcp.json`, `project.godot`, Git status and existing project content; report actual current game implementation rather than assuming project is blank.
-- [ ] **P00-T04** — Verify engine executable, version, Compatibility renderer, Godot MCP editor connection, and that Claude Code is acting in the correct Cursor workspace.
-- [ ] **P00-T05** — Create initial Git commit/checkpoint of current working configuration; protect existing work and configuration.
-- [ ] **P00-T06** — Record every user-approved roster entry, its source counterpart, and every explicit exclusion in the game-facing design registry (not yet content scenes).
-- [ ] **P00-T07** — Confirm owner decisions D-01–D-12 as LOCKED, PROPOSED or DEFERRED; do not unilaterally resolve high-impact ambiguities.
-- [ ] **P00-T08** — Write an `implementation_assumptions.md` (or log entry) listing exact short-demo constraints, target browser(s), play time goal and minimum acceptance definition.
-- [ ] **P00-T09** — Add a one-paragraph reference-loading rule to existing `CLAUDE.md` *without replacing existing text*; verify it explicitly prioritizes these design docs and this plan.
-- [ ] **P00-T10** — Set up persistent `docs/logs/` and test-evidence directories; add a reproducible command list for running Godot and future Web export.
-- [ ] **P00-T11** — Mark G0 only after on-disk paths, version control and the decision register have been checked in the actual project.
+- [x] **P00-T01** — Copy all three hybrid docs into `references/design/` with **exact expected filenames**, and place this master alongside them; confirm no `.md.md` extensions or renamed `(1)` duplicates.
+- [x] **P00-T02** — Confirm the three original BTD6 MD references are in `references/research/` and clarify any missing optional JSON without blocking work.
+- [x] **P00-T03** — Read `CLAUDE.md`, `AGENTS.md`, `.mcp.json`, `project.godot`, Git status and existing project content; report actual current game implementation rather than assuming project is blank.
+- [ ] **P00-T04** — Verify engine executable, version, Compatibility renderer, Godot MCP editor connection, and that Claude Code is acting in the correct Cursor workspace. — **PARTIAL:** exe, version 4.7.2 and Compatibility renderer verified; MCP connection not verified (session opened on parent folder, `addons/godot_mcp` not yet installed). Re-check at start of P01.
+- [x] **P00-T05** — Create initial Git commit/checkpoint of current working configuration; protect existing work and configuration.
+- [x] **P00-T06** — Record every user-approved roster entry, its source counterpart, and every explicit exclusion in the game-facing design registry (not yet content scenes).
+- [x] **P00-T07** — Confirm owner decisions D-01–D-12 as LOCKED, PROPOSED or DEFERRED; do not unilaterally resolve high-impact ambiguities.
+- [x] **P00-T08** — Write an `implementation_assumptions.md` (or log entry) listing exact short-demo constraints, target browser(s), play time goal and minimum acceptance definition.
+- [x] **P00-T09** — Add a one-paragraph reference-loading rule to existing `CLAUDE.md` *without replacing existing text*; verify it explicitly prioritizes these design docs and this plan.
+- [x] **P00-T10** — Set up persistent `docs/logs/` and test-evidence directories; add a reproducible command list for running Godot and future Web export.
+- [x] **P00-T11** — Mark G0 only after on-disk paths, version control and the decision register have been checked in the actual project.
 
 **P00 completion proof:** directory tree, actual Godot version, output from editor MCP connectivity, current Git hash, and decisions copied into §12. No edit to simulation code required.
 
@@ -1033,15 +1033,15 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 
 | Field | Value |
 |---|---|
-| Current milestone | G0 — docs/setup pending verification |
-| Current phase | P00 |
-| Active task IDs | None authorized; ready for owner to start P00 |
-| Latest verified commit | TBD |
+| Current milestone | G0 ✅ — next: G1 (editor & Web smoke) |
+| Current phase | P00 done (T04 partial: MCP) → P01 next |
+| Active task IDs | None — awaiting owner authorization for P01 |
+| Latest verified commit | `d1567e1` (baseline) + P00 commit — see SESSION_LOG |
 | Latest passing editor test | TBD |
 | Latest passing Web build URL | TBD |
 | Latest passing test suite | TBD |
-| Current blockers | None verified yet; document placement and open decisions pending |
-| Primary next action | File is in `references/design/`; tell Claude to execute ONLY P00 |
+| Current blockers | Godot MCP not yet connected; D-02…D-12 PROPOSED; hackathon deadline unknown |
+| Primary next action | Open Claude in `claus-for-alarm/` (MCP loads), then authorize P01 |
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 
@@ -1074,6 +1074,17 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | DEC-003 | 2026-11-13 | Rolling color-layer snowballs, Powder→Blue→Mint→Violet→Coral and Gold in palette | APPROVED visual direction | Gold semantics still OPEN D-02 |
 | DEC-004 | 2026-11-13 | Public title: **Claus for Alarm** | APPROVED | D-01 |
 | DEC-005 | 2026-11-13 | Gold mechanics, demo length, precise release upgrade depth | OPEN | D-02/D-03/D-07 |
+| DEC-006 | 2026-11-13 | D-02 Gold = configurable special class, not 6th linear layer | PROPOSED | Default per M-03; owner to confirm |
+| DEC-007 | 2026-11-13 | D-03 short labeled custom round set | PROPOSED | Owner to confirm; see `docs/IMPLEMENTATION_ASSUMPTIONS.md` |
+| DEC-008 | 2026-11-13 | D-04 v56 Medium baseline prices/lives, configurable | PROPOSED | |
+| DEC-009 | 2026-11-13 | D-05 one original ski-course route, 3–5 corners, fixed elevated camera | PROPOSED | Camera choice made in P03-T02 |
+| DEC-010 | 2026-11-13 | D-06 winter names + overlays, separate mechanic flags | PROPOSED | |
+| DEC-011 | 2026-11-13 | D-07 3×5 architecture, ship only verified tiers | PROPOSED | |
+| DEC-012 | 2026-11-13 | D-08 per-field provenance, no "exact parity" claims | PROPOSED | |
+| DEC-013 | 2026-11-13 | D-09 hero pose/weapon/costume | DEFERRED | Needed before P15/P16 |
+| DEC-014 | 2026-11-13 | D-10 boss / giant snowmass | DEFERRED | Only if scripted + tested |
+| DEC-015 | 2026-11-13 | D-11 studio website / host | DEFERRED | Needs hackathon rules (`docs/HACKATHON.md`) |
+| DEC-016 | 2026-11-13 | D-12 original college-inspired look, no official marks | PROPOSED | |
 
 ### 12.4 Risk register and responses
 
