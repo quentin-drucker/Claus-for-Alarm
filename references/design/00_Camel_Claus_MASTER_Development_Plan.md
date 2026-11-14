@@ -176,7 +176,7 @@ To facilitate reuse of BTD6 balance, retain for each original mechanic: attack t
 | G0 | Specifications and decisions recorded | P00 | All three hybrid MDs found; unresolved defaults tracked; source precedence accepted | ✅ | `docs/logs/SESSION_LOG.md` (2026-11-13), baseline `d1567e1` |
 | G1 | Editor & Web smoke | P01 | Project boots in editor; minimal Web export actually opens in browser | ✅ | `docs/logs/evidence/p01_*`, tag `p01-web-smoke` |
 | G2 | Data-driven match skeleton | P02–P04 | Path + towers + states work independently of final art | ✅ | `tests/test_{data,map,match}.gd` PASS; `docs/logs/evidence/p0[234]_*`; tag `g2-match-skeleton` |
-| G3 | Complete combat/economy vertical slice | P05–P07 | Layer changes, money, rounds, leaks, win/lose verified | ⬜ | — |
+| G3 | Complete combat/economy vertical slice | P05–P07 | Layer changes, money, rounds, leaks, win/lose verified | ✅ | `tests/test_{combat,full_run}.gd` PASS; `docs/logs/evidence/p05_*, p06_*, p07_*`; itch ZIP `claus_for_alarm_g3_web_d2f1bba.zip`; specials DEFERRED (DEC-019) |
 | G4 | Initial six-tower mechanical roster | P08–P09 | All six tower **base kits** validated; at least a small verified upgrade sample; path locks | ⬜ | — |
 | G5 | Hero & special-property interactions | P10–P11 | Camel Claus auto-level, abilities/toggles; basic immunities, wax, economy | ⬜ | — |
 | G6 | Technical alpha with functional UX | P12–P14 | Multiple rounds, upgrades, pause/restart, stress/debug and Web sanity | ⬜ | — |
@@ -497,19 +497,19 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-03/M-05; HYB-A A-05/A-08; HYB-B B-07.  
 **Gate:** G3.
 
-- [ ] **P05-T01** — Lock the five baseline mechanical layers: Powder→Blue→Mint→Violet→Coral, mapped to source Red→Blue→Green→Yellow→Pink; keep speed-per-layer semantics separate from color.
-- [ ] **P05-T02** — Implement `EnemyDefinition` for basic five-layer descendants and a runtime `SnowballEnemy` shell/child state that can downgrade on one valid damage.
-- [ ] **P05-T03** — Implement rolling movement along route based on progress/speed; rotation is cosmetic and must not alter gameplay path.
-- [ ] **P05-T04** — Implement deterministic `apply_damage`/`break_shell`/`spawn_children` lifecycle and event IDs; preserve credited kills without double counting.
-- [ ] **P05-T05** — Add data-driven child graphs for branching special types; test one 1→1 downgrade and one 1→multiple split fixture.
-- [ ] **P05-T06** — Separate `can_detect`, `can_target`, `can_damage`, and `can_apply_status` per attack; represent immunity tags independently.
-- [ ] **P05-T07** — Implement stop/slow/regen/camo/fortified-like flags at framework level; do not create all 17 BTD6 enemy types in MVP unless required by active rounds.
-- [ ] **P05-T08** — Create test versions of protective shell (Ceramic-like), blast-resistant, cold-resistant, magical-immune, and camouflaged snowballs where mechanical source supports them.
-- [ ] **P05-T09** — On escape, remove child/parent appropriately and subtract leak damage *once*; never award destruction cash for a leak.
-- [ ] **P05-T10** — On layer break, replace current visible placeholder color; ensure Powder has dark outline so it stands out against snowy terrain.
-- [ ] **P05-T11** — Make Gold a configurable special class placeholder, not hardcoded as six straight HP layers, until D-02 owner approval.
-- [ ] **P05-T12** — Test fast enemy + 2× + pause/resume + exit at exact endpoint; no premature disappearance, false rewards, or status-timing drift.
-- [ ] **P05-T13** — Validate RBE/child consistency with known references on a per-type basis; label any unverified exact branch structure.
+- [x] **P05-T01** — Lock the five baseline mechanical layers: Powder→Blue→Mint→Violet→Coral, mapped to source Red→Blue→Green→Yellow→Pink; keep speed-per-layer semantics separate from color. → DEC-017; `test_data` layer RBE 1..5
+- [x] **P05-T02** — Implement `EnemyDefinition` for basic five-layer descendants and a runtime `SnowballEnemy` shell/child state that can downgrade on one valid damage. → `EnemyDefinition` + `snowball.gd` `set_layer`
+- [x] **P05-T03** — Implement rolling movement along route based on progress/speed; rotation is cosmetic and must not alter gameplay path. → distance/speed per tick in `match.gd`; no rotation yet
+- [x] **P05-T04** — Implement deterministic `apply_damage`/`break_shell`/`spawn_children` lifecycle and event IDs; preserve credited kills without double counting. → `match.damage_snowball` (overflow, $1/layer, `layer_broken` events); `test_combat` damage table + chain
+- [ ] **P05-T05** — Add data-driven child graphs for branching special types; test one 1→1 downgrade and one 1→multiple split fixture. → **DEFERRED** — multi-child specials (DEC-019); 1→1 tested; validator rejects child_count > 1 until P11
+- [ ] **P05-T06** — Separate `can_detect`, `can_target`, `can_damage`, and `can_apply_status` per attack; represent immunity tags independently. → **PARTIAL** — detect (`camo` vs `detects_camo`) and damage (`immune_<type>`) separate and tested; can_apply_status with Wax in P08
+- [ ] **P05-T07** — Implement stop/slow/regen/camo/fortified-like flags at framework level; do not create all 17 BTD6 enemy types in MVP unless required by active rounds. → **PARTIAL** — `camo` + immunity flags live; slow/regen/fortified DEFERRED with specials (DEC-019) / Wax (P08)
+- [ ] **P05-T08** — Create test versions of protective shell (Ceramic-like), blast-resistant, cold-resistant, magical-immune, and camouflaged snowballs where mechanical source supports them. → **DEFERRED** — special snowballs DEFERRED (DEC-019)
+- [x] **P05-T09** — On escape, remove child/parent appropriately and subtract leak damage *once*; never award destruction cash for a leak. → `test_match` "leaks never pay pop cash"; `test_full_run` pop $ = RBE − leaked
+- [x] **P05-T10** — On layer break, replace current visible placeholder color; ensure Powder has dark outline so it stands out against snowy terrain. → recolour on break + dark outline on every layer; `p06_editor_combat.png`
+- [ ] **P05-T11** — Make Gold a configurable special class placeholder, not hardcoded as six straight HP layers, until D-02 owner approval. → **DEFERRED** — no Gold for now (DEC-018)
+- [x] **P05-T12** — Test fast enemy + 2× + pause/resume + exit at exact endpoint; no premature disappearance, false rewards, or status-timing drift. → `test_combat` 1×≡2×, `test_match` pause; leak at exact track length; status timing N/A until P08
+- [x] **P05-T13** — Validate RBE/child consistency with known references on a per-type basis; label any unverified exact branch structure. → basic five: RBE 1..5 and rounds 1–16 RBE = source pages (`test_data`); specials DEFERRED
 
 **P05 exit proof:** deterministic damage table for all five basic snowballs; two recorded demos of a color decrement and a special child split; no reward duplication.
 
@@ -518,20 +518,20 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-02/M-05/M-07/M-10/M-11; HYB-A A-08/A-11.  
 **Gate:** G3.
 
-- [ ] **P06-T01** — Implement base target priorities **First**, **Last**, **Close**, **Strong** where the active unit supports them; specify stable tie-breaking to avoid flicker.
-- [ ] **P06-T02** — Compute range/detection/LOS eligibility before ranking targets; global-target Sniper is a separate policy, not a giant radius hack.
-- [ ] **P06-T03** — Define attack scheduler with cooldown/volley/projectile spawn semantics, fixed-step timing and projectiles remaining after target changes.
-- [ ] **P06-T04** — Implement moving projectile collision with attack hit history, pierce consumption, travel time, distinct-target and repeated-hit policies.
-- [ ] **P06-T05** — Implement area-of-effect explosion with **contact projectile pierce ≠ explosion pierce**, especially for Avalanche Cannon.
-- [ ] **P06-T06** — Implement damage tags and immunity interactions, including magic/energy, sharp, explosive, status-only wax and future typed bonus damage.
-- [ ] **P06-T07** — Implement behavior when attack is immune: no damage, no unintended income, correct event; whether it consumes pierce must be specified/tested.
-- [ ] **P06-T08** — Implement status application, timing, refresh/override and stacking semantics with source/version fields rather than one global slow percentage.
-- [ ] **P06-T09** — Implement attack bonus vs large snowballs, before/after armor debuffs, persistent effects and multi-attack order support even if later tiers aren't shipped yet.
-- [ ] **P06-T10** — Use a single gameplay damage resolver and one event emission path; ensure effects do not recursively cause unbounded chain loops.
-- [ ] **P06-T11** — Test 1x and 2x game speed equivalence in **simulation results**, allowing wall-clock run time to differ.
-- [ ] **P06-T12** — Build unit test fixtures: one layer, heavy shell, lead-like immunity, camo undetectable, pierce=1 vs pierce>1, overlapping explosion, cross-source status.
-- [ ] **P06-T13** — Profile 100+ proxy snowballs / many projectiles to find obvious O(N²) broadphase issues; optimize when evidenced.
-- [ ] **P06-T14** — Expose development logs: attacks fired, hits, immune impacts, pierce used, pop credit and target choice to enable balance analysis.
+- [x] **P06-T01** — Implement base target priorities **First**, **Last**, **Close**, **Strong** where the active unit supports them; specify stable tie-breaking to avoid flicker. → `scripts/core/targeting.gd` First/Last/Close/Strong, tie → lower id; `test_combat`
+- [x] **P06-T02** — Compute range/detection/LOS eligibility before ranking targets; global-target Sniper is a separate policy, not a giant radius hack. → range (edge contact) + camo before ranking; global Sniper policy in P08
+- [x] **P06-T03** — Define attack scheduler with cooldown/volley/projectile spawn semantics, fixed-step timing and projectiles remaining after target changes. → per-tower cooldown on sim ticks, shots fly on after retarget; volleys with P09 upgrades
+- [x] **P06-T04** — Implement moving projectile collision with attack hit history, pierce consumption, travel time, distinct-target and repeated-hit policies. → swept segment hits, pierce, per-shot hit history by entity id; `test_combat` pierce 1/2 + one-shot-one-layer
+- [ ] **P06-T05** — Implement area-of-effect explosion with **contact projectile pierce ≠ explosion pierce**, especially for Avalanche Cannon. → **MOVED** — to P08 (Avalanche Cannon); G3 uses the Rookie only (owner)
+- [x] **P06-T06** — Implement damage tags and immunity interactions, including magic/energy, sharp, explosive, status-only wax and future typed bonus damage. → `immune_<damage_type>` check in the single damage path; `test_combat`
+- [x] **P06-T07** — Implement behavior when attack is immune: no damage, no unintended income, correct event; whether it consumes pierce must be specified/tested. → immune contact uses 1 pierce, no damage/cash, one `enemy_immune` event; `test_combat`
+- [ ] **P06-T08** — Implement status application, timing, refresh/override and stacking semantics with source/version fields rather than one global slow percentage. → **MOVED** — to P08 (Slope Wax Sprayer)
+- [ ] **P06-T09** — Implement attack bonus vs large snowballs, before/after armor debuffs, persistent effects and multi-attack order support even if later tiers aren't shipped yet. → **MOVED** — to P08/P09 with the towers/upgrades that use them
+- [x] **P06-T10** — Use a single gameplay damage resolver and one event emission path; ensure effects do not recursively cause unbounded chain loops. → `damage_snowball` is the only damage/event path; loop bounded by damage
+- [x] **P06-T11** — Test 1x and 2x game speed equivalence in **simulation results**, allowing wall-clock run time to differ. → `test_combat` identical ledgers at 1× and 2×
+- [ ] **P06-T12** — Build unit test fixtures: one layer, heavy shell, lead-like immunity, camo undetectable, pierce=1 vs pierce>1, overlapping explosion, cross-source status. → **PARTIAL** — one layer, lead-like immunity, camo, pierce 1 vs 2 done; heavy shell / explosion / cross-source status with P08/P11
+- [ ] **P06-T13** — Profile 100+ proxy snowballs / many projectiles to find obvious O(N²) broadphase issues; optimize when evidenced. → **PARTIAL** — not profiled yet: round 19 (115 snowballs, 23 towers) runs headless without issue; browser FPS check in P14
+- [x] **P06-T14** — Expose development logs: attacks fired, hits, immune impacts, pierce used, pop credit and target choice to enable balance analysis. → `-- --log-events` prints attack_fired (with target), enemy_hit, enemy_immune, layer_broken; F3 ledger
 
 **P06 exit proof:** one validated basic projectile, one explosive attack, one status-only attack, and automated correctness cases for immunity, pierce, and target order.
 
@@ -540,18 +540,18 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-04/M-07/M-10/M-11/M-12; HYB-A A-06/A-07.  
 **Gate:** G3.
 
-- [ ] **P07-T01** — Create one `EconomyLedger` for starting cash, price checks, purchase, upgrade, pop income, round reward, sell, Ticket Booth rewards and hero placement.
-- [ ] **P07-T02** — Implement round-based income using verified source values; represent income brackets/difficulty modifiers as data rather than UI code.
-- [ ] **P07-T03** — Implement Medium cost baseline and optional Easy/Hard/Impoppable price multipliers/rounding **only after** source rounding checks; use Medium for MVP.
-- [ ] **P07-T04** — Apply 70% default sell-back on invested amount in eligible modes; account for discounts separately when applicable.
-- [ ] **P07-T05** — Implement `RoundDirector` from time-stamped group data; round completes only after all spawned descendants are resolved and scheduled spawns exhausted.
-- [ ] **P07-T06** — Create one short playable wave fixture first, then a sequence that introduces layer speed, crowds, statuses and armor deliberately.
-- [ ] **P07-T07** — Source and verify exact round compositions for any stage claimed as a BTD6-equivalent round; mark custom rounds as original.
-- [ ] **P07-T08** — Implement legal win/lose conditions and optional freeplay choice later; no extra money/life changes after match ended.
-- [ ] **P07-T09** — Add developer-only cash transaction ledger and projected-income per round report; compare to expected fixtures.
-- [ ] **P07-T10** — Test sell/rebuy timing, insufficient cash, lost lives and simultaneous pop/leak near round finish.
-- [ ] **P07-T11** — Implement safe automation for skipping intermissions if desired; double-clicking start never doubles spawn groups.
-- [ ] **P07-T12** — Build a complete two/three-round test run playable with starter tower and placeholder UI; compare logs across reruns.
+- [x] **P07-T01** — Create one `EconomyLedger` for starting cash, price checks, purchase, upgrade, pop income, round reward, sell, Ticket Booth rewards and hero placement. → `EconomyLedger`: start, purchase, pop, round bonus, sale (booth/hero from P08/P10)
+- [x] **P07-T02** — Implement round-based income using verified source values; represent income brackets/difficulty modifiers as data rather than UI code. → round bonus 100 + n and $1/pop as data (`rules_medium`, enemy `cash_per_pop`); >R50 brackets N/A
+- [x] **P07-T03** — Implement Medium cost baseline and optional Easy/Hard/Impoppable price multipliers/rounding **only after** source rounding checks; use Medium for MVP. → Medium only
+- [x] **P07-T04** — Apply 70% default sell-back on invested amount in eligible modes; account for discounts separately when applicable. → 70% of invested (P04, `test_match`)
+- [x] **P07-T05** — Implement `RoundDirector` from time-stamped group data; round completes only after all spawned descendants are resolved and scheduled spawns exhausted. → round ends only when schedule exhausted and all snowballs resolved (`test_match`, `test_full_run`)
+- [x] **P07-T06** — Create one short playable wave fixture first, then a sequence that introduces layer speed, crowds, statuses and armor deliberately. → round 1 fixture → 19-round sequence (`test_full_run`)
+- [x] **P07-T07** — Source and verify exact round compositions for any stage claimed as a BTD6-equivalent round; mark custom rounds as original. → rounds 1–16 exact v56 pages, RBE checked; 17–19 `ORIGINAL_DEVIATION` "Finale" (DEC-020)
+- [x] **P07-T08** — Implement legal win/lose conditions and optional freeplay choice later; no extra money/life changes after match ended. → WON after round 19, LOST at 0 lives; frozen after end (`test_match`, `test_full_run`)
+- [x] **P07-T09** — Add developer-only cash transaction ledger and projected-income per round report; compare to expected fixtures. → F3 ledger overlay; per-round report `docs/logs/evidence/p07_full_run.txt`
+- [x] **P07-T10** — Test sell/rebuy timing, insufficient cash, lost lives and simultaneous pop/leak near round finish. → insufficient cash/sell (`test_match`); leak-before-shoot tick order; ledger identity holds in leaking finale rounds
+- [x] **P07-T11** — Implement safe automation for skipping intermissions if desired; double-clicking start never doubles spawn groups. → double start ignored (`test_match`); auto-skip not added
+- [x] **P07-T12** — Build a complete two/three-round test run playable with starter tower and placeholder UI; compare logs across reruns. → `test_full_run` WON, rerun identical; browser round 1 = headless ($371)
 
 **P07 exit proof:** a real, repeatable beginning-to-end match exists. **This is the first complete technical vertical slice** and should be deployed to browser immediately, even if the art is crude.
 

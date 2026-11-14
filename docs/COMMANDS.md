@@ -21,15 +21,20 @@ python -m http.server 8000 -d build/web              # then open http://localhos
 
 Web templates installed: `%APPDATA%/Godot/export_templates/4.7.2.stable/` (incl. `web_nothreads_*`).
 
-## Web smoke test (P01-T09)
+## Web smoke test (match build, since P07)
 
 Expected `build/web/`: `index.html`, `index.js`, `index.wasm` (~39 MB, ~10 MB gzipped), `index.pck`,
 `index.audio.worklet.js`, `index.audio.position.worklet.js`, `index.png`, `index.icon.png`, `index.apple-touch-icon.png`.
 
-1. Browser console (F12) shows `Build configuration: ... single-threaded` and `SMOKE_READY renderer=gl_compatibility web=true`, 0 errors.
-2. Screen shows `PLAY TEST`, an FPS line, a grey-white plane with a red box.
-3. Click and press a key: `last input` updates, console prints `SMOKE_INPUT ...`, blip is audible (first gesture unlocks audio).
-4. Resize the window: canvas fills it. `F` enters fullscreen, `F` or `Esc` leaves.
+1. Export, then the export check: `--main-pack build/web/index.pck --quit-after 5` prints
+   `STATE BOOT -> PREPARE ... lives=150 cash=650` and no ERROR lines.
+2. Zip for itch (index.html at the zip root) — see `docs/PUBLISHING.md`; extract the zip into an empty folder and serve
+   *that* folder (`python -m http.server 8000 -d <folder>`), so the test covers the exact upload.
+3. Browser console (F12): `Build configuration: ... single-threaded`, `STATE BOOT -> PREPARE`, 0 errors/warnings.
+4. Press `1`, place two Rookies beside the track, click one: info card shows Target + Sell. Click Target: First → Last.
+5. `Space` starts round 1; snowballs pop; `F` = 2×. Round 1 ends in Prepare with 0 leaks if both Rookies cover the
+   first bend; cash = 650 − 400 + 20 pops + 101 bonus = **$371**, lives 150.
 
-No COOP/COEP headers needed while thread support stays off. Automated version of this check: see SESSION_LOG P01 entry
-(playwright-cli against `http://localhost:8000`). Evidence lives in `docs/logs/evidence/p01_*`.
+No COOP/COEP headers needed while thread support stays off. Automated with playwright-cli against
+`http://localhost:8000` (see SESSION_LOG). Evidence: `docs/logs/evidence/p07_web_*`. P01 smoke scene is gone
+(tag `p01-web-smoke`).
