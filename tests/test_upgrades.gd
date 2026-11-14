@@ -33,9 +33,10 @@ func _run() -> void:
 	_test_fixtures()
 	_test_behaviour()
 	_test_batch2()
+	_test_fillers()
 	_test_data_integrity()
 	_coverage_report()
-	_check(_completed.size() == 6, "every test function completed (%s)" % [_completed])
+	_check(_completed.size() == 7, "every test function completed (%s)" % [_completed])
 	print("test_upgrades: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -228,24 +229,24 @@ func _test_batch2() -> void:
 			"Sorcerer Fireball: second attack 2.2 s plasma + blast pierce 15")
 	_check(is_equal_approx(w.range_units, 50.0) and w.attacks[0].pierce == 8 and w.attacks[0].detects_camo and fb.detects_camo,
 			"Sorcerer 0-1-2: range 50, pierce 8, camo on both attacks")
-	_check(m.upgrade_state(make.call(&"snow_sorcerer", Vector3i.ZERO), 0) == "soon", "Guided Magic: coming soon (no stats on page)")
+	_check(m.upgrade_state(make.call(&"snow_sorcerer", Vector3i.ZERO), 0) == "ok", "Guided Magic: purchasable (owner-approved filler)")
 
 	var g: Node3D = make.call(&"slope_wax_sprayer", Vector3i(0, 2, 1))
 	var sp: Resource = g.find_attack(&"slope_wax_sprayer_splatter")
 	_check(g.attacks[0].pierce == 4 and sp and sp.pierce == 4 and sp.slow_duration_s == 18.0 and g.attacks[0].slow_duration_s == 18.0,
 			"Wax 0-2-1: pierce 4 + splatter 4, Stickier 18 s on both")
-	_check(m.upgrade_state(g, 2) == "soon", "Stronger Glue: coming soon")
+	_check(m.upgrade_state(g, 2) == "ok", "Stronger Glue: purchasable (filler)")
 	g = make.call(&"slope_wax_sprayer", Vector3i(1, 2, 0))
 	_check(g.attacks[0].soaks_layers and g.find_attack(&"slope_wax_sprayer_splatter").soaks_layers, "Glue Soak on shot and splatter")
-	_check(m.upgrade_state(g, 0) == "soon", "Corrosive Glue: coming soon")
+	_check(m.upgrade_state(g, 0) == "ok", "Corrosive Glue: purchasable (filler)")
 	_check(content.get_tower(&"slope_wax_sprayer").get_upgrade(1, 2).price == 650, "Glue Splatter $650 (v57)")
 
 	var b: Node3D = make.call(&"ski_resort_ticket_booth", Vector3i(2, 2, 0))
-	_check(b.pickups_per_round == 8 and b.cash_per_pickup == 25 and b.pickup_lifetime_s == 30.0,
-			"Booth 2-2-0: 8 pickups x $25, 30 s (%d x %d, %s)" % [b.pickups_per_round, b.cash_per_pickup, b.pickup_lifetime_s])
-	_check(m.upgrade_state(b, 2) == "locked" and b.def.get_upgrade(2, 1).is_available() == false, "Booth bottom: locked / coming soon")
+	_check(b.pickups_per_round == 8 and b.cash_per_pickup == 75 and b.pickup_lifetime_s == 30.0,
+			"Booth 2-2-0: 8 pickups x $75 (ORIGINAL_DEVIATION $50 x1.5), 30 s (%d x %d, %s)" % [b.pickups_per_round, b.cash_per_pickup, b.pickup_lifetime_s])
+	_check(m.upgrade_state(b, 2) == "locked" and b.def.get_upgrade(2, 1).is_available(), "Booth bottom: locked by crosspath, tier shipped")
 	_check(not m.towers_root.get_children().has(null) and at[0] == 7, "all batch-2 towers placed")
-	# Booth income for a full round: 8 drops of $25.
+	# Booth income for a full round: 8 drops.
 	var drops: int = 0
 	m.start_round()
 	while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
@@ -269,6 +270,96 @@ func _test_batch2() -> void:
 	_completed.append("_test_batch2")
 
 
+## Tiers shipped 2026-11-14 (sourced tier 3s + owner-approved fillers) and the Booth deviation: stats per tier,
+## then the new mechanics (corrosive wax, bank, marketplace, auto-collect, sell bonus).
+func _test_fillers() -> void:
+	var m: Node3D = _new_match()
+	var w: Node3D = _tower(m, &"snow_sorcerer", Vector3i(3, 0, 0), Vector2(-7.2, 0))
+	var a: Resource = w.attacks[0]
+	_check(w.range_units == 60.0 and is_equal_approx(a.interval_s, 0.55) and a.damage == 3 and a.pierce == 7,
+			"Sorcerer 3-0-0 (Arcane Mastery): range 60, 0.55 s, damage 3, pierce 7 (%s %s %s %s)" % [w.range_units, a.interval_s, a.damage, a.pierce])
+	w = _tower(m, &"snow_sorcerer", Vector3i(0, 3, 0), Vector2(0.5, 0))
+	var fb: Resource = w.find_attack(&"snow_sorcerer_fireball")
+	var wall: Resource = w.find_attack(&"snow_sorcerer_wall")
+	_check(w.attacks.size() == 4 and fb.projectile_count == 3 and w.find_attack(&"snow_sorcerer_fireball_blast").damage == 3
+			and wall.interval_s == 4.5 and wall.pierce == 20 and w.find_attack(&"snow_sorcerer_breath").interval_s == 0.135,
+			"Sorcerer 0-3-0: Fireball x3 (blast 3), Wall 4.5 s pierce 20, Dragon's Breath 0.135 s")
+	_check(_tower(m, &"snow_sorcerer", Vector3i(0, 0, 3), Vector2(-5.5, 2.5)).range_units == 60.0, "Sorcerer 0-0-3 (Shimmer): range 60")
+	var r: Node3D = _tower(m, &"biathlon_ranger", Vector3i(3, 0, 0), Vector2(3.5, 1.5))
+	_check(r.attacks[0].damage == 20, "Ranger 3-0-0 (Deadly Precision): damage 20")
+	r = _tower(m, &"biathlon_ranger", Vector3i(0, 3, 0), Vector2(10.0, 8.5))
+	_check(r.attacks[0].pierce == 3 and r.attacks[0].bounce_range_units == 30.0, "Ranger 0-3-0 (Bouncing Bullet): 3 targets")
+	r = _tower(m, &"biathlon_ranger", Vector3i(0, 0, 3), Vector2(-13.0, -8.5))
+	_check(absf(r.attacks[0].interval_s - 0.2597) < 1e-3, "Ranger 0-0-3 (Semi-Automatic): 0.2597 s (%s)" % r.attacks[0].interval_s)
+	m.free()
+
+	m = _new_match()
+	var g: Node3D = _tower(m, &"slope_wax_sprayer", Vector3i(3, 0, 0))
+	_check(g.attacks[0].interval_s == 0.5 and g.attacks[0].pierce == 2 and g.attacks[0].dot_interval_s == 0.5,
+			"Wax 3-0-0 (Bloon Dissolver): 0.5 s, pierce 2, corrosion every 0.5 s")
+	g = _tower(m, &"slope_wax_sprayer", Vector3i(0, 3, 0), Vector2(0.5, 0))
+	_check(g.range_units == 58.0 and g.attacks[0].interval_s == 0.34, "Wax 0-3-0 (Glue Hose): range 58, 0.34 s")
+	g = _tower(m, &"slope_wax_sprayer", Vector3i(0, 0, 3), Vector2(-5.5, 2.5))
+	_check(g.attacks[0].slow_factor == 0.7 and g.attacks[0].slow_duration_s == 20.0, "Wax 0-0-3: slow 70%, 20 s")
+	m.free()
+
+	# Corrosive Glue (2-0-0, Glue Soak keeps the wax through breaks): 1 layer every 2 s, credited to the sprayer.
+	m = _new_match()
+	g = _tower(m, &"slope_wax_sprayer", Vector3i(2, 0, 0))
+	var s: Node3D = _park(m, &"coral", 14.0)
+	_sim(m, 0.2)
+	_check(s.slow_left > 0.0 and s.dot_damage == 1, "corrosive wax applied")
+	var pops_before: int = m.ledger.transactions.filter(func(t: Dictionary) -> bool: return t.reason == &"pop").size()
+	_sim(m, 4.2)
+	var pops: Array = m.ledger.transactions.filter(func(t: Dictionary) -> bool: return t.reason == &"pop")
+	_check(s.def.id == &"mint" and pops.size() - pops_before == 2 and pops[-1].source_id == g.entity_id,
+			"corrosion: coral -> mint in 4.2 s, 2 pops credited to the sprayer (%s, %d)" % [s.def.id, pops.size() - pops_before])
+	m.free()
+
+	# Booth: Plantation 16 tickets; Bank fills, earns 15%, pays on withdraw and on sale; Marketplace pays directly;
+	# EZ Collect pays half for expired tickets; Banana Salvage sells for 80%.
+	m = _new_match()
+	var booth_spot: Vector2 = Vector2(12.0, 1.5)
+	var b: Node3D = _tower(m, &"ski_resort_ticket_booth", Vector3i(0, 3, 0), booth_spot)
+	_check(b.bank_capacity == 7000 and b.cash_per_pickup == 112, "Bank 0-3-0: capacity 7000, $112 tickets (%d)" % b.cash_per_pickup)
+	m.start_round()
+	while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
+		m.clock.advance(STEP)
+	_check(m.pickups.is_empty() and b.bank == roundi(4 * 112 * 1.15), "bank: 4 x $112 + 15%% interest = %d (got %d)" % [roundi(448 * 1.15), b.bank])
+	var cash: int = m.ledger.cash
+	var banked: int = b.bank
+	_check(m.collect_bank(b) == banked and m.ledger.cash == cash + banked and b.bank == 0, "withdraw pays the bank once")
+	b.bank = 100
+	_check(m.sell_value(b) == roundi(b.spent * 0.7) + 100, "sale includes the bank")
+	m.sell(b)
+	b = _tower(m, &"ski_resort_ticket_booth", Vector3i(0, 0, 3), booth_spot)
+	cash = m.ledger.cash
+	m.start_round()
+	while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
+		m.clock.advance(STEP)
+	var income: int = 0
+	for t: Dictionary in m.ledger.transactions:
+		if t.reason == &"ticket_income" and t.source_id == b.entity_id:
+			income += t.amount
+	_check(m.pickups.is_empty() and income == 16 * 50, "Marketplace 0-0-3: 16 x $50 paid directly (got %d)" % income)
+	_check(is_equal_approx(b.sell_bonus, 0.1) and m.sell_value(b) == roundi(b.spent * 0.8), "Banana Salvage: sells for 80%")
+	m.sell(b)
+	b = _tower(m, &"ski_resort_ticket_booth", Vector3i(0, 0, 1), booth_spot)
+	m.start_round()
+	while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
+		m.clock.advance(STEP)
+	_sim(m, 16.0)
+	income = 0
+	for t: Dictionary in m.ledger.transactions:
+		if t.reason == &"ticket_income" and t.source_id == b.entity_id:
+			income += t.amount
+	_check(income == 4 * 25, "EZ Collect: 4 expired tickets auto-collect at half value (got %d)" % income)
+	m.sell(b)
+	_check(_tower(m, &"ski_resort_ticket_booth", Vector3i(3, 0, 0), booth_spot).pickups_per_round == 16, "Plantation: 16 tickets")
+	m.free()
+	_completed.append("_test_fillers")
+
+
 ## Every effect of every shipped upgrade resolves: its attack exists in the base tree or is added by another upgrade.
 func _test_data_integrity() -> void:
 	for tower: Resource in content.towers:
@@ -286,24 +377,26 @@ func _test_data_integrity() -> void:
 				_check(e.target in ids, "%s: effect target %s exists" % [u.id, e.target])
 				if e.attack:
 					_check(e.attack.validate().is_empty(), "%s: appended attack valid %s" % [u.id, e.attack.validate()])
-			_check(u.is_available() == (u.status.get("effects", "") in ["VERIFIED_SOURCE", "PATCHED_SOURCE"]),
-					"%s: purchasable only when verified" % u.id)
+			_check(u.is_available() == (u.status.get("effects", "") in ["VERIFIED_SOURCE", "PATCHED_SOURCE",
+					"PROTOTYPE_ASSUMPTION", "ORIGINAL_DEVIATION"]), "%s: purchasable only when sourced or approved filler" % u.id)
+			_check(u.is_available() == (u.tier <= 3), "%s: tiers 1-3 shipped, 4-5 coming soon" % u.id)
 	_completed.append("_test_data_integrity")
 
 
 ## P09-T13: verified + implemented + tested vs deferred out of 90 initial tier entries.
 func _coverage_report() -> void:
-	var lines: PackedStringArray = ["P09-T13 upgrade coverage (90 initial tier entries). shipped = effects verified from the",
-			"source page, implemented and covered by tests/test_upgrades.gd; coming soon = not purchasable.",
+	var lines: PackedStringArray = ["Upgrade coverage (90 initial tier entries). shipped = purchasable, implemented and covered by",
+			"tests/test_upgrades.gd; * = owner-approved filler (PROTOTYPE_ASSUMPTION) or Booth deviation (ORIGINAL_DEVIATION).",
 			"tower                    shipped  coming_soon  shipped tiers"]
 	var total: int = 0
 	for tower: Resource in content.towers:
 		var shipped: PackedStringArray = []
 		for u: Resource in tower.upgrades:
 			if u.is_available():
-				shipped.append("%s%d" % ["TMB"[u.path], u.tier])
+				var mark: String = "*" if u.status.effects in ["PROTOTYPE_ASSUMPTION", "ORIGINAL_DEVIATION"] else ""
+				shipped.append("%s%d%s" % ["TMB"[u.path], u.tier, mark])
 		total += shipped.size()
 		lines.append("%-24s %7d  %11d  %s" % [tower.id, shipped.size(), 15 - shipped.size(), " ".join(shipped)])
 	lines.append("TOTAL shipped %d / 90, coming soon %d" % [total, 90 - total])
-	FileAccess.open("res://docs/logs/evidence/p09_upgrade_coverage.txt", FileAccess.WRITE).store_string("\n".join(lines) + "\n")
+	FileAccess.open("res://docs/logs/evidence/p10_upgrade_coverage.txt", FileAccess.WRITE).store_string("\n".join(lines) + "\n")
 	print("\n".join(lines))

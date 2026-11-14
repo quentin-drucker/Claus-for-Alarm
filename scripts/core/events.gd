@@ -7,7 +7,7 @@ const TYPES: PackedStringArray = [
 	"tower_placed", "tower_sold", "purchase_failed", "tower_upgraded", "target_changed", "attack_fired",
 	"enemy_spawned", "enemy_hit", "enemy_immune", "layer_broken", "enemy_split", "enemy_leaked",
 	"status_applied", "ability_ready", "ability_used", "hero_level_up", "round_started", "round_complete",
-	"income_collected", "pickup_spawned", "pickup_expired", "match_won", "match_lost"]
+	"income_collected", "income_banked", "pickup_spawned", "pickup_expired", "match_won", "match_lost"]
 
 ## Simulation tick stamped on events; the running match updates it every tick.
 var tick: int = 0

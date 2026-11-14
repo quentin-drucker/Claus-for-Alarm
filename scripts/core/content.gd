@@ -40,14 +40,14 @@ func load_from(root: String) -> void:
 		if ids.has(def.id):
 			errors.append("duplicate id %s" % def.id)
 		ids[def.id] = true
-		if def is TowerDefinition:
+		if def is HeroDefinition:  # before TowerDefinition: a hero is a TowerDefinition
+			hero = def
+		elif def is TowerDefinition:
 			towers.append(def)
 		elif def is EnemyDefinition:
 			enemies[def.id] = def
 		elif def is RoundDefinition:
 			rounds.append(def)
-		elif def is HeroDefinition:
-			hero = def
 		elif def is MatchRules:
 			rules = def
 	errors.append_array(validate())
@@ -121,7 +121,7 @@ func status_report() -> String:
 		defs.append_array(tower.attacks)
 		defs.append_array(tower.upgrades)
 	if hero:
-		defs.append_array([hero, hero.attack])
+		defs.append_array([hero, hero.attacks[0]])
 	defs.append_array(enemies.values())
 	for def: GameDefinition in defs:
 		for field: String in def.balance_fields():

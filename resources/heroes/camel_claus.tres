@@ -7,12 +7,14 @@
 script = ExtResource("1_u2vt8")
 interval_s = 0.95
 pierce = 3
+bounce_range_units = 30.0
 id = &"camel_claus_base"
 status = Dictionary[String, String]({
 "damage": "VERIFIED_SOURCE",
 "interval_s": "VERIFIED_SOURCE",
 "pierce": "VERIFIED_SOURCE",
 "projectile_count": "VERIFIED_SOURCE",
+"bounce_range_units": "PROTOTYPE_ASSUMPTION",
 "projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
 "projectile_speed_units": "PROTOTYPE_ASSUMPTION",
 "radius_units": "NOT_APPLICABLE",
@@ -23,68 +25,91 @@ status = Dictionary[String, String]({
 [resource]
 script = ExtResource("2_e74qy")
 display_name = "Camel Claus"
+role = "Hero (one per match): ricochet shots; levels up after every round and unlocks Snowball Frenzy and Focused Shot."
 source_hero = "Quincy"
 price = 540
 range_units = 50.0
-attack = SubResource("Resource_apjjw")
+attacks = Array[ExtResource("1_u2vt8")]([SubResource("Resource_apjjw")])
 level_xp = Array[int]([0, 180, 640, 1640, 3500, 6780, 11960, 20280, 29660, 43280, 59660, 74060, 90710, 105650, 122030, 139850, 159110, 179810, 196280, 213560])
 level_changes = Array[Dictionary]([{
-"summary": "Base ricochet shot"
+"summary": "Base ricochet shot: 1 damage, bounces to 3 snowballs"
 }, {
-"pierce": 4
+"pierce": 4,
+"summary": "Bounces to 4 snowballs"
 }, {
-"summary": "3x attack speed ~8 s, cooldown 60 s (historic guide)",
+"summary": "Snowball Frenzy: 3x attack speed for 8 s, cooldown 60 s",
 "unlock_ability": "snowball_frenzy"
 }, {
 "range_units": 52,
-"summary": "v57 PATCHED: Focus = interval x1.25, projectile speed x1.25, range x1.2",
+"summary": "Range 52 + Focused Shot stance (v57)",
 "unlock_stance": "focused_shot"
 }, {
-"camo_detection": true
+"camo_detection": true,
+"summary": "Snow Goggles: camo detection"
 }, {
-"projectile_count": 2
+"projectile_count": 2,
+"summary": "Two ice shots"
 }, {
-"summary": "every 3rd shot adds an explosion"
+"explosion_every": 3,
+"summary": "Every 3rd shot explodes (data only)"
 }, {
 "bonus_vs_large": 2,
-"summary": "large-mass specialist"
+"summary": "+2 damage vs large snowballs (data only)"
 }, {
-"pierce": 6
+"pierce": 6,
+"summary": "Bounces to 6 snowballs"
 }, {
-"summary": "area storm, cooldown 70 s",
+"barrage_cooldown_s": 70,
+"summary": "Blizzard Barrage ability, cooldown 70 s (data only)",
 "unlock_ability": "blizzard_barrage"
 }, {
-"interval_s": 0.6
+"interval_s": 0.6,
+"summary": "Faster attack (0.6 s)"
 }, {
-"pierce": 7
+"pierce": 7,
+"summary": "Bounces to 7 snowballs"
 }, {
 "range_units": 54,
-"summary": "Frenzy lasts longer"
+"summary": "Range 54; Frenzy lasts longer (no number on the source page)"
 }, {
-"bonus_vs_large": 3
+"bonus_vs_large": 3,
+"summary": "+3 damage vs large snowballs (data only)"
 }, {
+"frenzy_cooldown_s": 45,
+"frenzy_multiplier": 4,
 "summary": "Frenzy 4x attack speed, cooldown 45 s"
 }, {
-"interval_s": 0.4
+"interval_s": 0.4,
+"summary": "Faster attack (0.4 s)"
 }, {
-"summary": "25% longer projectile life; explosion every 2nd shot"
+"explosion_every": 2,
+"projectile_lifetime_mult": 1.25,
+"summary": "Shots last 25% longer; every 2nd shot explodes (data only)"
 }, {
+"barrage_cooldown_s": 55,
 "interval_s": 0.25,
-"summary": "barrage cooldown 55 s"
+"summary": "Faster attack (0.25 s); barrage cooldown 55 s"
 }, {
 "pierce": 9,
-"projectile_count": 3
+"projectile_count": 3,
+"summary": "Three ice shots, bounces to 9 snowballs"
 }, {
 "interval_s": 0.2,
-"summary": "enhanced storm"
+"summary": "Fastest attack (0.2 s); stronger barrage (data only)"
 }])
 id = &"camel_claus"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/heroes/quincy/"
 status = Dictionary[String, String]({
+"focus_interval_mult": "PATCHED_SOURCE",
+"focus_range_mult": "PATCHED_SOURCE",
+"focus_speed_mult": "PATCHED_SOURCE",
 "footprint_units": "PROTOTYPE_ASSUMPTION",
+"frenzy_cooldown_s": "VERIFIED_SOURCE",
+"frenzy_duration_s": "PROTOTYPE_ASSUMPTION",
+"frenzy_multiplier": "VERIFIED_SOURCE",
 "level_changes": "VERIFIED_SOURCE",
 "level_xp": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE",
 "range_units": "VERIFIED_SOURCE"
 })
-notes = "M-09 (v56) + v57 Focus stance at level 4 (PATCHED_SOURCE). Ricochet: pierce = bounces to distinct targets. footprint unverified."
+notes = "M-09 (v56 teemo.dev) + v57 Focus stance at level 4 (PATCHED_SOURCE). Ricochet: pierce = distinct targets; bounce reach 30 u assumed. Frenzy duration 8 s from the historic guide (not on teemo.dev). XP per round: community formula 20r+20 (PROTOTYPE_ASSUMPTION). Footprint unverified."

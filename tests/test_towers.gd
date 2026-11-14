@@ -218,11 +218,11 @@ func _test_sorcerer() -> void:
 	_completed.append("_test_sorcerer")
 
 
-## P08-T06: no targeting; 4 pickups x $20 per round, spread over the round; collected pickups pay once into
+## P08-T06: no targeting; 4 pickups x $50 per round (ORIGINAL_DEVIATION, owner 2026-11-14), spread over the round; collected pickups pay once into
 ## the ledger as ticket_income; uncollected ones expire after 15 s and pay nothing; a sold booth drops no more.
 func _test_booth() -> void:
 	var booth: Resource = content.get_tower(&"ski_resort_ticket_booth")
-	_check(booth.attacks.is_empty() and booth.pickups_per_round == 4 and booth.cash_per_pickup == 20
+	_check(booth.attacks.is_empty() and booth.pickups_per_round == 4 and booth.cash_per_pickup == 50
 			and booth.pickup_lifetime_s == 15.0, "booth data")
 	var m: Node3D = _new_match()
 	m.ledger.credit(0, 2000, &"test", 0)
@@ -240,10 +240,10 @@ func _test_booth() -> void:
 			m.collect(m.pickups[0])
 			m.collect_at(m.pickups[0].pos)  # click on the ground beside it
 	_check(times.size() == 4 and times[3] - times[0] > 60, "4 drops spread over the round (ticks %s)" % [times])
-	_check(_cash(m, &"ticket_income") == 40, "2 collected = $40 (got %d)" % _cash(m, &"ticket_income"))
+	_check(_cash(m, &"ticket_income") == 100, "2 collected = $100 (got %d)" % _cash(m, &"ticket_income"))
 	_check(not _events.any(func(e: RefCounted) -> bool: return e.type == &"attack_fired"), "booth never attacks")
 	_sim(m, 16.0)
-	_check(m.pickups.is_empty() and _cash(m, &"ticket_income") == 40, "uncollected pickups expire unpaid")
+	_check(m.pickups.is_empty() and _cash(m, &"ticket_income") == 100, "uncollected pickups expire unpaid")
 	var expired: int = _events.filter(func(e: RefCounted) -> bool: return e.type == &"pickup_expired").size()
 	_check(expired == 2, "2 expired events (got %d)" % expired)
 	m.start_round()
@@ -266,7 +266,7 @@ func _test_base_report() -> void:
 		&"biathlon_ranger": [350, 0.0, 1.59, 2, 1, "global LOS"],
 		&"slope_wax_sprayer": [225, 46.0, 1.0, 0, 1, "slow 0.5"],
 		&"snow_sorcerer": [250, 40.0, 1.1, 1, 3, "energy"],
-		&"ski_resort_ticket_booth": [1250, 0.0, 0.0, 0, 0, "4 x $20 / round"],
+		&"ski_resort_ticket_booth": [1250, 0.0, 0.0, 0, 0, "4 x $50 / round"],
 	}
 	var lines: PackedStringArray = ["P08-T10 base kit vs M-10 (v56 Medium). Provenance per field from the .tres status.",
 			"id                       price  range  interval  dmg  pierce  extra                 footprint  match"]

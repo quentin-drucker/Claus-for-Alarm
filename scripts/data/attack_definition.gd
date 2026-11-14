@@ -27,6 +27,13 @@ extends GameDefinition
 @export var projectile_lifetime_s: float = 0.3
 ## Can see and target enemies with the `camo` property.
 @export var detects_camo: bool = false
+## > 0: after each hit the projectile turns to the nearest unhit snowball within this many units (ricochet:
+## Quincy base shot, Bouncing Bullet); pierce = distinct targets. Global instant hits chain the same way.
+@export var bounce_range_units: float = 0.0
+## Damage over time carried by this attack's wax status (Corrosive Glue): `dot_damage` layers every
+## `dot_interval_s` while the wax lasts.
+@export var dot_damage: int = 0
+@export var dot_interval_s: float = 0.0
 ## Sub-attacks created where a projectile hits (explosion, shrapnel), and where it ends (pierce used up or
 ## lifetime over: cluster bombs). Sub-projectiles inherit the parent's hit history and direction.
 ## Elements are AttackDefinitions; typed Array[Resource] because a self-typed array leaks the script at exit.

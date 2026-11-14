@@ -1,0 +1,10 @@
+Upgrade coverage (90 initial tier entries). shipped = purchasable, implemented and covered by
+tests/test_upgrades.gd; * = owner-approved filler (PROTOTYPE_ASSUMPTION) or Booth deviation (ORIGINAL_DEVIATION).
+tower                    shipped  coming_soon  shipped tiers
+avalanche_cannon               9            6  T1 T2 T3 M1 M2 M3 B1 B2 B3
+biathlon_ranger                9            6  T1 T2 T3 M1 M2 M3* B1 B2 B3
+ski_resort_ticket_booth        9            6  T1 T2 T3 M1 M2* M3* B1 B2* B3
+slope_wax_sprayer              9            6  T1 T2* T3 M1 M2 M3 B1 B2* B3*
+snow_sorcerer                  9            6  T1* T2 T3 M1 M2* M3 B1 B2 B3
+snowball_rookie                9            6  T1 T2 T3 M1 M2 M3 B1 B2 B3
+TOTAL shipped 54 / 90, coming soon 36

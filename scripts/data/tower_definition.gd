@@ -18,6 +18,15 @@ extends GameDefinition
 @export var cash_per_pickup: int = 0
 ## Seconds an uncollected pickup lies on the ground before it is lost (Banana Farm: 15).
 @export var pickup_lifetime_s: float = 0.0
+## Share of an expiring pickup's value still credited (EZ Collect 0.5); 1.0 = paid at once, no pickup (Marketplace).
+@export var auto_collect_ratio: float = 0.0
+## > 0: pickups go into a bank up to this much, earning `bank_interest` per round; the player withdraws it.
+@export var bank_capacity: int = 0
+@export var bank_interest: float = 0.0
+## Added to the match sell ratio for this tower (Banana Salvage +0.1).
+@export var sell_bonus: float = 0.0
+## One-line role for the shop tooltip (UI text only).
+@export var role: String = ""
 
 
 func balance_fields() -> PackedStringArray:

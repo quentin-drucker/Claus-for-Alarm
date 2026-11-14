@@ -23,17 +23,38 @@ status = Dictionary[String, String]({
 "slow_factor": "NOT_APPLICABLE"
 })
 
+[sub_resource type="Resource" id="Resource_imo6y"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"pierce"
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_mcohv"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"projectile_lifetime_s"
+op = 1
+value = 1.5
+
 [sub_resource type="Resource" id="Resource_ogiox"]
 script = ExtResource("3_d7t6d")
 display_name = "Guided Frost"
 source_name = "Guided Magic"
 price = 175
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_imo6y"), SubResource("Resource_mcohv")])
 id = &"snow_sorcerer_t1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/guided-magic/"
 status = Dictionary[String, String]({
+"effects": "PROTOTYPE_ASSUMPTION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Page has no numbers (shots last longer, seek behind cover). Filler: pierce 3 -> 4 (between base 3 and Arcane Mastery 7), lifetime x1.5. No homing."
+
+[sub_resource type="Resource" id="Resource_ruxrb"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"damage"
+value = 1.0
 
 [sub_resource type="Resource" id="Resource_4d0t1"]
 script = ExtResource("3_d7t6d")
@@ -41,12 +62,38 @@ tier = 2
 display_name = "Arcane Snowburst"
 source_name = "Arcane Blast"
 price = 450
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_ruxrb")])
 id = &"snow_sorcerer_t2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/arcane-blast/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Damage 1 -> 2."
+
+[sub_resource type="Resource" id="Resource_l2nh0"]
+script = ExtResource("4_imo6y")
+field = &"range_units"
+value = 20.0
+
+[sub_resource type="Resource" id="Resource_vdppw"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"interval_s"
+op = 1
+value = 0.5
+
+[sub_resource type="Resource" id="Resource_0c8hr"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"damage"
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_jya5d"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"pierce"
+value = 3.0
 
 [sub_resource type="Resource" id="Resource_yysqv"]
 script = ExtResource("3_d7t6d")
@@ -54,12 +101,14 @@ tier = 3
 display_name = "Frostcraft Mastery"
 source_name = "Arcane Mastery"
 price = 1450
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_l2nh0"), SubResource("Resource_vdppw"), SubResource("Resource_0c8hr"), SubResource("Resource_jya5d")])
 id = &"snow_sorcerer_t3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/arcane-mastery/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 40 -> 60, cooldown 1.1 -> 0.55 s, damage 2 -> 3, pierce -> 7 (+3 on top of the Guided Magic filler)."
 
 [sub_resource type="Resource" id="Resource_u8i5w"]
 script = ExtResource("3_d7t6d")
@@ -110,7 +159,7 @@ notes = "Fireball explosion on contact: damage 1, pierce 15 (v56 page). Radius n
 script = ExtResource("1_1jdv5")
 interval_s = 2.2
 damage_type = &"plasma"
-on_contact = Array[ExtResource("1_1jdv5")]([SubResource("Resource_d7t6d")])
+on_contact = Array[Resource]([SubResource("Resource_d7t6d")])
 id = &"snow_sorcerer_fireball"
 status = Dictionary[String, String]({
 "damage": "VERIFIED_SOURCE",
@@ -146,6 +195,31 @@ status = Dictionary[String, String]({
 })
 notes = "Adds the Fireball attack (2.2 s, damage 1 plasma + explosion damage 1 pierce 15)."
 
+[sub_resource type="Resource" id="Resource_s8x6v"]
+script = ExtResource("1_1jdv5")
+interval_s = 6.5
+pierce = 10
+damage_type = &"plasma"
+id = &"snow_sorcerer_wall"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
+"projectile_speed_units": "PROTOTYPE_ASSUMPTION",
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
+})
+notes = "Wall of Fire: 6.5 s, damage 1 plasma, pierce 10 (page)."
+
+[sub_resource type="Resource" id="Resource_7r7i0"]
+script = ExtResource("4_imo6y")
+field = &"attacks"
+op = 3
+attack = SubResource("Resource_s8x6v")
+
 [sub_resource type="Resource" id="Resource_t5xtw"]
 script = ExtResource("3_d7t6d")
 path = 1
@@ -153,12 +227,76 @@ tier = 2
 display_name = "Hot Cocoa Barrier"
 source_name = "Wall of Fire"
 price = 800
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_7r7i0")])
 id = &"snow_sorcerer_m2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/wall-of-fire/"
 status = Dictionary[String, String]({
+"effects": "PROTOTYPE_ASSUMPTION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Adds Wall of Fire (6.5 s, damage 1, pierce 10 + contact 1/15 from the page). Page gives no DoT numbers: the wall is one 15 u fire burst where it lands, not a lingering wall."
+
+[sub_resource type="Resource" id="Resource_qtwyx"]
+script = ExtResource("1_1jdv5")
+interval_s = 0.135
+damage = 2
+pierce = 3
+damage_type = &"plasma"
+projectile_lifetime_s = 0.15
+id = &"snow_sorcerer_breath"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
+"projectile_speed_units": "PROTOTYPE_ASSUMPTION",
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
+})
+notes = "Dragon's Breath: 0.135 s, damage 2 plasma, pierce 3 (page); short life = flamethrower reach ~45 u."
+
+[sub_resource type="Resource" id="Resource_scsfw"]
+script = ExtResource("4_imo6y")
+field = &"attacks"
+op = 3
+attack = SubResource("Resource_qtwyx")
+
+[sub_resource type="Resource" id="Resource_nfajo"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_fireball"
+field = &"projectile_count"
+op = 2
+value = 3.0
+
+[sub_resource type="Resource" id="Resource_ctfub"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_fireball"
+field = &"spread_deg"
+op = 2
+value = 15.0
+
+[sub_resource type="Resource" id="Resource_gxw6t"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_fireball_blast"
+field = &"damage"
+op = 2
+value = 3.0
+
+[sub_resource type="Resource" id="Resource_spsqv"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_wall"
+field = &"interval_s"
+op = 2
+value = 4.5
+
+[sub_resource type="Resource" id="Resource_48uy6"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_wall"
+field = &"pierce"
+op = 2
+value = 20.0
 
 [sub_resource type="Resource" id="Resource_81ljm"]
 script = ExtResource("3_d7t6d")
@@ -167,12 +305,14 @@ tier = 3
 display_name = "Blizzard Breath"
 source_name = "Dragon's Breath"
 price = 3300
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_scsfw"), SubResource("Resource_nfajo"), SubResource("Resource_ctfub"), SubResource("Resource_gxw6t"), SubResource("Resource_spsqv"), SubResource("Resource_48uy6")])
 id = &"snow_sorcerer_m3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/dragons-breath/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Fireballs 1 -> 3 (15 deg spread assumed), Fireball blast damage 1 -> 3, Wall 6.5 -> 4.5 s and pierce 10 -> 20, adds Dragon's Breath."
 
 [sub_resource type="Resource" id="Resource_7yu4i"]
 script = ExtResource("3_d7t6d")
@@ -258,6 +398,11 @@ status = Dictionary[String, String]({
 })
 notes = "Range 40 -> 50, camo detection (whole tower)."
 
+[sub_resource type="Resource" id="Resource_q5nxf"]
+script = ExtResource("4_imo6y")
+field = &"range_units"
+value = 10.0
+
 [sub_resource type="Resource" id="Resource_omss8"]
 script = ExtResource("3_d7t6d")
 path = 2
@@ -265,12 +410,14 @@ tier = 3
 display_name = "Goggle Shimmer"
 source_name = "Shimmer"
 price = 1500
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_q5nxf")])
 id = &"snow_sorcerer_b3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/shimmer/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 50 -> 60. The de-camo Shimmer attack is DEFERRED with the camo snowballs (DEC-019)."
 
 [sub_resource type="Resource" id="Resource_5jukw"]
 script = ExtResource("3_d7t6d")
@@ -308,6 +455,7 @@ price = 250
 range_units = 40.0
 attacks = Array[ExtResource("1_1jdv5")]([SubResource("Resource_gv6fy")])
 upgrades = Array[ExtResource("3_d7t6d")]([SubResource("Resource_ogiox"), SubResource("Resource_4d0t1"), SubResource("Resource_yysqv"), SubResource("Resource_u8i5w"), SubResource("Resource_vqwbr"), SubResource("Resource_y1i8c"), SubResource("Resource_t5xtw"), SubResource("Resource_81ljm"), SubResource("Resource_7yu4i"), SubResource("Resource_l3cen"), SubResource("Resource_vw6h1"), SubResource("Resource_v1bqx"), SubResource("Resource_omss8"), SubResource("Resource_5jukw"), SubResource("Resource_sxh3d")])
+role = "Magic bolts that pierce several snowballs."
 id = &"snow_sorcerer"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
 status = Dictionary[String, String]({

@@ -50,11 +50,13 @@ class Pickup:
 	var value: int
 	var life: float
 	var source_id: int
+	## Share of the value credited if it expires uncollected (EZ Collect).
+	var ratio: float
 
 var state: State = State.BOOT
 ## Index of the current (or last finished) round in Content.rounds; -1 before round 1.
 var round_index: int = -1
-## Shop order: cheapest first; keys 1-6 pick these.
+## Shop order: towers cheapest first, then the hero; keys 1-7 pick these.
 var shop: Array[TowerDefinition] = []
 var clock: SimClock
 var ledger: EconomyLedger
@@ -91,6 +93,7 @@ func _ready() -> void:
 	lives = Content.rules.start_lives
 	shop.assign(Content.towers)
 	shop.sort_custom(func(a: TowerDefinition, b: TowerDefinition) -> bool: return a.price < b.price)
+	shop.append(Content.hero)
 	ghost.visible = false
 	_shots_root.name = "Shots"
 	add_child(_shots_root)
@@ -121,6 +124,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				cancel()
 			KEY_T:
 				cycle_priority(selected)
+			KEY_Q:
+				use_frenzy()
+			KEY_E:
+				toggle_focus()
+			KEY_F4:
+				if OS.is_debug_build() and hero_node():  # P10-T13: dev-only level jump
+					set_hero_level(hero_node().level + 1)
 			_:
 				if key.keycode >= KEY_1 and key.keycode < KEY_1 + shop.size():
 					begin_placing(shop[key.keycode - KEY_1])
@@ -204,6 +214,11 @@ func _on_tick(dt: float) -> void:
 		if pickup.life <= 0.0:
 			_remove_pickup(pickup)
 			Events.send(&"pickup_expired", pickup.source_id, 0, pickup.value, pickup.pos)
+			if pickup.ratio > 0.0:  # EZ Collect / Banana Salvage
+				var value: int = roundi(pickup.value * pickup.ratio)
+				ledger.credit(clock.tick, value, &"ticket_income", pickup.source_id)
+				Events.send(&"income_collected", pickup.source_id, 0, value, pickup.pos, ["auto"])
+				changed.emit()
 	for snowball: Node3D in snowballs.duplicate():
 		snowball.distance += snowball.current_speed() * GameDefinition.UNIT_M * dt
 		snowball.slow_left -= dt
@@ -211,6 +226,13 @@ func _on_tick(dt: float) -> void:
 			_leak(snowball)
 		else:
 			snowball.position = course.position_at(snowball.distance)
+			if snowball.slow_left > 0.0 and snowball.dot_damage > 0:
+				snowball.dot_timer -= dt
+				if snowball.dot_timer <= 1e-6:
+					snowball.dot_timer += snowball.dot_interval
+					damage_snowball(snowball, snowball.dot_damage, &"corrosive", snowball.dot_source)
+	if state == State.ROUND_SPAWN or state == State.ROUND_CLEANUP:
+		_tick_hero(dt)
 	_fire_towers(dt)
 	_move_shots(dt)
 	if lives <= 0:
@@ -238,10 +260,37 @@ func _fire_towers(dt: float) -> void:
 			var dir: Vector3 = _lead(target, tower.position, attack.projectile_speed_units * GameDefinition.UNIT_M) - tower.position
 			Events.send(&"attack_fired", tower.entity_id, target.entity_id, attack.damage, tower.position, [attack.id])
 			if tower.def.global_range:
-				_flash(target.position, 0.3)
-				_hit(attack, target, {target.entity_id: true}, dir, tower.entity_id)  # instant hit, no projectile
+				_instant_hit(attack, target, dir, tower.entity_id)
 			else:
 				_launch(attack, tower.position, dir, {}, tower.entity_id)
+
+
+## Global towers hit at once, no projectile; with bounce_range_units the hit chains to up to `pierce` snowballs.
+func _instant_hit(attack: AttackDefinition, target: Node3D, dir: Vector3, source_id: int) -> void:
+	var hit: Dictionary[int, bool] = {target.entity_id: true}
+	var left: int = attack.pierce if attack.bounce_range_units > 0.0 else 1
+	while target:
+		_flash(target.position, 0.3)
+		var where: Vector3 = target.position
+		_hit(attack, target, hit, dir, source_id)
+		left -= 1
+		target = _bounce_target(attack, where, hit) if left > 0 else null
+		if target:
+			hit[target.entity_id] = true
+
+
+## Nearest snowball not yet hit within the attack's bounce reach of `from` (ricochet), or null.
+func _bounce_target(attack: AttackDefinition, from: Vector3, hit: Dictionary[int, bool]) -> Node3D:
+	if attack.bounce_range_units <= 0.0:
+		return null
+	var best: Node3D = null
+	var best_d: float = attack.bounce_range_units * GameDefinition.UNIT_M + HIT_RADIUS_M
+	for s: Node3D in snowballs:
+		var d: float = from.distance_to(s.position)
+		if d <= best_d and not hit.has(s.entity_id) and (attack.detects_camo or &"camo" not in s.def.properties):
+			best = s
+			best_d = d
+	return best
 
 
 ## Where `target` will be when a projectile from `from` reaches it: one prediction step along the track.
@@ -331,7 +380,7 @@ func _hit(attack: AttackDefinition, s: Node3D, hit: Dictionary[int, bool], dir: 
 ## Wax status (unless immune to the attack's type), then damage (+ camo bonus) through the single damage path.
 func _apply(attack: AttackDefinition, s: Node3D, source_id: int) -> void:
 	if attack.slow_factor > 0.0 and StringName("immune_" + attack.damage_type) not in s.def.properties:
-		s.apply_slow(attack.slow_factor, attack.slow_duration_s, attack.soaks_layers)
+		s.apply_slow(attack.slow_factor, attack.slow_duration_s, attack.soaks_layers, attack, source_id)
 		Events.send(&"status_applied", source_id, s.entity_id, attack.slow_duration_s, s.position, [attack.id])
 	var damage: int = attack.damage + (attack.bonus_vs_camo if &"camo" in s.def.properties else 0)
 	if damage > 0:
@@ -353,7 +402,17 @@ func _move_shots(dt: float) -> void:
 				continue
 			shot.hit[s.entity_id] = true
 			shot.pierce -= 1  # an immune contact still uses pierce (BTD6: Lead blocks darts)
+			var where: Vector3 = s.position
 			_hit(shot.attack, s, shot.hit, shot.velocity, shot.source_id)
+			var next: Node3D = _bounce_target(shot.attack, where, shot.hit) if shot.pierce > 0 else null
+			if next:  # ricochet: restart from the contact point towards the next snowball
+				var speed: float = shot.velocity.length()
+				shot.pos = Vector3(where.x, 0.0, where.z)
+				shot.velocity = _lead(next, shot.pos, speed) - shot.pos
+				shot.velocity.y = 0.0
+				shot.velocity = shot.velocity.normalized() * speed
+				shot.life = shot.attack.projectile_lifetime_s
+				break
 		if shot.pierce <= 0 or shot.life <= 0.0:
 			shots.erase(shot)
 			shot.node.queue_free()
@@ -410,6 +469,11 @@ func _reward() -> void:
 	var round_number: int = round_index + 1
 	var bonus: int = Content.rules.round_bonus_base + round_number
 	ledger.credit(clock.tick, bonus, &"round_bonus", 0)
+	for tower: Node3D in towers_root.get_children():
+		if tower.bank_capacity > 0:
+			tower.bank = mini(tower.bank_capacity, roundi(tower.bank * (1.0 + tower.bank_interest)))
+	if hero_node():
+		_set_hero_xp(hero_node(), hero_node().xp + HeroDefinition.xp_for_round(round_number))
 	Events.send(&"round_complete", 0, 0, bonus, Vector3.ZERO, [str(round_number)])
 	if round_index == Content.rounds.size() - 1:
 		_set_state(State.WON)
@@ -447,11 +511,22 @@ func _plan_drops() -> void:
 func _drop_pickup(booth: Node3D, k: int) -> void:
 	if not is_instance_valid(booth) or booth.get_parent() != towers_root:
 		return  # sold this round
+	if booth.bank_capacity > 0:  # Monkey Bank: straight into the bank
+		booth.bank = mini(booth.bank_capacity, booth.bank + booth.cash_per_pickup)
+		Events.send(&"income_banked", booth.entity_id, 0, booth.cash_per_pickup, booth.position)
+		changed.emit()
+		return
+	if booth.auto_collect_ratio >= 1.0:  # Marketplace: paid directly, no pickup
+		ledger.credit(clock.tick, booth.cash_per_pickup, &"ticket_income", booth.entity_id)
+		Events.send(&"income_collected", booth.entity_id, 0, booth.cash_per_pickup, booth.position, ["direct"])
+		changed.emit()
+		return
 	var pickup: Pickup = Pickup.new()
 	var offset: float = booth.footprint().z + 0.3
 	pickup.pos = booth.position + Vector3(cos(k * 2.4), 0.0, sin(k * 2.4)) * offset
 	pickup.value = booth.cash_per_pickup
 	pickup.life = booth.pickup_lifetime_s
+	pickup.ratio = booth.auto_collect_ratio
 	pickup.source_id = booth.entity_id
 	pickup.node = MeshInstance3D.new()
 	var box: BoxMesh = BoxMesh.new()
@@ -486,6 +561,18 @@ func collect(pickup: Pickup) -> void:
 	changed.emit()
 
 
+## Withdraws a Booth's bank (Monkey Bank). Returns the amount.
+func collect_bank(booth: Node3D) -> int:
+	if is_over() or not is_instance_valid(booth) or booth.bank <= 0:
+		return 0
+	var value: int = booth.bank
+	booth.bank = 0
+	ledger.credit(clock.tick, value, &"ticket_income", booth.entity_id)
+	Events.send(&"income_collected", booth.entity_id, 0, value, booth.position, ["bank"])
+	changed.emit()
+	return value
+
+
 func _remove_pickup(pickup: Pickup) -> void:
 	pickups.erase(pickup)
 	pickup.node.queue_free()
@@ -517,6 +604,8 @@ func cancel() -> void:
 func placement_reason(def: TowerDefinition, pos: Vector2) -> String:
 	if is_over():
 		return "Match is over"
+	if def is HeroDefinition and hero_node():
+		return "Only one Camel Claus per match"
 	var reason: String = course.check_placement(pos, def.footprint_units * GameDefinition.UNIT_M, _footprints())
 	if reason == "" and ledger.cash < def.price:
 		reason = "Not enough cash"
@@ -569,8 +658,9 @@ func buy_upgrade(tower: Node3D, path: int) -> bool:
 	return true
 
 
+## Sell price plus any banked cash (paid out with the sale).
 func sell_value(tower: Node3D) -> int:
-	return roundi(tower.spent * Content.rules.sell_ratio)
+	return roundi(tower.spent * (Content.rules.sell_ratio + tower.sell_bonus)) + tower.bank
 
 
 func sell(tower: Node3D) -> void:
@@ -584,6 +674,85 @@ func sell(tower: Node3D) -> void:
 	towers_root.remove_child(tower)  # out of footprint checks immediately
 	tower.queue_free()
 	changed.emit()
+
+
+# --- Camel Claus hero (P10). Abilities run on simulation time during rounds only (BTD6: no cooldown between
+# rounds), so pause and 2x apply automatically and a new match (scene reload) starts clean. ---
+
+func hero_node() -> Node3D:
+	for tower: Node3D in towers_root.get_children():
+		if tower.def is HeroDefinition:
+			return tower
+	return null
+
+
+func _tick_hero(dt: float) -> void:
+	var hero: Node3D = hero_node()
+	if hero == null:
+		return
+	if hero.frenzy_cooldown_left > 0.0:
+		hero.frenzy_cooldown_left = maxf(0.0, hero.frenzy_cooldown_left - dt)
+		if hero.frenzy_cooldown_left == 0.0:
+			Events.send(&"ability_ready", hero.entity_id, 0, 0, hero.position, ["snowball_frenzy"])
+			changed.emit()
+	if hero.frenzy_left > 0.0:
+		hero.frenzy_left = maxf(0.0, hero.frenzy_left - dt)
+		if hero.frenzy_left == 0.0:
+			hero.rebuild_stats()
+			changed.emit()
+
+
+## Sets total XP and applies any level change once (P10-T03/T04).
+func _set_hero_xp(hero: Node3D, xp: int) -> void:
+	hero.xp = xp
+	var level: int = Content.hero.level_for_xp(xp)
+	if level == hero.level:
+		return
+	hero.level = level
+	hero.rebuild_stats()
+	Events.send(&"hero_level_up", hero.entity_id, 0, level, hero.position)
+	changed.emit()
+
+
+## Dev/test cheat (P10-T13): jump to `level` by setting the XP that level needs. The F4 key is debug-only.
+func set_hero_level(level: int) -> void:
+	var hero: Node3D = hero_node()
+	if hero and not is_over():
+		_set_hero_xp(hero, Content.hero.level_xp[clampi(level, 1, Content.hero.level_xp.size()) - 1])
+
+
+## "locked", "active", "cooldown" or "ready" (P10-T10). The match, not the HUD, decides.
+func frenzy_state() -> String:
+	var hero: Node3D = hero_node()
+	if hero == null or not hero.has_unlock("snowball_frenzy"):
+		return "locked"
+	if hero.frenzy_left > 0.0:
+		return "active"
+	return "cooldown" if hero.frenzy_cooldown_left > 0.0 else "ready"
+
+
+func use_frenzy() -> bool:
+	if is_over() or clock.paused or frenzy_state() != "ready":
+		return false
+	var hero: Node3D = hero_node()
+	hero.frenzy_left = Content.hero.frenzy_duration_s
+	hero.frenzy_cooldown_left = hero.frenzy_cooldown_s  # the cooldown runs from activation
+	hero.rebuild_stats()
+	Events.send(&"ability_used", hero.entity_id, 0, hero.frenzy_left, hero.position, ["snowball_frenzy"])
+	changed.emit()
+	return true
+
+
+## Focused Shot stance (v57, level 4+). Returns whether it changed.
+func toggle_focus() -> bool:
+	var hero: Node3D = hero_node()
+	if is_over() or hero == null or not hero.has_unlock("focused_shot"):
+		return false
+	hero.focus = not hero.focus
+	hero.rebuild_stats()
+	Events.send(&"ability_used", hero.entity_id, 0, 1 if hero.focus else 0, hero.position, ["focused_shot"])
+	changed.emit()
+	return true
 
 
 func tower_at(pos: Vector2) -> Node3D:

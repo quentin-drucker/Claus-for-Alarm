@@ -3,7 +3,9 @@ extends GameDefinition
 ## One tier of one upgrade path (M-07). Only tiers whose effects were read from their source page are
 ## purchasable (status "effects" VERIFIED_SOURCE / PATCHED_SOURCE); the rest show as "coming soon" (D-07).
 
-const SHIPPED: PackedStringArray = ["VERIFIED_SOURCE", "PATCHED_SOURCE"]
+## Also owner-approved fillers (2026-11-14): PROTOTYPE_ASSUMPTION (tier page has no numbers) and
+## ORIGINAL_DEVIATION (Booth economy).
+const SHIPPED: PackedStringArray = ["VERIFIED_SOURCE", "PATCHED_SOURCE", "PROTOTYPE_ASSUMPTION", "ORIGINAL_DEVIATION"]
 
 ## 0 = top, 1 = middle, 2 = bottom.
 @export_range(0, 2) var path: int = 0

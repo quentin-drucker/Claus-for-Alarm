@@ -30,7 +30,7 @@ script = ExtResource("1_vxxcx")
 interval_s = 1.5
 damage = 0
 damage_type = &"explosion"
-on_contact = Array[ExtResource("1_vxxcx")]([SubResource("Resource_vxxcx")])
+on_contact = Array[Resource]([SubResource("Resource_vxxcx")])
 id = &"avalanche_cannon_base"
 status = Dictionary[String, String]({
 "damage": "VERIFIED_SOURCE",
@@ -403,6 +403,7 @@ price = 375
 range_units = 40.0
 attacks = Array[ExtResource("1_vxxcx")]([SubResource("Resource_7nbab")])
 upgrades = Array[ExtResource("3_p04ft")]([SubResource("Resource_0gewn"), SubResource("Resource_16qvp"), SubResource("Resource_8sf3g"), SubResource("Resource_5lmdm"), SubResource("Resource_xy7sp"), SubResource("Resource_g0v50"), SubResource("Resource_kld7c"), SubResource("Resource_70wub"), SubResource("Resource_py6k3"), SubResource("Resource_e53lq"), SubResource("Resource_vofm5"), SubResource("Resource_oe7i3"), SubResource("Resource_qc3n5"), SubResource("Resource_q2inw"), SubResource("Resource_2t7ar")])
+role = "Splash damage: each shot bursts and hits a crowd."
 id = &"avalanche_cannon"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
 status = Dictionary[String, String]({

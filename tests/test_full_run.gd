@@ -13,8 +13,7 @@ const PREPARE_S: float = 5.0
 const NAMES: Dictionary = {&"snowball_rookie": "Rookie", &"avalanche_cannon": "Cannon", &"biathlon_ranger": "Ranger",
 		&"slope_wax_sprayer": "Wax", &"snow_sorcerer": "Sorcerer", &"ski_resort_ticket_booth": "Booth"}
 ## Steps: a tower id (buy one at its best free spot) or [n, path] (upgrade the n-th tower bought by one tier).
-## Rookie-heavy with every other type mixed in, few upgrades, the Booth last (it cannot pay back $1,250
-## in a 19-round match, see the report). Order bought: 0-2 Rookie, 3 Wax, 4 Rookie, 5 Cannon, 6 Rookie,
+## Rookie-heavy with every other type mixed in, few upgrades, the Booth late. Order bought: 0-2 Rookie, 3 Wax, 4 Rookie, 5 Cannon, 6 Rookie,
 ## 7 Sorcerer, 8 Rookie, 9 Ranger, 10-11 Rookie, 12 Rookie, 13 Rookie, 14 Booth, then Rookies.
 const MIXED: Array = [&"snowball_rookie", &"snowball_rookie", &"snowball_rookie", &"slope_wax_sprayer",
 		&"snowball_rookie", &"avalanche_cannon", &"snowball_rookie", &"snow_sorcerer", &"snowball_rookie",
@@ -51,7 +50,7 @@ func _run() -> void:
 	for id: StringName in [&"avalanche_cannon", &"biathlon_ranger", &"snow_sorcerer", &"slope_wax_sprayer"]:
 		_play([StringName(String(id) + "*")], "Solo " + NAMES[id], out)
 	print("\n".join(out))
-	FileAccess.open("res://docs/logs/evidence/p09_full_run.txt", FileAccess.WRITE).store_string("\n".join(out) + "\n")
+	FileAccess.open("res://docs/logs/evidence/p10_full_run.txt", FileAccess.WRITE).store_string("\n".join(out) + "\n")
 	print("test_full_run: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 

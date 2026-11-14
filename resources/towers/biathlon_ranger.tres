@@ -78,18 +78,26 @@ status = Dictionary[String, String]({
 })
 notes = "Damage 4 -> 7."
 
+[sub_resource type="Resource" id="Resource_rqbuu"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"damage"
+value = 13.0
+
 [sub_resource type="Resource" id="Resource_77fk1"]
 script = ExtResource("3_d70rf")
 tier = 3
 display_name = "Medal Precision"
 source_name = "Deadly Precision"
 price = 2200
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_rqbuu")])
 id = &"biathlon_ranger_t3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/deadly-precision/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Damage 7 -> 20. +50 vs Ceramic not applied (no Stone snowballs, DEC-019)."
 
 [sub_resource type="Resource" id="Resource_kbs37"]
 script = ExtResource("3_d70rf")
@@ -190,6 +198,20 @@ status = Dictionary[String, String]({
 })
 notes = "Adds 5 shrapnel shards per hit: damage 1, pierce 2, +2 vs camo."
 
+[sub_resource type="Resource" id="Resource_uh7kn"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"pierce"
+op = 2
+value = 3.0
+
+[sub_resource type="Resource" id="Resource_qune0"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"bounce_range_units"
+op = 2
+value = 30.0
+
 [sub_resource type="Resource" id="Resource_tr22h"]
 script = ExtResource("3_d70rf")
 path = 1
@@ -197,12 +219,14 @@ tier = 3
 display_name = "Bankshot Pellet"
 source_name = "Bouncing Bullet"
 price = 2100
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_uh7kn"), SubResource("Resource_qune0")])
 id = &"biathlon_ranger_m3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/bouncing-bullet/"
 status = Dictionary[String, String]({
+"effects": "PROTOTYPE_ASSUMPTION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pierce 1 -> 3, bounces to 2 new targets (page). Bounce reach 30 u is assumed (not on the page)."
 
 [sub_resource type="Resource" id="Resource_xbfkd"]
 script = ExtResource("3_d70rf")
@@ -277,6 +301,13 @@ status = Dictionary[String, String]({
 })
 notes = "Cooldown 1.113 -> 0.7791 s."
 
+[sub_resource type="Resource" id="Resource_lww3t"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"interval_s"
+op = 1
+value = 0.3333333333333333
+
 [sub_resource type="Resource" id="Resource_wsdb4"]
 script = ExtResource("3_d70rf")
 path = 2
@@ -284,12 +315,14 @@ tier = 3
 display_name = "Rapid Cycle"
 source_name = "Semi-Automatic"
 price = 2700
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_lww3t")])
 id = &"biathlon_ranger_b3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/semi-automatic/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Cooldown 0.7791 -> 0.2597 s (x1/3). Page pierce 5 not applied: a global instant hit has one target."
 
 [sub_resource type="Resource" id="Resource_32q83"]
 script = ExtResource("3_d70rf")
@@ -327,6 +360,7 @@ price = 350
 global_range = true
 attacks = Array[ExtResource("1_8ijxg")]([SubResource("Resource_iw5e2")])
 upgrades = Array[ExtResource("3_d70rf")]([SubResource("Resource_obbie"), SubResource("Resource_ug4v2"), SubResource("Resource_77fk1"), SubResource("Resource_kbs37"), SubResource("Resource_kiiox"), SubResource("Resource_brac1"), SubResource("Resource_v6nm5"), SubResource("Resource_tr22h"), SubResource("Resource_xbfkd"), SubResource("Resource_0obdh"), SubResource("Resource_7d04k"), SubResource("Resource_m18jf"), SubResource("Resource_wsdb4"), SubResource("Resource_32q83"), SubResource("Resource_b67gt")])
+role = "Hits anywhere it can see (whole map), strong single shots."
 id = &"biathlon_ranger"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
 status = Dictionary[String, String]({

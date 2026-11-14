@@ -53,18 +53,75 @@ status = Dictionary[String, String]({
 })
 notes = "Wax soaks through all layers: it survives layer breaks (behaviour from the page, no number needed)."
 
+[sub_resource type="Resource" id="Resource_robqm"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"dot_damage"
+op = 2
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_her5v"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"dot_interval_s"
+op = 2
+value = 2.0
+
+[sub_resource type="Resource" id="Resource_21u0y"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_splatter"
+field = &"dot_damage"
+op = 2
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_s52hb"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_splatter"
+field = &"dot_interval_s"
+op = 2
+value = 2.0
+
 [sub_resource type="Resource" id="Resource_rdniv"]
 script = ExtResource("3_ss2kr")
 tier = 2
 display_name = "De-Icing Formula"
 source_name = "Corrosive Glue"
 price = 300
+effects = Array[ExtResource("4_robqm")]([SubResource("Resource_robqm"), SubResource("Resource_her5v"), SubResource("Resource_21u0y"), SubResource("Resource_s52hb")])
 id = &"slope_wax_sprayer_t2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/corrosive-glue/"
 status = Dictionary[String, String]({
+"effects": "PROTOTYPE_ASSUMPTION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Page: waxed snowballs lose a layer 'every few seconds', no number. Filler: 1 layer every 2 s while waxed."
+
+[sub_resource type="Resource" id="Resource_o5ra5"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"interval_s"
+op = 1
+value = 0.5
+
+[sub_resource type="Resource" id="Resource_moped"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"pierce"
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_77egy"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"dot_interval_s"
+op = 2
+value = 0.5
+
+[sub_resource type="Resource" id="Resource_7nuu5"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_splatter"
+field = &"dot_interval_s"
+op = 2
+value = 0.5
 
 [sub_resource type="Resource" id="Resource_4evnm"]
 script = ExtResource("3_ss2kr")
@@ -72,12 +129,14 @@ tier = 3
 display_name = "Snowball Dissolver"
 source_name = "Bloon Dissolver"
 price = 2000
+effects = Array[ExtResource("4_robqm")]([SubResource("Resource_o5ra5"), SubResource("Resource_moped"), SubResource("Resource_77egy"), SubResource("Resource_7nuu5")])
 id = &"slope_wax_sprayer_t3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/bloon-dissolver/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Cooldown 1 -> 0.5 s, pierce 1 -> 2, solvent melts 2 layers per second (page in-game text)."
 
 [sub_resource type="Resource" id="Resource_no1py"]
 script = ExtResource("3_ss2kr")
@@ -177,6 +236,18 @@ status = Dictionary[String, String]({
 })
 notes = "Pierce 2 -> 4 plus a contact splatter of pierce 4. Price $970 -> $650 (v57, M-11)."
 
+[sub_resource type="Resource" id="Resource_k32pk"]
+script = ExtResource("4_robqm")
+field = &"range_units"
+value = 12.0
+
+[sub_resource type="Resource" id="Resource_goyif"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"interval_s"
+op = 2
+value = 0.34
+
 [sub_resource type="Resource" id="Resource_ij816"]
 script = ExtResource("3_ss2kr")
 path = 1
@@ -184,12 +255,14 @@ tier = 3
 display_name = "Pressure Hose"
 source_name = "Glue Hose"
 price = 1950
+effects = Array[ExtResource("4_robqm")]([SubResource("Resource_k32pk"), SubResource("Resource_goyif")])
 id = &"slope_wax_sprayer_m3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/glue-hose/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 46 -> 58, cooldown 1 -> 0.34 s."
 
 [sub_resource type="Resource" id="Resource_pr72a"]
 script = ExtResource("3_ss2kr")
@@ -248,6 +321,20 @@ status = Dictionary[String, String]({
 })
 notes = "Glue lasts much longer: 18 s (v57, M-11; was 24 s)."
 
+[sub_resource type="Resource" id="Resource_n320p"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"slow_factor"
+op = 2
+value = 0.7
+
+[sub_resource type="Resource" id="Resource_hrrvv"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_splatter"
+field = &"slow_factor"
+op = 2
+value = 0.7
+
 [sub_resource type="Resource" id="Resource_xsrhi"]
 script = ExtResource("3_ss2kr")
 path = 2
@@ -255,12 +342,26 @@ tier = 2
 display_name = "Extra Grip"
 source_name = "Stronger Glue"
 price = 400
+effects = Array[ExtResource("4_robqm")]([SubResource("Resource_n320p"), SubResource("Resource_hrrvv")])
 id = &"slope_wax_sprayer_b2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/stronger-glue/"
 status = Dictionary[String, String]({
+"effects": "PROTOTYPE_ASSUMPTION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Page: 'slows even more', no number. Filler: slow 50% -> 70%."
+
+[sub_resource type="Resource" id="Resource_a07oy"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"slow_duration_s"
+value = 2.0
+
+[sub_resource type="Resource" id="Resource_ikk2r"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_splatter"
+field = &"slow_duration_s"
+value = 2.0
 
 [sub_resource type="Resource" id="Resource_bm5dy"]
 script = ExtResource("3_ss2kr")
@@ -269,12 +370,14 @@ tier = 3
 display_name = "Giant Snowball Wax"
 source_name = "MOAB Glue"
 price = 3600
+effects = Array[ExtResource("4_robqm")]([SubResource("Resource_a07oy"), SubResource("Resource_ikk2r")])
 id = &"slope_wax_sprayer_b3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/moab-glue/"
 status = Dictionary[String, String]({
+"effects": "PROTOTYPE_ASSUMPTION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "MOAB Glue only affects large snowballs, which this build does not have (DEC-019). Filler so the tier does something: wax lasts 2 s longer."
 
 [sub_resource type="Resource" id="Resource_r12qe"]
 script = ExtResource("3_ss2kr")
@@ -312,6 +415,7 @@ price = 225
 range_units = 46.0
 attacks = Array[ExtResource("1_knms1")]([SubResource("Resource_c1um4")])
 upgrades = Array[ExtResource("3_ss2kr")]([SubResource("Resource_nosd2"), SubResource("Resource_rdniv"), SubResource("Resource_4evnm"), SubResource("Resource_no1py"), SubResource("Resource_4yb33"), SubResource("Resource_qcf27"), SubResource("Resource_ym3yo"), SubResource("Resource_ij816"), SubResource("Resource_pr72a"), SubResource("Resource_wmds0"), SubResource("Resource_vd5gj"), SubResource("Resource_xsrhi"), SubResource("Resource_bm5dy"), SubResource("Resource_r12qe"), SubResource("Resource_03urp")])
+role = "Support: waxes snowballs to slow them; no damage at first."
 id = &"slope_wax_sprayer"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
 status = Dictionary[String, String]({

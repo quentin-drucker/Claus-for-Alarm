@@ -20,6 +20,21 @@ var attacks: Array[AttackDefinition] = []
 var pickups_per_round: int = 0
 var cash_per_pickup: int = 0
 var pickup_lifetime_s: float = 0.0
+var auto_collect_ratio: float = 0.0
+var bank_capacity: int = 0
+var bank_interest: float = 0.0
+var sell_bonus: float = 0.0
+## Cash waiting in this Booth's bank (Monkey Bank).
+var bank: int = 0
+## Hero only (def is HeroDefinition): total XP, level, Focus stance, Frenzy seconds left / cooldown left,
+## and the level-dependent Frenzy multiplier and cooldown.
+var xp: int = 0
+var level: int = 1
+var focus: bool = false
+var frenzy_left: float = 0.0
+var frenzy_cooldown_left: float = 0.0
+var frenzy_multiplier: float = 0.0
+var frenzy_cooldown_s: float = 0.0
 ## Seconds until each attack may fire again (simulation time), parallel to `attacks`.
 var cooldowns: Array[float] = []
 ## Targeting.Priority; new towers target First.
@@ -48,6 +63,10 @@ func rebuild_stats() -> void:
 	pickups_per_round = def.pickups_per_round
 	cash_per_pickup = def.cash_per_pickup
 	pickup_lifetime_s = def.pickup_lifetime_s
+	auto_collect_ratio = def.auto_collect_ratio
+	bank_capacity = def.bank_capacity
+	bank_interest = def.bank_interest
+	sell_bonus = def.sell_bonus
 	attacks.clear()
 	for attack: AttackDefinition in def.attacks:
 		attacks.append(attack.duplicate_deep())
@@ -59,9 +78,49 @@ func rebuild_stats() -> void:
 				for effect: UpgradeEffect in def.get_upgrade(path, tier).effects:
 					if (effect.op == UpgradeEffect.Op.APPEND) == appends:
 						_apply(effect)
+	if def is HeroDefinition:
+		_apply_levels()
 	cooldowns.resize(attacks.size())  # keeps running cooldowns; an attack added by an upgrade starts ready
 	var range_m: float = range_units * GameDefinition.UNIT_M
 	_range.scale = Vector3(range_m, 1.0, range_m)  # Range mesh radius is 1
+
+
+## Hero: each reached level's changes once, in level order (P10-T04), then Focus and Frenzy on top.
+func _apply_levels() -> void:
+	var hero: HeroDefinition = def
+	var shot: AttackDefinition = attacks[0]
+	frenzy_multiplier = hero.frenzy_multiplier
+	frenzy_cooldown_s = hero.frenzy_cooldown_s
+	for i: int in level:
+		var changes: Dictionary = hero.level_changes[i]
+		for key: String in changes:
+			match key:
+				"pierce", "interval_s", "projectile_count":
+					shot.set(key, changes[key])
+				"range_units":
+					range_units = changes[key]
+				"camo_detection":
+					shot.detects_camo = changes[key]
+				"frenzy_multiplier":
+					frenzy_multiplier = changes[key]
+				"frenzy_cooldown_s":
+					frenzy_cooldown_s = changes[key]
+	if focus:
+		shot.interval_s *= hero.focus_interval_mult
+		shot.projectile_speed_units *= hero.focus_speed_mult
+		range_units *= hero.focus_range_mult
+	if frenzy_left > 0.0:
+		shot.interval_s /= frenzy_multiplier
+
+
+## Ability/stance unlocked by the current level (hero only), e.g. "snowball_frenzy", "focused_shot".
+func has_unlock(what: String) -> bool:
+	if not def is HeroDefinition:
+		return false
+	for i: int in level:
+		if def.level_changes[i].get("unlock_ability", "") == what or def.level_changes[i].get("unlock_stance", "") == what:
+			return true
+	return false
 
 
 func _apply(effect: UpgradeEffect) -> void:

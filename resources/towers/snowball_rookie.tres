@@ -361,6 +361,7 @@ price = 200
 range_units = 32.0
 attacks = Array[ExtResource("1_bgtw3")]([SubResource("Resource_1u1q1")])
 upgrades = Array[ExtResource("3_mxi0i")]([SubResource("Resource_ss6qk"), SubResource("Resource_xj6xr"), SubResource("Resource_k8tmm"), SubResource("Resource_up1v0"), SubResource("Resource_e1nbm"), SubResource("Resource_8d3ty"), SubResource("Resource_ikfga"), SubResource("Resource_cfg27"), SubResource("Resource_x7ogs"), SubResource("Resource_0w1k7"), SubResource("Resource_vi34e"), SubResource("Resource_0ko51"), SubResource("Resource_7u7rw"), SubResource("Resource_kkc0o"), SubResource("Resource_cwlpr")])
+role = "Cheap all-rounder: throws snowballs at one target at a time."
 id = &"snowball_rookie"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
 status = Dictionary[String, String]({

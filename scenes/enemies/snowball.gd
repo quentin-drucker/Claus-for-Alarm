@@ -17,6 +17,11 @@ var distance: float = 0.0
 var slow_factor: float = 0.0
 var slow_left: float = 0.0
 var slow_soaks: bool = false
+## Corrosive wax: layers lost every `dot_interval` s while the wax lasts; `dot_source` gets the pop credit.
+var dot_damage: int = 0
+var dot_interval: float = 0.0
+var dot_timer: float = 0.0
+var dot_source: int = 0
 
 
 func setup(definition: EnemyDefinition, id: int) -> void:
@@ -30,12 +35,18 @@ func current_speed() -> float:
 
 
 ## A stronger or equal wax replaces the current one and refreshes its time; a weaker one is ignored (no stacking).
-func apply_slow(factor: float, duration: float, soaks: bool) -> void:
+func apply_slow(factor: float, duration: float, soaks: bool, attack: AttackDefinition = null, source_id: int = 0) -> void:
 	if slow_left > 0.0 and factor < slow_factor:
 		return
 	slow_factor = factor
 	slow_left = duration
 	slow_soaks = soaks
+	var damage: int = attack.dot_damage if attack else 0
+	if damage != dot_damage or (attack and attack.dot_interval_s != dot_interval):
+		dot_timer = attack.dot_interval_s if attack else 0.0  # a new corrosion starts its own clock; a refresh keeps it
+	dot_damage = damage
+	dot_interval = attack.dot_interval_s if attack else 0.0
+	dot_source = source_id
 
 
 ## Current outer layer; a break swaps it in place, keeping id, distance and position.

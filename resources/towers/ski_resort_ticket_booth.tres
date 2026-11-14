@@ -44,18 +44,25 @@ status = Dictionary[String, String]({
 })
 notes = "Pickups per round 6 -> 8."
 
+[sub_resource type="Resource" id="Resource_cklkp"]
+script = ExtResource("4_cklkp")
+field = &"pickups_per_round"
+value = 8.0
+
 [sub_resource type="Resource" id="Resource_hetah"]
 script = ExtResource("3_ggmou")
 tier = 3
 display_name = "Ski Resort Expansion"
 source_name = "Banana Plantation"
 price = 3000
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_cklkp")])
 id = &"ski_resort_ticket_booth_t3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/banana-plantation/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pickups per round 8 -> 16."
 
 [sub_resource type="Resource" id="Resource_gdwjw"]
 script = ExtResource("3_ggmou")
@@ -108,7 +115,7 @@ notes = "Pickups last 30 s instead of 15."
 script = ExtResource("4_cklkp")
 field = &"cash_per_pickup"
 op = 1
-value = 1.25
+value = 1.5
 
 [sub_resource type="Resource" id="Resource_wrw24"]
 script = ExtResource("3_ggmou")
@@ -121,10 +128,28 @@ effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_i80ck")])
 id = &"ski_resort_ticket_booth_m2"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/valuable-bananas/"
 status = Dictionary[String, String]({
-"effects": "VERIFIED_SOURCE",
+"effects": "ORIGINAL_DEVIATION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "Pickups worth 25% more: $20 -> $25."
+notes = "Source: +25% value. ORIGINAL_DEVIATION +50% ($50 -> $75) so it pays back in ~8 rounds on a base Booth."
+
+[sub_resource type="Resource" id="Resource_qk44f"]
+script = ExtResource("4_cklkp")
+field = &"cash_per_pickup"
+op = 1
+value = 1.5
+
+[sub_resource type="Resource" id="Resource_n1va2"]
+script = ExtResource("4_cklkp")
+field = &"bank_capacity"
+op = 2
+value = 7000.0
+
+[sub_resource type="Resource" id="Resource_sye2s"]
+script = ExtResource("4_cklkp")
+field = &"bank_interest"
+op = 2
+value = 0.15
 
 [sub_resource type="Resource" id="Resource_ig4s5"]
 script = ExtResource("3_ggmou")
@@ -133,12 +158,14 @@ tier = 3
 display_name = "Resort Bank"
 source_name = "Monkey Bank"
 price = 3650
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_qk44f"), SubResource("Resource_n1va2"), SubResource("Resource_sye2s")])
 id = &"ski_resort_ticket_booth_m3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/monkey-bank/"
 status = Dictionary[String, String]({
+"effects": "ORIGINAL_DEVIATION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Bank: capacity $7,000, 15% interest per round (page). Pickup value source $20 -> $45; scaled with the Booth deviation: $75 -> $112. Tickets go straight into the bank; withdraw from the card."
 
 [sub_resource type="Resource" id="Resource_n1etg"]
 script = ExtResource("3_ggmou")
@@ -168,18 +195,37 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_o1oi8"]
+script = ExtResource("4_cklkp")
+field = &"auto_collect_ratio"
+op = 2
+value = 0.5
+
 [sub_resource type="Resource" id="Resource_n5ret"]
 script = ExtResource("3_ggmou")
 path = 2
 display_name = "Self-Service Window"
 source_name = "EZ Collect"
 price = 250
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_o1oi8")])
 id = &"ski_resort_ticket_booth_b1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/ez-collect/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Uncollected tickets auto-collect at half value (page text). Bigger collect radius not modelled (click collect)."
+
+[sub_resource type="Resource" id="Resource_5hbh2"]
+script = ExtResource("4_cklkp")
+field = &"auto_collect_ratio"
+op = 2
+value = 0.9
+
+[sub_resource type="Resource" id="Resource_slokt"]
+script = ExtResource("4_cklkp")
+field = &"sell_bonus"
+value = 0.1
 
 [sub_resource type="Resource" id="Resource_vgrmp"]
 script = ExtResource("3_ggmou")
@@ -188,12 +234,26 @@ tier = 2
 display_name = "Tourist Merchandise"
 source_name = "Banana Salvage"
 price = 400
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_5hbh2"), SubResource("Resource_slokt")])
 id = &"ski_resort_ticket_booth_b2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/banana-salvage/"
 status = Dictionary[String, String]({
+"effects": "PROTOTYPE_ASSUMPTION",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Page: auto-collect 'almost full value' (filler 90%), sell-back +10% (page)."
+
+[sub_resource type="Resource" id="Resource_syoqd"]
+script = ExtResource("4_cklkp")
+field = &"pickups_per_round"
+op = 2
+value = 16.0
+
+[sub_resource type="Resource" id="Resource_0nol2"]
+script = ExtResource("4_cklkp")
+field = &"auto_collect_ratio"
+op = 2
+value = 1.0
 
 [sub_resource type="Resource" id="Resource_767l8"]
 script = ExtResource("3_ggmou")
@@ -202,12 +262,14 @@ tier = 3
 display_name = "Ski Marketplace"
 source_name = "Marketplace"
 price = 2700
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_syoqd"), SubResource("Resource_0nol2")])
 id = &"ski_resort_ticket_booth_b3"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/marketplace/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "16 tickets per round paid directly, no pickups (page)."
 
 [sub_resource type="Resource" id="Resource_vwol2"]
 script = ExtResource("3_ggmou")
@@ -245,16 +307,17 @@ price = 1250
 footprint_units = 15.0
 upgrades = Array[ExtResource("3_ggmou")]([SubResource("Resource_080va"), SubResource("Resource_0tjqv"), SubResource("Resource_hetah"), SubResource("Resource_gdwjw"), SubResource("Resource_tcicd"), SubResource("Resource_1u2k5"), SubResource("Resource_wrw24"), SubResource("Resource_ig4s5"), SubResource("Resource_n1etg"), SubResource("Resource_0hfn6"), SubResource("Resource_n5ret"), SubResource("Resource_vgrmp"), SubResource("Resource_767l8"), SubResource("Resource_vwol2"), SubResource("Resource_m2u7c")])
 pickups_per_round = 4
-cash_per_pickup = 20
+cash_per_pickup = 50
 pickup_lifetime_s = 15.0
+role = "Income: drops tickets every round; click them to collect cash."
 id = &"ski_resort_ticket_booth"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
 status = Dictionary[String, String]({
-"cash_per_pickup": "VERIFIED_SOURCE",
+"cash_per_pickup": "ORIGINAL_DEVIATION",
 "footprint_units": "VERIFIED_SOURCE",
 "pickup_lifetime_s": "VERIFIED_SOURCE",
 "pickups_per_round": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE",
 "range_units": "NOT_APPLICABLE"
 })
-notes = "Base kit: M-10 (v56). Footprint radius 15 from the source page. No attack. 4 pickups x $20 per round; pickups rot after 15 s (Long Life Bananas page: 'instead of 15')."
+notes = "Base kit: M-10 (v56) except cash per pickup: ORIGINAL_DEVIATION $20 -> $50 (owner 2026-11-14) so a $1,250 Booth pays back in ~6 rounds of a 19-round match. Footprint radius 15 from the source page. 4 pickups per round; pickups rot after 15 s."
