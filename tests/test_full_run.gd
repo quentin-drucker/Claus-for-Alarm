@@ -11,7 +11,7 @@ const STEP: float = 1.0 / 60.0
 ## Seconds a player spends in PREPARE between rounds (buying, pressing Start); counted in play time only.
 const PREPARE_S: float = 5.0
 const NAMES: Dictionary = {&"snowball_rookie": "Rookie", &"avalanche_cannon": "Cannon", &"biathlon_ranger": "Ranger",
-		&"slope_wax_sprayer": "Wax", &"snow_sorcerer": "Sorcerer", &"ski_resort_ticket_booth": "Booth"}
+		&"slope_wax_sprayer": "Wax", &"snow_sorcerer": "Sorcerer", &"ski_resort_ticket_booth": "Booth", &"camel_claus": "Hero"}
 ## Steps: a tower id (buy one at its best free spot) or [n, path] (upgrade the n-th tower bought by one tier).
 ## Rookie-heavy with every other type mixed in, few upgrades, the Booth late. Order bought: 0-2 Rookie, 3 Wax, 4 Rookie, 5 Cannon, 6 Rookie,
 ## 7 Sorcerer, 8 Rookie, 9 Ranger, 10-11 Rookie, 12 Rookie, 13 Rookie, 14 Booth, then Rookies.
@@ -19,6 +19,13 @@ const MIXED: Array = [&"snowball_rookie", &"snowball_rookie", &"snowball_rookie"
 		&"snowball_rookie", &"avalanche_cannon", &"snowball_rookie", &"snow_sorcerer", &"snowball_rookie",
 		&"biathlon_ranger", &"snowball_rookie", &"snowball_rookie", [5, 0], &"snowball_rookie", [9, 2],
 		&"snowball_rookie", [7, 2], &"ski_resort_ticket_booth", &"snowball_rookie*"]
+## P10/P12: hero early, one of every tower among Rookies, then tier-3 upgrades across the roster (incl. new tiers),
+## Booth mid-game. Bought: 0-1 Rookie, 2 Hero, 3 Rookie, 4 Wax, 5 Cannon, 6 Rookie, 7 Sorcerer, 8 Ranger, 9-10 Rookie,
+## 11 Booth, then Rookies.
+const HERO_MIXED: Array = [&"snowball_rookie", &"snowball_rookie", &"camel_claus", &"snowball_rookie",
+		&"slope_wax_sprayer", &"avalanche_cannon", &"snowball_rookie", &"snow_sorcerer", &"biathlon_ranger",
+		&"snowball_rookie", [5, 0], [5, 0], &"snowball_rookie", [7, 0], [7, 0], &"ski_resort_ticket_booth", [8, 2],
+		[8, 2], [4, 1], [4, 1], [11, 0], [0, 0], [0, 0], [5, 0], [7, 0], [8, 2], [4, 0], &"snowball_rookie*"]
 ## Four Rookies, then a Booth as early as cash allows, its production upgrades (2-0-0), then Rookies.
 const BOOTH_ECONOMY: Array = [&"snowball_rookie", &"snowball_rookie", &"snowball_rookie", &"snowball_rookie",
 		&"ski_resort_ticket_booth", [4, 0], [4, 0], &"snowball_rookie*"]
@@ -46,6 +53,8 @@ func _run() -> void:
 	var mixed: Array = _play(MIXED, "Mixed roster", out)
 	_check(mixed[0] == 5, "mixed-roster bot survives the finale")
 	_check(_play(MIXED, "", []) == mixed, "mixed rerun gives the identical ledger and result")
+	var hero: Array = _play(HERO_MIXED, "Hero + mixed roster (tier-3 upgrades, Frenzy when ready)", out)
+	_check(hero[0] == 5, "hero + mixed-roster bot survives the finale")
 	_play(BOOTH_ECONOMY, "Booth economy (report only)", out)
 	for id: StringName in [&"avalanche_cannon", &"biathlon_ranger", &"snow_sorcerer", &"slope_wax_sprayer"]:
 		_play([StringName(String(id) + "*")], "Solo " + NAMES[id], out)
@@ -99,7 +108,8 @@ func _shop(m: Node3D, plan: Array, cursor: Array[int], bought: Array[Node3D], sp
 			if not m.buy_upgrade(tower, step[1]):
 				return
 		else:
-			var def: Resource = content.get_tower(StringName(String(step).trim_suffix("*")))
+			var id: StringName = StringName(String(step).trim_suffix("*"))
+			var def: Resource = content.hero if id == content.hero.id else content.get_tower(id)
 			if m.ledger.cash < def.price:
 				return
 			var free: Array = spots.get_or_add(def.id, _spots(m, def))
@@ -120,9 +130,12 @@ func _play(plan: Array, title: String, out: PackedStringArray) -> Array:
 	root.add_child(m)
 	m.clock.set_process(false)
 	var pops: Dictionary = {}  # tower entity id -> layers broken
+	var frenzies: Array[int] = [0]
 	var on_event: Callable = func(e: RefCounted) -> void:
 		if e.type == &"layer_broken":
 			pops[e.source_id] = pops.get(e.source_id, 0) + 1
+		elif e.type == &"ability_used" and "snowball_frenzy" in e.tags:
+			frenzies[0] += 1
 	root.get_node("Events").emitted.connect(on_event)
 	var cursor: Array[int] = [0]
 	var bought: Array[Node3D] = []
@@ -130,6 +143,8 @@ func _play(plan: Array, title: String, out: PackedStringArray) -> Array:
 	var play_s: float = 0.0
 	var lines: PackedStringArray = ["== %s" % title, "round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers"]
 	while not m.is_over():
+		for t: Node3D in m.towers_root.get_children():
+			m.collect_bank(t)
 		_shop(m, plan, cursor, bought, spots)
 		var lives_before: int = m.lives
 		var tx_before: int = m.ledger.transactions.size()
@@ -139,6 +154,7 @@ func _play(plan: Array, title: String, out: PackedStringArray) -> Array:
 			m.clock.advance(STEP)
 			for p: Variant in m.pickups.duplicate():
 				m.collect(p)
+			m.use_frenzy()  # no-op unless the hero is level 3+ and it is ready
 		var i: int = m.round_index
 		var pop: int = 0
 		var tickets: int = 0
@@ -162,6 +178,8 @@ func _play(plan: Array, title: String, out: PackedStringArray) -> Array:
 	_check(not m.start_round(), "%s: frozen after end" % title)
 	lines.append("result %s at round %d, %d lives, play time %.1f min (sim + %ds prepare per round)" % [
 			m.State.keys()[m.state], m.round_index + 1, m.lives, play_s / 60.0, PREPARE_S])
+	if m.hero_node():
+		lines.append("hero level %d, %d XP; Frenzy used %d times" % [m.hero_node().level, m.hero_node().xp, frenzies[0]])
 	# Per tower type: count, invested, layers popped (pop $), pops per $100 invested, booth income.
 	var by_type: Dictionary = {}
 	for tower: Node3D in m.towers_root.get_children():

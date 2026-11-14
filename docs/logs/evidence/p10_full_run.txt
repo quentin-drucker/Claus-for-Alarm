@@ -50,6 +50,36 @@ Wax           1       225     0        0.0         0
 Cannon        1       625   536       85.8         0   1-0-0
 Sorcerer      1       550    46        8.4         0   0-0-1
 Ranger        1       800   244       30.5         0   0-0-1
+== Hero + mixed roster (tier-3 upgrades, Frenzy when ready)
+round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers
+    1   19.3   20       0    20        0   371    150       2
+    2   24.1   35       0    35        0   508    150       2
+    3   22.4   35       0    35        0   646    150       2
+    4   23.0   71       0    71        0   281    150       3
+    5   20.9   59       0    59        0   245    150       4
+    6   21.8   57       0    57        0   183    150       5
+    7   30.3   75       0    75        0   365    150       5
+    8   31.9   92       0    92        0   565    150       5
+    9   21.8   90       0    90        0   389    150       6
+   10   52.1  204       0   204        0   503    150       7
+   11   21.1   78       0    78        0   442    150       8
+   12   19.3   80       0    80        0   284    150       9
+   13   34.7  169       0   169        0   366    150      10
+   14   28.4  145       0   145        0   375    150      10
+   15   26.4  151       0   151        0   641    150      10
+   16   19.1  152       0   152        0   909    150      10
+   17   20.7  180       0   180        0   356    150      11
+   18   27.0  355      12   343        0   642    138      11
+   19   29.9  420      36   384        0   695    102      11
+result WON at round 19, 102 lives, play time 9.8 min (sim + 5s prepare per round)
+hero level 5, 4000 XP; Frenzy used 6 times
+type      count  invested  pops  pops/$100  tickets$   (tiers)
+Rookie        6      1200   777       64.8         0   
+Hero          1       540   639      118.3         0   
+Wax           1       225     0        0.0         0   
+Cannon        1      1275   563       44.2         0   2-0-0
+Sorcerer      1       875   243       27.8         0   2-0-0
+Ranger        1       350   198       56.6         0   
 == Booth economy (report only)
 round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers
     1   19.3   20       0    20        0   171    150       3
