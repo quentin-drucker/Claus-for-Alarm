@@ -22,5 +22,8 @@ master checkboxes only after evidence, and do not overwrite approved files or st
 
 - Art, UI, audio and models follow design docs 02 and 03; if something needed is undecided there, ask instead of inventing.
 - After each session, append an entry to `docs/logs/SESSION_LOG.md` (template: master plan §12.2).
+- Git: after every verified step (each task batch, phase, plan/log update), commit and immediately `git push` to
+  `origin`, then confirm `git status -sb` shows `main...origin/main` with nothing ahead. Report the pushed commit hash
+  in each status update. No AI attribution in commits.
 - Roster: `docs/REGISTRY.md`. Open assumptions: `docs/IMPLEMENTATION_ASSUMPTIONS.md`. Commands: `docs/COMMANDS.md`.
 - `art_src/` holds Blender sources and has a `.gdignore`; export game-ready `.glb` into `assets/models/`.
