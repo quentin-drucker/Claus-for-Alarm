@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Events="*uid://nprb2qvahj4c"
 Content="*uid://deldewonhhrmd"
+Audio="*uid://0v64x7e7rpe2"
 
 [display]
 
