@@ -34,3 +34,19 @@ listens to events. Nothing in presentation may change cash, lives, damage or rou
   All gameplay state changes happen inside ticks, never in `_process` of visual nodes.
 - `EconomyLedger` (`scripts/core/economy_ledger.gd`): the only place cash changes; `spend()` refuses
   unaffordable amounts; every change is logged with tick, reason and source entity.
+
+## Map `map_v1` (P03) — `scenes/world/ski_circuit.tscn`
+
+- Original route, entry upper-left → finish right, 5 corners. Centre line = `Waypoints/W0..W7` Marker3D children;
+  the track mesh is generated from them at runtime so visuals can't drift from the simulated path.
+- Scale: 1 reference unit = 0.1 m. Map (buildable) 32×20 m = 320×200 units; route 66 m = 660 units (Powder
+  needs 26.4 s); track width 2.2 m = 22 units; tower footprint 0.6 m (Dart 6 units; others copied, PROTOTYPE).
+- Blockers (`Blockers/*`, BoxMesh, axis-aligned): Lodge, Pond. They block **placement only**; map_v1 has no
+  line-of-sight occluders, so nothing hides targets invisibly.
+- `check_placement(pos_xz, radius, towers)` → `""` or a reason (`Outside the course`, `On the ski track`,
+  `Blocked by scenery`, `Too close to another tower`); the match adds `Not enough cash`. Ghost and purchase use the
+  same call, so the preview can never disagree with the rule.
+- Camera (P03-T02 decision): fixed orthographic, pitch −60°, `keep_aspect = KEEP_WIDTH`, width 42 m, centred
+  2.5 m right of the map so the right-hand shop never covers the course. Orthographic keeps range rings true
+  circles in size everywhere and makes cursor → ground picking exact at any window size.
+- Geometry is frozen by `tests/test_map.gd`; changing the route/blockers requires a balance review.

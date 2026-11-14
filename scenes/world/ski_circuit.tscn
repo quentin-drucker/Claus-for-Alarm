@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://yw5i67cssy66"]
+
+[ext_resource type="Script" uid="uid://dil6j78ag8mrk" path="res://scenes/world/ski_circuit.gd" id="1_bw5wo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2cj0k"]
+albedo_color = Color(0.105882354, 0.42745098, 0.40784314, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jjyew"]
+material = SubResource("StandardMaterial3D_2cj0k")
+size = Vector2(80, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2qesd"]
+albedo_color = Color(0.90588236, 0.95686275, 0.972549, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jjqak"]
+material = SubResource("StandardMaterial3D_2qesd")
+size = Vector2(32, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jdo7u"]
+albedo_color = Color(0.65882355, 0.4745098, 0.3529412, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6ydw0"]
+material = SubResource("StandardMaterial3D_jdo7u")
+size = Vector3(5, 3, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ujl8"]
+albedo_color = Color(0.56078434, 0.84705883, 0.9098039, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_34oqq"]
+material = SubResource("StandardMaterial3D_7ujl8")
+size = Vector3(4, 0.06, 4)
+
+[node name="SkiCircuit" type="Node3D" unique_id=1694046082]
+script = ExtResource("1_bw5wo")
+
+[node name="Backdrop" type="MeshInstance3D" parent="." unique_id=902564338]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
+mesh = SubResource("PlaneMesh_jjyew")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1621326185]
+mesh = SubResource("PlaneMesh_jjqak")
+
+[node name="Blockers" type="Node3D" parent="." unique_id=1120667754]
+
+[node name="Lodge" type="MeshInstance3D" parent="Blockers" unique_id=1615607263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.5, -3)
+mesh = SubResource("BoxMesh_6ydw0")
+
+[node name="Pond" type="MeshInstance3D" parent="Blockers" unique_id=1712873383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.03, 4)
+mesh = SubResource("BoxMesh_34oqq")
+
+[node name="StartLabel" type="Label3D" parent="." unique_id=912161055]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -14.5, 0.1, -7.8)
+pixel_size = 0.02
+modulate = Color(0.09019608, 0.23529412, 0.30588236, 1)
+text = "START"
+
+[node name="FinishLabel" type="Label3D" parent="." unique_id=1526715809]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14.5, 0.1, 7.8)
+pixel_size = 0.02
+modulate = Color(0.8509804, 0.32941177, 0.36078432, 1)
+text = "FINISH"
+
+[node name="Waypoints" type="Node3D" parent="." unique_id=408433894]
+
+[node name="W0" type="Marker3D" parent="Waypoints" unique_id=1911485898]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -6)
+
+[node name="W1" type="Marker3D" parent="Waypoints" unique_id=89272821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -6)
+
+[node name="W2" type="Marker3D" parent="Waypoints" unique_id=1156486482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 5)
+
+[node name="W3" type="Marker3D" parent="Waypoints" unique_id=771603275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 5)
+
+[node name="W4" type="Marker3D" parent="Waypoints" unique_id=562974510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -5)
+
+[node name="W5" type="Marker3D" parent="Waypoints" unique_id=1954086039]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -5)
+
+[node name="W6" type="Marker3D" parent="Waypoints" unique_id=687750395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+
+[node name="W7" type="Marker3D" parent="Waypoints" unique_id=1319972743]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 6)

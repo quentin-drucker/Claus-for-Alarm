@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://bhxd54cvah866"]
+
+[ext_resource type="Script" uid="uid://ugh3pnv3pq3x" path="res://scenes/towers/tower.gd" id="1_by3tn"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g767u"]
+top_radius = 0.35
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vfpy0"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.1254902, 0.31764707, 0.47843137, 0.2509804)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_uksqa"]
+material = SubResource("StandardMaterial3D_vfpy0")
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.02
+radial_segments = 48
+rings = 1
+
+[node name="Tower" type="Node3D" unique_id=525689244]
+script = ExtResource("1_by3tn")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=669207873]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_g767u")
+
+[node name="Label" type="Label3D" parent="." unique_id=1129830923]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+pixel_size = 0.01
+billboard = 1
+no_depth_test = true
+modulate = Color(0.09019608, 0.20784314, 0.28235295, 1)
+outline_modulate = Color(0.90588236, 0.95686275, 0.972549, 1)
+font_size = 40
+outline_size = 10
+
+[node name="Range" type="MeshInstance3D" parent="." unique_id=967783780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
+mesh = SubResource("CylinderMesh_uksqa")

@@ -460,17 +460,17 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-M M-02/M-05; HYB-A A-02/A-06/A-07; HYB-B B-08/B-16.  
 **Gate:** G2.
 
-- [ ] **P03-T01** — Block out one **original** Winter Games Ski Circuit with clear entry, finish/exit, 3–5 interesting turns and visible room for land-based towers.
-- [ ] **P03-T02** — Choose a fixed, elevated orthographic or mild-perspective camera based on mouse selection accuracy and target unit readability; record the decision.
-- [ ] **P03-T03** — Define canonical world units, route length, track width, tower footprints, reference-to-Godot range conversion and map extents.
-- [ ] **P03-T04** — Implement deterministic path interpolation/progress and heading; rolling snowball visual can be a simple colored sphere for now.
-- [ ] **P03-T05** — Define buildable vs unbuildable placement masks: track, map borders, props, existing tower overlaps and reserved areas.
-- [ ] **P03-T06** — Implement screen-to-world mouse projection and mouse/keyboard placement controls; ensure no selection offset at different resolutions.
-- [ ] **P03-T07** — Create clear green-valid/red-invalid placeholder placement ghost with range circle and reason label; enforce validity in simulation, not only preview.
-- [ ] **P03-T08** — Implement basic location ownership: each tower has one stable placed coordinate; no walking towers in this initial scope.
-- [ ] **P03-T09** — Place representative placeholders for lake, lodge, slope, bench and trees **only if** they help validate obstruction and visibility; decorations cannot accidentally block LOS invisibly.
-- [ ] **P03-T10** — Test towers near bends, on route intersections, near HUD edge, at border and on colliders; placement rejection must be deterministic.
-- [ ] **P03-T11** — Freeze a `map_v1_geometry` snapshot and coordinate tests; any later artistic edit to track/footprint requires a balance review.
+- [x] **P03-T01** — Block out one **original** Winter Games Ski Circuit with clear entry, finish/exit, 3–5 interesting turns and visible room for land-based towers. — `scenes/world/ski_circuit.tscn`: original route, START upper-left → FINISH right, 5 corners, 66 m; open snow beside entry and at the central bends. Screenshot `docs/logs/evidence/p03_placement_invalid_track.png`.
+- [x] **P03-T02** — Choose a fixed, elevated orthographic or mild-perspective camera based on mouse selection accuracy and target unit readability; record the decision. — Fixed orthographic camera, pitch −60°, keep-width 42 m (reasons in `docs/ARCHITECTURE.md` §Map).
+- [x] **P03-T03** — Define canonical world units, route length, track width, tower footprints, reference-to-Godot range conversion and map extents. — 1 unit = 0.1 m; map 320×200 units, route 660, track width 22, footprint 6 (`GameDefinition.UNIT_M`, ARCHITECTURE §Map).
+- [x] **P03-T04** — Implement deterministic path interpolation/progress and heading; rolling snowball visual can be a simple colored sphere for now. — `position_at(distance)` piecewise-linear over waypoints, clamped; 6 interpolation asserts in `tests/test_map.gd`. Snowball sphere arrives with P04 rounds.
+- [x] **P03-T05** — Define buildable vs unbuildable placement masks: track, map borders, props, existing tower overlaps and reserved areas. — `Placement.check` (`scripts/core/placement.gd`): bounds minus footprint, track + footprint clearance, blocker rects, tower overlap.
+- [x] **P03-T06** — Implement screen-to-world mouse projection and mouse/keyboard placement controls; ensure no selection offset at different resolutions. — Keys 1–6 pick a shop tower, ghost follows the ground-plane ray, left-click buys, Esc / right-click cancel, click selects a placed tower. Cursor alignment checked in-game at 1152×648 (ghost under cursor); browser resolutions re-checked in the P04 Web smoke.
+- [x] **P03-T07** — Create clear green-valid/red-invalid placeholder placement ghost with range circle and reason label; enforce validity in simulation, not only preview. — Ghost = tower scene: translucent green/red body, range ring, reason label (`On the ski track`, …). Purchase calls the same `placement_reason()` before `ledger.spend()`.
+- [x] **P03-T08** — Implement basic location ownership: each tower has one stable placed coordinate; no walking towers in this initial scope. — Tower stores one fixed position + `entity_id`; no movement code exists.
+- [x] **P03-T09** — Place representative placeholders for lake, lodge, slope, bench and trees **only if** they help validate obstruction and visibility; decorations cannot accidentally block LOS invisibly. — Only Lodge + Pond blockers (validate obstruction); placement-only, no LOS occluders in map_v1.
+- [x] **P03-T10** — Test towers near bends, on route intersections, near HUD edge, at border and on colliders; placement rejection must be deterministic. — `tests/test_map.gd`: open snow, on track, inside/just clear of a bend, border, off-map, on/touching/beside lodge, pond, tower overlap, repeated calls identical → PASS. HUD-edge clicks: GUI consumes them (P04).
+- [x] **P03-T11** — Freeze a `map_v1_geometry` snapshot and coordinate tests; any later artistic edit to track/footprint requires a balance review. — map_v1 frozen: waypoints, bounds, track width asserted by `tests/test_map.gd`; any change needs a balance review.
 
 **P03 exit proof:** cursor-accurate playable path and tower ghost at desktop browser resolution; map geometry and waypoint coordinates committed.
 
