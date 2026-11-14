@@ -1099,6 +1099,7 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | DEC-027 | 2026-11-14 | **Endless mode ("Continue", like BTD6 freeplay-continue):** after winning round 25 the player may continue, hard cap round 80 (final boss round; stops before DDTs at 90). Source milestones: MOAB r40, BFB r60, ZOMG r80. Rounds 26–80 also follow DEC-026 | APPROVED (owner), DEFERRED | Build after the core game + most towers/art are in |
 | DEC-028 | 2026-11-14 | **Blimp-class look (MOAB/BFB/ZOMG):** ice sleds carrying blocks of ice; damage shows as the ice cracking/melting/chipping away; on death the sled tips over and despawns smoothly | APPROVED art direction, DEFERRED | Ships with DEC-027 |
 | DEC-029 | 2026-11-14 | Game speeds 1× / 2× / **4×** (ORIGINAL_DEVIATION; BTD6 is 1×/fast) | APPROVED (owner) | Simulation results must be identical at every speed |
+| DEC-030 | 2026-11-14 | **Full upgrade depth for Endless:** every tier 1–5 on all three paths of all six towers (incl. abilities, e.g. Supply Drop) and Camel Claus levels 6–20 (Blizzard Barrage etc.) get fully implemented, even if a normal 25-round demo never reaches them, because Continue runs to round 80. Missing source numbers use DEC-024 fillers | APPROVED (owner), DEFERRED | Do after the 25-round demo is solid; ships with DEC-027 Endless |
 
 ### 12.4 Risk register and responses
 
