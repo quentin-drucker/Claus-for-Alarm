@@ -1,0 +1,10 @@
+P14-T01 alpha baseline 2026-11-14T14:47:01Z commit e75493f, Godot 4.7.2, Windows 11, headless
+test_data 1s :: test_data: PASS
+test_map 2s :: test_map: PASS
+test_match 5s :: test_match: PASS
+test_combat 2s :: test_combat: PASS
+test_towers 2s :: test_towers: PASS
+test_upgrades 3s :: test_upgrades: PASS
+test_hero 4s :: test_hero: PASS
+test_ui 1s :: test_ui: PASS
+test_full_run 35s :: test_full_run: PASS
