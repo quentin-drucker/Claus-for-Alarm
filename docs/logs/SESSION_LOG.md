@@ -243,3 +243,35 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   feedback in place of VFX/SFX; names Black/White/Purple are provisional.
 - **Repo commit after:** this entry's commit; tag `technical-alpha`; ZIP `build/archive/claus_for_alarm_alpha_web_619af86.zip`.
 - **Next suggested task IDs:** owner fresh-player test (P13-T11) → fixes; P14-T05–T08 art-swap layer; P15 after go-ahead.
+
+#### SESSION 2026-11-14 10:00 — Claude Code (Opus 5.5) — P18 audio: SFX, router, music slots (T03/T04 + partial T01/T02/T06/T07/T08)
+- **Goal:** original code-synthesized SFX (DEC-035) hooked to gameplay events through one audio router; music slots
+  for the owner's AI tracks; Web test. Scope limited to `assets/audio/`, `scripts/audio/` (another chat is on
+  towers/enemies/map).
+- **Read:** HYB-A A-07 (event → audio column), A-10 (soundscape, mixing, browser unlock); HYB-M M-02 (event list); master
+  plan P18, §6.
+- **Repo commit before:** `34ac418`. Commits: `c252435` (SFX + router + test + ledger), `c661ad0` (router fix after Web
+  test), this entry's commit (plan/log).
+- **Files changed:** new `scripts/audio/sfx_synth.gd` (generator), `scripts/audio/audio_router.gd` (autoload `Audio`),
+  `assets/audio/sfx/*.wav` (25), `assets/audio/CREDITS.md`, `tests/test_audio.gd`, `docs/logs/evidence/p18_web_audio.txt`;
+  `project.godot` (autoload only); `docs/COMMANDS.md` (test loop); master plan P18 ticks/status.
+- **Implementation:** `Audio` listens to `Events.emitted` and every `BaseButton.pressed`; one `AudioStreamPlayer` per
+  sound on the existing `SFX` bus with `max_polyphony`, a per-sound min gap (merges pop storms) and random
+  `pitch_scale` (none on leak/immune/deny). Attack sound by attack-id prefix; wax splat on `status_applied`; pop pitch
+  by broken layer (camo shares colour; Black/White/Purple heavy pop). Music: `assets/audio/music/{menu,gameplay,
+  victory,defeat}.ogg|mp3`, menu/gameplay loop, chosen on scene change, sting on win/loss; Music bus ducks −8 dB for
+  1.5 s on Frenzy. Web: nothing plays before the first click/key/touch.
+- **Tests run:** `godot --headless --path . -s res://scripts/audio/sfx_synth.gd` (25 ok); 10/10 suites PASS incl. new
+  `test_audio` (21 event→sound mappings, gap merge, button click); `--export-release "Web"` exit 0; `--main-pack` 0 ERROR.
+- **Web result / browser:** Chrome via playwright-cli on `localhost:8137`: 0 sample starts before the gesture; click,
+  place, round start, Rookie throw, Powder pops, round complete all start Web Audio samples; 0 console errors/warnings
+  (`p18_web_audio.txt`).
+- **Defects fixed:** title-screen buttons had no click — the main scene is in the tree before autoload `_ready`, so
+  `node_added` missed it; router now hooks existing buttons at startup. Tooling: port 8000 again served another
+  process's old build (226 KB pck); used 8137.
+- **Finished and checked tasks:** P18-T03, P18-T04.
+- **Partial tasks / why:** T01/T02 (slots + ledger; owner's music files pending), T06 (caps implemented, no late-wave
+  listening), T07 (Frenzy duck only, untested by ear), T08 (gesture unlock verified; pause/mute not checked by ear).
+  T05 (UI/Ambience buses + settings), T09–T11 not started.
+- **Next suggested task IDs:** owner listening pass → retune volumes in `audio_router.gd` SFX table; drop music files
+  + fill CREDITS; P18-T05 buses if wanted.

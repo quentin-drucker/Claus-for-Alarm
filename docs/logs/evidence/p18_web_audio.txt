@@ -1,0 +1,16 @@
+P18 Web audio check — 2026-11-14, Chrome (playwright-cli, 1280x720), build/web served on http://localhost:8137
+Method: init script wraps AudioBufferSourceNode.prototype.start (Godot Web plays SFX as Web Audio samples) and
+records each started buffer's duration; per action the list is read and cleared. Durations identify the file:
+click 0.050, pop_1 0.090, throw 0.120, place 0.180, round_start 0.450, round_complete 0.850.
+
+{"beforeGesture":"",
+ "howToPlay":"0.050",
+ "playAsFirstGesture":"0.050",
+ "shopBtn":"0.050",
+ "place":"0.180",
+ "placeOnTrack":"0.180",
+ "roundStart":"0.450",
+ "combat":"0.120,0.090,0.120,0.090,0.090,0.120,0.090, ... (Rookie throw + Powder pops x10),0.850"}
+
+AudioContext: "suspended" before the first click, "running" after. Console: 0 errors, 0 warnings.
+Separate analyser tap: round_start peak 0.35, place peak 0.43 (signal reaches the destination).

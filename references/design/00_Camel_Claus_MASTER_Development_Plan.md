@@ -776,14 +776,14 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-A A-08–A-12 and BTD6 REF-A sound analysis for *design principles only*.  
 **Gate:** G8.
 
-- [ ] **P18-T01** — Design original music palette: cozy winter festival menu, energetic but non-harsh gameplay loop, wave escalation stinger, victory and defeat sting.
-- [ ] **P18-T02** — Compose/generate/license original tracks; record exact authorship/license/attribution and source files; no BTD6 samples, melodies or proprietary tracks.
-- [ ] **P18-T03** — Create original event SFX for snowball hit/layer crack, armor immune, Wax hit, Rookie throw, cannon, Biathlon shot, Sorcerer spell, ticket payout, hero abilities and UI.
-- [ ] **P18-T04** — Map every named sound to a gameplay semantic event and only then to audio-player instance, respecting source unit visual identity.
+- [ ] **P18-T01** — Design original music palette: cozy winter festival menu, energetic but non-harsh gameplay loop, wave escalation stinger, victory and defeat sting. — *partial (2026-11-14):* slots `menu`/`gameplay` (loop) and `victory`/`defeat` (once) wired in `scripts/audio/audio_router.gd`; owner supplies the AI tracks (DEC-035) into `assets/audio/music/`. No wave-escalation stinger yet.
+- [ ] **P18-T02** — Compose/generate/license original tracks; record exact authorship/license/attribution and source files; no BTD6 samples, melodies or proprietary tracks. — *partial:* ledger `assets/audio/CREDITS.md` ready (music table empty until files land).
+- [x] **P18-T03** — Create original event SFX for snowball hit/layer crack, armor immune, Wax hit, Rookie throw, cannon, Biathlon shot, Sorcerer spell, ticket payout, hero abilities and UI. — 25 code-synthesized WAVs in `assets/audio/sfx/` from `scripts/audio/sfx_synth.gd` (deterministic, no samples), one row each in `assets/audio/CREDITS.md`. Pops per layer depth (Powder…Coral) + heavy pop for Black/White/Purple; also leak, place/upgrade/sell, level-up, round start/complete, click/deny. Not yet judged by ear.
+- [x] **P18-T04** — Map every named sound to a gameplay semantic event and only then to audio-player instance, respecting source unit visual identity. — Autoload `Audio` (`scripts/audio/audio_router.gd`) listens only to `Events.emitted` (+ any `BaseButton.pressed` for UI click); attack sound picked by attack-id prefix, wax splat on `status_applied`; `tests/test_audio.gd` checks 21 event→sound mappings PASS; Web: sample starts counted per action (`docs/logs/evidence/p18_web_audio.txt`).
 - [ ] **P18-T05** — Implement distinct Master, Music, Combat SFX, UI and Ambience buses (or equivalent), adjustable in Settings and stored if persistence is implemented.
-- [ ] **P18-T06** — Test sample concurrency during large waves; cap redundant pops and randomize safe pitch/volume without altering important warning signals.
-- [ ] **P18-T07** — Implement ducking where needed for hero ability/win/lose; prevent harsh repeated high-pitched transients and extreme loudness.
-- [ ] **P18-T08** — Implement browser-safe audio start after first user gesture, and stable pause/resume/mute behavior.
+- [ ] **P18-T06** — Test sample concurrency during large waves; cap redundant pops and randomize safe pitch/volume without altering important warning signals. — *partial:* per-sound voice cap + min gap (pops 35 ms, 3 voices) and random pitch (none on leak/immune/deny) implemented, merge unit-tested; not yet listened to in a late big wave.
+- [ ] **P18-T07** — Implement ducking where needed for hero ability/win/lose; prevent harsh repeated high-pitched transients and extreme loudness. — *partial:* Music bus ducks −8 dB for 1.5 s on Snowball Frenzy; win/loss swap music to the victory/defeat sting instead of ducking. Untested by ear (no music files yet).
+- [ ] **P18-T08** — Implement browser-safe audio start after first user gesture, and stable pause/resume/mute behavior. — *partial:* Web build (Chrome, playwright): 0 sample starts before the first click; the first click (Play) already sounds; music held until the gesture. Mute = existing Settings sliders; pause/resume by ear not checked.
 - [ ] **P18-T09** — Test audio in browser with speakers and earbuds at normal user volumes; ensure music not too oppressive or repetitively loud.
 - [ ] **P18-T10** — Confirm export includes only licensed/original audio assets and that credits contain any required third-party attribution.
 - [ ] **P18-T11** — Run sound-off mode playthrough: all critical mechanical information must remain legible visually.
@@ -1036,11 +1036,11 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 |---|---|
 | Current milestone | G4 ✅; technical alpha tagged `technical-alpha` (25 exact rounds, specials, 1×/2×/4×); G6 pending owner fresh-player test + P14-T02/T05–T08 |
 | Current phase | P11 specials for rounds ≤ 25 (T01–T03); P12 round set + determinism (T01/T02/T09/T13); P13-T05/T06; P14-T01/T03/T04/T09 |
-| Active task IDs | None — awaiting owner go-ahead |
+| Active task IDs | P18 audio (SFX + router + music slots) — owner listening pass pending |
 | Latest verified commit | see SESSION_LOG 2026-11-14 "25 rounds + technical alpha" entry |
 | Latest passing editor test | editor process run: match at 4×, B/W/P/C markers, hit feedback, 0 errors (2026-11-14) |
 | Latest passing Web build URL | local only: extracted `claus_for_alarm_alpha_web_619af86.zip` on `http://localhost:8010` (Chrome, rounds 1–5 by mouse/keyboard, 0 console errors/warnings); no hosted URL yet |
-| Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,hero,ui,full_run}.gd` — all PASS (`p14_alpha_baseline.txt`) |
+| Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,hero,ui,full_run,audio}.gd` — all PASS (2026-11-14, P18 audio) |
 | Current blockers | HARD STOP before P15–P18 (art/UI skin/VFX/audio) — owner directs those; deadline Sun Nov 15 10:00 AM |
 | Primary next action | Owner: fresh-player test (`docs/FRESH_PLAYER_TEST.md`), art direction go-ahead |
 
