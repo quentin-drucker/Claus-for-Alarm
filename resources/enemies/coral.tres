@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_definition.gd" id="1_wbmt2"]
+
+[resource]
+script = ExtResource("1_wbmt2")
+display_name = "Coral"
+speed_units = 87.5
+child_id = &"violet"
+child_count = 1
+properties = PackedStringArray()
+id = &"coral"
+source_url = "https://teemo.dev/game-design/bloons-td-6/systems/bloons-and-properties/"
+status = Dictionary[String, String]({
+"cash_per_pop": "VERIFIED_SOURCE",
+"child_count": "VERIFIED_SOURCE",
+"speed_units": "VERIFIED_SOURCE"
+})
+notes = "BTD6 Pink Bloon (v56). Visual layer colour is presentation-only (A-01)."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MatchRules" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/match_rules.gd" id="1_t01x3"]
+
+[resource]
+script = ExtResource("1_t01x3")
+id = &"rules_medium"
+source_url = "https://teemo.dev/game-design/bloons-td-6/systems/rounds-and-economy/"
+status = Dictionary[String, String]({
+"round_bonus_base": "VERIFIED_SOURCE",
+"sell_ratio": "VERIFIED_SOURCE",
+"start_cash": "VERIFIED_SOURCE",
+"start_lives": "PROTOTYPE_ASSUMPTION"
+})
+notes = "Medium. start_lives 150 is the commonly known Medium value but is not stated on the source page. sell_ratio 70%: M-04 / prices-discounts-and-selling page."

@@ -1,0 +1,241 @@
+[gd_resource type="Resource" script_class="TowerDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_1jdv5"]
+[ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_imo6y"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_d7t6d"]
+
+[sub_resource type="Resource" id="Resource_gv6fy"]
+script = ExtResource("1_1jdv5")
+interval_s = 1.1
+pierce = 3
+damage_type = &"energy"
+id = &"snow_sorcerer_base"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"slow_factor": "NOT_APPLICABLE",
+"splash_pierce": "NOT_APPLICABLE"
+})
+
+[sub_resource type="Resource" id="Resource_ogiox"]
+script = ExtResource("3_d7t6d")
+display_name = "Guided Frost"
+source_name = "Guided Magic"
+price = 175
+id = &"snow_sorcerer_t1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_4d0t1"]
+script = ExtResource("3_d7t6d")
+tier = 2
+display_name = "Arcane Snowburst"
+source_name = "Arcane Blast"
+price = 450
+id = &"snow_sorcerer_t2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_yysqv"]
+script = ExtResource("3_d7t6d")
+tier = 3
+display_name = "Frostcraft Mastery"
+source_name = "Arcane Mastery"
+price = 1450
+id = &"snow_sorcerer_t3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_u8i5w"]
+script = ExtResource("3_d7t6d")
+tier = 4
+display_name = "Arctic Spike"
+source_name = "Arcane Spike"
+price = 10000
+id = &"snow_sorcerer_t4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_vqwbr"]
+script = ExtResource("3_d7t6d")
+tier = 5
+display_name = "Grand Snowmage"
+source_name = "Archmage"
+price = 32000
+id = &"snow_sorcerer_t5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_y1i8c"]
+script = ExtResource("3_d7t6d")
+path = 1
+display_name = "Warm Ember"
+source_name = "Fireball"
+price = 300
+id = &"snow_sorcerer_m1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_t5xtw"]
+script = ExtResource("3_d7t6d")
+path = 1
+tier = 2
+display_name = "Hot Cocoa Barrier"
+source_name = "Wall of Fire"
+price = 800
+id = &"snow_sorcerer_m2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_81ljm"]
+script = ExtResource("3_d7t6d")
+path = 1
+tier = 3
+display_name = "Blizzard Breath"
+source_name = "Dragon's Breath"
+price = 3300
+id = &"snow_sorcerer_m3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_7yu4i"]
+script = ExtResource("3_d7t6d")
+path = 1
+tier = 4
+display_name = "Summon Snowbird"
+source_name = "Summon Phoenix"
+price = 6000
+id = &"snow_sorcerer_m4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_l3cen"]
+script = ExtResource("3_d7t6d")
+path = 1
+tier = 5
+display_name = "Winter Phoenix"
+source_name = "Wizard Lord Phoenix"
+price = 50000
+id = &"snow_sorcerer_m5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_vw6h1"]
+script = ExtResource("3_d7t6d")
+path = 2
+display_name = "Deep Snowcraft"
+source_name = "Intense Magic"
+price = 300
+id = &"snow_sorcerer_b1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_v1bqx"]
+script = ExtResource("3_d7t6d")
+path = 2
+tier = 2
+display_name = "Frost-Sight"
+source_name = "Monkey Sense"
+price = 300
+id = &"snow_sorcerer_b2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_omss8"]
+script = ExtResource("3_d7t6d")
+path = 2
+tier = 3
+display_name = "Goggle Shimmer"
+source_name = "Shimmer"
+price = 1500
+id = &"snow_sorcerer_b3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_5jukw"]
+script = ExtResource("3_d7t6d")
+path = 2
+tier = 4
+display_name = "Snow Spirit Army"
+source_name = "Necromancer: Unpopped Army"
+price = 2800
+id = &"snow_sorcerer_b4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_sxh3d"]
+script = ExtResource("3_d7t6d")
+path = 2
+tier = 5
+display_name = "Snowfall Sovereign"
+source_name = "Prince of Darkness"
+price = 26500
+id = &"snow_sorcerer_b5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[resource]
+script = ExtResource("2_imo6y")
+display_name = "Snow Sorcerer"
+source_tower = "Wizard Monkey"
+price = 250
+range_units = 40.0
+attacks = Array[ExtResource("1_1jdv5")]([SubResource("Resource_gv6fy")])
+upgrades = Array[ExtResource("3_d7t6d")]([SubResource("Resource_ogiox"), SubResource("Resource_4d0t1"), SubResource("Resource_yysqv"), SubResource("Resource_u8i5w"), SubResource("Resource_vqwbr"), SubResource("Resource_y1i8c"), SubResource("Resource_t5xtw"), SubResource("Resource_81ljm"), SubResource("Resource_7yu4i"), SubResource("Resource_l3cen"), SubResource("Resource_vw6h1"), SubResource("Resource_v1bqx"), SubResource("Resource_omss8"), SubResource("Resource_5jukw"), SubResource("Resource_sxh3d")])
+id = &"snow_sorcerer"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+status = Dictionary[String, String]({
+"cash_per_pickup": "NOT_APPLICABLE",
+"footprint_units": "PROTOTYPE_ASSUMPTION",
+"pickups_per_round": "NOT_APPLICABLE",
+"price": "VERIFIED_SOURCE",
+"range_units": "VERIFIED_SOURCE"
+})
+notes = "Base kit: M-10 (v56). footprint 6 copied from Dart; own footprint unverified."

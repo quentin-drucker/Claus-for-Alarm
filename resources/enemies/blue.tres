@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_definition.gd" id="1_0lwnx"]
+
+[resource]
+script = ExtResource("1_0lwnx")
+display_name = "Blue"
+speed_units = 35.0
+child_id = &"powder"
+child_count = 1
+properties = PackedStringArray()
+id = &"blue"
+source_url = "https://teemo.dev/game-design/bloons-td-6/systems/bloons-and-properties/"
+status = Dictionary[String, String]({
+"cash_per_pop": "VERIFIED_SOURCE",
+"child_count": "VERIFIED_SOURCE",
+"speed_units": "VERIFIED_SOURCE"
+})
+notes = "BTD6 Blue Bloon (v56). Visual layer colour is presentation-only (A-01)."

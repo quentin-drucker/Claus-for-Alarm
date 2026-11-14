@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_85yuu"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_7amg3"]
+
+[sub_resource type="Resource" id="Resource_kh556"]
+script = ExtResource("1_85yuu")
+enemy_id = &"powder"
+count = 35
+duration_s = 19.0
+
+[resource]
+script = ExtResource("2_7amg3")
+groups = Array[ExtResource("1_85yuu")]([SubResource("Resource_kh556")])
+id = &"round_02"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-2/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 2 (counts, start, sent-over)."

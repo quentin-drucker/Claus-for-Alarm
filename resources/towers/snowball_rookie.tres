@@ -1,0 +1,240 @@
+[gd_resource type="Resource" script_class="TowerDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_bgtw3"]
+[ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_ok2vn"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_mxi0i"]
+
+[sub_resource type="Resource" id="Resource_1u1q1"]
+script = ExtResource("1_bgtw3")
+interval_s = 0.95
+pierce = 2
+id = &"snowball_rookie_base"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"slow_factor": "NOT_APPLICABLE",
+"splash_pierce": "NOT_APPLICABLE"
+})
+
+[sub_resource type="Resource" id="Resource_ss6qk"]
+script = ExtResource("3_mxi0i")
+display_name = "Sharper Snow"
+source_name = "Sharp Shots"
+price = 140
+id = &"snowball_rookie_t1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_xj6xr"]
+script = ExtResource("3_mxi0i")
+tier = 2
+display_name = "Reinforced Ice"
+source_name = "Razor Sharp Shots"
+price = 200
+id = &"snowball_rookie_t2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_k8tmm"]
+script = ExtResource("3_mxi0i")
+tier = 3
+display_name = "Ice Boulder Launcher"
+source_name = "Spike-o-pult"
+price = 320
+id = &"snowball_rookie_t3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_up1v0"]
+script = ExtResource("3_mxi0i")
+tier = 4
+display_name = "Championship Boulder"
+source_name = "Juggernaut"
+price = 1800
+id = &"snowball_rookie_t4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_e1nbm"]
+script = ExtResource("3_mxi0i")
+tier = 5
+display_name = "Avalanche Juggernaut"
+source_name = "Ultra-Juggernaut"
+price = 15000
+id = &"snowball_rookie_t5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_8d3ty"]
+script = ExtResource("3_mxi0i")
+path = 1
+display_name = "Quick Hands"
+source_name = "Quick Shots"
+price = 100
+id = &"snowball_rookie_m1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_ikfga"]
+script = ExtResource("3_mxi0i")
+path = 1
+tier = 2
+display_name = "Faster Tosses"
+source_name = "Very Quick Shots"
+price = 190
+id = &"snowball_rookie_m2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_cfg27"]
+script = ExtResource("3_mxi0i")
+path = 1
+tier = 3
+display_name = "Triple Toss"
+source_name = "Triple Shot"
+price = 450
+id = &"snowball_rookie_m3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_x7ogs"]
+script = ExtResource("3_mxi0i")
+path = 1
+tier = 4
+display_name = "Rookie Rally"
+source_name = "Super Monkey Fan Club"
+price = 7200
+id = &"snowball_rookie_m4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_0w1k7"]
+script = ExtResource("3_mxi0i")
+path = 1
+tier = 5
+display_name = "All-Star Rally"
+source_name = "Plasma Monkey Fan Club"
+price = 45000
+id = &"snowball_rookie_m5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_vi34e"]
+script = ExtResource("3_mxi0i")
+path = 2
+display_name = "Long-Distance Lob"
+source_name = "Long Range Darts"
+price = 90
+id = &"snowball_rookie_b1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_0ko51"]
+script = ExtResource("3_mxi0i")
+path = 2
+tier = 2
+display_name = "Goggle Targeting"
+source_name = "Enhanced Eyesight"
+price = 200
+id = &"snowball_rookie_b2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_7u7rw"]
+script = ExtResource("3_mxi0i")
+path = 2
+tier = 3
+display_name = "Ski-Bow"
+source_name = "Crossbow"
+price = 575
+id = &"snowball_rookie_b3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v57: xx3 pierce 4→5"
+
+[sub_resource type="Resource" id="Resource_kkc0o"]
+script = ExtResource("3_mxi0i")
+path = 2
+tier = 4
+display_name = "Medal Marksman"
+source_name = "Sharp Shooter"
+price = 2050
+id = &"snowball_rookie_b4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v57: crit damage 50→60"
+
+[sub_resource type="Resource" id="Resource_cwlpr"]
+script = ExtResource("3_mxi0i")
+path = 2
+tier = 5
+display_name = "Olympic Sharpshooter"
+source_name = "Crossbow Master"
+price = 21500
+id = &"snowball_rookie_b5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v57: 2 parallel projectiles per attack; interval 0.475 s (was 1 / 0.2375 s)"
+
+[resource]
+script = ExtResource("2_ok2vn")
+display_name = "Snowball Rookie"
+source_tower = "Dart Monkey"
+price = 200
+range_units = 32.0
+attacks = Array[ExtResource("1_bgtw3")]([SubResource("Resource_1u1q1")])
+upgrades = Array[ExtResource("3_mxi0i")]([SubResource("Resource_ss6qk"), SubResource("Resource_xj6xr"), SubResource("Resource_k8tmm"), SubResource("Resource_up1v0"), SubResource("Resource_e1nbm"), SubResource("Resource_8d3ty"), SubResource("Resource_ikfga"), SubResource("Resource_cfg27"), SubResource("Resource_x7ogs"), SubResource("Resource_0w1k7"), SubResource("Resource_vi34e"), SubResource("Resource_0ko51"), SubResource("Resource_7u7rw"), SubResource("Resource_kkc0o"), SubResource("Resource_cwlpr")])
+id = &"snowball_rookie"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/dart-monkey/"
+status = Dictionary[String, String]({
+"cash_per_pickup": "NOT_APPLICABLE",
+"footprint_units": "VERIFIED_SOURCE",
+"pickups_per_round": "NOT_APPLICABLE",
+"price": "VERIFIED_SOURCE",
+"range_units": "VERIFIED_SOURCE"
+})
+notes = "Base kit: M-10 (v56)."

@@ -1,0 +1,241 @@
+[gd_resource type="Resource" script_class="TowerDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_vxxcx"]
+[ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_tqine"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_p04ft"]
+
+[sub_resource type="Resource" id="Resource_7nbab"]
+script = ExtResource("1_vxxcx")
+interval_s = 1.5
+damage_type = &"explosion"
+splash_pierce = 22
+id = &"avalanche_cannon_base"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"slow_factor": "NOT_APPLICABLE",
+"splash_pierce": "VERIFIED_SOURCE"
+})
+
+[sub_resource type="Resource" id="Resource_0gewn"]
+script = ExtResource("3_p04ft")
+display_name = "Wide Snowburst"
+source_name = "Bigger Bombs"
+price = 250
+id = &"avalanche_cannon_t1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_16qvp"]
+script = ExtResource("3_p04ft")
+tier = 2
+display_name = "Dense Charges"
+source_name = "Heavy Bombs"
+price = 650
+id = &"avalanche_cannon_t2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_8sf3g"]
+script = ExtResource("3_p04ft")
+tier = 3
+display_name = "Massive Snowblast"
+source_name = "Really Big Bombs"
+price = 1100
+id = &"avalanche_cannon_t3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_5lmdm"]
+script = ExtResource("3_p04ft")
+tier = 4
+display_name = "Impact Freeze"
+source_name = "Bloon Impact"
+price = 2800
+id = &"avalanche_cannon_t4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_xy7sp"]
+script = ExtResource("3_p04ft")
+tier = 5
+display_name = "Mountain Crusher"
+source_name = "Bloon Crush"
+price = 55000
+id = &"avalanche_cannon_t5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_g0v50"]
+script = ExtResource("3_p04ft")
+path = 1
+display_name = "Quick Reload"
+source_name = "Faster Reload"
+price = 250
+id = &"avalanche_cannon_m1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_kld7c"]
+script = ExtResource("3_p04ft")
+path = 1
+tier = 2
+display_name = "Snow Missile"
+source_name = "Missile Launcher"
+price = 400
+id = &"avalanche_cannon_m2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_70wub"]
+script = ExtResource("3_p04ft")
+path = 1
+tier = 3
+display_name = "Big-Game Breaker"
+source_name = "MOAB Mauler"
+price = 1000
+id = &"avalanche_cannon_m3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_py6k3"]
+script = ExtResource("3_p04ft")
+path = 1
+tier = 4
+display_name = "Avalanche Assassin"
+source_name = "MOAB Assassin"
+price = 3450
+id = &"avalanche_cannon_m4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_e53lq"]
+script = ExtResource("3_p04ft")
+path = 1
+tier = 5
+display_name = "Titan Eliminator"
+source_name = "MOAB Eliminator"
+price = 26000
+id = &"avalanche_cannon_m5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_vofm5"]
+script = ExtResource("3_p04ft")
+path = 2
+display_name = "Long Barrel"
+source_name = "Extra Range"
+price = 200
+id = &"avalanche_cannon_b1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_oe7i3"]
+script = ExtResource("3_p04ft")
+path = 2
+tier = 2
+display_name = "Fragment Pack"
+source_name = "Frag Bombs"
+price = 300
+id = &"avalanche_cannon_b2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v57: frag pierce 1→2, pierce penalty +1"
+
+[sub_resource type="Resource" id="Resource_qc3n5"]
+script = ExtResource("3_p04ft")
+path = 2
+tier = 3
+display_name = "Cluster Burst"
+source_name = "Cluster Bombs"
+price = 700
+id = &"avalanche_cannon_b3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_q2inw"]
+script = ExtResource("3_p04ft")
+path = 2
+tier = 4
+display_name = "Recursive Clusters"
+source_name = "Recursive Cluster"
+price = 2500
+id = &"avalanche_cannon_b4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_2t7ar"]
+script = ExtResource("3_p04ft")
+path = 2
+tier = 5
+display_name = "Blizzard Blitz"
+source_name = "Bomb Blitz"
+price = 30000
+id = &"avalanche_cannon_b5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v57: passive triggers at most once/round"
+
+[resource]
+script = ExtResource("2_tqine")
+display_name = "Avalanche Cannon"
+source_tower = "Bomb Shooter"
+price = 375
+range_units = 40.0
+attacks = Array[ExtResource("1_vxxcx")]([SubResource("Resource_7nbab")])
+upgrades = Array[ExtResource("3_p04ft")]([SubResource("Resource_0gewn"), SubResource("Resource_16qvp"), SubResource("Resource_8sf3g"), SubResource("Resource_5lmdm"), SubResource("Resource_xy7sp"), SubResource("Resource_g0v50"), SubResource("Resource_kld7c"), SubResource("Resource_70wub"), SubResource("Resource_py6k3"), SubResource("Resource_e53lq"), SubResource("Resource_vofm5"), SubResource("Resource_oe7i3"), SubResource("Resource_qc3n5"), SubResource("Resource_q2inw"), SubResource("Resource_2t7ar")])
+id = &"avalanche_cannon"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/bomb-shooter/"
+status = Dictionary[String, String]({
+"cash_per_pickup": "NOT_APPLICABLE",
+"footprint_units": "PROTOTYPE_ASSUMPTION",
+"pickups_per_round": "NOT_APPLICABLE",
+"price": "VERIFIED_SOURCE",
+"range_units": "VERIFIED_SOURCE"
+})
+notes = "Base kit: M-10 (v56). footprint 6 copied from Dart; own footprint unverified."

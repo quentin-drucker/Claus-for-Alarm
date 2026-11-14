@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_acvvs"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_iptpd"]
+
+[sub_resource type="Resource" id="Resource_egxc2"]
+script = ExtResource("1_acvvs")
+enemy_id = &"powder"
+count = 25
+duration_s = 12.0
+
+[sub_resource type="Resource" id="Resource_e47t0"]
+script = ExtResource("1_acvvs")
+enemy_id = &"blue"
+count = 18
+start_s = 7.9
+duration_s = 2.5
+
+[sub_resource type="Resource" id="Resource_sjx36"]
+script = ExtResource("1_acvvs")
+enemy_id = &"powder"
+count = 10
+start_s = 14.51
+duration_s = 2.8
+
+[resource]
+script = ExtResource("2_iptpd")
+groups = Array[ExtResource("1_acvvs")]([SubResource("Resource_egxc2"), SubResource("Resource_e47t0"), SubResource("Resource_sjx36")])
+id = &"round_04"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-4/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 4 (counts, start, sent-over)."

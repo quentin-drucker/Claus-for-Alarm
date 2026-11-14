@@ -1,0 +1,226 @@
+[gd_resource type="Resource" script_class="TowerDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_ugbfv"]
+[ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_cklkp"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_ggmou"]
+
+[sub_resource type="Resource" id="Resource_080va"]
+script = ExtResource("3_ggmou")
+display_name = "More Passes"
+source_name = "Increased Production"
+price = 500
+id = &"ski_resort_ticket_booth_t1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_0tjqv"]
+script = ExtResource("3_ggmou")
+tier = 2
+display_name = "Peak Ticket Sales"
+source_name = "Greater Production"
+price = 600
+id = &"ski_resort_ticket_booth_t2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_hetah"]
+script = ExtResource("3_ggmou")
+tier = 3
+display_name = "Ski Resort Expansion"
+source_name = "Banana Plantation"
+price = 3000
+id = &"ski_resort_ticket_booth_t3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_gdwjw"]
+script = ExtResource("3_ggmou")
+tier = 4
+display_name = "Research Chalet"
+source_name = "Banana Research Facility"
+price = 19000
+id = &"ski_resort_ticket_booth_t4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_tcicd"]
+script = ExtResource("3_ggmou")
+tier = 5
+display_name = "Winter Games Central"
+source_name = "Banana Central"
+price = 115000
+id = &"ski_resort_ticket_booth_t5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_1u2k5"]
+script = ExtResource("3_ggmou")
+path = 1
+display_name = "Better Accounting"
+source_name = "Long Life Bananas"
+price = 300
+id = &"ski_resort_ticket_booth_m1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_wrw24"]
+script = ExtResource("3_ggmou")
+path = 1
+tier = 2
+display_name = "Savings Program"
+source_name = "Valuable Bananas"
+price = 800
+id = &"ski_resort_ticket_booth_m2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_ig4s5"]
+script = ExtResource("3_ggmou")
+path = 1
+tier = 3
+display_name = "Resort Bank"
+source_name = "Monkey Bank"
+price = 3650
+id = &"ski_resort_ticket_booth_m3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_n1etg"]
+script = ExtResource("3_ggmou")
+path = 1
+tier = 4
+display_name = "Investment Fund"
+source_name = "IMF Loan"
+price = 7200
+id = &"ski_resort_ticket_booth_m4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_0hfn6"]
+script = ExtResource("3_ggmou")
+path = 1
+tier = 5
+display_name = "World Cup Bank"
+source_name = "Monkey-Nomics"
+price = 100000
+id = &"ski_resort_ticket_booth_m5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_n5ret"]
+script = ExtResource("3_ggmou")
+path = 2
+display_name = "Self-Service Window"
+source_name = "EZ Collect"
+price = 250
+id = &"ski_resort_ticket_booth_b1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_vgrmp"]
+script = ExtResource("3_ggmou")
+path = 2
+tier = 2
+display_name = "Tourist Merchandise"
+source_name = "Banana Salvage"
+price = 400
+id = &"ski_resort_ticket_booth_b2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_767l8"]
+script = ExtResource("3_ggmou")
+path = 2
+tier = 3
+display_name = "Ski Marketplace"
+source_name = "Marketplace"
+price = 2700
+id = &"ski_resort_ticket_booth_b3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_vwol2"]
+script = ExtResource("3_ggmou")
+path = 2
+tier = 4
+display_name = "Sponsor Partnership"
+source_name = "Central Market"
+price = 15000
+id = &"ski_resort_ticket_booth_b4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_m2u7c"]
+script = ExtResource("3_ggmou")
+path = 2
+tier = 5
+display_name = "Regional Ski Empire"
+source_name = "Monkey Wall Street"
+price = 70000
+id = &"ski_resort_ticket_booth_b5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[resource]
+script = ExtResource("2_cklkp")
+display_name = "Ski Resort Ticket Booth"
+source_tower = "Banana Farm"
+price = 1250
+upgrades = Array[ExtResource("3_ggmou")]([SubResource("Resource_080va"), SubResource("Resource_0tjqv"), SubResource("Resource_hetah"), SubResource("Resource_gdwjw"), SubResource("Resource_tcicd"), SubResource("Resource_1u2k5"), SubResource("Resource_wrw24"), SubResource("Resource_ig4s5"), SubResource("Resource_n1etg"), SubResource("Resource_0hfn6"), SubResource("Resource_n5ret"), SubResource("Resource_vgrmp"), SubResource("Resource_767l8"), SubResource("Resource_vwol2"), SubResource("Resource_m2u7c")])
+pickups_per_round = 4
+cash_per_pickup = 20
+id = &"ski_resort_ticket_booth"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+status = Dictionary[String, String]({
+"cash_per_pickup": "VERIFIED_SOURCE",
+"footprint_units": "PROTOTYPE_ASSUMPTION",
+"pickups_per_round": "VERIFIED_SOURCE",
+"price": "VERIFIED_SOURCE",
+"range_units": "NOT_APPLICABLE"
+})
+notes = "Base kit: M-10 (v56). footprint 6 copied from Dart; own footprint unverified. No attack. 4 pickups x $20 per round; collection rules pending (P07)."

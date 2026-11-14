@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_5ftex"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_se7sy"]
+
+[sub_resource type="Resource" id="Resource_b1u1d"]
+script = ExtResource("1_5ftex")
+enemy_id = &"blue"
+count = 20
+duration_s = 10.84
+
+[sub_resource type="Resource" id="Resource_0f0ka"]
+script = ExtResource("1_5ftex")
+enemy_id = &"mint"
+count = 2
+start_s = 11.42
+duration_s = 0.57
+
+[sub_resource type="Resource" id="Resource_xuhqu"]
+script = ExtResource("1_5ftex")
+enemy_id = &"powder"
+count = 10
+start_s = 14.03
+duration_s = 1.97
+
+[sub_resource type="Resource" id="Resource_01b7y"]
+script = ExtResource("1_5ftex")
+enemy_id = &"mint"
+count = 12
+start_s = 18.27
+duration_s = 10.6
+
+[resource]
+script = ExtResource("2_se7sy")
+groups = Array[ExtResource("1_5ftex")]([SubResource("Resource_b1u1d"), SubResource("Resource_0f0ka"), SubResource("Resource_xuhqu"), SubResource("Resource_01b7y")])
+id = &"round_08"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-8/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 8 (counts, start, sent-over)."

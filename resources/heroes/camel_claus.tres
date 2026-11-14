@@ -1,0 +1,87 @@
+[gd_resource type="Resource" script_class="HeroDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_u2vt8"]
+[ext_resource type="Script" path="res://scripts/data/hero_definition.gd" id="2_e74qy"]
+
+[sub_resource type="Resource" id="Resource_apjjw"]
+script = ExtResource("1_u2vt8")
+interval_s = 0.95
+pierce = 3
+id = &"camel_claus_base"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"slow_factor": "NOT_APPLICABLE",
+"splash_pierce": "NOT_APPLICABLE"
+})
+
+[resource]
+script = ExtResource("2_e74qy")
+display_name = "Camel Claus"
+source_hero = "Quincy"
+price = 540
+range_units = 50.0
+attack = SubResource("Resource_apjjw")
+level_xp = PackedInt32Array(0, 180, 640, 1640, 3500, 6780, 11960, 20280, 29660, 43280, 59660, 74060, 90710, 105650, 122030, 139850, 159110, 179810, 196280, 213560)
+level_changes = Array[Dictionary]([{
+"summary": "Base ricochet shot"
+}, {
+"pierce": 4
+}, {
+"summary": "3x attack speed ~8 s, cooldown 60 s (historic guide)",
+"unlock_ability": "snowball_frenzy"
+}, {
+"range_units": 52,
+"summary": "v57 PATCHED: Focus = interval x1.25, projectile speed x1.25, range x1.2",
+"unlock_stance": "focused_shot"
+}, {
+"camo_detection": true
+}, {
+"projectile_count": 2
+}, {
+"summary": "every 3rd shot adds an explosion"
+}, {
+"bonus_vs_large": 2,
+"summary": "large-mass specialist"
+}, {
+"pierce": 6
+}, {
+"summary": "area storm, cooldown 70 s",
+"unlock_ability": "blizzard_barrage"
+}, {
+"interval_s": 0.6
+}, {
+"pierce": 7
+}, {
+"range_units": 54,
+"summary": "Frenzy lasts longer"
+}, {
+"bonus_vs_large": 3
+}, {
+"summary": "Frenzy 4x attack speed, cooldown 45 s"
+}, {
+"interval_s": 0.4
+}, {
+"summary": "25% longer projectile life; explosion every 2nd shot"
+}, {
+"interval_s": 0.25,
+"summary": "barrage cooldown 55 s"
+}, {
+"pierce": 9,
+"projectile_count": 3
+}, {
+"interval_s": 0.2,
+"summary": "enhanced storm"
+}])
+id = &"camel_claus"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/heroes/quincy/"
+status = Dictionary[String, String]({
+"footprint_units": "PROTOTYPE_ASSUMPTION",
+"level_changes": "VERIFIED_SOURCE",
+"level_xp": "VERIFIED_SOURCE",
+"price": "VERIFIED_SOURCE",
+"range_units": "VERIFIED_SOURCE"
+})
+notes = "M-09 (v56) + v57 Focus stance at level 4 (PATCHED_SOURCE). Ricochet: pierce = bounces to distinct targets. footprint unverified."

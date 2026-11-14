@@ -1,0 +1,241 @@
+[gd_resource type="Resource" script_class="TowerDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_knms1"]
+[ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_robqm"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_ss2kr"]
+
+[sub_resource type="Resource" id="Resource_c1um4"]
+script = ExtResource("1_knms1")
+damage = 0
+damage_type = &"glue"
+slow_factor = 0.5
+id = &"slope_wax_sprayer_base"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"slow_factor": "VERIFIED_SOURCE",
+"splash_pierce": "NOT_APPLICABLE"
+})
+
+[sub_resource type="Resource" id="Resource_nosd2"]
+script = ExtResource("3_ss2kr")
+display_name = "Deep Coating"
+source_name = "Glue Soak"
+price = 200
+id = &"slope_wax_sprayer_t1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_rdniv"]
+script = ExtResource("3_ss2kr")
+tier = 2
+display_name = "De-Icing Formula"
+source_name = "Corrosive Glue"
+price = 300
+id = &"slope_wax_sprayer_t2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_4evnm"]
+script = ExtResource("3_ss2kr")
+tier = 3
+display_name = "Snowball Dissolver"
+source_name = "Bloon Dissolver"
+price = 2000
+id = &"slope_wax_sprayer_t3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_no1py"]
+script = ExtResource("3_ss2kr")
+tier = 4
+display_name = "Slush Liquefier"
+source_name = "Bloon Liquefier"
+price = 5000
+id = &"slope_wax_sprayer_t4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_4yb33"]
+script = ExtResource("3_ss2kr")
+tier = 5
+display_name = "The Meltdown"
+source_name = "The Bloon Solver"
+price = 22500
+id = &"slope_wax_sprayer_t5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_qcf27"]
+script = ExtResource("3_ss2kr")
+path = 1
+display_name = "Bigger Splashes"
+source_name = "Bigger Globs"
+price = 100
+id = &"slope_wax_sprayer_m1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_ym3yo"]
+script = ExtResource("3_ss2kr")
+path = 1
+tier = 2
+display_name = "Wax Splatter"
+source_name = "Glue Splatter"
+price = 650
+id = &"slope_wax_sprayer_m2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "PATCHED_SOURCE"
+})
+notes = "v57: price $970→$650"
+
+[sub_resource type="Resource" id="Resource_ij816"]
+script = ExtResource("3_ss2kr")
+path = 1
+tier = 3
+display_name = "Pressure Hose"
+source_name = "Glue Hose"
+price = 1950
+id = &"slope_wax_sprayer_m3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_pr72a"]
+script = ExtResource("3_ss2kr")
+path = 1
+tier = 4
+display_name = "Slope Strike"
+source_name = "Glue Strike"
+price = 4500
+id = &"slope_wax_sprayer_m4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "PATCHED_SOURCE"
+})
+notes = "v57: price $4,000→$4,500"
+
+[sub_resource type="Resource" id="Resource_wmds0"]
+script = ExtResource("3_ss2kr")
+path = 1
+tier = 5
+display_name = "Wax Storm"
+source_name = "Glue Storm"
+price = 16000
+id = &"slope_wax_sprayer_m5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_vd5gj"]
+script = ExtResource("3_ss2kr")
+path = 2
+display_name = "Long-Lasting Wax"
+source_name = "Stickier Glue"
+price = 280
+id = &"slope_wax_sprayer_b1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v57: glue duration 24→18 s"
+
+[sub_resource type="Resource" id="Resource_xsrhi"]
+script = ExtResource("3_ss2kr")
+path = 2
+tier = 2
+display_name = "Extra Grip"
+source_name = "Stronger Glue"
+price = 400
+id = &"slope_wax_sprayer_b2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_bm5dy"]
+script = ExtResource("3_ss2kr")
+path = 2
+tier = 3
+display_name = "Giant Snowball Wax"
+source_name = "MOAB Glue"
+price = 3600
+id = &"slope_wax_sprayer_b3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_r12qe"]
+script = ExtResource("3_ss2kr")
+path = 2
+tier = 4
+display_name = "Relentless Slip"
+source_name = "Relentless Glue"
+price = 4000
+id = &"slope_wax_sprayer_b4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_03urp"]
+script = ExtResource("3_ss2kr")
+path = 2
+tier = 5
+display_name = "Absolute Traction Lock"
+source_name = "Super Glue"
+price = 24000
+id = &"slope_wax_sprayer_b5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[resource]
+script = ExtResource("2_robqm")
+display_name = "Slope Wax Sprayer"
+source_tower = "Glue Gunner"
+price = 225
+range_units = 46.0
+attacks = Array[ExtResource("1_knms1")]([SubResource("Resource_c1um4")])
+upgrades = Array[ExtResource("3_ss2kr")]([SubResource("Resource_nosd2"), SubResource("Resource_rdniv"), SubResource("Resource_4evnm"), SubResource("Resource_no1py"), SubResource("Resource_4yb33"), SubResource("Resource_qcf27"), SubResource("Resource_ym3yo"), SubResource("Resource_ij816"), SubResource("Resource_pr72a"), SubResource("Resource_wmds0"), SubResource("Resource_vd5gj"), SubResource("Resource_xsrhi"), SubResource("Resource_bm5dy"), SubResource("Resource_r12qe"), SubResource("Resource_03urp")])
+id = &"slope_wax_sprayer"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/glue-gunner/"
+status = Dictionary[String, String]({
+"cash_per_pickup": "NOT_APPLICABLE",
+"footprint_units": "PROTOTYPE_ASSUMPTION",
+"pickups_per_round": "NOT_APPLICABLE",
+"price": "VERIFIED_SOURCE",
+"range_units": "VERIFIED_SOURCE"
+})
+notes = "Base kit: M-10 (v56). footprint 6 copied from Dart; own footprint unverified. Wax slow duration not yet in data (GAP, needed at P06)."

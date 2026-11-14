@@ -1,0 +1,240 @@
+[gd_resource type="Resource" script_class="TowerDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_8ijxg"]
+[ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_rqbuu"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_d70rf"]
+
+[sub_resource type="Resource" id="Resource_iw5e2"]
+script = ExtResource("1_8ijxg")
+interval_s = 1.59
+damage = 2
+id = &"biathlon_ranger_base"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"slow_factor": "NOT_APPLICABLE",
+"splash_pierce": "NOT_APPLICABLE"
+})
+
+[sub_resource type="Resource" id="Resource_obbie"]
+script = ExtResource("3_d70rf")
+display_name = "Reinforced Ice Rounds"
+source_name = "Full Metal Jacket"
+price = 350
+id = &"biathlon_ranger_t1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_ug4v2"]
+script = ExtResource("3_d70rf")
+tier = 2
+display_name = "High-Caliber Pellet"
+source_name = "Large Calibre"
+price = 1300
+id = &"biathlon_ranger_t2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_77fk1"]
+script = ExtResource("3_d70rf")
+tier = 3
+display_name = "Medal Precision"
+source_name = "Deadly Precision"
+price = 2200
+id = &"biathlon_ranger_t3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_kbs37"]
+script = ExtResource("3_d70rf")
+tier = 4
+display_name = "Giant-Snowball Stun"
+source_name = "Maim MOAB"
+price = 6300
+id = &"biathlon_ranger_t4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_kiiox"]
+script = ExtResource("3_d70rf")
+tier = 5
+display_name = "Champion Crippler"
+source_name = "Cripple MOAB"
+price = 32000
+id = &"biathlon_ranger_t5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_brac1"]
+script = ExtResource("3_d70rf")
+path = 1
+display_name = "Night Ski Goggles"
+source_name = "Night Vision Goggles"
+price = 250
+id = &"biathlon_ranger_m1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_v6nm5"]
+script = ExtResource("3_d70rf")
+path = 1
+tier = 2
+display_name = "Scatter Shards"
+source_name = "Shrapnel Shot"
+price = 450
+id = &"biathlon_ranger_m2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_tr22h"]
+script = ExtResource("3_d70rf")
+path = 1
+tier = 3
+display_name = "Bankshot Pellet"
+source_name = "Bouncing Bullet"
+price = 2100
+id = &"biathlon_ranger_m3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_xbfkd"]
+script = ExtResource("3_d70rf")
+path = 1
+tier = 4
+display_name = "Supply Beacon"
+source_name = "Supply Drop"
+price = 7600
+id = &"biathlon_ranger_m4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v57: Cash Drop / Ammo Drop toggle; shared cooldown"
+
+[sub_resource type="Resource" id="Resource_0obdh"]
+script = ExtResource("3_d70rf")
+path = 1
+tier = 5
+display_name = "Elite Biathlete"
+source_name = "Elite Sniper"
+price = 12000
+id = &"biathlon_ranger_m5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_7d04k"]
+script = ExtResource("3_d70rf")
+path = 2
+display_name = "Fast Trigger"
+source_name = "Fast Firing"
+price = 450
+id = &"biathlon_ranger_b1"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_m18jf"]
+script = ExtResource("3_d70rf")
+path = 2
+tier = 2
+display_name = "Faster Trigger"
+source_name = "Even Faster Firing"
+price = 450
+id = &"biathlon_ranger_b2"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_wsdb4"]
+script = ExtResource("3_d70rf")
+path = 2
+tier = 3
+display_name = "Rapid Cycle"
+source_name = "Semi-Automatic"
+price = 2700
+id = &"biathlon_ranger_b3"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_32q83"]
+script = ExtResource("3_d70rf")
+path = 2
+tier = 4
+display_name = "Automatic Sports Launcher"
+source_name = "Full Auto Rifle"
+price = 4100
+id = &"biathlon_ranger_b4"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[sub_resource type="Resource" id="Resource_b67gt"]
+script = ExtResource("3_d70rf")
+path = 2
+tier = 5
+display_name = "Final-Lap Defender"
+source_name = "Elite Defender"
+price = 14900
+id = &"biathlon_ranger_b5"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"price": "VERIFIED_SOURCE"
+})
+notes = "v56 price; effect requires per-upgrade verification"
+
+[resource]
+script = ExtResource("2_rqbuu")
+display_name = "Biathlon Ranger"
+source_tower = "Sniper Monkey"
+price = 350
+global_range = true
+attacks = Array[ExtResource("1_8ijxg")]([SubResource("Resource_iw5e2")])
+upgrades = Array[ExtResource("3_d70rf")]([SubResource("Resource_obbie"), SubResource("Resource_ug4v2"), SubResource("Resource_77fk1"), SubResource("Resource_kbs37"), SubResource("Resource_kiiox"), SubResource("Resource_brac1"), SubResource("Resource_v6nm5"), SubResource("Resource_tr22h"), SubResource("Resource_xbfkd"), SubResource("Resource_0obdh"), SubResource("Resource_7d04k"), SubResource("Resource_m18jf"), SubResource("Resource_wsdb4"), SubResource("Resource_32q83"), SubResource("Resource_b67gt")])
+id = &"biathlon_ranger"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+status = Dictionary[String, String]({
+"cash_per_pickup": "NOT_APPLICABLE",
+"footprint_units": "PROTOTYPE_ASSUMPTION",
+"pickups_per_round": "NOT_APPLICABLE",
+"price": "VERIFIED_SOURCE",
+"range_units": "NOT_APPLICABLE"
+})
+notes = "Base kit: M-10 (v56). footprint 6 copied from Dart; own footprint unverified. Global targeting with line of sight."

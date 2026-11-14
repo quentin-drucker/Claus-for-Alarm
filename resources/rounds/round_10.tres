@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="RoundDefinition" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/spawn_group.gd" id="1_so2rr"]
+[ext_resource type="Script" path="res://scripts/data/round_definition.gd" id="2_s3f44"]
+
+[sub_resource type="Resource" id="Resource_vye17"]
+script = ExtResource("1_so2rr")
+enemy_id = &"blue"
+count = 60
+duration_s = 35.0
+
+[sub_resource type="Resource" id="Resource_xyuwk"]
+script = ExtResource("1_so2rr")
+enemy_id = &"blue"
+count = 20
+start_s = 35.0
+duration_s = 9.0
+
+[sub_resource type="Resource" id="Resource_fecnj"]
+script = ExtResource("1_so2rr")
+enemy_id = &"blue"
+count = 22
+start_s = 44.0
+duration_s = 3.987
+
+[resource]
+script = ExtResource("2_s3f44")
+groups = Array[ExtResource("1_so2rr")]([SubResource("Resource_vye17"), SubResource("Resource_xyuwk"), SubResource("Resource_fecnj")])
+id = &"round_10"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/rounds/round-10/"
+status = Dictionary[String, String]({
+"groups": "VERIFIED_SOURCE"
+})
+notes = "Exact BTD6 v56 standard round 10 (counts, start, sent-over)."
