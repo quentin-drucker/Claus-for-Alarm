@@ -11,7 +11,7 @@ listens to events. Nothing in presentation may change cash, lives, damage or rou
 | `TowerDefinition` (+ `AttackDefinition`, `UpgradeDefinition` sub-resources) | `resources/towers/<id>.tres` | price, range, footprint, attacks, 3×5 upgrades |
 | `EnemyDefinition` | `resources/enemies/<id>.tres` | speed, child chain, cash per pop, property flags |
 | `RoundDefinition` (+ `SpawnGroup`) | `resources/rounds/round_NN.tres` | spawn groups; round number = sorted file order |
-| `HeroDefinition` | `resources/heroes/camel_claus.tres` | price, range, base attack, XP table, per-level changes |
+| `HeroDefinition` (extends `TowerDefinition`) | `resources/heroes/camel_claus.tres` | price, range, attacks[0] = ricochet, XP table, per-level changes, Frenzy/Focus numbers |
 
 - All extend `GameDefinition`: `id`, `source_url`, `notes`, and `status[field]` for every name in
   `balance_fields()`. Statuses: `VERIFIED_SOURCE` (BTD6 v56 page), `PATCHED_SOURCE` (v57 override),
@@ -89,3 +89,19 @@ BOOT → PREPARE → ROUND_SPAWN → ROUND_CLEANUP → ROUND_REWARD → PREPARE 
   come through `_unhandled_input`, so clicks on HUD panels never place or select in the world. Esc only
   cancels (browsers reserve Esc to leave fullscreen). F3 debug overlay exists only in debug builds.
 - Restart = `reload_current_scene()`: fresh clock, ledger, towers, snowballs, event connections.
+
+## Hero (P10)
+
+- Camel Claus is a `TowerDefinition` subclass placed through the same `try_place` (7th shop entry, one per match:
+  `placement_reason` refuses a second). It has no upgrades; `tower.rebuild_stats` applies `level_changes[0..level-1]`
+  once, then Focus (×1.25 interval/speed, ×1.2 range) and Frenzy (interval ÷ multiplier).
+- XP: `HeroDefinition.xp_for_round(r)` at each round reward. Abilities: `match.use_frenzy`, `toggle_focus`,
+  `frenzy_state`; timers tick on sim time during rounds only. `set_hero_level` is the test/debug cheat (F4, debug builds).
+- Ricochet = `AttackDefinition.bounce_range_units`: after a hit the projectile turns to the nearest unhit snowball
+  (global instant hits chain the same way, Bouncing Bullet).
+
+## UI flow (P13)
+
+- Main scene `scenes/ui/title_screen.tscn` → Play loads `scenes/main/match.tscn`; overlay "Main menu" returns.
+- Audio buses Master → Music, SFX (`default_bus_layout.tres`); title Settings sliders set their volume, saved in
+  `user://settings.cfg`. Nothing plays yet.

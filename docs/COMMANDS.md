@@ -10,7 +10,7 @@ GODOT="/c/Program Files/Godot_v4.7.2-stable_win64.exe/Godot_v4.7.2-stable_win64.
 "$GODOT" --headless --path . --import                # refresh import/UID cache
 "$GODOT" --path .                                    # run main scene
 "$GODOT" --headless --path . -s res://tests/<t>.gd   # run a test (exit 1 = fail)
-for t in test_data test_map test_match test_combat test_towers test_upgrades test_full_run; do "$GODOT" --headless --path . -s res://tests/$t.gd || echo "$t FAILED"; done
+for t in test_data test_map test_match test_combat test_towers test_upgrades test_hero test_ui test_full_run; do "$GODOT" --headless --path . -s res://tests/$t.gd || echo "$t FAILED"; done
 
 # Web export (preset "Web" in export_presets.cfg: single-threaded, no GDExtension, desktop VRAM compression)
 rm -rf build/web && mkdir -p build/web
@@ -26,8 +26,8 @@ Web templates installed: `%APPDATA%/Godot/export_templates/4.7.2.stable/` (incl.
 Expected `build/web/`: `index.html`, `index.js`, `index.wasm` (~39 MB, ~10 MB gzipped), `index.pck`,
 `index.audio.worklet.js`, `index.audio.position.worklet.js`, `index.png`, `index.icon.png`, `index.apple-touch-icon.png`.
 
-1. Export, then the export check: `--main-pack build/web/index.pck --quit-after 5` prints
-   `STATE BOOT -> PREPARE ... lives=150 cash=650` and no ERROR lines.
+1. Export, then the export check: `--main-pack build/web/index.pck --quit-after 5` prints no ERROR lines (since P13
+   the main scene is the title screen, so no STATE line until Play).
 2. Zip for itch (index.html at the zip root) — see `docs/PUBLISHING.md`; extract the zip into an empty folder and serve
    *that* folder (`python -m http.server 8000 -d <folder>`), so the test covers the exact upload.
 3. Browser console (F12): `Build configuration: ... single-threaded`, `STATE BOOT -> PREPARE`, 0 errors/warnings.

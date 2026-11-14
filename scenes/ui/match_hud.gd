@@ -30,6 +30,7 @@ var _focus: Button = Button.new()
 @onready var _overlay_title: Label = %OverlayTitle
 @onready var _resume: Button = %ResumeButton
 @onready var _restart: Button = %RestartButton
+@onready var _menu: Button = %MenuButton
 
 
 func _ready() -> void:
@@ -42,6 +43,9 @@ func _ready() -> void:
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.focus_mode = Control.FOCUS_NONE  # Space/keys must reach the match, not re-press a button
 		button.pressed.connect(match_node.begin_placing.bind(def))
+		button.tooltip_text = "%s  $%d
+%s
+%s" % [def.display_name, def.price, def.role, _stats_text(def)]
 		_shop.add_child(button)
 		_shop_buttons.append(button)
 	for path: int in 3:
@@ -60,6 +64,7 @@ func _ready() -> void:
 	_target.pressed.connect(func() -> void: match_node.cycle_priority(match_node.selected))
 	_resume.pressed.connect(match_node.set_paused.bind(false))
 	_restart.pressed.connect(match_node.restart)
+	_menu.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/ui/title_screen.tscn"))
 	match_node.changed.connect(_refresh)
 	_debug_panel.visible = false
 	if not OS.is_debug_build():
@@ -155,8 +160,23 @@ func _refresh() -> void:
 	_stats.text = "Lives %d    Cash $%d    Round %d / %d    %s" % [m.lives, m.ledger.cash,
 			m.round_index + 1, Content.rounds.size(), state_name.capitalize()]
 	for i: int in _shop_buttons.size():
-		_shop_buttons[i].disabled = over or m.ledger.cash < m.shop[i].price or (m.shop[i] is HeroDefinition and m.hero_node() != null)
+		var def: TowerDefinition = m.shop[i]
+		var text: String = "%d  %s  $%d" % [i + 1, def.display_name, def.price]
+		if def is HeroDefinition and m.hero_node() != null:
+			text = "%d  %s  (on the course)" % [i + 1, def.display_name]
+		elif m.ledger.cash < def.price:
+			text += "  need $%d" % (def.price - m.ledger.cash)
+		_shop_buttons[i].text = text
+		_shop_buttons[i].disabled = over or m.ledger.cash < def.price or (def is HeroDefinition and m.hero_node() != null)
 	_start.disabled = not m.can_start_round()
+	if over:
+		_start.text = "Match over"
+	elif m.clock.paused:
+		_start.text = "Paused (P to resume)"
+	elif m.state != m.State.PREPARE:
+		_start.text = "Round in progress"
+	else:
+		_start.text = "Start round %d (Space)" % (m.round_index + 2)
 	_pause.disabled = over
 	_pause.text = "Resume (P)" if m.clock.paused else "Pause (P)"
 	_speed.text = "Speed %sx (F)" % m.clock.speed
@@ -202,15 +222,45 @@ func _refresh_info() -> void:
 			"max":
 				button.text = "%s  max" % head
 			"locked":
-				button.text = "%s  locked (other paths)" % head
+				button.text = "%s  locked: only one path past tier 2" % head if tower.tiers[path] >= 2 						else "%s  locked: only two paths per defender" % head
 			"soon":
 				button.text = "%s  %s - coming soon" % [head, next.display_name]
+			"unaffordable":
+				button.text = "%s  > %s  $%d (need $%d)" % [head, next.display_name, next.price, next.price - match_node.ledger.cash]
 			_:
 				button.text = "%s  > %s  $%d" % [head, next.display_name, next.price]
+		button.tooltip_text = "" if next == null else "%s  $%d
+%s" % [next.display_name, next.price, _effects_text(next, def)]
 		button.disabled = state != "ok" or match_node.is_over()
 	_info_text.text = "\n".join(lines)
 	_sell.text = "Sell for $%d" % match_node.sell_value(tower)
 	_sell.disabled = match_node.is_over()
+
+
+## Plain stats line for a shop tooltip (from the data, never hard-coded).
+func _stats_text(def: TowerDefinition) -> String:
+	if def.attacks.is_empty():
+		return "%d tickets x $%d per round" % [def.pickups_per_round, def.cash_per_pickup]
+	var a: AttackDefinition = def.attacks[0]
+	var reach: String = "whole map" if def.global_range else str(def.range_units)
+	return "Range %s · every %s s · damage %d · pierce %d" % [reach, a.interval_s, a.damage, a.pierce]
+
+
+## What an upgrade changes, generated from its effects (e.g. "pierce +1, interval x0.5, adds wall").
+func _effects_text(upgrade: UpgradeDefinition, def: TowerDefinition) -> String:
+	var parts: PackedStringArray = []
+	for e: UpgradeEffect in upgrade.effects:
+		var field: String = String(e.field).replace("_units", "").replace("_s", "").replace("_", " ")
+		match e.op:
+			UpgradeEffect.Op.ADD:
+				parts.append("%s %s%s" % [field, "+" if e.value >= 0.0 else "", snappedf(e.value, 0.01)])
+			UpgradeEffect.Op.MULTIPLY:
+				parts.append("%s x%s" % [field, snappedf(e.value, 0.01)])
+			UpgradeEffect.Op.SET:
+				parts.append("%s = %s" % [field, e.text if e.text != &"" else str(snappedf(e.value, 0.01))])
+			UpgradeEffect.Op.APPEND:
+				parts.append("adds " + String(e.attack.id).trim_prefix(String(def.id) + "_").replace("_", " "))
+	return ", ".join(parts) if not parts.is_empty() else "coming soon"
 
 
 ## Dev-only overlay (P04-T06): F3 in debug builds; absent from release exports.

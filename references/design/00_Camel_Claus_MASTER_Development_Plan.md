@@ -668,16 +668,16 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Read:** HYB-A A-05/A-06/A-07/A-11/A-12; HYB-M M-02/M-03/M-07/M-09.  
 **Gate:** G6.
 
-- [ ] **P13-T01** — Implement startup/title, Play, How to Play, Pause, Retry, Results and Settings with clear text-based placeholder controls.
-- [ ] **P13-T02** — Make six tower purchase panels with source-based cost, unaffordable state, tooltip and placement workflow; no excluded icons.
-- [ ] **P13-T03** — Make selected tower panel show true legal three-path upgrades, targeting modes, sellback and reason when a button is disabled.
-- [ ] **P13-T04** — Implement hero panel with level progress, skills, Focus stance and unambiguous ready/active/cooldown states.
+- [x] **P13-T01** — Implement startup/title, Play, How to Play, Pause, Retry, Results and Settings with clear text-based placeholder controls. → `scenes/ui/title_screen.tscn` (main scene): Play, one-screen How to Play, Settings; in-match Pause, Restart, Main menu and the win/lose result overlay (`p13_title.png`, `p13_how_to_play.png`, `test_ui`)
+- [x] **P13-T02** — Make six tower purchase panels with source-based cost, unaffordable state, tooltip and placement workflow; no excluded icons. → seven shop buttons (6 towers + hero) with data cost, "need $X" when unaffordable, tooltip with cost/role/stats, ghost placement with reasons (`p13_shop_reasons.png`)
+- [x] **P13-T03** — Make selected tower panel show true legal three-path upgrades, targeting modes, sellback and reason when a button is disabled. → upgrade buttons: price, "need $X", "locked: only two paths per defender" / "locked: only one path past tier 2", coming soon, max; effect tooltip; Target + Sell; Start button says "Round in progress" / "Paused" / "Match over" (`test_ui`)
+- [x] **P13-T04** — Implement hero panel with level progress, skills, Focus stance and unambiguous ready/active/cooldown states. → hero panel: level, XP bar, next milestone, Frenzy locked/ready/active/recharging, Focus on/off (P10-T10)
 - [ ] **P13-T05** — Implement readable layer-color legend with icon/shape explanation for each special-property class used in demo; include Gold warning if relevant.
 - [ ] **P13-T06** — Implement clear visual/sound placeholders for damage success vs immunity, wave arrival/finish, income, leak and hero ability; placeholders may be diagnostic text and flashes.
 - [ ] **P13-T07** — Handle hover, press, selection, escape, cancel, click elsewhere, keyboard shortcuts and fullscreen without losing pointer synchronization.
 - [ ] **P13-T08** — Verify HUD never obscures critical enemy exit; check 16:9 normal desktop and a narrower browser window.
 - [ ] **P13-T09** — Implement accessible contrast independent of color: valid/invalid symbol, status pattern, selection ring, text description, readable font scaling.
-- [ ] **P13-T10** — Implement settings toggles (at minimum music/sfx and pause; FX detail/reduced motion if feasible) so future art and sound have controls ready.
+- [x] **P13-T10** — Implement settings toggles (at minimum music/sfx and pause; FX detail/reduced motion if feasible) so future art and sound have controls ready. → Music and SFX buses (`default_bus_layout.tres`), volume sliders on the title Settings screen, saved in `user://settings.cfg`, 0 = mute (`test_ui`); pause exists; no reduced-motion toggle (no VFX yet). No music or sounds yet
 - [ ] **P13-T11** — Do a guided fresh-player test: show the game, ask player to place/upgrade/start/finish; record each confusion as a fix ticket.
 - [ ] **P13-T12** — Clean up programmer/debug text before public Web export while keeping dev overlays accessible behind development-only flag.
 

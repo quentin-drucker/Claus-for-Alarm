@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://bdy1iojhlloal"]
+
+[ext_resource type="Script" uid="uid://dia21s28cy76a" path="res://scenes/ui/title_screen.gd" id="1_eb34j"]
+
+[node name="TitleScreen" type="Control" unique_id=794947286]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_eb34j")
+
+[node name="Background" type="ColorRect" parent="." unique_id=251825745]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=723606817]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Menu" type="VBoxContainer" parent="Center" unique_id=2017165613]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Center/Menu" unique_id=833771141]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Claus for Alarm"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Center/Menu" unique_id=2076450767]
+layout_mode = 2
+text = "A winter-sports tower defense by Camel Claus"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="Center/Menu" unique_id=1106411940]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play"
+
+[node name="HowButton" type="Button" parent="Center/Menu" unique_id=1770097047]
+unique_name_in_owner = true
+layout_mode = 2
+text = "How to Play"
+
+[node name="SettingsButton" type="Button" parent="Center/Menu" unique_id=1871400890]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Settings"
+
+[node name="HowPanel" type="PanelContainer" parent="Center" unique_id=1582373905]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Box" type="VBoxContainer" parent="Center/HowPanel" unique_id=1899687099]
+layout_mode = 2
+
+[node name="HowTitle" type="Label" parent="Center/HowPanel/Box" unique_id=1362648796]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "How to Play"
+
+[node name="HowText" type="Label" parent="Center/HowPanel/Box" unique_id=488831311]
+custom_minimum_size = Vector2(760, 0)
+layout_mode = 2
+text = "Snowballs roll down the ski course from START to FINISH. Stop them before they get there.
+
+• Place: pick a defender in the shop (right side, or keys 1-6) and click beside the track. A green ghost means the spot is free; red shows why it is not (track, scenery, too close, not enough cash).
+• Upgrade: click a defender to select it. Each has three upgrade paths; once one path goes past tier 2, only one other path can reach tier 2. You can also change its target (T) or sell it.
+• Hero: Camel Claus (key 7, one per match) levels up after every round. Level 3 unlocks Snowball Frenzy (Q), level 4 Focused Shot (E).
+• Start a round with Start round (Space) when you are ready. F toggles 2x speed, P pauses.
+• Layers: every hit knocks off one layer: Coral → Violet → Mint → Blue → Powder → gone. Each layer pays $1, plus a bonus after every round. Outer layers roll faster.
+• Income: the Ticket Booth drops tickets every round. Click them to collect before they melt.
+• Lose lives: a snowball that reaches the finish costs one life per layer it still has.
+• Win by surviving all 19 rounds. You lose when your lives reach 0."
+autowrap_mode = 3
+
+[node name="HowBack" type="Button" parent="Center/HowPanel/Box" unique_id=1570720332]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="SettingsPanel" type="PanelContainer" parent="Center" unique_id=1729026796]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Box" type="VBoxContainer" parent="Center/SettingsPanel" unique_id=1693315721]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+
+[node name="SettingsTitle" type="Label" parent="Center/SettingsPanel/Box" unique_id=48270082]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Settings"
+
+[node name="MusicLabel" type="Label" parent="Center/SettingsPanel/Box" unique_id=1006542093]
+layout_mode = 2
+text = "Music volume"
+
+[node name="MusicSlider" type="HSlider" parent="Center/SettingsPanel/Box" unique_id=1394677318]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SfxLabel" type="Label" parent="Center/SettingsPanel/Box" unique_id=343991578]
+layout_mode = 2
+text = "Sound effects volume"
+
+[node name="SfxSlider" type="HSlider" parent="Center/SettingsPanel/Box" unique_id=59073362]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SettingsNote" type="Label" parent="Center/SettingsPanel/Box" unique_id=629130196]
+layout_mode = 2
+text = "No music or sound effects yet; these sliders are ready for them."
+autowrap_mode = 3
+
+[node name="SettingsBack" type="Button" parent="Center/SettingsPanel/Box" unique_id=2130178570]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
