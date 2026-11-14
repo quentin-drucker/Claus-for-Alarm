@@ -1036,7 +1036,7 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 | Current milestone | G1 ✅ — next: G2 (data-driven match skeleton) |
 | Current phase | P01 done; P00-T04 still partial (MCP pending approval) → P02 next |
 | Active task IDs | None — awaiting owner authorization for P02 |
-| Latest verified commit | `d1567e1` (baseline) + P00 commit — see SESSION_LOG |
+| Latest verified commit | `8fa3293` (tag `p01-web-smoke`) — see SESSION_LOG |
 | Latest passing editor test | P01 smoke scene, 0 errors/warnings (2026-11-13) |
 | Latest passing Web build URL | local only: `http://localhost:8000` (tag `p01-web-smoke`); no hosted URL yet |
 | Latest passing test suite | TBD |
