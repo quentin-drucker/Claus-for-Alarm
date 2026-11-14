@@ -89,4 +89,15 @@ func _test_hud() -> void:
 	_check(not hud._frenzy.disabled and "READY" in hud._frenzy.text, "hero panel: Frenzy ready")
 	m.start_round()
 	_check(hud._start.disabled and hud._start.text == "Round in progress", "start button explains why it is disabled")
+	# P13-T06 placeholder feedback: banner, immune text, leak text, income text (presentation only).
+	var fb: Control = hud.feedback
+	_check(fb._banner.text == "Round 1" and fb._banner.modulate.a > 0.0, "banner: Round 1 (%s)" % fb._banner.text)
+	m._spawn(&"black")
+	var black: Node3D = m.snowballs[-1]
+	black.position = m.course.position_at(20.0)
+	m.damage_snowball(black, 1, &"explosion", 0)
+	m._leak(black)
+	root.get_node("Events").send(&"income_collected", 0, 0, 50, m.course.position_at(10.0))
+	var texts: Array = fb.get_children().map(func(c: Node) -> String: return c.text)
+	_check("IMMUNE" in texts and "-11 lives" in texts and "+$50" in texts, "floating feedback texts %s" % [texts])
 	m.free()

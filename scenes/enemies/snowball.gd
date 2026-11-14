@@ -78,7 +78,8 @@ func set_layer(definition: EnemyDefinition) -> void:
 		marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		marker.no_depth_test = true
 		marker.font_size = 64
-		marker.outline_size = 12
+		marker.pixel_size = 0.01  # ~0.6 m letter on a 0.8 m snowball
+		marker.outline_size = 16
 		marker.position = Vector3.UP * 0.9
 		add_child(marker)
 	if marker:

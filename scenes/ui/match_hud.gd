@@ -14,6 +14,8 @@ var _hero_text: Label = Label.new()
 var _hero_xp: ProgressBar = ProgressBar.new()
 var _frenzy: Button = Button.new()
 var _focus: Button = Button.new()
+## Placeholder event feedback (P13-T06): floating text + banner.
+var feedback: Control = preload("res://scenes/ui/feedback_layer.gd").new()
 
 @onready var _stats: Label = %Stats
 @onready var _shop: VBoxContainer = %Shop
@@ -57,6 +59,10 @@ func _ready() -> void:
 		_target.get_parent().move_child(button, _target.get_index())
 		_upgrade_buttons.append(button)
 	_build_hero_panel()
+	feedback.camera = match_node.camera
+	feedback.flash_target = _stats
+	add_child(feedback)
+	move_child(feedback, 0)  # under the HUD controls
 	_start.pressed.connect(match_node.start_round)
 	_pause.pressed.connect(func() -> void: match_node.set_paused(not match_node.clock.paused))
 	_speed.pressed.connect(match_node.toggle_speed)
