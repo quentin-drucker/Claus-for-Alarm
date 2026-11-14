@@ -252,7 +252,7 @@ func _pick_target(tower: Node3D, attack: AttackDefinition) -> Node3D:
 	if tower.def.global_range:
 		range_m = INF
 		accept = func(s: Node3D) -> bool: return course.has_line_of_sight(tower.position, s.position)
-	elif attack.damage == 0 and attack.slow_factor > 0.0 and attack.on_contact.is_empty():
+	elif attack.damage == 0 and attack.slow_factor > 0.0:
 		# ponytail: pure wax skips already-waxed snowballs (PROTOTYPE_ASSUMPTION; BTD6 Glue behaviour unverified).
 		accept = func(s: Node3D) -> bool: return s.slow_left <= 0.0
 	return Targeting.pick(snowballs, tower.position, range_m, tower.priority, attack.detects_camo, accept)

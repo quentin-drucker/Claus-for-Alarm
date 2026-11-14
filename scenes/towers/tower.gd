@@ -51,10 +51,14 @@ func rebuild_stats() -> void:
 	attacks.clear()
 	for attack: AttackDefinition in def.attacks:
 		attacks.append(attack.duplicate_deep())
-	for path: int in 3:
-		for tier: int in range(1, tiers[path] + 1):
-			for effect: UpgradeEffect in def.get_upgrade(path, tier).effects:
-				_apply(effect)
+	# Two passes: every added attack first (so a stat change on another path can reach it, e.g. Full Metal
+	# Jacket on Shrapnel), then the stat changes, each in path -> tier -> list order.
+	for appends: bool in [true, false]:
+		for path: int in 3:
+			for tier: int in range(1, tiers[path] + 1):
+				for effect: UpgradeEffect in def.get_upgrade(path, tier).effects:
+					if (effect.op == UpgradeEffect.Op.APPEND) == appends:
+						_apply(effect)
 	cooldowns.resize(attacks.size())  # keeps running cooldowns; an attack added by an upgrade starts ready
 	var range_m: float = range_units * GameDefinition.UNIT_M
 	_range.scale = Vector3(range_m, 1.0, range_m)  # Range mesh radius is 1

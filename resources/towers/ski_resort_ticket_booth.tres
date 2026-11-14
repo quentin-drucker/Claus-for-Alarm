@@ -3,18 +3,31 @@
 [ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_ugbfv"]
 [ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_cklkp"]
 [ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_ggmou"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_effect.gd" id="4_cklkp"]
+
+[sub_resource type="Resource" id="Resource_ggmou"]
+script = ExtResource("4_cklkp")
+field = &"pickups_per_round"
+value = 2.0
 
 [sub_resource type="Resource" id="Resource_080va"]
 script = ExtResource("3_ggmou")
 display_name = "More Passes"
 source_name = "Increased Production"
 price = 500
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_ggmou")])
 id = &"ski_resort_ticket_booth_t1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/increased-production/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pickups per round 4 -> 6."
+
+[sub_resource type="Resource" id="Resource_tr0ll"]
+script = ExtResource("4_cklkp")
+field = &"pickups_per_round"
+value = 2.0
 
 [sub_resource type="Resource" id="Resource_0tjqv"]
 script = ExtResource("3_ggmou")
@@ -22,12 +35,14 @@ tier = 2
 display_name = "Peak Ticket Sales"
 source_name = "Greater Production"
 price = 600
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_tr0ll")])
 id = &"ski_resort_ticket_booth_t2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/greater-production/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pickups per round 6 -> 8."
 
 [sub_resource type="Resource" id="Resource_hetah"]
 script = ExtResource("3_ggmou")
@@ -68,18 +83,32 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_gfydy"]
+script = ExtResource("4_cklkp")
+field = &"pickup_lifetime_s"
+op = 2
+value = 30.0
+
 [sub_resource type="Resource" id="Resource_1u2k5"]
 script = ExtResource("3_ggmou")
 path = 1
 display_name = "Better Accounting"
 source_name = "Long Life Bananas"
 price = 300
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_gfydy")])
 id = &"ski_resort_ticket_booth_m1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/long-life-bananas/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pickups last 30 s instead of 15."
+
+[sub_resource type="Resource" id="Resource_i80ck"]
+script = ExtResource("4_cklkp")
+field = &"cash_per_pickup"
+op = 1
+value = 1.25
 
 [sub_resource type="Resource" id="Resource_wrw24"]
 script = ExtResource("3_ggmou")
@@ -88,12 +117,14 @@ tier = 2
 display_name = "Savings Program"
 source_name = "Valuable Bananas"
 price = 800
+effects = Array[ExtResource("4_cklkp")]([SubResource("Resource_i80ck")])
 id = &"ski_resort_ticket_booth_m2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/valuable-bananas/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pickups worth 25% more: $20 -> $25."
 
 [sub_resource type="Resource" id="Resource_ig4s5"]
 script = ExtResource("3_ggmou")
@@ -211,8 +242,8 @@ script = ExtResource("2_cklkp")
 display_name = "Ski Resort Ticket Booth"
 source_tower = "Banana Farm"
 price = 1250
-upgrades = Array[ExtResource("3_ggmou")]([SubResource("Resource_080va"), SubResource("Resource_0tjqv"), SubResource("Resource_hetah"), SubResource("Resource_gdwjw"), SubResource("Resource_tcicd"), SubResource("Resource_1u2k5"), SubResource("Resource_wrw24"), SubResource("Resource_ig4s5"), SubResource("Resource_n1etg"), SubResource("Resource_0hfn6"), SubResource("Resource_n5ret"), SubResource("Resource_vgrmp"), SubResource("Resource_767l8"), SubResource("Resource_vwol2"), SubResource("Resource_m2u7c")])
 footprint_units = 15.0
+upgrades = Array[ExtResource("3_ggmou")]([SubResource("Resource_080va"), SubResource("Resource_0tjqv"), SubResource("Resource_hetah"), SubResource("Resource_gdwjw"), SubResource("Resource_tcicd"), SubResource("Resource_1u2k5"), SubResource("Resource_wrw24"), SubResource("Resource_ig4s5"), SubResource("Resource_n1etg"), SubResource("Resource_0hfn6"), SubResource("Resource_n5ret"), SubResource("Resource_vgrmp"), SubResource("Resource_767l8"), SubResource("Resource_vwol2"), SubResource("Resource_m2u7c")])
 pickups_per_round = 4
 cash_per_pickup = 20
 pickup_lifetime_s = 15.0

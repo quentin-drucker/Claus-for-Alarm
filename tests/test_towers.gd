@@ -7,6 +7,8 @@ const STEP: float = 1.0 / 60.0
 const SPOT: Vector2 = Vector2(-7.2, 0)  # valid spot 1.8 m from the track at distance 14
 
 var _failures: int = 0
+## Test functions that ran to their end: a script error aborts a function without calling _check.
+var _completed: Array[String] = []
 var _events: Array = []
 var content: Node
 
@@ -30,6 +32,7 @@ func _run() -> void:
 	_test_sorcerer()
 	_test_booth()
 	_test_base_report()
+	_check(_completed.size() == 6, "every test function completed (%s)" % [_completed])
 	print("test_towers: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -105,6 +108,7 @@ func _test_cannon() -> void:
 	_sim(m, 0.5)
 	_check(m.snowballs.size() == 2, "blast pierce 2 pops 2 of 4 (left %d)" % m.snowballs.size())
 	m.free()
+	_completed.append("_test_cannon")
 
 
 ## P08-T03: whole-map targeting with line of sight (the Lodge blocks it), not a big radius. Instant hit,
@@ -139,6 +143,7 @@ func _test_ranger() -> void:
 	_sim(m, 1.6)  # second shot after 1.59 s: next strongest (the twin Coral)
 	_check(twin.def.id == &"mint", "second shot after the 1.59 s interval")
 	m.free()
+	_completed.append("_test_ranger")
 
 
 ## P08-T04 / P06-T08: wax is status only: 50% slow for its duration, no layer damage, no pop cash; a waxed
@@ -181,6 +186,7 @@ func _test_wax() -> void:
 	m._apply(a, immune, 1)
 	_check(immune.slow_left <= 0.0, "glue-immune snowball ignores wax")
 	m.free()
+	_completed.append("_test_wax")
 
 
 ## P08-T05: energy bolt, damage 1, pierce 3: four snowballs on one spot -> three pop; an energy-immune one
@@ -209,6 +215,7 @@ func _test_sorcerer() -> void:
 	m.damage_snowball(immune, 1, &"sharp", 1)
 	_check(immune.def.id == &"powder", "other damage types still work on an energy-immune layer")
 	m.free()
+	_completed.append("_test_sorcerer")
 
 
 ## P08-T06: no targeting; 4 pickups x $20 per round, spread over the round; collected pickups pay once into
@@ -247,6 +254,7 @@ func _test_booth() -> void:
 	var dropped: int = _events.filter(func(e: RefCounted) -> bool: return e.type == &"pickup_spawned").size()
 	_check(dropped <= 5, "sold booth stops dropping (total drops %d)" % dropped)
 	m.free()
+	_completed.append("_test_booth")
 
 
 ## P08-T10: base stats vs HYB-M M-10 (v56 Medium) for all six, with provenance; writes the comparison report.
@@ -288,3 +296,4 @@ func _test_base_report() -> void:
 	FileAccess.open("res://docs/logs/evidence/p08_base_stats.txt", FileAccess.WRITE).store_string("
 ".join(lines) + "
 ")
+	_completed.append("_test_base_report")

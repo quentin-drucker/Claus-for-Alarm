@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_1jdv5"]
 [ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_imo6y"]
 [ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_d7t6d"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_effect.gd" id="4_imo6y"]
 
 [sub_resource type="Resource" id="Resource_gv6fy"]
 script = ExtResource("1_1jdv5")
@@ -86,18 +87,64 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_d7t6d"]
+script = ExtResource("1_1jdv5")
+pierce = 15
+damage_type = &"explosion"
+radius_units = 10.0
+id = &"snow_sorcerer_fireball_blast"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "NOT_APPLICABLE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "NOT_APPLICABLE",
+"projectile_lifetime_s": "NOT_APPLICABLE",
+"projectile_speed_units": "NOT_APPLICABLE",
+"radius_units": "PROTOTYPE_ASSUMPTION",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
+})
+notes = "Fireball explosion on contact: damage 1, pierce 15 (v56 page). Radius not on the page."
+
+[sub_resource type="Resource" id="Resource_6td66"]
+script = ExtResource("1_1jdv5")
+interval_s = 2.2
+damage_type = &"plasma"
+on_contact = Array[ExtResource("1_1jdv5")]([SubResource("Resource_d7t6d")])
+id = &"snow_sorcerer_fireball"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "VERIFIED_SOURCE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "NOT_APPLICABLE",
+"projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
+"projectile_speed_units": "PROTOTYPE_ASSUMPTION",
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
+})
+notes = "Fireball: cooldown 2.2 s, damage 1 plasma, pierce 1, then an explosion (v56 page)."
+
+[sub_resource type="Resource" id="Resource_hr6uf"]
+script = ExtResource("4_imo6y")
+field = &"attacks"
+op = 3
+attack = SubResource("Resource_6td66")
+
 [sub_resource type="Resource" id="Resource_y1i8c"]
 script = ExtResource("3_d7t6d")
 path = 1
 display_name = "Warm Ember"
 source_name = "Fireball"
 price = 300
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_hr6uf")])
 id = &"snow_sorcerer_m1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/fireball/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Adds the Fireball attack (2.2 s, damage 1 plasma + explosion damage 1 pierce 15)."
 
 [sub_resource type="Resource" id="Resource_t5xtw"]
 script = ExtResource("3_d7t6d")
@@ -155,18 +202,45 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_nnvc2"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"pierce"
+value = 5.0
+
 [sub_resource type="Resource" id="Resource_vw6h1"]
 script = ExtResource("3_d7t6d")
 path = 2
 display_name = "Deep Snowcraft"
 source_name = "Intense Magic"
 price = 300
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_nnvc2")])
 id = &"snow_sorcerer_b1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/intense-magic/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Pierce 3 -> 8. Faster bolts not quantified, not applied."
+
+[sub_resource type="Resource" id="Resource_neuud"]
+script = ExtResource("4_imo6y")
+field = &"range_units"
+value = 10.0
+
+[sub_resource type="Resource" id="Resource_ktyus"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"detects_camo"
+op = 2
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_8k7ok"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_fireball"
+field = &"detects_camo"
+op = 2
+value = 1.0
 
 [sub_resource type="Resource" id="Resource_v1bqx"]
 script = ExtResource("3_d7t6d")
@@ -175,12 +249,14 @@ tier = 2
 display_name = "Frost-Sight"
 source_name = "Monkey Sense"
 price = 300
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_neuud"), SubResource("Resource_ktyus"), SubResource("Resource_8k7ok")])
 id = &"snow_sorcerer_b2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/wizard-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/monkey-sense/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Range 40 -> 50, camo detection (whole tower)."
 
 [sub_resource type="Resource" id="Resource_omss8"]
 script = ExtResource("3_d7t6d")

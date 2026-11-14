@@ -9,6 +9,8 @@ const STEP: float = 1.0 / 60.0
 const SPOT: Vector2 = Vector2(-7.2, 0)
 
 var _failures: int = 0
+## Test functions that ran to their end: a script error aborts a function without calling _check.
+var _completed: Array[String] = []
 var _events: Array = []
 var content: Node
 
@@ -30,8 +32,10 @@ func _run() -> void:
 	_test_purchase()
 	_test_fixtures()
 	_test_behaviour()
+	_test_batch2()
 	_test_data_integrity()
 	_coverage_report()
+	_check(_completed.size() == 6, "every test function completed (%s)" % [_completed])
 	print("test_upgrades: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -77,6 +81,7 @@ func _test_legality() -> void:
 		_check(script.is_legal_crosspath(legal), "legal %s" % legal)
 	for illegal: Vector3i in [Vector3i(3, 3, 0), Vector3i(3, 2, 1), Vector3i(5, 0, 5)]:
 		_check(not script.is_legal_crosspath(illegal), "illegal %s" % illegal)
+	_completed.append("_test_legality")
 
 
 ## Price charged once, invested + sell value follow, and every refused purchase changes nothing.
@@ -101,6 +106,7 @@ func _test_purchase() -> void:
 	_check(poor.upgrade_state(r, 0) == "ok" and poor.buy_upgrade(r, 0) and poor.ledger.cash == 10, "$140 charged once")
 	poor.free()
 	m.free()
+	_completed.append("_test_purchase")
 
 
 ## Each shipped tier vs the source page's "stats at this tier" (plus v57 overrides and one crosspath per tower).
@@ -150,6 +156,7 @@ func _test_fixtures() -> void:
 		lines.append("avalanche_cannon  %s  %s  %s" % [f[0], got, "OK" if ok else "DIFF"])
 		m.free()
 	FileAccess.open("res://docs/logs/evidence/p09_fixtures.txt", FileAccess.WRITE).store_string("\n".join(lines) + "\n")
+	_completed.append("_test_fixtures")
 
 
 ## Transforms change behaviour: Spike-o-pult pops 2 layers per hit; Triple Shot fires 3 projectiles; Frag Bombs
@@ -191,6 +198,75 @@ func _test_behaviour() -> void:
 	_check(t.attacks[0].pierce == pierce and is_equal_approx(t.range_units, 60.0), "rebuild never compounds")
 	_check(content.get_tower(&"snowball_rookie").attacks[0].pierce == 2, "shared definition untouched")
 	m.free()
+	_completed.append("_test_behaviour")
+
+
+## Ranger, Sorcerer, Wax, Booth tiers 1-2 (verified ones) vs their source pages, incl. crosspath reach, and the
+## unverified tiers stay coming soon.
+func _test_batch2() -> void:
+	var m: Node3D = _new_match()
+	var spots: Array[Vector2] = [Vector2(-7.2, 0), Vector2(0.5, 0), Vector2(-5.5, 2.5), Vector2(3.5, 1.5),
+			Vector2(10.0, 8.5), Vector2(-13.0, -8.5), Vector2(12.0, 1.5)]  # last one fits the Booth
+	var at: Array[int] = [0]
+	var make: Callable = func(id: StringName, tiers: Vector3i) -> Node3D:
+		at[0] += 1
+		return _tower(m, id, tiers, spots[at[0] - 1])
+
+	var r: Node3D = make.call(&"biathlon_ranger", Vector3i(2, 0, 2))
+	_check(r.attacks[0].damage == 7 and r.attacks[0].damage_type == &"normal" and absf(r.attacks[0].interval_s - 0.7791) < 1e-3,
+			"Ranger 2-0-2: damage 7 Normal, 0.7791 s (%s %s %s)" % [r.attacks[0].damage, r.attacks[0].damage_type, r.attacks[0].interval_s])
+	r = make.call(&"biathlon_ranger", Vector3i(1, 2, 0))
+	var sh: Resource = r.find_attack(&"biathlon_ranger_shrapnel")
+	_check(r.attacks[0].detects_camo and r.attacks[0].bonus_vs_camo == 2 and r.attacks[0].damage == 4, "Ranger 1-2-0: camo, +2 camo, damage 4")
+	_check(sh and sh.projectile_count == 5 and sh.damage == 1 and sh.pierce == 2 and sh.damage_type == &"normal",
+			"Shrapnel 5 x damage 1 pierce 2, Normal via Full Metal Jacket (crosspath reach)")
+
+	var w: Node3D = make.call(&"snow_sorcerer", Vector3i(0, 1, 2))
+	var fb: Resource = w.find_attack(&"snow_sorcerer_fireball")
+	var fbb: Resource = w.find_attack(&"snow_sorcerer_fireball_blast")
+	_check(w.attacks.size() == 2 and fb.interval_s == 2.2 and fb.damage_type == &"plasma" and fbb.pierce == 15,
+			"Sorcerer Fireball: second attack 2.2 s plasma + blast pierce 15")
+	_check(is_equal_approx(w.range_units, 50.0) and w.attacks[0].pierce == 8 and w.attacks[0].detects_camo and fb.detects_camo,
+			"Sorcerer 0-1-2: range 50, pierce 8, camo on both attacks")
+	_check(m.upgrade_state(make.call(&"snow_sorcerer", Vector3i.ZERO), 0) == "soon", "Guided Magic: coming soon (no stats on page)")
+
+	var g: Node3D = make.call(&"slope_wax_sprayer", Vector3i(0, 2, 1))
+	var sp: Resource = g.find_attack(&"slope_wax_sprayer_splatter")
+	_check(g.attacks[0].pierce == 4 and sp and sp.pierce == 4 and sp.slow_duration_s == 18.0 and g.attacks[0].slow_duration_s == 18.0,
+			"Wax 0-2-1: pierce 4 + splatter 4, Stickier 18 s on both")
+	_check(m.upgrade_state(g, 2) == "soon", "Stronger Glue: coming soon")
+	g = make.call(&"slope_wax_sprayer", Vector3i(1, 2, 0))
+	_check(g.attacks[0].soaks_layers and g.find_attack(&"slope_wax_sprayer_splatter").soaks_layers, "Glue Soak on shot and splatter")
+	_check(m.upgrade_state(g, 0) == "soon", "Corrosive Glue: coming soon")
+	_check(content.get_tower(&"slope_wax_sprayer").get_upgrade(1, 2).price == 650, "Glue Splatter $650 (v57)")
+
+	var b: Node3D = make.call(&"ski_resort_ticket_booth", Vector3i(2, 2, 0))
+	_check(b.pickups_per_round == 8 and b.cash_per_pickup == 25 and b.pickup_lifetime_s == 30.0,
+			"Booth 2-2-0: 8 pickups x $25, 30 s (%d x %d, %s)" % [b.pickups_per_round, b.cash_per_pickup, b.pickup_lifetime_s])
+	_check(m.upgrade_state(b, 2) == "locked" and b.def.get_upgrade(2, 1).is_available() == false, "Booth bottom: locked / coming soon")
+	_check(not m.towers_root.get_children().has(null) and at[0] == 7, "all batch-2 towers placed")
+	# Booth income for a full round: 8 drops of $25.
+	var drops: int = 0
+	m.start_round()
+	while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
+		m.clock.advance(STEP)
+		for p: Variant in m.pickups.duplicate():
+			if p.source_id == b.entity_id:
+				m.collect(p)
+				drops += 1
+	_check(drops == 8, "booth 2-2-0 drops 8 per round (got %d)" % drops)
+	m.free()
+
+	# Shrapnel pops the two neighbours of the target; the base Ranger pops only the target.
+	for f: Array in [[Vector3i.ZERO, 1], [Vector3i(0, 2, 0), 3]]:
+		m = _new_match()
+		_tower(m, &"biathlon_ranger", f[0], Vector2(-7.2, 0))
+		for i: int in 3:
+			_park(m, &"powder", 14.0)
+		_sim(m, 0.1)
+		_check(3 - m.snowballs.size() == f[1], "Ranger %s pops %d of 3 (got %d)" % [f[0], f[1], 3 - m.snowballs.size()])
+		m.free()
+	_completed.append("_test_batch2")
 
 
 ## Every effect of every shipped upgrade resolves: its attack exists in the base tree or is added by another upgrade.
@@ -212,6 +288,7 @@ func _test_data_integrity() -> void:
 					_check(e.attack.validate().is_empty(), "%s: appended attack valid %s" % [u.id, e.attack.validate()])
 			_check(u.is_available() == (u.status.get("effects", "") in ["VERIFIED_SOURCE", "PATCHED_SOURCE"]),
 					"%s: purchasable only when verified" % u.id)
+	_completed.append("_test_data_integrity")
 
 
 ## P09-T13: verified + implemented + tested vs deferred out of 90 initial tier entries.

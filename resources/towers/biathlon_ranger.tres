@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_8ijxg"]
 [ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_rqbuu"]
 [ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_d70rf"]
+[ext_resource type="Script" path="res://scripts/data/upgrade_effect.gd" id="4_rqbuu"]
 
 [sub_resource type="Resource" id="Resource_iw5e2"]
 script = ExtResource("1_8ijxg")
@@ -22,17 +23,45 @@ status = Dictionary[String, String]({
 })
 notes = "Instant hit (no projectile) on the best visible target anywhere on the map."
 
+[sub_resource type="Resource" id="Resource_d70rf"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"damage"
+value = 2.0
+
+[sub_resource type="Resource" id="Resource_umpp7"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"damage_type"
+op = 2
+text = &"normal"
+
+[sub_resource type="Resource" id="Resource_tsfio"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_shrapnel"
+field = &"damage_type"
+op = 2
+text = &"normal"
+
 [sub_resource type="Resource" id="Resource_obbie"]
 script = ExtResource("3_d70rf")
 display_name = "Reinforced Ice Rounds"
 source_name = "Full Metal Jacket"
 price = 350
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_d70rf"), SubResource("Resource_umpp7"), SubResource("Resource_tsfio")])
 id = &"biathlon_ranger_t1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/full-metal-jacket/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Damage 2 -> 4, type Sharp -> Normal (bullets and shrapnel pop Lead/Frozen per the page)."
+
+[sub_resource type="Resource" id="Resource_x0cky"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"damage"
+value = 3.0
 
 [sub_resource type="Resource" id="Resource_ug4v2"]
 script = ExtResource("3_d70rf")
@@ -40,12 +69,14 @@ tier = 2
 display_name = "High-Caliber Pellet"
 source_name = "Large Calibre"
 price = 1300
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_x0cky")])
 id = &"biathlon_ranger_t2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/large-calibre/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Damage 4 -> 7."
 
 [sub_resource type="Resource" id="Resource_77fk1"]
 script = ExtResource("3_d70rf")
@@ -86,18 +117,62 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_ghdlb"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"detects_camo"
+op = 2
+value = 1.0
+
+[sub_resource type="Resource" id="Resource_4mjrc"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"bonus_vs_camo"
+op = 2
+value = 2.0
+
 [sub_resource type="Resource" id="Resource_brac1"]
 script = ExtResource("3_d70rf")
 path = 1
 display_name = "Night Ski Goggles"
 source_name = "Night Vision Goggles"
 price = 250
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_ghdlb"), SubResource("Resource_4mjrc")])
 id = &"biathlon_ranger_m1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/night-vision-goggles/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Camo detection, +2 damage vs camo."
+
+[sub_resource type="Resource" id="Resource_f031v"]
+script = ExtResource("1_8ijxg")
+pierce = 2
+projectile_count = 5
+spread_deg = 15.0
+bonus_vs_camo = 2
+projectile_lifetime_s = 0.1
+id = &"biathlon_ranger_shrapnel"
+status = Dictionary[String, String]({
+"damage": "VERIFIED_SOURCE",
+"interval_s": "NOT_APPLICABLE",
+"pierce": "VERIFIED_SOURCE",
+"projectile_count": "VERIFIED_SOURCE",
+"projectile_lifetime_s": "PROTOTYPE_ASSUMPTION",
+"projectile_speed_units": "PROTOTYPE_ASSUMPTION",
+"radius_units": "NOT_APPLICABLE",
+"slow_duration_s": "NOT_APPLICABLE",
+"slow_factor": "NOT_APPLICABLE"
+})
+notes = "Emitted at the damaged snowball: 5 sharp shards, damage 1, pierce 2, +2 vs camo (v56 page). Cone 15 deg apart, speed and reach are assumptions."
+
+[sub_resource type="Resource" id="Resource_44sdr"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"on_contact"
+op = 3
+attack = SubResource("Resource_f031v")
 
 [sub_resource type="Resource" id="Resource_v6nm5"]
 script = ExtResource("3_d70rf")
@@ -106,12 +181,14 @@ tier = 2
 display_name = "Scatter Shards"
 source_name = "Shrapnel Shot"
 price = 450
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_44sdr")])
 id = &"biathlon_ranger_m2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/shrapnel-shot/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Adds 5 shrapnel shards per hit: damage 1, pierce 2, +2 vs camo."
 
 [sub_resource type="Resource" id="Resource_tr22h"]
 script = ExtResource("3_d70rf")
@@ -155,18 +232,34 @@ status = Dictionary[String, String]({
 })
 notes = "v56 price; effect requires per-upgrade verification"
 
+[sub_resource type="Resource" id="Resource_uaujn"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"interval_s"
+op = 1
+value = 0.7
+
 [sub_resource type="Resource" id="Resource_7d04k"]
 script = ExtResource("3_d70rf")
 path = 2
 display_name = "Fast Trigger"
 source_name = "Fast Firing"
 price = 450
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_uaujn")])
 id = &"biathlon_ranger_b1"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/fast-firing/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Cooldown 1.59 -> 1.113 s."
+
+[sub_resource type="Resource" id="Resource_ncy1p"]
+script = ExtResource("4_rqbuu")
+target = &"biathlon_ranger_base"
+field = &"interval_s"
+op = 1
+value = 0.7
 
 [sub_resource type="Resource" id="Resource_m18jf"]
 script = ExtResource("3_d70rf")
@@ -175,12 +268,14 @@ tier = 2
 display_name = "Faster Trigger"
 source_name = "Even Faster Firing"
 price = 450
+effects = Array[ExtResource("4_rqbuu")]([SubResource("Resource_ncy1p")])
 id = &"biathlon_ranger_b2"
-source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
+source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/even-faster-firing/"
 status = Dictionary[String, String]({
+"effects": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE"
 })
-notes = "v56 price; effect requires per-upgrade verification"
+notes = "Cooldown 1.113 -> 0.7791 s."
 
 [sub_resource type="Resource" id="Resource_wsdb4"]
 script = ExtResource("3_d70rf")
