@@ -1,0 +1,11 @@
+Total messages: 9 (Errors: 0, Warnings: 0)
+
+[LOG] Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org @ http://localhost:8000/index.js:451
+[LOG] OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL @ http://localhost:8000/index.js:451
+[LOG] Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support. @ http://localhost:8000/index.js:451
+[LOG] SMOKE_READY renderer=gl_compatibility web=true @ http://localhost:8000/index.js:451
+[LOG] SMOKE_INPUT Left Mouse Button @ http://localhost:8000/index.js:451
+[LOG] SMOKE_INPUT A @ http://localhost:8000/index.js:451
+[LOG] SMOKE_INPUT Right Mouse Button @ http://localhost:8000/index.js:451
+[LOG] SMOKE_INPUT F @ http://localhost:8000/index.js:451
+[LOG] SMOKE_INPUT F @ http://localhost:8000/index.js:451

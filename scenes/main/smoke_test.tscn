@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/main/smoke_test.gd" id="1_ner1g"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx_smoke_blip.wav" id="2_vpcru"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t15nr"]
+albedo_color = Color(0.92, 0.95, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hiawm"]
+material = SubResource("StandardMaterial3D_t15nr")
+size = Vector2(10, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f7odb"]
+albedo_color = Color(0.85, 0.2, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vn3t5"]
+material = SubResource("StandardMaterial3D_f7odb")
+
+[node name="SmokeTest" type="Node3D" unique_id=966955950]
+script = ExtResource("1_ner1g")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=520321280]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0.6, 0, -0.6, 0.8, 0, 6, 8)
+current = true
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1923603566]
+transform = Transform3D(0.8660254, -0.38302222, 0.32139382, 0, 0.64278764, 0.76604444, -0.5, -0.66341394, 0.5566704, 0, 0, 0)
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=385486940]
+mesh = SubResource("PlaneMesh_hiawm")
+
+[node name="TestBox" type="MeshInstance3D" parent="." unique_id=1101391444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_vn3t5")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1848378527]
+
+[node name="Status" type="Label" parent="UI" unique_id=1268038521]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 16.0
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "PLAY TEST"
+
+[node name="Blip" type="AudioStreamPlayer" parent="." unique_id=1829535769]
+stream = ExtResource("2_vpcru")
