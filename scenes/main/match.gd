@@ -24,10 +24,11 @@ const SNOWBALL_SCENE: PackedScene = preload("res://scenes/enemies/snowball.tscn"
 ## Contact radius of a snowball for projectile hits (snowball mesh radius, metres).
 ## ponytail: one size for all five basic layers; per-type size when large specials arrive (P11).
 const HIT_RADIUS_M: float = 0.4
-## ponytail: only the Snowball Rookie attacks until P08 implements the other five base kits.
-const ARMED_TOWERS: Array[StringName] = [&"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger", &"slope_wax_sprayer", &"snow_sorcerer"]
 const SHOT_MESH: SphereMesh = preload("res://scenes/main/shot_mesh.tres")
 const BURST_COLOR: Color = Color(1.0, 0.85, 0.6, 0.45)
+const PICKUP_COLOR: Color = Color("f9c96d")
+## Click distance that collects a ticket pickup (metres).
+const PICKUP_RADIUS_M: float = 0.6
 
 
 ## One flying projectile (simulation state; `node` is its placeholder visual).
@@ -42,6 +43,14 @@ class Shot:
 	## Entity ids already hit: a snowball keeps its id when a layer breaks, so one shot never hits it twice.
 	var hit: Dictionary[int, bool] = {}
 
+## One uncollected ticket pickup (simulation state; `node` is its placeholder visual).
+class Pickup:
+	var node: MeshInstance3D
+	var pos: Vector3
+	var value: int
+	var life: float
+	var source_id: int
+
 var state: State = State.BOOT
 ## Index of the current (or last finished) round in Content.rounds; -1 before round 1.
 var round_index: int = -1
@@ -53,12 +62,17 @@ var lives: int = 0
 ## Live snowballs in spawn order (authoritative; nodes are freed after removal from this list).
 var snowballs: Array[Node3D] = []
 var shots: Array[Shot] = []
+## Ticket Booth income lying on the ground until collected or expired.
+var pickups: Array[Pickup] = []
 ## Tower type being placed (null = not placing).
 var placing: TowerDefinition
 var selected: Node3D
 var _next_id: int = 1
 var _schedule: Array = []
 var _spawn_cursor: int = 0
+## This round's ticket drops: [round time, booth, index], by time.
+var _drops: Array = []
+var _drop_cursor: int = 0
 var _round_time: float = 0.0
 var _shots_root: Node3D = Node3D.new()
 
@@ -75,7 +89,7 @@ func _ready() -> void:
 	clock.ticked.connect(_on_tick)
 	ledger = EconomyLedger.new(Content.rules.start_cash)
 	lives = Content.rules.start_lives
-	shop.assign(Content.towers.filter(func(t: TowerDefinition) -> bool: return t.id in ARMED_TOWERS))
+	shop.assign(Content.towers)
 	shop.sort_custom(func(a: TowerDefinition, b: TowerDefinition) -> bool: return a.price < b.price)
 	ghost.visible = false
 	_shots_root.name = "Shots"
@@ -121,7 +135,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if placing:
 				if try_place(placing, Vector2(hit.x, hit.z)):
 					cancel()
-			else:
+			elif not collect_at(hit):
 				select(tower_at(Vector2(hit.x, hit.z)))
 
 
@@ -142,6 +156,7 @@ func start_round() -> bool:
 	_schedule = Content.rounds[round_index].schedule()
 	_spawn_cursor = 0
 	_round_time = 0.0
+	_plan_drops()
 	_set_state(State.ROUND_SPAWN)
 	Events.send(&"round_started", 0, 0, round_index + 1)
 	return true
@@ -181,6 +196,14 @@ func _on_tick(dt: float) -> void:
 		while _spawn_cursor < _schedule.size() and _schedule[_spawn_cursor][0] <= _round_time + 1e-6:
 			_spawn(_schedule[_spawn_cursor][1])
 			_spawn_cursor += 1
+		while _drop_cursor < _drops.size() and _drops[_drop_cursor][0] <= _round_time + 1e-6:
+			_drop_pickup(_drops[_drop_cursor][1], _drops[_drop_cursor][2])
+			_drop_cursor += 1
+	for pickup: Pickup in pickups.duplicate():
+		pickup.life -= dt
+		if pickup.life <= 0.0:
+			_remove_pickup(pickup)
+			Events.send(&"pickup_expired", pickup.source_id, 0, pickup.value, pickup.pos)
 	for snowball: Node3D in snowballs.duplicate():
 		snowball.distance += snowball.current_speed() * GameDefinition.UNIT_M * dt
 		snowball.slow_left -= dt
@@ -399,6 +422,67 @@ func _set_state(next: State) -> void:
 	if is_over():
 		cancel()
 	changed.emit()
+
+
+# --- Ticket Booth income (P08-T06). ---
+
+## Each booth drops its pickups evenly over the round's spawn time.
+## ponytail: even spacing is a PROTOTYPE_ASSUMPTION; the source pages give no in-round timing.
+func _plan_drops() -> void:
+	_drops.clear()
+	_drop_cursor = 0
+	var duration: float = _schedule[-1][0] if not _schedule.is_empty() else 0.0
+	for tower: Node3D in towers_root.get_children():
+		for k: int in tower.pickups_per_round:
+			_drops.append([duration * (k + 0.5) / tower.pickups_per_round, tower, k])
+	_drops.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0] or (a[0] == b[0] and a[1].entity_id < b[1].entity_id))
+
+
+func _drop_pickup(booth: Node3D, k: int) -> void:
+	if not is_instance_valid(booth) or booth.get_parent() != towers_root:
+		return  # sold this round
+	var pickup: Pickup = Pickup.new()
+	var offset: float = booth.footprint().z + 0.3
+	pickup.pos = booth.position + Vector3(cos(k * 2.4), 0.0, sin(k * 2.4)) * offset
+	pickup.value = booth.cash_per_pickup
+	pickup.life = booth.pickup_lifetime_s
+	pickup.source_id = booth.entity_id
+	pickup.node = MeshInstance3D.new()
+	var box: BoxMesh = BoxMesh.new()
+	box.size = Vector3(0.35, 0.2, 0.35)
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_color = PICKUP_COLOR
+	material.emission_enabled = true
+	material.emission = PICKUP_COLOR * 0.4
+	box.material = material
+	pickup.node.mesh = box
+	pickup.node.position = pickup.pos + Vector3.UP * 0.15
+	_shots_root.add_child(pickup.node)
+	pickups.append(pickup)
+	Events.send(&"pickup_spawned", booth.entity_id, 0, pickup.value, pickup.pos)
+
+
+## Collects the pickup nearest to `point` within reach. Returns whether one was collected.
+func collect_at(point: Vector3) -> bool:
+	for pickup: Pickup in pickups:
+		if Vector2(pickup.pos.x - point.x, pickup.pos.z - point.z).length() <= PICKUP_RADIUS_M:
+			collect(pickup)
+			return true
+	return false
+
+
+func collect(pickup: Pickup) -> void:
+	if is_over() or pickup not in pickups:
+		return
+	ledger.credit(clock.tick, pickup.value, &"ticket_income", pickup.source_id)
+	_remove_pickup(pickup)
+	Events.send(&"income_collected", pickup.source_id, 0, pickup.value, pickup.pos)
+	changed.emit()
+
+
+func _remove_pickup(pickup: Pickup) -> void:
+	pickups.erase(pickup)
+	pickup.node.queue_free()
 
 
 # --- Placement and selection (P03). ---

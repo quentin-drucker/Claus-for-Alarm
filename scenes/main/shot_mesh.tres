@@ -1,4 +1,4 @@
-[gd_resource type="SphereMesh" load_steps=2 format=3]
+[gd_resource type="SphereMesh" format=3 uid="uid://uqkiwquj7tl4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shot"]
 shading_mode = 0

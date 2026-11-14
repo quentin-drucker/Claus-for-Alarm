@@ -28,6 +28,8 @@ func _run() -> void:
 	_test_ranger()
 	_test_wax()
 	_test_sorcerer()
+	_test_booth()
+	_test_base_report()
 	print("test_towers: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -207,3 +209,82 @@ func _test_sorcerer() -> void:
 	m.damage_snowball(immune, 1, &"sharp", 1)
 	_check(immune.def.id == &"powder", "other damage types still work on an energy-immune layer")
 	m.free()
+
+
+## P08-T06: no targeting; 4 pickups x $20 per round, spread over the round; collected pickups pay once into
+## the ledger as ticket_income; uncollected ones expire after 15 s and pay nothing; a sold booth drops no more.
+func _test_booth() -> void:
+	var booth: Resource = content.get_tower(&"ski_resort_ticket_booth")
+	_check(booth.attacks.is_empty() and booth.pickups_per_round == 4 and booth.cash_per_pickup == 20
+			and booth.pickup_lifetime_s == 15.0, "booth data")
+	var m: Node3D = _new_match()
+	m.ledger.credit(0, 2000, &"test", 0)
+	var t: Node3D = m.try_place(booth, Vector2(12.0, 1.5))
+	_check(t != null, "booth placed in the open")
+	_events.clear()
+	var times: Array[int] = []
+	m.start_round()
+	while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
+		var before: int = m.pickups.size()
+		m.clock.advance(STEP)
+		if m.pickups.size() > before:
+			times.append(m.clock.tick)
+		if m.pickups.size() == 2 and _cash(m, &"ticket_income") == 0:
+			m.collect(m.pickups[0])
+			m.collect_at(m.pickups[0].pos)  # click on the ground beside it
+	_check(times.size() == 4 and times[3] - times[0] > 60, "4 drops spread over the round (ticks %s)" % [times])
+	_check(_cash(m, &"ticket_income") == 40, "2 collected = $40 (got %d)" % _cash(m, &"ticket_income"))
+	_check(not _events.any(func(e: RefCounted) -> bool: return e.type == &"attack_fired"), "booth never attacks")
+	_sim(m, 16.0)
+	_check(m.pickups.is_empty() and _cash(m, &"ticket_income") == 40, "uncollected pickups expire unpaid")
+	var expired: int = _events.filter(func(e: RefCounted) -> bool: return e.type == &"pickup_expired").size()
+	_check(expired == 2, "2 expired events (got %d)" % expired)
+	m.start_round()
+	_sim(m, 0.1)
+	m.sell(t)
+	while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
+		m.clock.advance(STEP)
+	var dropped: int = _events.filter(func(e: RefCounted) -> bool: return e.type == &"pickup_spawned").size()
+	_check(dropped <= 5, "sold booth stops dropping (total drops %d)" % dropped)
+	m.free()
+
+
+## P08-T10: base stats vs HYB-M M-10 (v56 Medium) for all six, with provenance; writes the comparison report.
+func _test_base_report() -> void:
+	# id: [price, range (0 = global/none), interval, damage, pierce, extra]
+	var expected: Dictionary = {
+		&"snowball_rookie": [200, 32.0, 0.95, 1, 2, ""],
+		&"avalanche_cannon": [375, 40.0, 1.5, 0, 1, "blast dmg 1 pierce 22"],
+		&"biathlon_ranger": [350, 0.0, 1.59, 2, 1, "global LOS"],
+		&"slope_wax_sprayer": [225, 46.0, 1.0, 0, 1, "slow 0.5"],
+		&"snow_sorcerer": [250, 40.0, 1.1, 1, 3, "energy"],
+		&"ski_resort_ticket_booth": [1250, 0.0, 0.0, 0, 0, "4 x $20 / round"],
+	}
+	var lines: PackedStringArray = ["P08-T10 base kit vs M-10 (v56 Medium). Provenance per field from the .tres status.",
+			"id                       price  range  interval  dmg  pierce  extra                 footprint  match"]
+	_check(content.towers.size() == 6, "exactly the six initial towers (no excluded families)")
+	for t: Resource in content.towers:
+		var e: Array = expected[t.id]
+		var a: Resource = t.attacks[0] if not t.attacks.is_empty() else null
+		var got: Array = [t.price, t.range_units, a.interval_s if a else 0.0, a.damage if a else 0, a.pierce if a else 0]
+		var extra: String = ""
+		match t.id:
+			&"avalanche_cannon":
+				extra = "blast dmg %d pierce %d" % [a.on_contact[0].damage, a.on_contact[0].pierce]
+			&"biathlon_ranger":
+				extra = "global LOS" if t.global_range else "RADIUS"
+			&"slope_wax_sprayer":
+				extra = "slow %s" % a.slow_factor
+			&"snow_sorcerer":
+				extra = String(a.damage_type)
+			&"ski_resort_ticket_booth":
+				extra = "%d x $%d / round" % [t.pickups_per_round, t.cash_per_pickup]
+		var ok: bool = got == e.slice(0, 5) and extra == e[5]
+		_check(ok, "%s base kit matches M-10: %s %s" % [t.id, got, extra])
+		lines.append("%-24s %5d  %5.1f  %8.2f  %3d  %6d  %-21s %5.1f %s  %s" % [t.id, t.price, t.range_units,
+				got[2], got[3], got[4], extra, t.footprint_units, t.status.footprint_units.left(4), "OK" if ok else "DIFF"])
+	lines.append("Assumptions (PROTOTYPE_ASSUMPTION): projectile speed/lifetime (all), Cannon blast radius 18,")
+	lines.append("Wax duration 11 s, Cannon/Sorcerer footprint 6, Booth drop timing (even over the round).")
+	FileAccess.open("res://docs/logs/evidence/p08_base_stats.txt", FileAccess.WRITE).store_string("
+".join(lines) + "
+")

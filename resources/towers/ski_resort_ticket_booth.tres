@@ -212,6 +212,7 @@ display_name = "Ski Resort Ticket Booth"
 source_tower = "Banana Farm"
 price = 1250
 upgrades = Array[ExtResource("3_ggmou")]([SubResource("Resource_080va"), SubResource("Resource_0tjqv"), SubResource("Resource_hetah"), SubResource("Resource_gdwjw"), SubResource("Resource_tcicd"), SubResource("Resource_1u2k5"), SubResource("Resource_wrw24"), SubResource("Resource_ig4s5"), SubResource("Resource_n1etg"), SubResource("Resource_0hfn6"), SubResource("Resource_n5ret"), SubResource("Resource_vgrmp"), SubResource("Resource_767l8"), SubResource("Resource_vwol2"), SubResource("Resource_m2u7c")])
+footprint_units = 15.0
 pickups_per_round = 4
 cash_per_pickup = 20
 pickup_lifetime_s = 15.0
@@ -219,10 +220,10 @@ id = &"ski_resort_ticket_booth"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
 status = Dictionary[String, String]({
 "cash_per_pickup": "VERIFIED_SOURCE",
-"footprint_units": "PROTOTYPE_ASSUMPTION",
+"footprint_units": "VERIFIED_SOURCE",
 "pickup_lifetime_s": "VERIFIED_SOURCE",
 "pickups_per_round": "VERIFIED_SOURCE",
 "price": "VERIFIED_SOURCE",
 "range_units": "NOT_APPLICABLE"
 })
-notes = "Base kit: M-10 (v56). No attack. 4 pickups x $20 per round; pickups rot after 15 s (Long Life Bananas page: 'instead of 15')."
+notes = "Base kit: M-10 (v56). Footprint radius 15 from the source page. No attack. 4 pickups x $20 per round; pickups rot after 15 s (Long Life Bananas page: 'instead of 15')."

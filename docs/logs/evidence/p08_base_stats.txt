@@ -1,0 +1,10 @@
+P08-T10 base kit vs M-10 (v56 Medium). Provenance per field from the .tres status.
+id                       price  range  interval  dmg  pierce  extra                 footprint  match
+avalanche_cannon           375   40.0      1.50    0       1  blast dmg 1 pierce 22   6.0 PROT  OK
+biathlon_ranger            350    0.0      1.59    2       1  global LOS              6.0 VERI  OK
+ski_resort_ticket_booth   1250    0.0      0.00    0       0  4 x $20 / round        15.0 VERI  OK
+slope_wax_sprayer          225   46.0      1.00    0       1  slow 0.5                6.0 VERI  OK
+snow_sorcerer              250   40.0      1.10    1       3  energy                  6.0 PROT  OK
+snowball_rookie            200   32.0      0.95    1       2                          6.0 VERI  OK
+Assumptions (PROTOTYPE_ASSUMPTION): projectile speed/lifetime (all), Cannon blast radius 18,
+Wax duration 11 s, Cannon/Sorcerer footprint 6, Booth drop timing (even over the round).

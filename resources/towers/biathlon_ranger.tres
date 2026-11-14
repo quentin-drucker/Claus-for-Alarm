@@ -236,10 +236,10 @@ id = &"biathlon_ranger"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/sniper-monkey/"
 status = Dictionary[String, String]({
 "cash_per_pickup": "NOT_APPLICABLE",
-"footprint_units": "PROTOTYPE_ASSUMPTION",
+"footprint_units": "VERIFIED_SOURCE",
 "pickup_lifetime_s": "NOT_APPLICABLE",
 "pickups_per_round": "NOT_APPLICABLE",
 "price": "VERIFIED_SOURCE",
 "range_units": "NOT_APPLICABLE"
 })
-notes = "Base kit: M-10 (v56). footprint 6 copied from Dart; own footprint unverified. Global targeting with line of sight."
+notes = "Base kit: M-10 (v56). Footprint radius from the source page. Global targeting with line of sight."
