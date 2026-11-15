@@ -53,6 +53,7 @@ const INTROS: Dictionary[StringName, Array] = {
 }
 const TICKET_EFFECTS = preload("res://scripts/presentation/ticket_effects.gd")
 const POP_EFFECTS = preload("res://scripts/presentation/pop_effects.gd")
+const AMBIENT_SNOW = preload("res://scripts/presentation/ambient_snow.gd")
 var ticket_effects: Node3D
 var pop_effects: Node3D
 
@@ -150,6 +151,9 @@ func _ready() -> void:
 	pop_effects = POP_EFFECTS.new()
 	pop_effects.name = "PopEffects"
 	add_child(pop_effects)
+	var snow: Node3D = AMBIENT_SNOW.new()
+	snow.name = "AmbientSnow"
+	add_child(snow)
 	Events.emitted.connect(_count_pop)
 	_set_state(State.PREPARE)
 
