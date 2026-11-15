@@ -44,7 +44,9 @@ const PICKUP_RADIUS_M: float = 0.6
 @export var hover_collect_radius_m: float = 2.0
 
 const TICKET_EFFECTS = preload("res://scripts/presentation/ticket_effects.gd")
+const POP_EFFECTS = preload("res://scripts/presentation/pop_effects.gd")
 var ticket_effects: Node3D
+var pop_effects: Node3D
 
 
 ## One flying projectile (simulation state; `node` is its placeholder visual).
@@ -123,6 +125,9 @@ func _ready() -> void:
 	ticket_effects = TICKET_EFFECTS.new()
 	ticket_effects.name = "TicketEffects"
 	add_child(ticket_effects)
+	pop_effects = POP_EFFECTS.new()
+	pop_effects.name = "PopEffects"
+	add_child(pop_effects)
 	_set_state(State.PREPARE)
 
 
@@ -247,6 +252,7 @@ func cycle_priority(tower: Node3D) -> void:
 func _on_tick(dt: float) -> void:
 	Events.tick = clock.tick
 	ticket_effects.advance(dt, collect_cursor)
+	pop_effects.advance(dt)
 	if is_over():
 		return
 	if state == State.ROUND_SPAWN:
