@@ -94,6 +94,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	if _debug_panel.visible:
 		_debug_text.text = _debug_lines()
+	if _info_panel.visible:  # the card sits under the shop, whatever height the shop has (no overlap)
+		var shop: Control = $ShopPanel
+		_info_panel.position.y = shop.position.y + shop.size.y + 6.0
 	if _hero_panel.visible:
 		_refresh_hero()  # cooldown seconds change every tick; reading state only
 
@@ -124,7 +127,7 @@ func _box(color: Color, border: Color) -> StyleBoxFlat:
 	var b: StyleBoxFlat = StyleBoxFlat.new()
 	b.bg_color = color
 	b.set_corner_radius_all(6)
-	b.set_content_margin_all(6)
+	b.set_content_margin_all(3)
 	b.content_margin_left = 10
 	b.content_margin_right = 10
 	if border.a > 0.0:
