@@ -3,6 +3,14 @@
 **Event:** Camel Code Jam — Holiday Edition, Connecticut College, Nov 13–15, 2026.
 Organizer contact: gwc@conncoll.edu. Submission via the Camel Code Jam submission form.
 
+## Tower scope
+
+**Minimum showcase confirmation (2026-11-14):** retain the six implemented regular towers plus Camel Claus; no roster expansion required. All three paths through tier 3 are sufficient for the showcase (currently 54 available upgrades). Tiers 4–5 remain unavailable/"coming soon" and are potential post-showcase work. Final browser-performance verification remains a release gate (P19), rather than an optional expansion task.
+
+**Model/animation scope:** use the existing final rigged Rookie. Further rigging and complex per-character animations are deferred; prefer simple shared whole-object activity animation for other towers. See [deferred work and optional extensions](DEFERRED_WORK.md).
+
+**Owner scope decision (2026-11-14): Winter Games Lodge (Monkey Village) and Track Gritter (Spike Factory) are DEFERRED beyond the hackathon submission. Do not create, implement, or include these towers in the hackathon build. Existing concepts are retained only for a possible later expansion/extension; future production requires renewed authorization.**
+
 ## Themes
 
 - **Main theme:** Holidays / Christmas at Connecticut College.

@@ -1,0 +1,322 @@
+﻿[
+    {
+        "Id":  "camel_claus",
+        "ModelFolder":  "Model0",
+        "Source":  "C:\\Users\\qdruc\\Downloads\\tripo_camel character_convert_3e2b0824-62cd-49c0-ae13-0ac441f0c27e",
+        "Destination":  "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Claus for Alarm\\art_src\\models\\Model0\\camel_claus_tripo",
+        "OriginalFBX":  "tripo_convert_3e2b0824-62cd-49c0-ae13-0ac441f0c27e.fbx",
+        "NewFBX":  "camel_claus_tripo.fbx",
+        "Files":  [
+                      {
+                          "OriginalRelativePath":  "tripo_convert_3e2b0824-62cd-49c0-ae13-0ac441f0c27e.fbx",
+                          "Bytes":  735372,
+                          "SHA256":  "0B406D7BF1B107D69D7D506EEB033BC2B9B3529061824E76A35A57260A63FD53"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_3e2b0824-62cd-49c0-ae13-0ac441f0c27e.fbm\\3d_model_basecolor.jpg",
+                          "Bytes":  797606,
+                          "SHA256":  "3F30915F3E67889F610062687DB8A7D466BCCBE58FAF1B99C46E8B8E261C9339"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_3e2b0824-62cd-49c0-ae13-0ac441f0c27e.fbm\\3d_model_metallic.jpg",
+                          "Bytes":  489870,
+                          "SHA256":  "E6DDB3C632D3C3D31AE551CCDCC54461A5692AF37143792F843C8432A25152CA"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_3e2b0824-62cd-49c0-ae13-0ac441f0c27e.fbm\\3d_model_normal.jpg",
+                          "Bytes":  196339,
+                          "SHA256":  "F3B880BF6DB024C026C5952B49F0D248A728EF4601BAC518EF941EEC53F7D473"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_3e2b0824-62cd-49c0-ae13-0ac441f0c27e.fbm\\3d_model_rm.jpg",
+                          "Bytes":  618424,
+                          "SHA256":  "FC991E9795BBF9CD8CEC5DE6E4AC94FC429E9F8A1751EF03E8A66C4574CF914B"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_3e2b0824-62cd-49c0-ae13-0ac441f0c27e.fbm\\3d_model_roughness.jpg",
+                          "Bytes":  534209,
+                          "SHA256":  "A84679EBDB69D75DFC94452DC2293CB93C29A825DA9B54106ACA239DC12F8669"
+                      }
+                  ]
+    },
+    {
+        "Id":  "avalanche_cannon",
+        "ModelFolder":  "Model2",
+        "Source":  "C:\\Users\\qdruc\\Downloads\\tripo_cannon_convert_c7694e20-96bd-4ef0-a73a-240776e89073",
+        "Destination":  "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Claus for Alarm\\art_src\\models\\Model2\\avalanche_cannon_tripo",
+        "OriginalFBX":  "tripo_convert_c7694e20-96bd-4ef0-a73a-240776e89073.fbx",
+        "NewFBX":  "avalanche_cannon_tripo.fbx",
+        "Files":  [
+                      {
+                          "OriginalRelativePath":  "tripo_convert_c7694e20-96bd-4ef0-a73a-240776e89073.fbx",
+                          "Bytes":  735132,
+                          "SHA256":  "68104C9F85BC60EC82A19F5CA977BD5747647EAEA0189C1E993EE5D1AD2E3B70"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_c7694e20-96bd-4ef0-a73a-240776e89073.fbm\\steampunk__3d_model_basecolor.jpg",
+                          "Bytes":  722647,
+                          "SHA256":  "EF3E20E053E1C3D7EE8526DE46D228CB9E90D63D7217DF21B5725B9CADBD54CA"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_c7694e20-96bd-4ef0-a73a-240776e89073.fbm\\steampunk__3d_model_metallic.jpg",
+                          "Bytes":  449355,
+                          "SHA256":  "CD7781041FEAD1CACB4376BFC44DCB5DEC73492FF312F666C6B2FD3F8D9143F1"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_c7694e20-96bd-4ef0-a73a-240776e89073.fbm\\steampunk__3d_model_normal.jpg",
+                          "Bytes":  130437,
+                          "SHA256":  "50ABB3D2D767C04838B843897BB50900C7257CF1503A629AB37897120061A7B8"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_c7694e20-96bd-4ef0-a73a-240776e89073.fbm\\steampunk__3d_model_rm.jpg",
+                          "Bytes":  572807,
+                          "SHA256":  "A6F7C7C545B0590AA0644172200F42B4506C43B5BB470F562787B82799123F33"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_c7694e20-96bd-4ef0-a73a-240776e89073.fbm\\steampunk__3d_model_roughness.jpg",
+                          "Bytes":  500795,
+                          "SHA256":  "2A4E73E304267547FC1370F6948F6E7EDCE5193D57B41BD1880E6FC3FDA726CF"
+                      }
+                  ]
+    },
+    {
+        "Id":  "biathlon_ranger",
+        "ModelFolder":  "Model3",
+        "Source":  "C:\\Users\\qdruc\\Downloads\\tripo_elf-rifle_convert_a72b307c-1fe3-4615-a1dd-19d93108e63a",
+        "Destination":  "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Claus for Alarm\\art_src\\models\\Model3\\biathlon_ranger_tripo",
+        "OriginalFBX":  "tripo_convert_a72b307c-1fe3-4615-a1dd-19d93108e63a.fbx",
+        "NewFBX":  "biathlon_ranger_tripo.fbx",
+        "Files":  [
+                      {
+                          "OriginalRelativePath":  "tripo_convert_a72b307c-1fe3-4615-a1dd-19d93108e63a.fbx",
+                          "Bytes":  731884,
+                          "SHA256":  "67D517F1CE8E82C4A9EA0CBE12E2F1ADDF144E3BD1F0DD4552D525845342A9A7"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_a72b307c-1fe3-4615-a1dd-19d93108e63a.fbm\\elf_rifle_3d_model_basecolor.jpg",
+                          "Bytes":  776803,
+                          "SHA256":  "9CF63F0BC6EB83637CF756BFE1FE2B14F79DBE52DA1912C7B222D244DA928AEF"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_a72b307c-1fe3-4615-a1dd-19d93108e63a.fbm\\elf_rifle_3d_model_metallic.jpg",
+                          "Bytes":  490038,
+                          "SHA256":  "0A6AA0F38C1FCC92EE1AD4E433686152BD6C73AF105EA6F9F8EA2D0C08EE8168"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_a72b307c-1fe3-4615-a1dd-19d93108e63a.fbm\\elf_rifle_3d_model_normal.jpg",
+                          "Bytes":  171934,
+                          "SHA256":  "324C83F866AB551756DEF110E4D57E6EEC40C4C7E07D1A8B4AD28CA3F9AD68A7"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_a72b307c-1fe3-4615-a1dd-19d93108e63a.fbm\\elf_rifle_3d_model_rm.jpg",
+                          "Bytes":  584671,
+                          "SHA256":  "45B1CFDE2C28BD503B3465C2816BCE1A3F54DCF6A74801E8149D9DC04A2B535A"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_a72b307c-1fe3-4615-a1dd-19d93108e63a.fbm\\elf_rifle_3d_model_roughness.jpg",
+                          "Bytes":  508931,
+                          "SHA256":  "57E8106D6DD284E5C8AB911EF3187AD3DC8890D2822148E8723F73F79884D781"
+                      }
+                  ]
+    },
+    {
+        "Id":  "slope_wax_sprayer",
+        "ModelFolder":  "Model4",
+        "Source":  "C:\\Users\\qdruc\\Downloads\\tripo_glue wax gunner_convert_ed631cc0-acf7-4bde-96f3-9583a1341852",
+        "Destination":  "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Claus for Alarm\\art_src\\models\\Model4\\slope_wax_sprayer_tripo",
+        "OriginalFBX":  "tripo_convert_ed631cc0-acf7-4bde-96f3-9583a1341852.fbx",
+        "NewFBX":  "slope_wax_sprayer_tripo.fbx",
+        "Files":  [
+                      {
+                          "OriginalRelativePath":  "tripo_convert_ed631cc0-acf7-4bde-96f3-9583a1341852.fbx",
+                          "Bytes":  734988,
+                          "SHA256":  "BDEF6705E39F74ABC22B365854D484C9D86487724528AAB474A6AA19A4574347"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_ed631cc0-acf7-4bde-96f3-9583a1341852.fbm\\cute_dwarf_explorer_3d_model_basecolor.jpg",
+                          "Bytes":  812441,
+                          "SHA256":  "EB1BE52BF1EE6F7139CFBE3A6ACE5542F9DFB8A29C8D62A78FC0B47FF29A1F6D"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_ed631cc0-acf7-4bde-96f3-9583a1341852.fbm\\cute_dwarf_explorer_3d_model_metallic.jpg",
+                          "Bytes":  563385,
+                          "SHA256":  "F538C64FB34ED93689A9FC385C7FB798A6C7FD0C47A9CF7019158D3AC91B8CCA"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_ed631cc0-acf7-4bde-96f3-9583a1341852.fbm\\cute_dwarf_explorer_3d_model_normal.jpg",
+                          "Bytes":  146558,
+                          "SHA256":  "828A926335EA0E257E98C0682A1E65952778A022C778E8019E9131B43B109F10"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_ed631cc0-acf7-4bde-96f3-9583a1341852.fbm\\cute_dwarf_explorer_3d_model_rm.jpg",
+                          "Bytes":  771957,
+                          "SHA256":  "BF963075C6C9467D7BD022E84748CB3FDAD544E18C5081350E5F1F840661AB35"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_ed631cc0-acf7-4bde-96f3-9583a1341852.fbm\\cute_dwarf_explorer_3d_model_roughness.jpg",
+                          "Bytes":  656119,
+                          "SHA256":  "8477A288F12B9362824F1BACCE3AD7A7FF56B8E0ACB7AFB41A8924E9C044F495"
+                      }
+                  ]
+    },
+    {
+        "Id":  "snow_sorcerer",
+        "ModelFolder":  "Model5",
+        "Source":  "C:\\Users\\qdruc\\Downloads\\tripo_wizard_convert_05b61a58-175d-4f19-b15a-8dc0cd35afe5",
+        "Destination":  "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Claus for Alarm\\art_src\\models\\Model5\\snow_sorcerer_tripo",
+        "OriginalFBX":  "tripo_wizard_model.fbx",
+        "NewFBX":  "snow_sorcerer_tripo.fbx",
+        "Files":  [
+                      {
+                          "OriginalRelativePath":  "tripo_wizard_model.fbx",
+                          "Bytes":  381660,
+                          "SHA256":  "A8E3CA15E45A0569AB56B049B225F4825D05625C09379651936B0E4B2F4A98D3"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_05b61a58-175d-4f19-b15a-8dc0cd35afe5.fbm\\elf_3d_model_basecolor.jpg",
+                          "Bytes":  935390,
+                          "SHA256":  "CBEB2656C30132E7DD8A13F9248CFAE990AB06BBD5C8E057EE47BFE0F0DF9B08"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_05b61a58-175d-4f19-b15a-8dc0cd35afe5.fbm\\elf_3d_model_metallic.jpg",
+                          "Bytes":  603458,
+                          "SHA256":  "5E31F6D227D48D9B07FB52F6BFEEB02B1BE82F7FC4148BC64843E8B6DBCAAC48"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_05b61a58-175d-4f19-b15a-8dc0cd35afe5.fbm\\elf_3d_model_normal.jpg",
+                          "Bytes":  206929,
+                          "SHA256":  "583779003CCF35560840AC23A859E8D12E7CD54C58BFEDC7B54847EA0949A51A"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_05b61a58-175d-4f19-b15a-8dc0cd35afe5.fbm\\elf_3d_model_rm.jpg",
+                          "Bytes":  766476,
+                          "SHA256":  "2DE604B57F0AD08573ED461B41D85101E62AE6DA352B8B16C002D07B6F16A4C1"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_05b61a58-175d-4f19-b15a-8dc0cd35afe5.fbm\\elf_3d_model_roughness.jpg",
+                          "Bytes":  646565,
+                          "SHA256":  "762B4B03639DEC19392C31EC0C7AF6A85312948141634395BBC8DF3A5E9EE85A"
+                      }
+                  ]
+    },
+    {
+        "Id":  "ski_resort_ticket_booth",
+        "ModelFolder":  "Model6",
+        "Source":  "C:\\Users\\qdruc\\Downloads\\tripo_ticket booth_convert_d8c3ae1c-fc8e-41c8-9d48-a78ac5dab697",
+        "Destination":  "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Claus for Alarm\\art_src\\models\\Model6\\ski_resort_ticket_booth_tripo",
+        "OriginalFBX":  "tripo_convert_d8c3ae1c-fc8e-41c8-9d48-a78ac5dab697.fbx",
+        "NewFBX":  "ski_resort_ticket_booth_tripo.fbx",
+        "Files":  [
+                      {
+                          "OriginalRelativePath":  "tripo_convert_d8c3ae1c-fc8e-41c8-9d48-a78ac5dab697.fbx",
+                          "Bytes":  738636,
+                          "SHA256":  "CAB46AD32935CF21626B3D9772B35794863127DDB161D72D300A413B88FF5E5C"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_d8c3ae1c-fc8e-41c8-9d48-a78ac5dab697.fbm\\winter_cottage_3d_model_basecolor.jpg",
+                          "Bytes":  731681,
+                          "SHA256":  "8CA0A79CEEC95A948473D5CED3827AE87A888FF637815C5C928C8CB79FB2B174"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_d8c3ae1c-fc8e-41c8-9d48-a78ac5dab697.fbm\\winter_cottage_3d_model_metallic.jpg",
+                          "Bytes":  341927,
+                          "SHA256":  "0B3C51681C62CB7506B1D106010C7E6BC92294A31AAE23D894AE9567940B8B65"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_d8c3ae1c-fc8e-41c8-9d48-a78ac5dab697.fbm\\winter_cottage_3d_model_normal.jpg",
+                          "Bytes":  98707,
+                          "SHA256":  "B4E1D68A71D02D467C855F158CDF781818F21DDB137FD34343D20E579189B214"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_d8c3ae1c-fc8e-41c8-9d48-a78ac5dab697.fbm\\winter_cottage_3d_model_rm.jpg",
+                          "Bytes":  394048,
+                          "SHA256":  "7D0620A2EFE0C28CE2F1886244D75B364780E11F3A0EB500B1F6263534A34DE1"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_d8c3ae1c-fc8e-41c8-9d48-a78ac5dab697.fbm\\winter_cottage_3d_model_roughness.jpg",
+                          "Bytes":  370235,
+                          "SHA256":  "98FF932565F7D305EBB33F00AA8453A5AD5993C3D350DF332D7713F07EE721FD"
+                      }
+                  ]
+    },
+    {
+        "Id":  "hockey_slapper",
+        "ModelFolder":  "Model7",
+        "Source":  "C:\\Users\\qdruc\\Downloads\\tripo_hockey slapper_convert_840c6a3f-aaf1-410f-a7b6-db9270bb65b0",
+        "Destination":  "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Claus for Alarm\\art_src\\models\\Model7\\hockey_slapper_tripo",
+        "OriginalFBX":  "tripo_hockey slapper_model.fbx",
+        "NewFBX":  "hockey_slapper_tripo.fbx",
+        "Files":  [
+                      {
+                          "OriginalRelativePath":  "tripo_hockey slapper_model.fbx",
+                          "Bytes":  381020,
+                          "SHA256":  "319C446B77BA7749C52FDDF5DAFCC5D0337438837C738845271178FEB5EF44C4"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_840c6a3f-aaf1-410f-a7b6-db9270bb65b0.fbm\\hockey_slapper_character_3d_model_basecolor.jpg",
+                          "Bytes":  940850,
+                          "SHA256":  "290DE5005F66EC2FBF35AB22523DA9F497D129E249F5977D88EFA74886326550"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_840c6a3f-aaf1-410f-a7b6-db9270bb65b0.fbm\\hockey_slapper_character_3d_model_metallic.jpg",
+                          "Bytes":  519932,
+                          "SHA256":  "4283C9603A6B0D9F8A69BAB282C845930C3ED03D655752FBDB8BD458085C840C"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_840c6a3f-aaf1-410f-a7b6-db9270bb65b0.fbm\\hockey_slapper_character_3d_model_normal.jpg",
+                          "Bytes":  244602,
+                          "SHA256":  "9BE39EB7EC9F0A1DB3D2221C049137C6F9ACD9143824D8ABEF5BA633B0ADDE99"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_840c6a3f-aaf1-410f-a7b6-db9270bb65b0.fbm\\hockey_slapper_character_3d_model_rm.jpg",
+                          "Bytes":  639610,
+                          "SHA256":  "746171E10D0E761BFE7A04F90E543F9E6955DA3FCD1379D39955CE291594D121"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_840c6a3f-aaf1-410f-a7b6-db9270bb65b0.fbm\\hockey_slapper_character_3d_model_roughness.jpg",
+                          "Bytes":  555151,
+                          "SHA256":  "29C61D91A35E6BF229722309C384A2CABF1EBD5B3A4B93FCC12014883DCF7D26"
+                      }
+                  ]
+    },
+    {
+        "Id":  "snowboard_trickster",
+        "ModelFolder":  "Model8",
+        "Source":  "C:\\Users\\qdruc\\Downloads\\tripo_snowboarder_convert_1db72c38-30e0-496e-8c8f-971070ed32c9",
+        "Destination":  "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Claus for Alarm\\art_src\\models\\Model8\\snowboard_trickster_tripo",
+        "OriginalFBX":  "tripo_snowboarder_model.fbx",
+        "NewFBX":  "snowboard_trickster_tripo.fbx",
+        "Files":  [
+                      {
+                          "OriginalRelativePath":  "tripo_snowboarder_model.fbx",
+                          "Bytes":  408268,
+                          "SHA256":  "C986829A39BF846F33EDEBCE30F076EA49BD98B396114D0C069FC097FF5DAE76"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_1db72c38-30e0-496e-8c8f-971070ed32c9.fbm\\cartoon_snowboarder_character_3d_model_basecolor.jpg",
+                          "Bytes":  788593,
+                          "SHA256":  "F42621674B320492ABBE86593E615897F5E70A94C3801F7D237C6AC0DD4310D3"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_1db72c38-30e0-496e-8c8f-971070ed32c9.fbm\\cartoon_snowboarder_character_3d_model_metallic.jpg",
+                          "Bytes":  525924,
+                          "SHA256":  "214F242F87C266E9ED6BF009D3927DC60143D42B8439C6739E27B6079C875E4B"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_1db72c38-30e0-496e-8c8f-971070ed32c9.fbm\\cartoon_snowboarder_character_3d_model_normal.jpg",
+                          "Bytes":  166468,
+                          "SHA256":  "C2FB5AD6E6DECA40F5F22CC39F84E2C8D105188258873E756AA2CC3A94DDD701"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_1db72c38-30e0-496e-8c8f-971070ed32c9.fbm\\cartoon_snowboarder_character_3d_model_rm.jpg",
+                          "Bytes":  640928,
+                          "SHA256":  "4E5104AC72FFD0A67AFC1B53F641306735205694BDD93CC5EFAF8F85CC662CFD"
+                      },
+                      {
+                          "OriginalRelativePath":  "tripo_convert_1db72c38-30e0-496e-8c8f-971070ed32c9.fbm\\cartoon_snowboarder_character_3d_model_roughness.jpg",
+                          "Bytes":  551790,
+                          "SHA256":  "E91769238A6713975EE9904D4CB23093E59F45ED5A8742E75068B855A1DA3499"
+                      }
+                  ]
+    }
+]

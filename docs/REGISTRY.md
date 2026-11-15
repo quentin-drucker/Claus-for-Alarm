@@ -14,8 +14,8 @@ This lists what is approved. Decision status lives in master plan §12.3.
 | HERO | `camel_claus` | Camel Claus | Quincy |
 | PLANNED (not now) | `hockey_slapper` | Hockey Slapper | Boomerang Monkey |
 | PLANNED (not now) | `snowboard_trickster` | Snowboard Trickster | Ninja Monkey |
-| PLANNED (not now) | `winter_games_lodge` | Winter Games Lodge | Monkey Village |
-| PLANNED (not now) | `track_gritter` | Track Gritter | Spike Factory |
+| DEFERRED (optional expansion; excluded from hackathon) | `winter_games_lodge` | Winter Games Lodge | Monkey Village |
+| DEFERRED (optional expansion; excluded from hackathon) | `track_gritter` | Track Gritter | Spike Factory |
 
 **Excluded — no placeholders, data, icons, buttons or models:** Dartling Gunner, Monkey Ace, Engineer Monkey,
 Ice Monkey, Tack Shooter, Alchemist (and any reskin of them).
@@ -62,5 +62,6 @@ Names and materials are provisional; the owner may rename them.
 | Blimp class (MOAB r40, BFB r60, ZOMG r80) | DEC-028 | Ice-sled look, crack/melt damage states, tip-over death |
 | Tiers 4–5 + abilities, hero levels beyond round-25 reach | DEC-030 | Needed for Endless |
 | Remaining deferred specials (Rainbow, Stone/Ceramic, Metal/Lead, …) | DEC-019/025 | Only types needed by rounds ≤ 25 ship now |
-| Planned towers (Hockey Slapper, Snowboard Trickster, Winter Games Lodge, Track Gritter) | M-08 | Post-jam |
+| Planned towers (Hockey Slapper, Snowboard Trickster) | M-08 | Post-jam |
+| Deferred towers (Winter Games Lodge, Track Gritter) | M-08 | Optional expansion only; no hackathon creation/submission |
 | Gold snowball | DEC-018 | Not needed |

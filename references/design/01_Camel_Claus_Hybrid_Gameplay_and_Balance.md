@@ -4,7 +4,9 @@
 **Reference files:** `BTD6_Gameplay_Systems_Mechanics_and_Balance.md`; `BTD6_Art_Audio_Visuals_and_UX.md`; `BTD6_3D_Asset_Modeling_and_Blender_Production_Reference.md`.  
 **Partner hybrid files:** `02_Camel_Claus_Hybrid_Art_UI_Audio.md` and `03_Camel_Claus_Hybrid_3D_Assets_Blender.md`.
 
-> **Scope lock:** Six INITIAL towers: Snowball Rookie ← Dart Monkey; Avalanche Cannon ← Bomb Shooter; Biathlon Ranger ← Sniper Monkey; Slope Wax Sprayer ← Glue Gunner; Snow Sorcerer ← Wizard Monkey; Ski Resort Ticket Booth ← Banana Farm. **Hero:** Camel Claus ← Quincy. Four PLANNED towers: Hockey Slapper ← Boomerang Monkey; Snowboard Trickster ← Ninja Monkey; Winter Games Lodge ← Monkey Village; Track Gritter ← Spike Factory. **Explicit exclusions:** Dartling Gunner, Monkey Ace, Engineer Monkey / Rink Engineer, Ice Monkey, Tack Shooter, Alchemist, and their reskins. Exclusion is a *roster decision*, not a ban on using underlying reusable engine concepts.
+**Owner scope decision (2026-11-14): Winter Games Lodge (Monkey Village) and Track Gritter (Spike Factory) are DEFERRED beyond the hackathon submission. Do not create, implement, or include these towers in the hackathon build. Existing concepts are retained only for a possible later expansion/extension; future production requires renewed authorization.**
+
+> **Scope lock:** Six INITIAL towers: Snowball Rookie ← Dart Monkey; Avalanche Cannon ← Bomb Shooter; Biathlon Ranger ← Sniper Monkey; Slope Wax Sprayer ← Glue Gunner; Snow Sorcerer ← Wizard Monkey; Ski Resort Ticket Booth ← Banana Farm. **Hero:** Camel Claus ← Quincy. Two PLANNED towers: Hockey Slapper ← Boomerang Monkey; Snowboard Trickster ← Ninja Monkey. Two DEFERRED optional post-hackathon towers: Winter Games Lodge ← Monkey Village; Track Gritter ← Spike Factory. **Explicit exclusions:** Dartling Gunner, Monkey Ace, Engineer Monkey / Rink Engineer, Ice Monkey, Tack Shooter, Alchemist, and their reskins. Exclusion is a *roster decision*, not a ban on using underlying reusable engine concepts.
 
 ## M-00. Reading policy and truth labels
 
@@ -132,8 +134,8 @@ for collision_event in stable_order:
 | INITIAL | Ski Resort Ticket Booth | Banana Farm | Per-round income / bank / automated marketplace | Machine/Building |
 | PLANNED | Hockey Slapper | Boomerang Monkey | Ricocheting blade / burst charge / giant pushback | Athlete |
 | PLANNED | Snowboard Trickster | Ninja Monkey | Camo detection / multi-shuriken / sabotage / sticky burst | Athlete |
-| PLANNED | Winter Games Lodge | Monkey Village | Area buffs / detection support / income discounts | Machine/Building |
-| PLANNED | Track Gritter | Spike Factory | Persistent track traps / area bursts / long-lived hazards | Machine/Building |
+| DEFERRED (post-hackathon, optional) | Winter Games Lodge | Monkey Village | Area buffs / detection support / income discounts | Machine/Building |
+| DEFERRED (post-hackathon, optional) | Track Gritter | Spike Factory | Persistent track traps / area bursts / long-lived hazards | Machine/Building |
 | HERO | Camel Claus | Quincy | Automatic XP-based scaling, chain-hit attack, two abilities, Lv4 Focus toggle | Hero camel |
 
 The four planned towers are **not** part of initial release commitment. No other existing BTD6 counterpart is automatically in scope.
@@ -352,7 +354,7 @@ These four families are documented so the engine remains extensible. Do not buil
 
 **Path identity and visual escalation:** top path should acquire a clearly recognizable precision/power silhouette by tier 3; middle should advertise its ability, attack pattern, or broad utility by tier 3; bottom should advertise its special attack / endurance / automation role by tier 3. Tier 1–2 mostly modify accessory and projectile effects. Tier 4–5 receive deliberately stronger silhouettes. The production art document specifies visual exceptions by tower.
 
-### Winter Games Lodge — reference: Monkey Village [PLANNED]
+### Winter Games Lodge — reference: Monkey Village [DEFERRED — optional post-hackathon expansion]
 **Internal ID:** `winter_games_lodge` · **BTD6 origin:** `Monkey Village` · **Source:** https://teemo.dev/game-design/bloons-td-6/wiki/towers/monkey-village/ · **v56 Medium base cost:** $1,200 · **Range reference:** 40.
 **Fantasy appearance:** ski-lodge support building with pennants. **Gameplay responsibility:** Area buffs / detection support / income discounts.
 **Mechanical contract:** inherit the BTD6 attack family, projectile behavior, resistances, targeting and legal crosspaths; do not infer exact stat mutations from tier titles. Every upgrade that adds/replaces an attack needs a separately validated attack definition. The following are *cosmetic working names* aligned by path/tier, not translations of copyrighted descriptions.
@@ -377,7 +379,7 @@ These four families are documented so the engine remains extensible. Do not buil
 
 **Path identity and visual escalation:** top path should acquire a clearly recognizable precision/power silhouette by tier 3; middle should advertise its ability, attack pattern, or broad utility by tier 3; bottom should advertise its special attack / endurance / automation role by tier 3. Tier 1–2 mostly modify accessory and projectile effects. Tier 4–5 receive deliberately stronger silhouettes. The production art document specifies visual exceptions by tower.
 
-### Track Gritter — reference: Spike Factory [PLANNED]
+### Track Gritter — reference: Spike Factory [DEFERRED — optional post-hackathon expansion]
 **Internal ID:** `track_gritter` · **BTD6 origin:** `Spike Factory` · **Source:** https://teemo.dev/game-design/bloons-td-6/wiki/towers/spike-factory/ · **v56 Medium base cost:** $1,000 · **Range reference:** 34.
 **Fantasy appearance:** snow-course hazard spreading apparatus. **Gameplay responsibility:** Persistent track traps / area bursts / long-lived hazards.
 **Mechanical contract:** inherit the BTD6 attack family, projectile behavior, resistances, targeting and legal crosspaths; do not infer exact stat mutations from tier titles. Every upgrade that adds/replaces an attack needs a separately validated attack definition. The following are *cosmetic working names* aligned by path/tier, not translations of copyrighted descriptions.

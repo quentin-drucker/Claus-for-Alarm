@@ -19,7 +19,7 @@
 6. `tower_snow_sorcerer`: festival conjurer athlete; **Wizard Monkey** mechanical family.
 7. `tower_ski_resort_ticket_booth`: small resort kiosk/building; **Banana Farm** economic family.
 
-**Approved later-only**: Hockey Slapper (Boomerang), Snowboard Trickster (Ninja), Winter Games Lodge (Village), Track Gritter (Spike Factory). **Excluded entirely from roster planning**: Dartling Gunner, Monkey Ace, Engineer/Rink Engineer, Ice Monkey/Figure Skater, Tack Shooter/Puck Carousel, Alchemist/Hot Cocoa Coach. **Enemy art:** five conventional colored rolling snowballs plus a visual Gold concept awaiting its final mechanical meaning, with separate special-property and giant-snowball asset families. **Environment:** one original festive winter sports campus ski-circuit diorama; UI portraits can reuse high-res master models.
+**Planned later-only**: Hockey Slapper (Boomerang), Snowboard Trickster (Ninja). **DEFERRED optional expansion, excluded from hackathon creation/submission**: Winter Games Lodge (Village), Track Gritter (Spike Factory). Existing concepts are retained; further production requires renewed authorization. **Excluded entirely from roster planning**: Dartling Gunner, Monkey Ace, Engineer/Rink Engineer, Ice Monkey/Figure Skater, Tack Shooter/Puck Carousel, Alchemist/Hot Cocoa Coach. **Enemy art:** five conventional colored rolling snowballs plus a visual Gold concept awaiting its final mechanical meaning, with separate special-property and giant-snowball asset families. **Environment:** one original festive winter sports campus ski-circuit diorama; UI portraits can reuse high-res master models.
 
 **Non-goals for this file:** reconstructing/copying Ninja Kiwi's actual 3D meshes, rigs, textures, shaders, icons, symbols, upgrade models or track geometry; calculating tower damage; deciding all the implementation phases; automatically creating 150 separate tier meshes; producing assets now. It is a *creative spec* guiding future Blender production.
 
@@ -88,6 +88,8 @@ asset_exports/athlete_family/
 ```
 
 The master source is **editable Blender**. The game receives optimized versioned GLBs. Mesh intersections allowed temporarily under clothing must not render as Z-fighting, exposed gaps or clipping in any required animation. Face blend shapes and glove fingers may be simplified for gameplay if close-up facial rendering still passes.
+
+> **Current owner override (2026-11-14):** use the final AccuRIG Rookie in `art_src/models/snowball_rookie/`. Additional rigging and complex per-character animations are deferred. Prefer simple shared whole-object activity animation for the other supplied models. Earlier rig/animation requirements below are future guidance where they conflict with this decision. See `docs/DEFERRED_WORK.md` and `art_src/models/README.md`.
 
 ## B-04. Camel Claus: hero model, rig, upgrades and animation brief
 
@@ -207,11 +209,15 @@ Reuse athlete rig; distinctive hockey stick must truly contact gloves, a puck cu
 
 Reuse a more athletic pose; snowboard blade attaches to boots with bindings, not hovering under model. Rotating snowflake discs and stealth-themed jumps are original fantasy features; do not copy Ninja Monkey mask/hood design. Top: multiple discs; middle: sabotage-oriented squad gear and whiteout glyphs; bottom: heavy sticky snowbomb. Source camo detection is intrinsic, so goggles design and UI must indicate it from base tier. QA: board fasteners, body balance, separable throw accessories.
 
-### Winter Games Lodge (Village)
+### Winter Games Lodge (Village) — DEFERRED beyond hackathon
+
+**Owner scope decision (2026-11-14): Winter Games Lodge (Monkey Village) and Track Gritter (Spike Factory) are DEFERRED beyond the hackathon submission. Do not create, implement, or include these towers in the hackathon build. Existing concepts are retained only for a possible later expansion/extension; future production requires renewed authorization.**
 
 Building buff hub; structurally modeled timber lodge with sport pennants, signal tower, shop awning. Top: athletic academy; middle: radial communications/radar; bottom: commercial building. Buildings should read as support not an attacking cannon. QA: aura ring matches gameplay range, lodge footprint correct, no random collision block across path.
 
-### Track Gritter (Spike Factory)
+### Track Gritter (Spike Factory) — DEFERRED beyond hackathon
+
+**Owner scope decision (2026-11-14): Winter Games Lodge (Monkey Village) and Track Gritter (Spike Factory) are DEFERRED beyond the hackathon submission. Do not create, implement, or include these towers in the hackathon build. Existing concepts are retained only for a possible later expansion/extension; future production requires renewed authorization.**
 
 Mechanical hazard station with hopper, rotating grit wheel, distributor chutes, clear under-track placement zone. Top: larger grit hazard / heavy mines; middle: high-speed spreading and all-track effects; bottom: long-lasting hazard stockpiles. Distinguish grit from enemy snowball particles. QA: track hazard spawning matches simulation, hazards legible, no per-grit particle draw-call explosion.
 
