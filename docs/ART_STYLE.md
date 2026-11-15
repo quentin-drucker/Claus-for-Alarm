@@ -95,21 +95,13 @@ Use the semantic variations in `scripts/ui/lodge_theme.gd` rather than adding ar
 use Barlow. The browser loading shell follows the same roles. Preserve wrapping and sidebar scrolling;
 font changes do not change gameplay. Source/license details: `assets/fonts/README.md` and root `CREDITS.md`.
 
-## 9. Presentation finish (DEC-049, owner direction 2026-11-15)
+## 9. Presentation finish (DEC-049, DEC-050)
 
-A modern 3D game with a delicate pixel finish, not an 8-bit makeover. One autoload, `ScreenFinish`
-(`scripts/presentation/screen_finish.gd`), runs a final screen-texture pass over the whole composed frame: world,
-HUD, menus, tooltips, pause/results and notices (text is not masked out; the whole effect stays light instead).
+Crisp modern 3D; no screen-wide pixelation (the owner tried a subtle universal pixel pass and rejected it, DEC-050).
+One autoload, `ScreenFinish` (`scripts/presentation/screen_finish.gd`), draws a plain alpha overlay above every game
+layer and popup: a faint broad vignette (`vignette_strength` 0.08) and static powder in the bottom corners with a
+light dusting along the edge (`snow_opacity` 0.60), kept under the bottom controls. `enabled` / F8 toggles it.
 
-| Parameter | Default | Meaning |
-|---|---|---|
-| `enabled` | true | F8 toggles OFF / SUBTLE (owner comparison) |
-| `pixel_cell_size` | 3 | cell in base-UI px (1152x648), scaled to the window, snapped to whole physical px |
-| `pixel_blend` | 0.30 | share of the cell-averaged colour |
-| `vignette_strength` | 0.08 | corner darkening, broad and soft |
-| `snow_opacity` | 0.60 | static powder in the bottom corners + light dusting, kept under the bottom controls |
-
-Enlarged character views are pixelated more strongly, since they blow the model up: the menu Rookie renders at 1/3
+Enlarged character views keep a deliberate pixel finish, since they blow the model up: the menu Rookie renders at 1/3
 resolution with nearest upscale (`rookie_showcase.gd`), portraits use `assets/materials/portrait_pixel.gdshader`
-(32 blocks across). No palette reduction, dithering, scanlines or chromatic aberration. The HTML sweater loader
-lives outside Godot and is left untreated; the hardware cursor is untreated.
+(32 blocks across). The HTML sweater loader lives outside Godot and is untreated.

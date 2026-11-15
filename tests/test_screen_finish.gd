@@ -1,6 +1,6 @@
 extends SceneTree
-## DEC-049 screen finish: the autoload is a single overlay above every game layer and popup canvas, never takes
-## mouse input, toggles OFF/SUBTLE, and its pixel cell follows the UI scale in whole physical pixels.
+## DEC-049 screen finish (vignette + powder): the autoload is a single overlay above every game layer and popup
+## canvas, never takes mouse input, toggles OFF/ON, and stays single across scene changes.
 ## Run: godot --headless --path . -s res://tests/test_screen_finish.gd   (exit 1 = failure)
 
 var _failures: int = 0
@@ -18,12 +18,6 @@ func _initialize() -> void:
 
 func _run() -> void:
 	var script: Script = load("res://scripts/presentation/screen_finish.gd")
-	var base: Vector2 = Vector2(1152, 648)
-	_check(script.cell_for(3.0, base, base) == 3.0, "base window keeps 3 px cells")
-	_check(script.cell_for(3.0, Vector2(800, 600), base) == 2.0, "800x600 shrinks cells with the UI")
-	_check(script.cell_for(3.0, Vector2(2304, 1296), base) == 6.0, "2x DPI doubles cells")
-	_check(script.cell_for(1.0, Vector2(320, 180), base) == 1.0, "never below 1 physical px")
-
 	var finish: CanvasLayer = root.get_node("ScreenFinish")
 	_check(finish.layer > 1024, "above the embedded-popup canvas (1024)")
 	var rect: Control = finish.get_child(0)

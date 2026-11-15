@@ -39,7 +39,7 @@ python -m http.server 8000 -d build/web    # open http://localhost:8000 (not fil
 | `T` | cycle target priority of the selected defender |
 | `Q` / `E` | Camel Claus abilities (Frenzy / Focus) |
 | `Esc` | back / deselect |
-| `F8` | toggle the subtle pixel/vignette screen finish (comparison) |
+| `F8` | toggle the faint vignette/powder screen finish |
 
 ## Repository map
 

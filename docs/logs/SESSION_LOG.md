@@ -722,3 +722,9 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Files:** new `scripts/presentation/screen_finish.gd`, `assets/materials/screen_finish.gdshader`, `assets/materials/portrait_pixel.gdshader`, `tests/test_screen_finish.gd`; `project.godot` (autoload; editor dropped `gui/theme/custom_font` on save, restored), `scenes/ui/match_hud.gd` (portrait material), `scenes/ui/rookie_showcase.gd` (shrink 3, nearest), ART_STYLE section 9, DEFERRED_WORK, master 12.1.11 + DEC-049.
 - **Validation:** tests PASS (`finish_tests.txt`); MCP process 0 errors; editor check: placement, selection, ticket `collect_cursor` live under the overlay. Web release export 0 ERROR/WARNING; Chrome 1280x720 + 800x600 OFF/ON (menu, upgrade tooltip, pause), 0 console errors; frame interval unchanged (4.15 ms mean both).
 - **Not done:** owner acceptance; HTML sweater loader untreated (outside Godot, documented); no fresh release ZIP; hosted site unchanged. Preview: localhost:8170 (`build/finish_preview`).
+
+#### SESSION 2026-11-15 08:50 — Opus 5.5 — repo playable from clone; universal pixel pass removed (DEC-050)
+- **Owner requests:** push the entire project so it is downloadable and playable from the repo; then remove the universal pixelation shader.
+- **Repo:** committed all pending work incl. parallel sessions' website/loader docs (`e30e4e7`) and a root `README.md` (Godot 4.7.2 import + F5, optional Web export, controls).
+- **DEC-050:** `screen_finish.gdshader` no longer reads the screen; it is an alpha overlay with vignette 0.08 + powder 0.60 only. Pixel parameters and cell scaling removed from `screen_finish.gd` and its test. Menu Rookie / portrait pixelation kept (separate owner request). ART_STYLE 9, DEFERRED_WORK, master 12.1.11 updated.
+- **Validation:** test_screen_finish PASS; MCP process run 0 errors (menu crisp, powder faint). Fresh-clone check: next line.
