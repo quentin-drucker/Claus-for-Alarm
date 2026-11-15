@@ -5,6 +5,7 @@ Every verified milestone leaves an upload-ready ZIP in `build/archive/` (git-ign
 (no SharedArrayBuffer / COOP-COEP needed).
 
 **Latest candidate (final, 2026-11-15 08:45): `build/archive/claus_for_alarm_final_web_deb4aa6.zip`** (adds DEC-052 no pixelation + wafting gusts, DEC-053 camel menu; Chrome 0 console errors). Superseded: `claus_for_alarm_final_web_b36c973.zip` (36,712,224
+itch.io cover image (630x500, the recommended size): `docs/itch/cover_630x500.png` (2x source `docs/itch/cover_1260x1000.png`), a browser capture of the final title screen.
 bytes): everything on `main` at `b36c973` — fonts, vignette/powder finish (DEC-050), Ticket Booth tickets, ambient
 snow + gusts (DEC-051). Release export 0 ERROR/WARNING; Chrome match smoke 0 console errors (`p17t07_web_snowfall.png`).
 Not yet uploaded to itch.io by this session.

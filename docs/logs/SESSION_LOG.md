@@ -745,3 +745,8 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Owner requests:** quicker, more wafty spiral gusts; remove character pixelation (HUD portraits + title elf); show Camel Claus leaning in from the right on the title screen instead of the Rookie.
 - **Done:** `portrait_pixel.gdshader` deleted and unused; menu showcase full resolution; gust 2.8 s / 38 m, meandering bobbing path with trailing curl (`gust_sway/waves/phase`). `rookie_showcase.gd` loads `camel_claus.glb`, scale 2, edge-cropped lean + bob/peek; `title_screen.tscn` showcase anchors 0.7/0.1 → 1/1 (MCP). `test_menu_background` expectation updated.
 - **Validation:** test_menu_background, test_ui, test_ambient_snow, test_match (+ test_screen_finish, test_playfeel, test_full_run for DEC-052) PASS; MCP runs 0 errors; Web export clean, Chrome menu + match 0 console errors (`dec053_web_menu_camel.png`). ZIP `build/archive/claus_for_alarm_final_web_deb4aa6.zip`. Website `img/menu.png` still shows the Rookie menu.
+
+#### SESSION 2026-11-15 08:55 — Opus 5.5 — final website refresh + itch cover
+- Website `img/menu.png` replaced with a 1440x900 Chrome capture of the final camel title screen (build `deb4aa6`); two alt texts updated from "Rookie elf" to Camel Claus. Published to `gh-pages`.
+- itch cover `docs/itch/cover_630x500.png` (+ 1260x1000 source) captured from the same build at a 1260x1000 window. Chrome 0 console errors.
+- Final upload: `build/archive/claus_for_alarm_final_web_deb4aa6.zip` (game code unchanged since `deb4aa6`).
