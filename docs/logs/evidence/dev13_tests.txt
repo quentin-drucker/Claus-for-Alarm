@@ -1,0 +1,13 @@
+﻿test_audio             exit         1s  test_audio: PASS |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_combat            exit         3s  test_combat: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_data              exit         2s  test_data: PASS
+test_full_run          exit        52s  test_full_run: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_hero              exit         5s  test_hero: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_map               exit         1s  test_map: PASS
+test_match             exit         5s  test_match: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_menu_background   exit         1s  test_menu_background: PASS |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_playfeel          PASS after fix (first run: 1 FAILURE "zoom remains 46" -> fit_width_m set so size = 46 at the base UI; rerun PASS)
+test_pops              exit         3s  test_pops: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_towers            exit         4s  test_towers: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_ui                exit         4s  test_ui: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_upgrades          exit         5s  test_upgrades: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)

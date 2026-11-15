@@ -26,8 +26,9 @@ func _ready() -> void:
 	_banner.offset_top = 56.0
 	_banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_banner.add_theme_font_size_override(&"font_size", 28)
-	_banner.add_theme_constant_override(&"outline_size", 8)
-	_banner.add_theme_color_override(&"font_outline_color", Color.BLACK)
+	_banner.add_theme_constant_override(&"outline_size", 10)
+	_banner.add_theme_color_override(&"font_color", Color("f6ead2"))  # Dev 13 lodge cream on timber-dark outline
+	_banner.add_theme_color_override(&"font_outline_color", Color("2a1a10"))
 	_banner.modulate.a = 0.0
 	add_child(_banner)
 	Events.emitted.connect(_on_event)

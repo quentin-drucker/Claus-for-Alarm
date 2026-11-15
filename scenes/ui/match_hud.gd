@@ -188,7 +188,7 @@ func _build_sidebar() -> void:
 
 func _card(i: int, def: TowerDefinition) -> Button:
 	var b: Button = _button("", match_node.begin_placing.bind(def), &"CardButton", 1.05)
-	b.custom_minimum_size = Vector2(0, 98)
+	b.custom_minimum_size = Vector2(0, 88)
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.set_meta(&"tip", "%s  $%d\n%s\n%s" % [def.display_name, def.price, def.role, _stats_text(def)])
 	b.tooltip_text = b.get_meta(&"tip")
@@ -295,10 +295,15 @@ func _build_hero_panel() -> void:
 	box.add_child(head)
 	_frenzy = _button("", func() -> void: match_node.use_frenzy())
 	_focus = _button("", func() -> void: match_node.toggle_focus())
+	var abilities: HBoxContainer = HBoxContainer.new()
+	abilities.add_theme_constant_override(&"separation", 4)
+	box.add_child(abilities)
 	for b: Button in [_frenzy, _focus]:
-		b.add_theme_font_size_override(&"font_size", 13)
-		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		box.add_child(b)
+		b.add_theme_font_size_override(&"font_size", 12)
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		b.custom_minimum_size = Vector2(0, 40)
+		abilities.add_child(b)
 	_hero_panel.tooltip_text = "Camel Claus earns XP at the end of every round and levels up on his own."
 	_hero_panel.visible = false
 
@@ -579,30 +584,36 @@ func _refresh_hero() -> void:
 		_hero_xp.min_value = lo
 		_hero_xp.max_value = hi
 		_hero_xp.value = hero.xp
-		lines.append("Camel Claus  Lv %d   XP %d/%d" % [hero.level, hero.xp, hi])
+		lines.append("Level %d   XP %d/%d" % [hero.level, hero.xp, hi])
 		_hero_xp.tooltip_text = "Next: %s" % def.level_changes[hero.level].get("summary", "")
 	else:
 		_hero_xp.value = _hero_xp.max_value
-		lines.append("Camel Claus  Lv %d (max)" % hero.level)
+		lines.append("Level %d (max)" % hero.level)
 	_hero_text.text = "\n".join(lines)
 	var over: bool = match_node.is_over()
 	match match_node.frenzy_state():
 		"locked":
-			_frenzy.text = "Frenzy (Q): unlocks at level %d" % _unlock_level(def, "snowball_frenzy")
+			_frenzy.text = "Frenzy (Q)
+Level %d unlock" % _unlock_level(def, "snowball_frenzy")
 		"active":
-			_frenzy.text = "Frenzy: active %.1f s" % hero.frenzy_left
+			_frenzy.text = "Frenzy (Q)
+active %.1f s" % hero.frenzy_left
 		"cooldown":
-			_frenzy.text = "Frenzy: recharging %d s" % ceili(hero.frenzy_cooldown_left)
+			_frenzy.text = "Frenzy (Q)
+recharge %d s" % ceili(hero.frenzy_cooldown_left)
 		_:
-			_frenzy.text = "Frenzy (Q): READY - 3x speed"
+			_frenzy.text = "Frenzy (Q)
+READY: 3x speed"
 	_frenzy.disabled = over or match_node.clock.paused or match_node.frenzy_state() != "ready"
 	var variation: StringName = &"PrimaryButton" if not _frenzy.disabled else &""
 	if _frenzy.theme_type_variation != variation:
 		_frenzy.theme_type_variation = variation
 	if hero.has_unlock("focused_shot"):
-		_focus.text = "Focused Shot (E): %s" % ("ON" if hero.focus else "off")
+		_focus.text = "Focus (E)
+%s" % ("ON" if hero.focus else "off")
 	else:
-		_focus.text = "Focused Shot (E): Lv %d" % _unlock_level(def, "focused_shot")
+		_focus.text = "Focus (E)
+Level %d unlock" % _unlock_level(def, "focused_shot")
 	_focus.disabled = over or not hero.has_unlock("focused_shot")
 
 

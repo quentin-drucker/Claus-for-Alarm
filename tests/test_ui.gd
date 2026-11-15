@@ -91,7 +91,7 @@ func _test_hud() -> void:
 	_check(hud._upgrade_buttons[0].tooltip_text != "", "upgrade tooltip describes the effect")
 	var hero: Node3D = m.try_place(content.hero, Vector2(0.5, 0))
 	_check(hero != null and hud._shop_buttons[6].disabled and "On the course" in hud._shop_price[6].text, "hero shop card: on the course")
-	_check(hud._hero_panel.visible and "unlocks at level 3" in hud._frenzy.text and hud._frenzy.disabled, "hero panel: Frenzy locked reason")
+	_check(hud._hero_panel.visible and "Level 3 unlock" in hud._frenzy.text and hud._frenzy.disabled, "hero panel: Frenzy locked reason")
 	m.set_hero_level(3)
 	hud._refresh_hero()
 	_check(not hud._frenzy.disabled and "READY" in hud._frenzy.text, "hero panel: Frenzy ready")

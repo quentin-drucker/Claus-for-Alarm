@@ -4,6 +4,7 @@ extends Control
 ## Environment attribution: CREDITS.md; owner places public credits on the game website.
 
 const MATCH: String = "res://scenes/main/match.tscn"
+const LODGE := preload("res://scripts/ui/lodge_theme.gd")
 const SETTINGS_PATH: String = "user://settings.cfg"
 const BUSES: PackedStringArray = ["Music", "SFX", "Towers", "Ambience"]
 ## Slider value on first run (no saved settings).
@@ -40,25 +41,17 @@ func _fit_menu() -> void:
 	$MenuSide.anchor_right = 0.44 if size.x >= 900.0 else 1.0
 
 
+## Dev 13: the shared ski-lodge theme (timber-framed panels, red primary Play, cream text) over the 3D backdrop.
 func _style_menu() -> void:
+	theme = LODGE.get_theme()
 	_menu.add_theme_constant_override("separation", 10)
-	for overlay: PanelContainer in [_how, _settings]:
-		var panel: StyleBoxFlat = StyleBoxFlat.new()
-		panel.bg_color = Color(0.025, 0.065, 0.09, 0.97)
-		panel.set_corner_radius_all(6)
-		overlay.add_theme_stylebox_override("panel", panel)
-	for button: Button in [%PlayButton, %HowButton, %SettingsButton]:
+	%PlayButton.theme_type_variation = &"PrimaryButton"
+	for title: Label in [$Center/HowPanel/Box/HowTitle, $Center/SettingsPanel/Box/SettingsTitle]:
+		title.theme_type_variation = &"Heading"
+	for button: Button in [%PlayButton, %HowButton, %SettingsButton, %HowBack, %SettingsBack]:
 		button.custom_minimum_size.y = 44
 		button.add_theme_font_size_override("font_size", 20)
-		for state: String in ["normal", "hover", "pressed", "focus"]:
-			var panel: StyleBoxFlat = StyleBoxFlat.new()
-			panel.bg_color = Color(0.035, 0.09, 0.13, 0.86) if state == "normal" else Color(0.09, 0.23, 0.29, 0.94)
-			panel.border_color = Color("e8c586")
-			panel.set_border_width_all(1 if state == "normal" else 2)
-			panel.set_corner_radius_all(7)
-			panel.content_margin_left = 18
-			panel.content_margin_right = 18
-			button.add_theme_stylebox_override(state, panel)
+		LODGE.juice(button, 1.03)
 
 
 func _show(panel: Control) -> void:

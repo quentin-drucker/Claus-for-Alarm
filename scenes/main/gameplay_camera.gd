@@ -7,8 +7,9 @@ extends Camera3D
 @export_range(35.0, 80.0, 1.0) var elevation_degrees: float = 50.0
 @export var focus_point: Vector3 = Vector3(0.0, 0.0, -0.047005)
 @export var orbit_distance_m: float = 23.094011
-## World width (m) that must fit across the playfield: the 34 m route plus margins.
-@export var fit_width_m: float = 37.5
+## World width (m) that must fit across the playfield: the 34 m route plus ~1 m margins. Chosen so the owner's
+## orthographic size 46 holds at the base 1152-wide UI with the 248-unit sidebar (test_playfeel).
+@export var fit_width_m: float = 46.0 * 904.0 / 1152.0
 ## Minimum world height (m, orthographic) visible on screen (wide windows).
 @export var fit_height_m: float = 24.0
 ## UI units on the right covered by the HUD sidebar (set by the HUD).

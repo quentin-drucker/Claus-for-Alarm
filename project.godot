@@ -26,6 +26,8 @@ Audio="*uid://0v64x7e7rpe2"
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+mouse_cursor/custom_image="res://assets/ui/cursor.png"
+mouse_cursor/custom_image_hotspot=Vector2(1, 1)
 
 [editor_plugins]
 
