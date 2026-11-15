@@ -132,6 +132,8 @@ Assumed home for this master: `Claus for Alarm/references/design/00_Camel_Claus_
 
 ### 3.2 Exact roster and mapping: initial versus later
 
+**Owner scope decision (2026-11-14): Winter Games Lodge (Monkey Village) and Track Gritter (Spike Factory) are DEFERRED beyond the hackathon submission. Do not create, implement, or include these towers in the hackathon build. Existing concepts are retained only for a possible later expansion/extension; future production requires renewed authorization.**
+
 | Status | Camel Claus name | BTD6 mechanical parent | Main role | Must never be confused with... |
 |---|---|---|---|---|
 | INITIAL | **Snowball Rookie** | Dart Monkey | Cheap early tower; standard piercing projectile; three distinct high-tier modes | Camel Claus hero projectile |
@@ -143,8 +145,8 @@ Assumed home for this master: `Claus for Alarm/references/design/00_Camel_Claus_
 | INITIAL HERO | **Camel Claus** | Quincy | Ricochet damage, auto XP, lvl 3/10 abilities, lvl 4 Focus stance | Team aura hero |
 | PLANNED | Hockey Slapper | Boomerang Monkey | Returning/ricocheting projectile, knockback | Initial roster |
 | PLANNED | Snowboard Trickster | Ninja Monkey | Intrinsic property detection, fast projectile/status | Initial roster |
-| PLANNED | Winter Games Lodge | Monkey Village | Nearby support/aura | Initial roster |
-| PLANNED | Track Gritter | Spike Factory | Persistent path hazards | Initial roster |
+| DEFERRED (post-hackathon, optional) | Winter Games Lodge | Monkey Village | Nearby support/aura | Initial roster |
+| DEFERRED (post-hackathon, optional) | Track Gritter | Spike Factory | Persistent path hazards | Initial roster |
 
 **Excluded, unless the owner explicitly changes scope later:** Dartling Gunner / Industrial Snowblower; Monkey Ace / Ski Patrol Glider; Engineer Monkey / Rink Engineer; Ice Monkey / Figure Skater; Tack Shooter / Puck Carousel; Alchemist / Hot Cocoa Coach. Do **not** create placeholders, purchase buttons, data resources, modeled assets, icon slots or preemptive tier trees for excluded families.
 
@@ -703,6 +705,8 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **P14 exit proof:** technically playable Web alpha, regressions passing and stable `presentation_id`/GLB/art swap contracts. This is the transition into the main art phase.
 
 ### P15 — Art bible, premium modeling pipeline and single-asset vertical slice
+**Current handoff override:** see section 12.1.1 for the selected Tripo/AccuRIG sources and proposed P15-A01–A04 Cannon integration proof. Earlier checked tasks describe the old hand-built asset pipeline; they do not certify the newly selected FBXs or their runtime integration. P15-T09/G7 remain open.
+
 **Goal:** Test how the final art will look/perform in the *real* game before modeling the whole roster.  
 **Read:** HYB-A A-01–A-05/A-08–A-12; HYB-B B-01–B-04/B-07–B-15.  
 **Gate:** G7.
@@ -722,6 +726,8 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **P15 exit proof:** a premium reusable character, layered snowball, prop and successful Godot Web import with evaluation renders; asset standard proven before mass production.
 
 ### P16 — Complete 3D asset production: hero, six towers, snowballs, map
+**Current scope override:** section 12.1.1 records supplied source models, deferred additional rigging and upgrade-form variants, and the preparation-first handoff. Source-model availability is partial progress, not completion of the unchecked integration/QA tasks below. The former Dev 8 map/snowball slice remains queued after the Cannon proof.
+
 **Goal:** Replace placeholders with coherent original stylized models at practical in-game resolution.  
 **Read:** HYB-B B-01/B-03–B-14; HYB-A A-02–A-05; HYB-M M-03/M-07/M-09.  
 **Gate:** G8.
@@ -1034,15 +1040,62 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 
 | Field | Value |
 |---|---|
-| Current milestone | G4 ✅; technical alpha tagged `technical-alpha` (25 exact rounds, specials, 1×/2×/4×); G6 pending owner fresh-player test + P14-T02/T05–T08 |
-| Current phase | P15 style slice: look APPROVED (DEC-036); Rookie rebuilt to the DEC-039 sheets (review 1 delivered); T09 owner review pending |
-| Active task IDs | P15 Rookie redesign — review 1 (model) STOPPED for owner review; review 2 (re-rig) next; P18 audio owner listening pass pending; no hero/towers/map/UI/VFX until approved |
-| Latest verified commit | see SESSION_LOG 2026-11-14 "25 rounds + technical alpha" entry |
+| Current milestone | G4 complete; technical-alpha checkpoint exists. G6 acceptance remains incomplete; G7/P15 open. Saved evidence includes later special-enemy, art and P18 audio work; see section 12.1.1. |
+| Current phase | P15/P16 handoff: new Tripo/AccuRIG sources collected and structurally inspected, not integrated. Prove asset preparation/binding with Cannon before resuming map + snowballs. |
+| Active task IDs | Next proposed batch P15-A01-A04 (section 12.1.1): preparation pipeline, static-model-safe binding, Cannon proof, regression/Web review. Other rollout and map dressing queued. |
+| Latest verified commit | 3efc464 (eye texture import), following 6eaaf5d Rookie face/hat/hair fixes. Assessment and source-model organization have local uncommitted changes; inspect status before commits. |
 | Latest passing editor test | editor process run: match at 4×, B/W/P/C markers, hit feedback, 0 errors (2026-11-14) |
-| Latest passing Web build URL | local only: extracted `claus_for_alarm_alpha_web_619af86.zip` on `http://localhost:8010` (Chrome, rounds 1–5 by mouse/keyboard, 0 console errors/warnings); no hosted URL yet |
+| Latest passing Web build URL | Saved local P15/P18 browser evidence exists. Website history records studio and itch links, but current hosted build/public access was not reverified in this assessment. |
 | Latest passing test suite | `tests/test_{data,map,match,combat,towers,upgrades,hero,ui,full_run,audio}.gd` — all PASS (2026-11-14, DEC-039 review 1, `p15b_tests.txt`) |
-| Current blockers | HARD STOP before P15–P18 (art/UI skin/VFX/audio) — owner directs those; deadline Sun Nov 15 10:00 AM |
-| Primary next action | Owner: review 1 of the rebuilt Rookie (`p15b_elf_rookie_closeup.png`, `p15b_godot_idle_zoom.png`, scorecard); then review 2 (re-rig: clavicles, raised-arm rest, shoulder weights, `check_rig_reuse.py`); decide stone vs track brightness for the map slice |
+| Current blockers | New assets lack normalized runtime exports/bindings; selected rigged Rookie contains only T-Pose actions. Fresh-player and remaining G6/G7 acceptance pending. Additional rigging is deferred, not a prerequisite. |
+| Primary next action | Invoke revised Dev 8: prepare and integrate Cannon as a small visual-only proof, verify regression + Web, then stop for review. Do not auto-sign off Rookie/G7 or start all tower replacements. |
+
+### 12.1.1 Asset assessment and revised Dev 8 handoff (2026-11-14)
+
+This section supersedes the old next-action text and old Dev 8 map-first prompt. It records the owner's source-model and scope decisions plus a read-only assessment; it does not claim that preparation or integration has been completed.
+
+**Verified progress and history**
+- Local Claude transcripts were available: setup/logistics, Dev 1-7, subsequent "Modeling with Fable 1 - Rookie elf re-rig and face", website, and audio work. Dev 7 is the P15 slice, but the later modeling session and this owner's Tripo/AccuRIG work are also relevant.
+- HEAD at assessment: `3efc464`, after `6eaaf5d` face/hat/hair fixes. The existing runtime Rookie is still `assets/models/elf_rookie.glb`, built from the older procedural Blender source. It is NOT the selected Tripo/AccuRIG model.
+- Six initial tower base kits, hero progression, 25 rounds and special enemy interactions exist. Later records report 54/90 upgrade tiers (tiers 1-3), superseding the G4 dashboard's historical 35/90 count. Regrow remains deliberately omitted; do not claim unconditional exact BTD6 parity.
+- P18 music/SFX/ambience implementation exists; it is not waiting to begin. Latest saved ten-suite evidence is `docs/logs/evidence/p15b_tests.txt`; these tests were not rerun during the assessment.
+- `docs/BUGS.md` and the unfilled `docs/FRESH_PLAYER_TEST.md` retain outstanding UX/acceptance work. G6/G7 and release gates must not be auto-closed from source-model availability.
+- Source assets and recent documentation edits remain local/uncommitted at assessment. Inspect git status and staging before any commit; do not sweep unrelated work into a batch.
+
+**Selected source assets**
+- Current index: `art_src/models/README.md`. There are nine active FBXs: Rookie, Cannon, Ranger, Wax Sprayer, Sorcerer, Ticket Booth, Camel Claus, Hockey Slapper and Snowboard Trickster.
+- Rookie authority: `art_src/models/snowball_rookie/snowball_rookie_rigged.fbx`. Superseded Rookie models and historical path manifests are in `art_src/archive/model_collection_before_cleanup/`.
+- All nine imported successfully in temporary Blender sessions. One mesh/material and UVs per model; eight have no armature/actions. Approximate triangle counts: Rookie 25,058; Cannon 24,997; Ranger 24,996; Wax 24,988; Sorcerer 12,508; Booth 25,000; Camel 24,994; Hockey 12,500; Snowboarder 13,384. These are source-import measurements, not a Web performance sign-off.
+- Raw imported Blender heights: Rookie/Ranger/Wax/Booth/Camel about 1.0; Cannon 0.946; Sorcerer 0.718; Hockey 0.786; Snowboarder 0.801. Different scales must be normalized intentionally, not copied unchanged into the world.
+- Sorcerer/Hockey have small below-ground bounds and offsets; Snowboarder has about 10 degrees of object yaw. Cannon has three non-manifold edges requiring inspection, not automatic rejection.
+- Rookie has a 71-bone armature and no unweighted vertices in the structural check, but only single-frame T-Pose actions (`Armature|0_T-Pose`, `Key|0_T-Pose`). A rig is present; usable idle/attack clips are NOT supplied. Its embedded diffuse/normal maps import despite stale external AccuRIG temp paths; make exported dependencies portable. Other models resolve their accompanying textures. Imported image maps are generally 2048 squared.
+- Facing, artistic quality, deformation quality, actual play-camera readability and browser performance of the NEW models remain unverified.
+
+**Integration hiccups to address**
+- `scenes/towers/tower.gd` currently binds only the old Rookie. `_set_model()` unconditionally calls `_anim.play("idle")`; static models need safe optional-animation handling.
+- `play_attack()` returns before turning if no AnimationPlayer exists. Separate visual aiming/attack reactions from optional skeletal clips.
+- Preserve `muzzle_position()` and the presentation-only projectile offset in `scenes/main/match.gd`; provide per-model markers or offsets rather than changing simulation origins/damage.
+- The old binding enables vertex-color albedo for the old painted model. New FBXs have no vertex-color layers; preserve their texture materials and test outline behavior.
+- Single-mesh exports do not supply separate barrels/arms/staffs. Initial recoil/tilt/pulse may animate a visual root; independent part movement is optional future mesh separation.
+- Preserve map coordinates, blockers, placement masks, costs, ranges, attack cadence and footprints. Booth radius is 1.5 m; others currently default to 0.6 m. Evaluate visual envelope without silently changing balance.
+- Do not apply the existing 1.5x presentation multiplier twice. The fixed gameplay camera currently has orthographic size 46.
+- Existing scenery `assets/models/lodge.glb` is NOT the deferred Winter Games Lodge support tower.
+
+**Revised sequence (recommended; execute only when the owner invokes the next development prompt)**
+1. P15-A01: establish a repeatable non-destructive Tripo/AccuRIG preparation process: original FBX -> derived Blender preparation/profile -> runtime GLB under `assets/models/`. Record per-asset scale, facing, grounding, placement center, materials and markers. Prepared artifacts must be reproducible.
+2. P15-A02: prove the process with Avalanche Cannon only, covering P14-T05/T06 and P16-T04/T14/T17 in limited form. Add a small visual binding/profile sufficient for per-model transforms, optional animation, stationary buildings and muzzle markers; avoid an architectural rewrite.
+3. P15-A03: integrate Cannon visual only, with a short procedural recoil/recovery and modest muzzle effect. Keep the old Rookie runtime visual as baseline for this slice; inspect its selected rigged replacement but do not require completing Rookie animation first.
+4. P15-A04: verify normal camera + placement ghost + nearest legal neighbors + pause/1x/2x/4x, regression suites, Web export/browser, 120-snowball stress frame timing/draws, screenshots and thumbnail. Stop for owner review. Do NOT mark P15-T09/G7 approved automatically: evidence for the selected new character pipeline is still needed.
+5. Once accepted, prepare/replace the other INITIAL tower visuals and Camel Claus in small verified batches. Give the rigged Rookie minimal suitable clips or explicitly agreed temporary fallback; do not reuse incompatible old skeleton actions blindly.
+6. Resume the former Dev 8 map/snowball slice (P16-T09/T11/T12): locked geometry, track luma snow > stone > track, dressing and pooled layer-break effects. The scope is queued, not cancelled. Hero/tower rollout order can be reviewed after the Cannon proof; avoid combining all work in one unchecked batch.
+7. Finish P17 feedback/UI work, remaining G6 acceptance, P19 browser QA and P20 publishing verification. A recorded website/itch URL is not proof of present public accessibility.
+
+**Deferred and scope boundaries**
+- No additional full-character rigging or complex animation prerequisite. Favor tower-specific procedural activity reactions triggered by existing gameplay events; effects never determine damage. The existing Rookie rig remains authoritative.
+- Upgrade-form variants are deferred until the base game is polished (owner note in setup/logistics history); do not force P16-T13 or DEC-032/034 upgrade cosmetics into the immediate slice.
+- Winter Games Lodge/Monkey Village and Track Gritter/Spike Factory: no hackathon creation/inclusion; retain concepts for an optional expansion.
+- Hockey Slapper and Snowboard Trickster source models exist, but no gameplay definitions/implementations were found. Their reference/model creation does not authorize adding their mechanics to the submission.
+- See `docs/DEFERRED_WORK.md`. Keep earlier evidence and decisions as history; the source assets and limited animation direction above supersede conflicting hand-built-only/shared-rig requirements in DEC-039.
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 
