@@ -29,7 +29,55 @@ func _ready() -> void:
 	_label.position = Vector2(8, 120)
 	_label.add_theme_color_override(&"font_color", Color.BLACK)
 	add_child(_label)
-	_run(mix, args.has("greybox"))
+	if args.has("probe"):
+		_probe(args.has("warm"))
+	else:
+		_run(mix, args.has("greybox"))
+
+
+## Dev 11 first-use stall probe: idle, optional warm-up, first placement (a Rookie), first round start, first shot;
+## prints every frame > 34 ms with its phase. Same scene/harness with and without the warm-up isolates its effect.
+func _probe(warm: bool) -> void:
+	var t0: int = Time.get_ticks_msec()
+	var phase: Array[String] = ["idle"]
+	var long: Array[String] = []
+	var watch: Callable = func() -> void:
+		var last: int = Time.get_ticks_usec()
+		while true:
+			await get_tree().process_frame
+			var now: int = Time.get_ticks_usec()
+			if now - last > 34000:
+				long.append("%s %.1f ms" % [phase[0], (now - last) / 1000.0])
+			last = now
+	watch.call()
+	for i: int in 60:
+		await get_tree().process_frame
+	if warm:
+		phase[0] = "warmup"
+		var w0: int = Time.get_ticks_msec()
+		var warmup: Node3D = load("res://tests/tools/warmup_probe.gd").new()
+		m.add_child(warmup)
+		warmup.prime(m)
+		await warmup.finished
+		_say("warm-up took %d ms; per group %s %s" % [Time.get_ticks_msec() - w0, warmup.group_names, warmup.group_ms])
+	for i: int in 60:
+		await get_tree().process_frame
+	phase[0] = "place"
+	m.ledger.cash = 100000
+	m.try_place(Content.get_tower(&"snowball_rookie"), _nearest_legal(Content.get_tower(&"snowball_rookie"), 14.0, -1.0))
+	for i: int in 90:
+		await get_tree().process_frame
+	phase[0] = "round"
+	m.start_round()
+	while m.shots.is_empty():
+		await get_tree().process_frame
+	phase[0] = "shot"
+	for i: int in 120:
+		await get_tree().process_frame
+	_say("probe warm=%s: ready-to-first-shot+2s %d ms; long frames: %s" % [warm, Time.get_ticks_msec() - t0, long])
+	_say("DONE")
+	if not OS.has_feature("web"):
+		get_tree().quit()
 
 
 func _say(line: String) -> void:

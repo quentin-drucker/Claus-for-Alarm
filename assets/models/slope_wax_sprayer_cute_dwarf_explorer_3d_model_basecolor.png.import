@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dgrwi6f4pyxhy"
-path="res://.godot/imported/slope_wax_sprayer_cute_dwarf_explorer_3d_model_basecolor.png-c6ced8e7635ec8e39d293db5c8e8bde5.ctex"
+path.s3tc="res://.godot/imported/slope_wax_sprayer_cute_dwarf_explorer_3d_model_basecolor.png-c6ced8e7635ec8e39d293db5c8e8bde5.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "2d76699cb18614e8781acb8a5ec828ac"
@@ -14,7 +15,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/slope_wax_sprayer_cute_dwarf_explorer_3d_model_basecolor.png"
-dest_files=["res://.godot/imported/slope_wax_sprayer_cute_dwarf_explorer_3d_model_basecolor.png-c6ced8e7635ec8e39d293db5c8e8bde5.ctex"]
+dest_files=["res://.godot/imported/slope_wax_sprayer_cute_dwarf_explorer_3d_model_basecolor.png-c6ced8e7635ec8e39d293db5c8e8bde5.s3tc.ctex"]
 
 [params]
 

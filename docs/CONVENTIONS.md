@@ -20,9 +20,10 @@ Add a rule here when you notice drift; don't add rules "just in case".
 - Textures Godot extracts from a `.glb` (`assets/models/<name>_<image>.png`) must be re-imported with `compress/mode=0` (lossless) and `mipmaps/generate=false`; the default is VRAM compression, which smears pixel art.
   Reimporting the `.glb` re-extracts them and flips `mipmaps/generate` back to `true`: set it again after every model reimport.
   That rule is for the hand-built pixel/vertex-colour models (e.g. the elf eye). Painted Tripo PBR maps use
-  `compress/mode=2` + mipmaps, `detect_3d/compress_to=0` (all five prepared models, Dev 10). Measured: in this project
-  that still imports WebP and uploads uncompressed RGB8 (~5.6 MB per 1024² map in video memory), not S3TC; real VRAM
-  compression is an open Web-memory task.
+  `compress/mode=2` + mipmaps, `detect_3d/compress_to=0` (normal maps also `compress/normal_map=1`). Editing those params
+  does not rebuild the texture: after changing them, check the `.import` `[remap]` shows `path.s3tc=` and
+  `"vram_texture": true`; if it still says `path=...ctex`, delete that map's stale `.godot/imported/<map>*` files and run
+  `--import` (Dev 11: S3TC cut browser video memory 98.5 → 42.5 MB, `p15e_texture_memory.txt`).
 - Prepared source models (`prepare_source_model.py`): bake scale, facing, grounding and centre into the GLB; the 1.5×
   display scale lives only in the `PresentationProfile`. Export GLB maps as PNG: Godot 4.7 failed to decode
   Blender-written JPEGs inside a GLB (the model rendered black).

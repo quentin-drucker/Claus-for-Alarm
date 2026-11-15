@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://76ajjjm8vuvm"
-path="res://.godot/imported/camel_claus_3d_model_metallic-3d_model_roughness.png-1b3fb6e961cd2b504fef3c47fdb84dcf.ctex"
+path.s3tc="res://.godot/imported/camel_claus_3d_model_metallic-3d_model_roughness.png-1b3fb6e961cd2b504fef3c47fdb84dcf.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "6d0e16d07280f445ae074aeef747487d"
@@ -14,7 +15,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/camel_claus_3d_model_metallic-3d_model_roughness.png"
-dest_files=["res://.godot/imported/camel_claus_3d_model_metallic-3d_model_roughness.png-1b3fb6e961cd2b504fef3c47fdb84dcf.ctex"]
+dest_files=["res://.godot/imported/camel_claus_3d_model_metallic-3d_model_roughness.png-1b3fb6e961cd2b504fef3c47fdb84dcf.s3tc.ctex"]
 
 [params]
 

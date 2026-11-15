@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dvurv02hkxy86"
-path="res://.godot/imported/snow_sorcerer_elf_3d_model_basecolor.png-4e8cd15c9387e6004127a604ea484281.ctex"
+path.s3tc="res://.godot/imported/snow_sorcerer_elf_3d_model_basecolor.png-4e8cd15c9387e6004127a604ea484281.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "799237ac349c258498b5516f7a9a7f49"
@@ -14,7 +15,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/snow_sorcerer_elf_3d_model_basecolor.png"
-dest_files=["res://.godot/imported/snow_sorcerer_elf_3d_model_basecolor.png-4e8cd15c9387e6004127a604ea484281.ctex"]
+dest_files=["res://.godot/imported/snow_sorcerer_elf_3d_model_basecolor.png-4e8cd15c9387e6004127a604ea484281.s3tc.ctex"]
 
 [params]
 

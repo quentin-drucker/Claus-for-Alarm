@@ -1,0 +1,34 @@
+Dev 11 batch B — first-use stalls (2026-11-15). Chrome 157 headless shell (playwright-cli), ANGLE D3D11 on RTX 5080 laptop,
+1152x648, display-paced 240 Hz. "Fresh" = a new in-memory browser profile per run (no HTTP/GPU-program cache).
+
+1) Release build (build/web, preset Web), scripted real input (p15e loadprobe: navigation -> title -> click Play -> key 1 + click
+   places a Rookie -> Space), rAF frames > 50 ms. The 20 smooth frames before each big freeze are Godot's boot splash / the old
+   screen: the freeze is the first draw of the next screen.
+   run      | engine up | title first draw | Play -> match first draw | placement   | round-1 start | first shot | errors
+   fresh 1  | 3.0 s     | 10322 ms freeze  | 203 ms + 5213 ms freeze  | 3 x ~0.32 s | 2175 ms       | 233 ms     | 0
+   fresh 2  | 2.9 s     | 10279 ms         | 190 ms + 5855 ms         | 3 x ~0.34 s | 2538 ms       | 242 ms     | 0
+   fresh 3  | 3.1 s     | 10535 ms         | 209 ms + 5816 ms         | 3 x ~0.35 s | 2635 ms       | 242 ms     | 0
+   reload 3 | 0.76 s    | 2269 ms          | 107 ms + 1122 ms         | 3 x ~0.32 s | 321 ms        | 134 ms     | 0
+   Load-to-play (navigation -> match responsive): fresh ~19.5 s (13.4 s to an interactive title + ~6 s match), reload ~4.3 s.
+
+2) Cause separation (Web Stress build, stress.gd `-- probe [warm]`: the real match, no user input => Web audio stays LOCKED, no
+   SFX/music can play). Fresh profile, 2 runs each:
+   no warm-up : idle/first match draw 8.3-9.1 s, first placement 2.80-2.92 s, round start 2.21 s + 0.21 s, first shot none > 34 ms
+   warm-up    : warm-up 14.5-14.7 s, then NO frame > 34 ms at placement, round start or first shot
+   Per warm-up group (first draw of each, fresh): tower models + puffs/rings 5.5 s, placement-ghost look 2.4 s, all snowball types
+   4.5 s, ticket/flash/shot/text 2.4 s. After a reload: no warm-up stalls 633 / 310 / 124 ms; warm-up 2.5 s (1.09/0.31/0.63/0.46).
+   => The gameplay stalls happen without any audio and vanish when the same materials were drawn once before: they are first-draw
+   costs of material/shader variants (consistent with WebGL program compile/link on ANGLE D3D11; the GL calls were not profiled,
+   so the exact stage is not proven). Audio's share of the release-build stalls is at most the small difference between (1) and (2)
+   (round start 2.2-2.6 s with audio unlocked vs 2.2 s locked); not separately measured.
+
+3) Decision: NO warm-up shipped. A full warm-up removes the gameplay stalls but costs 2-3x their duration (14.6 s vs ~5.3 s fresh;
+   2.5 s vs ~1.1 s reload), because it compiles variants round 1 never uses; it would add ~15 s to a fresh load-to-play. A lean
+   warm-up (Rookie + ghost + first shell + shot + text) would at best trade ~equal time from round start to match load.
+   Next actions (owner/next batch): (a) decide whether a lean, loading-screen warm-up is wanted (moves the round-1 2.2-2.6 s stall
+   to load, net ~0); (b) reduce material variants (fewer distinct StandardMaterial feature sets: outline/puff/ring/ghost/ticket
+   share unshaded-transparent; snowball marker emission), each variant costs ~1-1.5 s fresh; (c) the 10 s first title draw is the
+   largest single cost and is not gameplay: profile it (canvas/UI shaders vs engine defaults) before any optimisation;
+   (d) measure on another GPU/browser (Firefox, integrated graphics) — this is one high-end machine.
+Tool: tests/tools/warmup_probe.gd + stress.gd `-- probe [warm]`; launcher pages build/web_stress/probe(.html|_warm.html).
+   final release build (after this batch), fresh: engine 2.7 s, title first draw 9574 ms, match 5304 ms, placement 3 x ~0.31 s, round start 2264 ms, first shot 217 ms, 0 errors.

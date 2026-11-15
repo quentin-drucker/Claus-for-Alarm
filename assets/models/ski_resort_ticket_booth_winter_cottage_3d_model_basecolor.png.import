@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://nu035xdtrmf0"
-path="res://.godot/imported/ski_resort_ticket_booth_winter_cottage_3d_model_basecolor.png-e6069b358dc037348c88b6f445ca64e0.ctex"
+path.s3tc="res://.godot/imported/ski_resort_ticket_booth_winter_cottage_3d_model_basecolor.png-e6069b358dc037348c88b6f445ca64e0.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "e6d92836d96400dc9a81d515b5ac576d"
@@ -14,7 +15,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/ski_resort_ticket_booth_winter_cottage_3d_model_basecolor.png"
-dest_files=["res://.godot/imported/ski_resort_ticket_booth_winter_cottage_3d_model_basecolor.png-e6069b358dc037348c88b6f445ca64e0.ctex"]
+dest_files=["res://.godot/imported/ski_resort_ticket_booth_winter_cottage_3d_model_basecolor.png-e6069b358dc037348c88b6f445ca64e0.s3tc.ctex"]
 
 [params]
 

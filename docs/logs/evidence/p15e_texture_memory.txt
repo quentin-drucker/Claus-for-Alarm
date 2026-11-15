@@ -1,0 +1,30 @@
+Dev 11 batch B — texture memory (2026-11-15). Chrome 157 headless shell (playwright-cli), WebGL2 = ANGLE (NVIDIA GeForce RTX 5080
+Laptop GPU, Direct3D11), WEBGL_compressed_texture_s3tc + EXT_texture_compression_rgtc available. Harness: preset "Web Stress",
+stress_full.html (2 each of the six towers, >= 120 moving snowballs, 900 measured frames); all seven profiles (18 Tripo maps,
+1024^2, + the old Rookie) are preloaded by tower.gd, so every map is resident in every match. "video mem" =
+RenderingServer RENDERING_INFO_VIDEO_MEM_USED.
+
+Finding (corrects Dev 10): `compress/mode=2` in a .import file does NOT by itself rebuild the texture. Dev 10's maps still had
+lossless artifacts (`path=...ctex`, `vram_texture: false`) because the params were edited without a real reimport; the editor's
+"reimport" via the MCP import tool also left the old artifact (verified: file time unchanged). A real rebuild (editor reimport
+on focus at 22:30 Nov 14 for 15 maps; for the 3 Camel maps: stale `.godot/imported/<map>*` removed + `--import`) produces
+`path.s3tc=...s3tc.ctex`, `imported_formats ["s3tc_bptc"]`, `vram_texture: true`: BC1/BC3 colour/ORM (699,116 B per 1024^2 map
+incl. mips) and BC5/RGTC normal maps (1,398,180 B; `compress/normal_map=1`, `roughness/mode=1` = Disabled in Godot's enum).
+Check the artifact (the .import [remap] section), not the params.
+
+A/B, same harness, same browser, fresh profile each:
+  BEFORE (all 18 maps lossless, scratch copy with compress/mode=0 + forced reimport):
+    frame ms p50 4.20 p95 5.10 p99 6.90 max 2262.80 (one first-use stall); draws p50 969; prims p50 357132; video mem 98.5 MB; 0 errors
+  AFTER (all 18 maps S3TC/RGTC, this commit):
+    frame ms p50 4.20 p95 5.10 p99 7.00 max 2248.60 (same stall); draws p50 969; prims p50 357132; video mem 42.5 MB; 0 errors
+  => -56.0 MB (-57%) video memory; frame time unchanged (display-paced 240 Hz). index.pck 29.31 MB (lossless) vs 29.44 MB (S3TC).
+
+Visual quality: p15e_texture_lossless_vs_s3tc.png (left lossless, right S3TC; desktop captures of the same review): lineup close-up
+mean abs diff 0.97/255 (0.37% of pixels > 24/255), Camel close-up 0.37/255 (0.10%); no visible block artifacts at the game or
+close-up camera.
+
+Limitations: one high-end desktop GPU. Mobile browsers usually lack S3TC: the Web preset has for_mobile=false (no ETC2/ASTC), so
+there Godot must decompress these maps to uncompressed on load (no memory saving, extra load time) — enabling ETC2/ASTC
+(for_mobile) is the next step if mobile matters (adds the second format to the .pck). Resolution reduction (process/size_limit
+512) was not applied: S3TC alone met the goal; 1024^2 maps on ~40 px models would allow it (~-12 MB more) after a visual check.
+Source maps (art_src) and prepare_source_model.py are unchanged; the GLB still carries 1024^2 PNG maps.

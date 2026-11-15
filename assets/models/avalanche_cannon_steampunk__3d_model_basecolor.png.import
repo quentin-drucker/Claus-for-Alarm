@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cna53dl0u4tbf"
-path="res://.godot/imported/avalanche_cannon_steampunk__3d_model_basecolor.png-c7d67e01eae6e378f71e0d337b27be63.ctex"
+path.s3tc="res://.godot/imported/avalanche_cannon_steampunk__3d_model_basecolor.png-c7d67e01eae6e378f71e0d337b27be63.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "d78096fe848401d6aca96dc9b99b57cd"
@@ -14,7 +15,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/avalanche_cannon_steampunk__3d_model_basecolor.png"
-dest_files=["res://.godot/imported/avalanche_cannon_steampunk__3d_model_basecolor.png-c7d67e01eae6e378f71e0d337b27be63.ctex"]
+dest_files=["res://.godot/imported/avalanche_cannon_steampunk__3d_model_basecolor.png-c7d67e01eae6e378f71e0d337b27be63.s3tc.ctex"]
 
 [params]
 

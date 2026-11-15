@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dlxg0dkfwodxt"
-path="res://.godot/imported/camel_claus_3d_model_normal.png-a9b873a0620afdb853d78880897bbd63.ctex"
+path.s3tc="res://.godot/imported/camel_claus_3d_model_normal.png-a9b873a0620afdb853d78880897bbd63.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "dd26b8aa38d77b6f601e32375a00b906"
@@ -14,7 +15,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/camel_claus_3d_model_normal.png"
-dest_files=["res://.godot/imported/camel_claus_3d_model_normal.png-a9b873a0620afdb853d78880897bbd63.ctex"]
+dest_files=["res://.godot/imported/camel_claus_3d_model_normal.png-a9b873a0620afdb853d78880897bbd63.s3tc.ctex"]
 
 [params]
 
