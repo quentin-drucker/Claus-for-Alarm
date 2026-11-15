@@ -60,6 +60,7 @@ func _box(size: Vector3, pos: Vector3, yaw: float, color: Color) -> MeshInstance
 	mesh.material = _mat(color)
 	var node: MeshInstance3D = MeshInstance3D.new()
 	node.mesh = mesh
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF  # flat trims/props: shadows cost more than they show
 	node.position = pos
 	node.rotation.y = yaw
 	add_child(node)
@@ -176,7 +177,7 @@ func _pines(b: Rect2, pts: PackedVector3Array) -> void:
 			Rect2(b.end.x + 1, b.position.y - 6, 8, b.size.y + 12),
 			Rect2(b.position.x, b.position.y - 6, b.size.x, 4.6), Rect2(b.position.x, b.end.y + 1.4, b.size.x, 4.6)]
 	for area: Rect2 in areas:
-		var count: int = int(area.get_area() / 9.0)
+		var count: int = int(area.get_area() / 14.0)  # density tuned for Web (Dev 12 stress)
 		for k: int in count:
 			var p: Vector3 = Vector3(_rng.randf_range(area.position.x, area.end.x), 0.0,
 					_rng.randf_range(area.position.y, area.end.y))
@@ -195,9 +196,9 @@ func _pines(b: Rect2, pts: PackedVector3Array) -> void:
 		cone.top_radius = 0.0
 		cone.bottom_radius = tier[0]
 		cone.height = tier[1]
-		cone.radial_segments = 8
+		cone.radial_segments = 6
 		cone.material = _mat(tier[3])
-		_multi(cone, xforms, Vector3.UP * (tier[2] + tier[1] / 2.0 - 0.2))
+		_multi(cone, xforms, Vector3.UP * (tier[2] + tier[1] / 2.0 - 0.2), tier[3] == PINE_DARK)  # one shadow tier per pine
 
 
 func _near_track(p: Vector2, pts: PackedVector3Array, r: float) -> bool:
@@ -218,7 +219,7 @@ func _skis(at: Vector3) -> void:
 		pole.rotation.z = 0.15 if k == 0 else -0.15
 
 
-func _multi(mesh: Mesh, xforms: Array[Transform3D], local_offset: Vector3) -> void:
+func _multi(mesh: Mesh, xforms: Array[Transform3D], local_offset: Vector3, shadows: bool = false) -> void:
 	var mm: MultiMesh = MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
 	mm.mesh = mesh
@@ -228,4 +229,6 @@ func _multi(mesh: Mesh, xforms: Array[Transform3D], local_offset: Vector3) -> vo
 		mm.set_instance_transform(i, Transform3D(x.basis, x.origin + x.basis * local_offset))
 	var node: MultiMeshInstance3D = MultiMeshInstance3D.new()
 	node.multimesh = mm
+	if not shadows:
+		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(node)

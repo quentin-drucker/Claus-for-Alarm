@@ -1,0 +1,4 @@
+Total messages: 12 (Errors: 0, Warnings: 0)
+[LOG] STRESS mix full on Web: { &"snowball_rookie": 2, &"avalanche_cannon": 2, &"biathlon_ranger": 2, &"slope_wax_sprayer": 2, &"snow_sorcerer": 2, &"ski_resort_ticket_booth": 2 }, snowballs >= 120 (immune Coral, moving), max live shots 4 @ http://localhost:8142/index.js:451
+[LOG] STRESS viewport (1152.0, 648.0), vsync true, 900 frames: frame ms mean 8.24 p50 4.30 p95 7.70 p99 10.40 max 2970.20; frames > 1.5x p50: 144 @ http://localhost:8142/index.js:451
+[LOG] STRESS draw calls p50 1107 max 1151; primitives p50 758776 max 768952; video mem 42.7 MB; adapter WebKit / WebKit WebGL; renderer gl_compatibility @ http://localhost:8142/index.js:451
