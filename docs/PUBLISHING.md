@@ -4,7 +4,12 @@ Every verified milestone leaves an upload-ready ZIP in `build/archive/` (git-ign
 `claus_for_alarm_<milestone>_web_<commit>.zip` — `index.html` at the zip root, single-threaded Web export
 (no SharedArrayBuffer / COOP-COEP needed).
 
-**Latest candidate (Dev 13 audit, 2026-11-15 07:45): `build/archive/claus_for_alarm_dev13audit_web_e71f47a.zip`**
+**Latest candidate (final, 2026-11-15 08:34): `build/archive/claus_for_alarm_final_web_b36c973.zip`** (36,712,224
+bytes): everything on `main` at `b36c973` — fonts, vignette/powder finish (DEC-050), Ticket Booth tickets, ambient
+snow + gusts (DEC-051). Release export 0 ERROR/WARNING; Chrome match smoke 0 console errors (`p17t07_web_snowfall.png`).
+Not yet uploaded to itch.io by this session.
+
+Previous candidate (Dev 13 audit, 2026-11-15 07:45): `build/archive/claus_for_alarm_dev13audit_web_e71f47a.zip`
 (36,364,182 bytes, SHA-256 `2f624688...778ff8`): upgrades audit + new attack/special/pop VFX, and it also contains the
 parallel session's loading splash + floating menu Rookie (main at `e71f47a`). Clean-worktree export, extracted copy on
 `http://localhost:8148/`, browser smoke in `docs/logs/evidence/dev13_audit_web_smoke.txt` (local only, not hosted).
