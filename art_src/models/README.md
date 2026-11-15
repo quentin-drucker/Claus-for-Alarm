@@ -16,7 +16,7 @@ One named folder and one FBX per model. Texture directories retain their exporte
 
 Reference images are collected in `references/`. Older Rookie FBXs/GLB and historical manifests are retained in `../archive/model_collection_before_cleanup/`; those old manifests describe the pre-cleanup paths and are not the current model index.
 
-Use the existing AccuRIG Rookie as the authoritative Rookie model. No additional rigging or complex per-character animation is required for the current time-limited build. Other models use simple shared whole-object activity animation when implemented. See [deferred work](../../docs/DEFERRED_WORK.md).
+Owner update (2026-11-15): **keep the existing functional runtime Rookie, `assets/models/elf_rookie.glb`, for the hackathon submission**. The AccuRIG FBX above remains the selected future source, but its preparation, new clips and runtime replacement are deferred. Do not re-rig or replace the Rookie during Dev 12. Other models use simple shared whole-object activity animation when implemented. See [deferred work](../../docs/DEFERRED_WORK.md).
 
 All 79 original files were preserved and hash-verified during reorganization. No FBX contents or textures were re-exported. Runtime integration and visual/rig validation are separate tasks.
 
