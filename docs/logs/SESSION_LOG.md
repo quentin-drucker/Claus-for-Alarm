@@ -740,3 +740,8 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Owner request:** publish the website progress + particle change publicly; confirm the Pages link works.
 - **Found:** Pages serves branch `gh-pages` (legacy build), last updated 2026-11-14 01:16, so today's `website/` refresh was on `main` only.
 - **Done:** `gh-pages` = tree of `main:website` (commit `b8db8d2`); Pages build "built". https://quentin-drucker.github.io/Claus-for-Alarm/ returns 200, live `index.html` SHA-1 equals local, all 25 local links 200; itch page 200. Final upload ZIP `build/archive/claus_for_alarm_final_web_b36c973.zip` (PUBLISHING.md); itch upload is the owner's step.
+
+#### SESSION 2026-11-15 09:10 — Opus 5.5 — pixelation removed, wafting gusts, camel on the menu (DEC-052/053)
+- **Owner requests:** quicker, more wafty spiral gusts; remove character pixelation (HUD portraits + title elf); show Camel Claus leaning in from the right on the title screen instead of the Rookie.
+- **Done:** `portrait_pixel.gdshader` deleted and unused; menu showcase full resolution; gust 2.8 s / 38 m, meandering bobbing path with trailing curl (`gust_sway/waves/phase`). `rookie_showcase.gd` loads `camel_claus.glb`, scale 2, edge-cropped lean + bob/peek; `title_screen.tscn` showcase anchors 0.7/0.1 → 1/1 (MCP). `test_menu_background` expectation updated.
+- **Validation:** test_menu_background, test_ui, test_ambient_snow, test_match (+ test_screen_finish, test_playfeel, test_full_run for DEC-052) PASS; MCP runs 0 errors; Web export clean, Chrome menu + match 0 console errors (`dec053_web_menu_camel.png`). ZIP `build/archive/claus_for_alarm_final_web_<hash>.zip`. Website `img/menu.png` still shows the Rookie menu.

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dia21s28cy76a" path="res://scenes/ui/title_screen.gd" id="1_eb34j"]
 [ext_resource type="PackedScene" uid="uid://ch3ckhrxv5cl1" path="res://scenes/ui/menu_background.tscn" id="2_aqpy5"]
-[ext_resource type="Script" path="res://scenes/ui/rookie_showcase.gd" id="3_w8uqo"]
+[ext_resource type="Script" uid="uid://bo8sdd427kpec" path="res://scenes/ui/rookie_showcase.gd" id="3_w8uqo"]
 
 [node name="TitleScreen" type="Control" unique_id=794947286]
 layout_mode = 3
@@ -38,10 +38,10 @@ color = Color(0.015, 0.04, 0.06, 0.12)
 
 [node name="RookieShowcase" type="SubViewportContainer" parent="." unique_id=1373027018]
 layout_mode = 0
-anchor_left = 0.72
-anchor_top = 0.16
-anchor_right = 0.98
-anchor_bottom = 0.94
+anchor_left = 0.7
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource("3_w8uqo")
 

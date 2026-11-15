@@ -18,8 +18,8 @@ func _run() -> void:
 	var title: Control = load("res://scenes/ui/title_screen.tscn").instantiate()
 	root.add_child(title)
 	var rookie: SubViewportContainer = title.get_node("RookieShowcase")
-	check(rookie.model.scene_file_path == "res://assets/models/menu/rookie_showcase.glb",
-			"menu uses remodeled Rookie, independently of gameplay profile")
+	check(rookie.model.scene_file_path == "res://assets/models/camel_claus.glb",
+			"menu shows Camel Claus (DEC-053)")
 	check(rookie.get_node("PortraitViewport").own_world_3d and rookie.mouse_filter == Control.MOUSE_FILTER_IGNORE,
 			"Rookie has isolated lighting and cannot intercept menu clicks")
 	var viewport: SubViewport = title.get_node("VillageBackdrop/VillageViewport")

@@ -1,7 +1,14 @@
 extends SubViewportContainer
-## Menu-only remodeled Rookie; a separate transparent world stays fixed beside the orbiting village.
+## Menu showcase (DEC-053): Camel Claus pokes in from the right screen edge, leaning in, bobbing and peeking, in a
+## separate transparent world beside the orbiting village. (Node/script keep the old Rookie name for scene stability.)
+## The camera looks toward +Z, so world -X is screen-right and a negative rotation.z leans the camel's top to the left.
 
-const MODEL: PackedScene = preload("res://assets/models/menu/rookie_showcase.glb")
+const MODEL: PackedScene = preload("res://assets/models/camel_claus.glb")
+const SCALE: float = 2.0
+## Rest pose: pushed past the right edge (x), feet below the frame (y), turned toward the menu (yaw) and leaning in.
+const BASE: Vector3 = Vector3(-1.05, -0.95, 0.0)
+const YAW: float = -0.45
+const LEAN: float = -0.22
 var model: Node3D
 var elapsed: float = 0.0
 var reduced_motion: bool = false
@@ -23,7 +30,9 @@ func _ready() -> void:
 	var world: Node3D = Node3D.new()
 	viewport.add_child(world)
 	model = MODEL.instantiate()
+	model.scale = Vector3.ONE * SCALE
 	world.add_child(model)
+	_pose(0.0, false)
 	var environment: WorldEnvironment = WorldEnvironment.new()
 	environment.environment = Environment.new()
 	environment.environment.background_mode = Environment.BG_COLOR
@@ -54,11 +63,14 @@ func _fit_camera() -> void:
 
 
 func _process(delta: float) -> void:
-	if not is_instance_valid(model) or not is_visible_in_tree():
+	if not is_instance_valid(model) or not is_visible_in_tree() or reduced_motion:
 		return
 	elapsed += delta
-	if reduced_motion:
-		return
-	model.position.y = 0.07 * sin(elapsed * 1.7)
-	model.rotation.y = 0.12 + 0.22 * sin(elapsed * 0.65)
-	model.rotation.z = 0.025 * sin(elapsed * 1.3)
+	_pose(elapsed, true)
+
+
+func _pose(t: float, animate: bool) -> void:
+	var k: float = 1.0 if animate else 0.0
+	var peek: float = sin(t * 0.7)  # slow lean in and back out
+	model.position = BASE + Vector3(0.12 * peek, 0.06 * sin(t * 2.1), 0.0) * k
+	model.rotation = Vector3(0.0, YAW + 0.18 * sin(t * 0.55) * k, LEAN + 0.07 * peek * k)
