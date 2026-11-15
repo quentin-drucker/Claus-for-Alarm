@@ -16,7 +16,15 @@ Public credit placement (owner decision, 2026-11-15): the **game website's credi
 
 The "Knit + Tin" sweater/Fair Isle textures, Santa hat and camel splash artwork are reused at the owner's request from their pre-hackathon **Camel Claus The North Pole** test project. Adapted here with the title **Claus for Alarm**, browser animation and actual download progress. Source provenance: `art_src/ui/startup/provenance.json`. These are reused test-project assets, not newly created for this game.
 
-Startup fonts: **Bowlby One**, Vernon Adams; **New Rocker**, Pablo Impallari, Brenda Gallo and Rodrigo Fuenzalida. Licensed under SIL OFL 1.1; copyright/license files are retained under `art_src/ui/startup/` and embedded in the distributed HTML shell.
+The original copied splash used **Bowlby One** by Vernon Adams; its source/license remain in `art_src/ui/startup/`. The current game and splash use the typography below.
+
+## Game and loading-screen fonts
+
+- **Grenze Gotisch**: The Grenze Gotisch Project Authors (https://github.com/Omnibus-Type/Grenze-Gotisch), titles and announcements.
+- **New Rocker**: Pablo Impallari, Brenda Gallo and Rodrigo Fuenzalida, main interface text.
+- **Barlow**: The Barlow Project Authors (https://github.com/jpt/barlow), compact information and numbers.
+
+All three are under SIL OFL 1.1. Full notices are retained in `assets/fonts/OFL_*.txt` and embedded in the distributed Web shell. Reused from the owner's earlier project; source hashes and format-conversion notes: `assets/fonts/provenance.json` and `README.md`. Add these font credits to the website alongside the other contributors; no main-menu credit overlay.
 
 ## Audio
 

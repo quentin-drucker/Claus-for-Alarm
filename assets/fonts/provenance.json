@@ -1,0 +1,17 @@
+[
+  {
+    "source": "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Camel Claus The North Pole\\design_prototypes\\assets\\fonts\\GrenzeGotisch-700-normal.woff2",
+    "sha256": "6820b1812cd41eab5eef70f7433f95127d99c72afe76d097f00486f840a9930a",
+    "output": "GrenzeGotisch-Bold.ttf"
+  },
+  {
+    "source": "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Camel Claus The North Pole\\design_prototypes\\assets\\fonts\\Barlow-500-normal.woff2",
+    "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8",
+    "output": "Barlow-Medium.ttf"
+  },
+  {
+    "source": "C:\\Users\\qdruc\\Projects\\Godot\\Camel Claus\\Camel Claus The North Pole\\assets\\fonts\\NewRocker-Regular.ttf",
+    "sha256": "28a499ce5b8bcf0652f8b2e25135183eaddf0c3c8c3e251259b075c71d1ef14c",
+    "output": "NewRocker-Regular.ttf"
+  }
+]

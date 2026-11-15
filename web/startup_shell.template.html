@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>$GODOT_PROJECT_NAME</title>
 <style>
-@font-face{font-family:Bowlby;src:url('@@BowlbyOne-Regular.ttf@@') format('truetype');font-display:swap}
-@font-face{font-family:Rocker;src:url('@@NewRocker-latin.woff2@@') format('woff2');font-display:swap}
+@font-face{font-family:Grenze;src:url('@@GrenzeGotisch-Bold.ttf@@') format('truetype');font-display:swap}
+@font-face{font-family:Rocker;src:url('@@NewRocker-Regular.ttf@@') format('truetype');font-display:swap}
+@font-face{font-family:Barlow;src:url('@@Barlow-Medium.ttf@@') format('truetype');font-display:swap}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#8e1f2e}
 #canvas{display:block;width:100%;height:100%;outline:none}
 #startup{position:fixed;inset:0;z-index:10;overflow:hidden;color:#fff8ee;background:#8e1f2e url('@@knit_red.png@@');transition:opacity .35s ease;isolation:isolate}
@@ -18,19 +19,19 @@
 .top{top:3.5%}.bottom{bottom:3.5%}
 .composition{position:absolute;inset:11% 3% 13%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px}
 .logo-wrap{position:relative;width:max-content;max-width:96%;margin-top:2vh}
-h1{margin:0;color:#f4f8ff;font:clamp(26px,7.8vw,100px)/1.25 Bowlby,Arial,sans-serif;white-space:nowrap;letter-spacing:-.025em;-webkit-text-stroke:8px #0d1322;paint-order:stroke fill;text-shadow:0 7px 0 #0d1322;clip-path:inset(100% 0 0);animation:knit 1.5s .15s steps(12,end) forwards}
+h1{margin:0;color:#f4f8ff;font:clamp(26px,7.8vw,100px)/1.25 Grenze,Georgia,serif;white-space:nowrap;letter-spacing:-.025em;-webkit-text-stroke:5px #0d1322;paint-order:stroke fill;text-shadow:0 7px 0 #0d1322;clip-path:inset(100% 0 0);animation:knit 1.5s .15s steps(12,end) forwards}
 .hat{position:absolute;width:12%;height:110%;object-fit:contain;left:1%;top:-60%;transform:translateY(-50vh) rotate(25deg);transform-origin:50% 90%;animation:hat-drop .65s 1.65s cubic-bezier(.2,.9,.3,1.2) forwards}
 .needles{position:absolute;left:10%;right:10%;top:0;animation:needle-pass 1.65s forwards;pointer-events:none}
 .needles:before,.needles:after{content:'';position:absolute;left:0;right:0;height:6px;background:#d9a56a;border-radius:4px;transform:rotate(3deg);box-shadow:0 2px #8a5a33}
 .needles:after{transform:rotate(-3deg);background:#c98f55}
-.plate{position:relative;max-width:95%;padding:9px 30px;background:#1f5a43;border:4px solid #0d1322;box-shadow:inset 0 0 0 2px #5c77ab,0 5px #0d1322;font:clamp(18px,2.8vw,32px)/1.15 Rocker,Georgia,serif;color:#f9c96d;text-shadow:2px 2px #0d1322;transform:scale(.8);opacity:0;animation:plate-in .4s 1.5s forwards}
+.plate{position:relative;max-width:95%;padding:9px 30px;background:#1f5a43;border:4px solid #0d1322;box-shadow:inset 0 0 0 2px #5c77ab,0 5px #0d1322;font:clamp(18px,2.8vw,32px)/1.15 Grenze,Georgia,serif;color:#f9c96d;text-shadow:2px 2px #0d1322;transform:scale(.8);opacity:0;animation:plate-in .4s 1.5s forwards}
 .plate:before,.plate:after{content:'●';position:absolute;top:50%;transform:translateY(-50%);font:14px Arial;color:#f9c96d;text-shadow:1px 1px #fff8ee}.plate:before{left:9px}.plate:after{right:9px}
 .mascot{min-height:0;flex:1;width:200px;max-width:30vw;object-fit:contain;filter:drop-shadow(0 6px 0 #0d132244);animation:mascot-in .55s 1.4s both}
-.loading{width:min(600px,80vw);text-align:center;font:16px/1.4 system-ui,sans-serif;font-weight:600;text-shadow:1px 2px #3c1720}
+.loading{width:min(600px,80vw);text-align:center;font:18px/1.4 Rocker,Barlow,sans-serif;text-shadow:1px 2px #3c1720}
 .scarf-track{position:relative;height:30px;margin:12px 0;background:#0d132255;border:2px solid #f4e6d466;border-radius:4px}
 .scarf{height:100%;width:0;background:url('@@fair_isle_big.png@@') center/auto 24px repeat-x,url('@@knit_overlay.png@@'),#1f5a43;transition:width .2s linear}
 .yarn{position:absolute;width:38px;height:38px;top:-6px;left:0;margin-left:-19px;border-radius:50%;background:repeating-linear-gradient(60deg,#f4e6d4 0 4px,#d9c3a8 4px 7px);box-shadow:0 4px #0d132255;animation:roll 2s linear infinite;transition:left .2s linear}
-#details{font-size:12px;font-weight:400;color:#f4ddd7;min-height:1.4em}
+#details{font-family:Barlow,sans-serif;font-size:14px;font-weight:400;color:#f4ddd7;min-height:1.4em}
 #error{display:none;margin:10px auto;padding:12px;background:#1a2438;border:2px solid #f9c96d;max-width:90vw;white-space:pre-wrap;text-shadow:none}
 #error button{padding:8px 20px;cursor:pointer;margin-top:8px;font:inherit;color:#fff8ee;background:#20517a;border:2px solid #f9c96d}
 @keyframes knit{to{clip-path:inset(0)}}

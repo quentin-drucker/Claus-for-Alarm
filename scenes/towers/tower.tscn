@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bhxd54cvah866"]
 
 [ext_resource type="Script" uid="uid://ugh3pnv3pq3x" path="res://scenes/towers/tower.gd" id="1_by3tn"]
+[ext_resource type="FontFile" uid="uid://cd40hfqp2uy8f" path="res://assets/fonts/Barlow-Medium.ttf" id="2_g767u"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_g767u"]
 top_radius = 0.35
@@ -33,6 +34,7 @@ billboard = 1
 no_depth_test = true
 modulate = Color(0.09019608, 0.20784314, 0.28235295, 1)
 outline_modulate = Color(0.90588236, 0.95686275, 0.972549, 1)
+font = ExtResource("2_g767u")
 font_size = 40
 outline_size = 10
 

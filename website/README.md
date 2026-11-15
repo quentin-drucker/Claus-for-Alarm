@@ -25,3 +25,10 @@ git push origin `git subtree split --prefix website main`:refs/heads/gh-pages --
 ```
 
 Live at https://quentin-drucker.github.io/Claus-for-Alarm/ about a minute later.
+
+## Font credits for website
+
+Owner's game typography pass uses Grenze Gotisch (The Grenze Gotisch Project Authors), New Rocker
+(Pablo Impallari, Brenda Gallo, Rodrigo Fuenzalida), and Barlow (The Barlow Project Authors), under SIL OFL 1.1.
+Include with the website's contributor/asset credits when next publishing. Full notices: assets/fonts/OFL_*.txt;
+provenance and exact roles: assets/fonts/README.md and root CREDITS.md. No in-game credit overlay requested.

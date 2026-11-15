@@ -67,6 +67,9 @@ func _open_match() -> void:
 ## Dev 13: the shared ski-lodge theme (timber-framed panels, red primary Play, cream text) over the 3D backdrop.
 func _style_menu() -> void:
 	theme = LODGE.get_theme()
+	$MenuSide/Menu/Title.theme_type_variation = &"GameTitle"
+	$MenuSide/Menu/Title.remove_theme_font_size_override("font_size")
+	$MenuSide/Menu/Subtitle.theme_type_variation = &"Subtitle"
 	_menu.add_theme_constant_override("separation", 10)
 	%PlayButton.theme_type_variation = &"PrimaryButton"
 	for title: Label in [$Center/HowPanel/Box/HowTitle, $Center/SettingsPanel/Box/SettingsTitle]:

@@ -20,6 +20,9 @@ const GOLD: Color = Color("f2c14e")
 const BRASS: Color = Color("c99a4a")
 const SNOW: Color = Color("f4f8fb")
 const BAD: Color = Color("ff8a7a")
+const DISPLAY_FONT: FontFile = preload("res://assets/fonts/GrenzeGotisch-Bold.ttf")
+const BODY_FONT: FontFile = preload("res://assets/fonts/NewRocker-Regular.ttf")
+const READABLE_FONT: FontFile = preload("res://assets/fonts/Barlow-Medium.ttf")
 
 static var _theme: Theme
 static var _reduced: int = -1
@@ -72,7 +75,15 @@ static func _face(bg: Color, edge: Color, pressed: bool = false, outline: Color 
 
 static func _build() -> Theme:
 	var t: Theme = Theme.new()
-	t.default_font_size = 15
+	var display_font: Font = DISPLAY_FONT
+	var body_font: Font = BODY_FONT
+	display_font.fallbacks = [READABLE_FONT]
+	body_font.fallbacks = [READABLE_FONT]
+	t.default_font = BODY_FONT
+	t.default_font_size = 16
+	for slot: StringName in [&"normal_font", &"bold_font", &"italics_font", &"bold_italics_font"]:
+		t.set_font(slot, &"RichTextLabel", BODY_FONT)
+	t.set_font(&"mono_font", &"RichTextLabel", READABLE_FONT)
 	var frame: StyleBoxFlat = box(NAVY, TIMBER, 6, 7)
 	frame.set_content_margin_all(12)
 	frame.shadow_color = Color(0, 0, 0, 0.35)
@@ -133,14 +144,26 @@ static func _build() -> Theme:
 	t.set_color(&"font_shadow_color", &"Label", Color(0, 0, 0, 0.45))
 	t.set_constant(&"shadow_offset_y", &"Label", 1)
 	t.set_type_variation(&"Heading", &"Label")
+	t.set_font(&"font", &"Heading", DISPLAY_FONT)
 	t.set_color(&"font_color", &"Heading", GOLD)
-	t.set_font_size(&"font_size", &"Heading", 18)
+	t.set_font_size(&"font_size", &"Heading", 22)
+	t.set_type_variation(&"GameTitle", &"Label")
+	t.set_font(&"font", &"GameTitle", DISPLAY_FONT)
+	t.set_font_size(&"font_size", &"GameTitle", 60)
+	t.set_type_variation(&"Subtitle", &"Label")
+	t.set_font(&"font", &"Subtitle", DISPLAY_FONT)
+	t.set_font_size(&"font_size", &"Subtitle", 20)
+	t.set_type_variation(&"Dense", &"Label")
+	t.set_font(&"font", &"Dense", READABLE_FONT)
+	t.set_font_size(&"font_size", &"Dense", 14)
 	t.set_type_variation(&"Small", &"Label")
-	t.set_font_size(&"font_size", &"Small", 13)
+	t.set_font_size(&"font_size", &"Small", 14)
 	t.set_type_variation(&"Muted", &"Label")
+	t.set_font(&"font", &"Muted", READABLE_FONT)
 	t.set_color(&"font_color", &"Muted", MUTED)
 	t.set_font_size(&"font_size", &"Muted", 13)
 	t.set_type_variation(&"Price", &"Label")
+	t.set_font(&"font", &"Price", READABLE_FONT)
 	t.set_color(&"font_color", &"Price", GOLD)
 	t.set_font_size(&"font_size", &"Price", 15)
 
@@ -149,7 +172,8 @@ static func _build() -> Theme:
 	tip.set_content_margin_all(8)
 	t.set_stylebox(&"panel", &"TooltipPanel", tip)
 	t.set_color(&"font_color", &"TooltipLabel", CREAM)
-	t.set_font_size(&"font_size", &"TooltipLabel", 14)
+	t.set_font(&"font", &"TooltipLabel", BODY_FONT)
+	t.set_font_size(&"font_size", &"TooltipLabel", 16)
 	t.set_stylebox(&"background", &"ProgressBar", box(INSET, TIMBER_DARK, 1, 3))
 	t.set_stylebox(&"fill", &"ProgressBar", box(GOLD, Color(0, 0, 0, 0), 0, 3))
 	var rail: StyleBoxFlat = box(INSET, TIMBER_DARK, 1, 4)

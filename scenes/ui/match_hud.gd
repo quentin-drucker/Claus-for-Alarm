@@ -85,6 +85,7 @@ func _ready() -> void:
 	_menu.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/ui/title_screen.tscn"))
 	match_node.changed.connect(_refresh)
 	_debug_panel.visible = false
+	_debug_text.theme_type_variation = &"Dense"
 	_debug_panel.offset_top = 64.0
 	_refresh()
 
@@ -250,7 +251,7 @@ func _build_details() -> void:
 		names.add_child(l)
 	head.add_child(names)
 	_details.add_child(head)
-	_info_text = _label(&"Small")
+	_info_text = _label(&"Dense")
 	_info_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_details.add_child(_info_text)
 	_target = _button("Target: First (T)", func() -> void: match_node.cycle_priority(match_node.selected))
@@ -260,7 +261,7 @@ func _build_details() -> void:
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		b.custom_minimum_size.y = 46
-		b.add_theme_font_size_override(&"font_size", 14)
+		b.add_theme_font_size_override(&"font_size", 16)
 		_details.add_child(b)
 		_upgrade_buttons.append(b)
 	_sell = _button("Sell", func() -> void: match_node.sell(match_node.selected))
@@ -299,7 +300,7 @@ func _build_hero_panel() -> void:
 	abilities.add_theme_constant_override(&"separation", 4)
 	box.add_child(abilities)
 	for b: Button in [_frenzy, _focus]:
-		b.add_theme_font_size_override(&"font_size", 12)
+		b.add_theme_font_size_override(&"font_size", 14)
 		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.custom_minimum_size = Vector2(0, 40)
@@ -322,6 +323,7 @@ func _build_stats() -> void:
 	_round = _label(&"", "Round 1 / 25")
 	_phase = _label(&"Muted", "")
 	for l: Label in [_lives, _cash, _round]:
+		l.theme_type_variation = &"Dense"
 		l.add_theme_font_size_override(&"font_size", 19)
 	_cash.add_theme_color_override(&"font_color", T.GOLD)
 	row.add_child(_icon(0))

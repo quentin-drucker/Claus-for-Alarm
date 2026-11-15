@@ -1,0 +1,17 @@
+﻿2026-11-15 typography verification
+Godot 4.7.2 Compatibility Web release, Chrome, local localhost:8162.
+- test_ui: PASS; test_menu_background: PASS.
+- --headless --import after font creation: no errors.
+- --export-release Web build/startup_preview/index.html: no errors.
+- MCP godot_run_start mode=process headless=true quit_after_frames=60: exit 0.
+  godot_run_output level=error: established shutdown-only 8 resources in use; no script errors.
+- 1440x900: title and subtitle Grenze, menu buttons New Rocker, floating Rookie preserved.
+- 800x600: How to Play fits with Back accessible; no clipped text observed.
+- Play: same sweater loading sequence with new fonts, then map.
+- Shop cards/hover descriptions, selected Rookie/upgrade tooltip: readable and wrapped.
+- Bought Sharper Snow: cash 450 -> 310, selected upgrade 1-0-0 shown.
+- Started round 1: Grenze round announcement; paused: Grenze title / New Rocker buttons.
+- Browser console: 5 messages, 0 errors, 0 warnings.
+- Screenshots fonts_*.png capture those states.
+- Current local preview includes fonts. Existing published host/archives not updated by this export.
+No full gameplay replay or low-end/mobile performance benchmark: typography-only change.

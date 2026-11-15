@@ -84,6 +84,17 @@ Owner trial (2026-11-14): `scenes/main/gameplay_camera.gd` exposes `elevation_de
 5. Powder keeps its dark outline; nothing white-on-white without a contour.
 6. Thumbnail test: at 320×180 the track, the snowballs and every tower stay identifiable (A-12).
 
-## 8. Deferred final aesthetic exploration
+## 8. Interface typography (owner direction, 2026-11-15)
+
+- **Grenze Gotisch Bold (700):** game title, subtitles, headings, special notices and large announcements.
+- **New Rocker Regular:** main text, buttons, shop names, upgrades, hover descriptions, help and settings.
+- **Barlow Medium:** third font for dense stats, prices/counters, compact hints, debug and small world labels.
+
+Use the semantic variations in `scripts/ui/lodge_theme.gd` rather than adding arbitrary font overrides.
+`Heading`, `GameTitle`, `Subtitle` use Grenze; default and `Small` use New Rocker; `Dense`, `Price`, `Muted`
+use Barlow. The browser loading shell follows the same roles. Preserve wrapping and sidebar scrolling;
+font changes do not change gameplay. Source/license details: `assets/fonts/README.md` and root `CREDITS.md`.
+
+## 9. Deferred final aesthetic exploration
 
 The owner wants a subtle modern-3D/pixel influence; do not implement pixelation yet. Evaluate low-resolution 3D rendering/upscale versus selective post-processing, texture filtering and material treatment after the major UI and asset passes. Start by preserving crisp text/critical HUD. Compare multiple resolutions, silhouette/projectile readability and Web Compatibility performance before choosing an approach. Acceptance criteria and phase assignment: `docs/DEFERRED_WORK.md`, final P17 polish followed by P19 validation.

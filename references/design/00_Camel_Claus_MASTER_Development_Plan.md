@@ -1286,6 +1286,13 @@ Evidence: docs/logs/evidence/startup_*. Preview build: build/startup_preview, lo
 
 The loader covers first-use stalls; it does not eliminate them or guarantee continuous animation while the browser main thread is blocked. Menu-only change does not close P15-T09/G7 or authorize gameplay Rookie replacement.
 
+### 12.1.10 Game-wide typography (owner request, 2026-11-15)
+
+- [x] Reuse old-project Grenze Gotisch (700) for game title/subtitles/headings/announcements and New Rocker for main text, menu buttons, upgrades and hover descriptions.
+- [x] Add old-project Barlow Medium as the readable third font for dense statistics, counters/prices, compact hints and world labels. Shared theme plus project default cover runtime-created controls; browser loading shell uses the same fonts.
+- [x] Preserve provenance/OFL notices and website credit handoff. Menu/UI tests PASS; MCP process run retains existing shutdown cleanup diagnostic only. Chrome: menu, help at 800x600, loading screen, shop and upgrade tooltips, purchase, round announcement and pause checked, zero console errors. Evidence: `docs/logs/evidence/fonts_*.png`, `fonts_checks.txt`.
+- [ ] Owner visual acceptance and fresh hosted export/upload. Local preview: localhost:8162 (`build/startup_preview`); previous ZIPs do not include this typography pass.
+
 ### 12.2 Session log template (append entries; do not rewrite history)
 
 ```md

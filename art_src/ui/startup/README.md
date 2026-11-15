@@ -15,4 +15,4 @@ The source splash combines red knit/Fair Isle textures, a chunky logo, knitting 
   the map overlay, followed by the existing fade; slower loads keep it up longer. This is a preparation indicator,
   not a fake download percentage. Native Play uses a simple title/status fallback; the sweater art is Web-only.
 
-Fonts: Bowlby One by Vernon Adams; New Rocker by Pablo Impallari, Brenda Gallo and Rodrigo Fuenzalida. SIL OFL 1.1 licenses retained here and embedded as comments in the generated shell for distribution.
+Original copied fonts: Bowlby One by Vernon Adams; New Rocker by Pablo Impallari, Brenda Gallo and Rodrigo Fuenzalida. Their original licenses remain here. Owner's later typography pass replaces the displayed title/subtitle with Grenze Gotisch, body text with New Rocker and small details with Barlow, using `assets/fonts/`. The generator embeds all three current fonts and their full OFL notices.

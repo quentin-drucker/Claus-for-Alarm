@@ -25,6 +25,7 @@ func _ready() -> void:
 	_banner.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_banner.offset_top = 56.0
 	_banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_banner.theme_type_variation = &"Heading"
 	_banner.add_theme_font_size_override(&"font_size", 28)
 	_banner.add_theme_constant_override(&"outline_size", 10)
 	_banner.add_theme_color_override(&"font_color", Color("f6ead2"))  # Dev 13 lodge cream on timber-dark outline
@@ -76,6 +77,7 @@ func _float(text: String, world: Vector3, color: Color, seconds: float, cap: int
 	if camera == null or _floaters >= cap or camera.is_position_behind(world):
 		return
 	var label: Label = Label.new()
+	label.theme_type_variation = &"Dense"
 	label.text = text
 	label.add_theme_color_override(&"font_color", color)
 	label.add_theme_constant_override(&"outline_size", 6)

@@ -23,6 +23,8 @@ func _build_fallback() -> void:
 	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(panel)
 	message = Label.new()
+	message.theme = preload("res://scripts/ui/lodge_theme.gd").get_theme()
+	message.theme_type_variation = &"Heading"
 	message.text = "Claus for Alarm\n\nPreparing the ski course..."
 	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	message.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
