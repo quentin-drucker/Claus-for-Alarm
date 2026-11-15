@@ -1,0 +1,34 @@
+Dev 11 batch A (visual) regression check, 2026-11-15. Baseline = working tree before batch A (incl. the uncommitted Codex
+observations batch: contact x1.5, 2 m hover, ticket FX, 50 deg camera), copied to a scratch dir with tower.gd /
+presentation_profile.gd from HEAD and no camel profile. After = batch A. Lines with exit-time leak counts are ignored.
+
+== test_data: before [test_data: PASS] after [test_data: PASS]
+   STATE transcript identical
+== test_map: before [test_map: PASS] after [test_map: PASS]
+   STATE transcript identical
+== test_match: before [test_match: PASS] after [test_match: PASS]
+   STATE transcript identical
+== test_combat: before [test_combat: PASS] after [test_combat: PASS]
+   STATE transcript identical
+== test_towers: before [test_towers: PASS] after [test_towers: PASS]
+   STATE transcript identical
+== test_upgrades: before [test_upgrades: PASS] after [test_upgrades: PASS]
+   STATE transcript identical
+== test_hero: before [test_hero: PASS] after [test_hero: PASS]
+139a140,145
+> STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+> STATE PREPARE -> ROUND_SPAWN tick=0 round=1 lives=150 cash=1110
+> STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+> STATE PREPARE -> ROUND_SPAWN tick=0 round=1 lives=150 cash=1110
+> STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+> STATE PREPARE -> ROUND_SPAWN tick=98 round=1 lives=150 cash=1110
+== test_ui: before [test_ui: PASS] after [test_ui: PASS]
+   STATE transcript identical
+== test_full_run: before [test_full_run: PASS] after [test_full_run: PASS]
+   STATE transcript identical
+== test_audio: before [test_audio: PASS] after [test_audio: PASS]
+   STATE transcript identical
+== test_playfeel: before [test_playfeel: PASS] after [test_playfeel: PASS]
+   STATE transcript identical
+
+Only difference: test_hero _test_visual adds three new matches (6 STATE lines). test_full_run (bots incl. Hero mix) identical.

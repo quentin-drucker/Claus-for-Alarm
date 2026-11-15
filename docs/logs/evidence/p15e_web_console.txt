@@ -1,0 +1,11 @@
+Dev 11 batch A browser smoke: exported release build/web (port 8117), Chrome 157 headless shell via playwright-cli, 1152x648. Play -> key 7 -> mouse click (130,300) places Camel Claus ($540) -> Space: round 1 won by the hero alone, 0 leaks; P pause/resume, F 1x->2x->4x->1x. Console below (0 errors, 0 warnings).
+Total messages: 8 (Errors: 0, Warnings: 0)
+
+[LOG] Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org @ http://localhost:8117/index.js:451
+[LOG] OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL @ http://localhost:8117/index.js:451
+[LOG] Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support. @ http://localhost:8117/index.js:451
+[LOG] STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650 @ http://localhost:8117/index.js:451
+[LOG] STATE PREPARE -> ROUND_SPAWN tick=494 round=1 lives=150 cash=110 @ http://localhost:8117/index.js:451
+[LOG] STATE ROUND_SPAWN -> ROUND_CLEANUP tick=1545 round=1 lives=150 cash=128 @ http://localhost:8117/index.js:451
+[LOG] STATE ROUND_CLEANUP -> ROUND_REWARD tick=1575 round=1 lives=150 cash=130 @ http://localhost:8117/index.js:451
+[LOG] STATE ROUND_REWARD -> PREPARE tick=1575 round=1 lives=150 cash=231 @ http://localhost:8117/index.js:451

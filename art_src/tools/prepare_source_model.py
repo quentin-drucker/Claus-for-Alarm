@@ -75,8 +75,9 @@ PROFILES = {
         # Raw 0.719 tall and 7 mm below ground. The staff foot touches the ground beside the boots and drags the
         # contact-band centre 4 cm sideways: centre on the largest contact cluster (the boots) instead.
         "ground": "largest_cluster",
-        # Compact robed elf (ART_STYLE 2 "short robed Sorcerer"): 1.0 m modelled = 1.5 m shown (Rookie 1.87 m).
-        "fit": ("height", 1.0),
+        # Robed elf: DEC-044 (owner, Dev 11) 1.13 m modelled = 1.70 m shown (was 1.0 / 1.5 m; Rookie 1.87 m) so the
+        # staff reads at the game camera. Uniform scale: proportions, boots centre and grounding unchanged.
+        "fit": ("height", 1.13),
         "texture_px": 1024,
         # Snowflake staff head: top slab of the verts on the staff side (+X after the turn, the right hand).
         "markers": {"muzzle_A": ("top", 0.5), "effect_center": "centre"},
@@ -95,7 +96,19 @@ PROFILES = {
     # Inspected only (not prepared in this slice). Raw import: height, footprint size, notes.
     "snowball_rookie": {"fbx": "snowball_rookie/snowball_rookie_rigged.fbx", "prepare": False,
                         "note": "AccuRIG 71 bones, 0.01 armature scale, only T-Pose actions; embedded maps"},
-    "camel_claus": {"fbx": "camel_claus/camel_claus.fbx", "prepare": False},
+    "camel_claus": {
+        "fbx": "camel_claus/camel_claus.fbx",
+        "prepare": True,
+        "yaw_deg": 180.0,  # source faces -Y (front view shows the back sack)
+        # Hero: ART_STYLE 2 "1.4 x elf" = 1.68 m modelled (2.52 m shown, Rookie 1.87 m). Sack/launcher set the
+        # envelope (0.338 of the height).
+        "fit": ("height", 1.68),
+        "texture_px": 1024,
+        # Candy-striped launcher held across the waist: front-most slab between 25% and 45% height (the snout
+        # reaches further forward higher up). Goggles: front-most slab on the hat band. Hat pin: the pompom top.
+        "markers": {"muzzle_A": ("tip", 0.0, 0.25, 0.45), "effect_center": "centre",
+                    "focus_goggle": ("tip", 0.0, 0.84, 0.95), "hat_top": ("top", -1e9)},
+    },
     "hockey_slapper": {"fbx": "hockey_slapper/hockey_slapper.fbx", "prepare": False,
                        "note": "no gameplay; 11 mm below ground, off-centre"},
     "snowboard_trickster": {"fbx": "snowboard_trickster/snowboard_trickster.fbx", "prepare": False,

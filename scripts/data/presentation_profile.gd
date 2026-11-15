@@ -4,7 +4,8 @@ extends Resource
 ## Per-model scale, facing, ground contact and placement centre are baked into the GLB by
 ## art_src/tools/prepare_source_model.py; only the shared display scale is applied here.
 
-## Runtime model. Optional: an AnimationPlayer with `idle`/`attack`, marker nodes `muzzle_A` and `effect_center`.
+## Runtime model. Optional: an AnimationPlayer with `idle`/`attack`, marker nodes `muzzle_A` and `effect_center`
+## (hero: also `focus_goggle` and `hat_top`).
 @export var model: PackedScene
 ## Applied once to the modelled GLB (DEC-036: 1.5 for tower models). Footprint and range stay data.
 @export var display_scale: float = 1.5
@@ -25,3 +26,21 @@ extends Resource
 @export var muzzle_flash_m: float = 0.0
 ## Puff colour (default warm gold, DEC-040: reads on white snow).
 @export var flash_color: Color = Color(0.976, 0.788, 0.427, 0.85)
+
+@export_group("Hero")
+## Wind-up before the next shot while engaged (seconds of the first attack's cooldown; 0 = none): a small crouch
+## and lean into the aim that the shot releases. Read from the cooldown only, so it never changes shot timing.
+@export var anticipation_s: float = 0.0
+@export var anticipation_squash: float = 0.0
+@export var anticipation_tilt_deg: float = 0.0
+## Focused Shot stance (doc 02 A-03: "tightens aiming pose"): held lean and crouch, eased in and out.
+@export var focus_tilt_deg: float = 0.0
+@export var focus_squash: float = 0.0
+## Snowball Frenzy (doc 03: "speed glow / elastic recoil"): recoil squash multiplier while Frenzy is active.
+@export var frenzy_recoil_mult: float = 1.0
+## Ground ring colours (Frenzy pulse, Focus reticle) and the level-up glint (doc 02 "hat pin glint, XP pulse").
+@export var frenzy_color: Color = Color(0.91, 0.33, 0.25, 0.75)
+@export var focus_color: Color = Color(0.56, 0.85, 0.91, 0.8)
+@export var level_up_color: Color = Color(0.976, 0.788, 0.427, 0.9)
+## Radius of the hero's ground rings in displayed metres (outside the model envelope).
+@export var ring_radius_m: float = 0.0

@@ -1,0 +1,8 @@
+FBX version: 7400
+snow_sorcerer raw: size (0.484, 0.414, 0.719) envelope 0.326 open edges 0 flipped 14
+snow_sorcerer prepared: scale x1.5727, size (0.760, 0.651, 1.130) (display x1.5 = (1.141, 0.976, 1.695)), min z 0.0000, ground centre (0.070, 0.043, 0.000), envelope 0.518 (display 0.777), tris 12508, open edges 0
+  marker muzzle_A at (0.307, 0.145, 1.005) (display (0.460, 0.217, 1.508))
+  marker effect_center at (0.000, 0.000, 0.565) (display (0.000, 0.000, 0.847))
+Info: Saved as "snow_sorcerer.blend"
+01:20:27 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+  wrote assets/models/snow_sorcerer.glb

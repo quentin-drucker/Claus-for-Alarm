@@ -2,6 +2,8 @@ extends SceneTree
 ## Review captures + measurements for the prepared tower models next to the Rookie (needs a window, not --headless):
 ##   godot --path . -s res://tests/tools/roster_review.gd            # Dev 9: Ranger + Wax      -> p15c_*
 ##   godot --path . -s res://tests/tools/roster_review.gd -- dev10   # Dev 10: Sorcerer + Booth -> p15d_*
+##   godot --path . -s res://tests/tools/roster_review.gd -- dev11   # Dev 11: Camel Claus + 1.7 m Sorcerer, full roster
+##                                                                   # + Booth, hero Frenzy/Focus/level-up -> p15e_*
 ## Writes docs/logs/evidence/. Presentation checks only: the regression suites own gameplay.
 
 const MATCH: String = "res://scenes/main/match.tscn"
@@ -20,8 +22,11 @@ var m: Node3D
 var content: Node
 var log_lines: PackedStringArray = []
 var towers: Dictionary = {}  # id -> roster tower
-var dev10: bool = OS.get_cmdline_user_args().has("dev10")
-var OUT: String = "res://docs/logs/evidence/%s_" % ("p15d" if dev10 else "p15c")
+var _spawned: int = 0
+var dev11: bool = OS.get_cmdline_user_args().has("dev11")
+var dev10: bool = dev11 or OS.get_cmdline_user_args().has("dev10")
+var OUT: String = "res://docs/logs/evidence/%s_" % ("p15e" if dev11 else "p15d" if dev10 else "p15c")
+const HERO: StringName = &"camel_claus"
 ## Row order along the track (Wax first: past the Ranger the straight meets an obstacle; Dev 10 puts the Sorcerer
 ## before it). The Booth (1.5 m footprint) stands on its own spot. REACTORS = everything that reacts (Booth: income).
 var ROSTER: Array[StringName] = [&"slope_wax_sprayer", &"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger"]
@@ -35,8 +40,16 @@ func _initialize() -> void:
 		ROSTER.push_front(&"snow_sorcerer")
 		SHOOTERS.append(&"snow_sorcerer")
 		NEW.assign([&"snow_sorcerer", BOOTH])
+	if dev11:
+		ROSTER.insert(1, HERO)
+		SHOOTERS.append(HERO)
+		NEW.assign([HERO, &"snow_sorcerer"])
 	REACTORS.assign(SHOOTERS + ([BOOTH] if dev10 else []))
 	_run.call_deferred()
+
+
+func _def(id: StringName) -> Resource:
+	return content.hero if id == HERO else content.get_tower(id)
 
 
 func _say(line: String) -> void:
@@ -163,16 +176,20 @@ func _top_up(count: int) -> void:
 		var def: Resource = content.enemies[&"coral"].duplicate()
 		def.properties = IMMUNE.duplicate()
 		s.set_layer(def)
-		s.distance = length * (m.snowballs.size() - 1) / float(count)
+		# Golden-ratio spread: refills land all along the track, not all at the exit after the first wave leaks.
+		_spawned += 1
+		s.distance = length * fmod(_spawned * 0.618034, 1.0)
 		s.position = m.course.position_at(s.distance)
 
 
 func _review() -> void:
+	if dev11:  # the hero ghost first: once a hero stands, any hero ghost is invalid ("Only one Camel Claus")
+		await _ghosts([HERO])
 	# Roster row: Rookie, Cannon, Ranger, Wax at the nearest legal spots along one straight, touching footprints.
 	var along: float = -1.2 * (ROSTER.size() - 3)
 	var row_centre: Vector3 = Vector3.ZERO
 	for id: StringName in ROSTER:
-		var def: Resource = content.get_tower(id)
+		var def: Resource = _def(id)
 		var t: Node3D = null
 		while t == null and along < 20.0:
 			var spot: Vector2 = _nearest_legal(def, ROW_AT, SIDE, along)
@@ -244,10 +261,18 @@ func _review() -> void:
 		t.animate(0.0)
 	if dev10:
 		await _ticket_visibility(towers[BOOTH])
-	# Placement ghost valid/invalid for the new models.
+	await _ghosts(NEW.filter(func(id: StringName) -> bool: return id != HERO))
+	await _selection_upgrades()
+	await _firing()  # ends by selling the new towers
+	if dev11:
+		await _lineup()
+
+
+## Placement ghost valid/invalid for the given models.
+func _ghosts(ids: Array) -> void:
 	m.set_process(false)  # drive the ghost exactly as match._process does, without the OS cursor
-	for id: StringName in NEW:
-		var def: Resource = content.get_tower(id)
+	for id: StringName in ids:
+		var def: Resource = _def(id)
 		var free_spot: Vector2 = _nearest_legal(def, 30.0, SIDE)
 		var on_track: Vector3 = m.course.position_at(30.0)
 		m.begin_placing(def)
@@ -262,7 +287,10 @@ func _review() -> void:
 				m.ghost._recoil_t != INF])
 		m.cancel()
 	m.set_process(true)
-	# Selection + upgrades keep the model and footprint.
+
+
+## Selection + upgrades (where the tower has them; the hero has none by rule) keep the model and footprint.
+func _selection_upgrades() -> void:
 	for id: StringName in NEW:
 		var t: Node3D = towers[id]
 		m.select(t)
@@ -271,6 +299,12 @@ func _review() -> void:
 		_say("%s selected + upgraded %s -> tiers %s, model kept %s, footprint %s" % [id, ok, t.tiers,
 				is_instance_valid(t._model), t.footprint()])
 		m.select(null)
+
+
+func _firing() -> void:
+	var row_centre: Vector3 = Vector3.ZERO
+	for id: StringName in ROSTER:
+		row_centre += towers[id].position / ROSTER.size()
 	# Firing: whole roster at the normal camera, then pause mid-reaction.
 	for id: StringName in NEW:
 		_say("%s reacted %s" % [id, await _wait_fire(towers[id], 40.0)])
@@ -387,3 +421,128 @@ func _ticket_visibility(b: Node3D) -> void:
 	img.get_region(Rect2i(int(sp.x) - 75, int(sp.y) - 95, 150, 140)).save_png(OUT + "booth_tickets_crop.png")
 	for pk: Object in m.pickups.duplicate():
 		m._remove_pickup(pk)
+
+
+## Dev 11 hero feedback: level-up glint + XP pulse, Focus reticle/pose, Frenzy ring, each held with the clock and
+## captured close; wind-up measured from the cooldown. Presentation only.
+func _hero_feedback(h: Node3D) -> void:
+	_labels(false)
+	var keep_xf: Transform3D = m.camera.global_transform
+	var keep_size: float = m.camera.size
+	m.clock.paused = true
+	_aim_camera(h.position + Vector3.UP * 0.8, 6.0)
+	h.play_attack(Vector3(-0.6, 0.0, 0.8))
+	h._recoil_t = INF
+	h.animate(0.0)
+	await _shot("camel_claus_closeup_rest")
+	m.set_hero_level(4)
+	h.animate(0.25)
+	await _shot("camel_claus_levelup")
+	_say("camel_claus level-up at 0.25 s: XP ring %s, hat glint %s (scale %.2f)" % [h._xp_ring.visible, h._glint.visible,
+			h._glint.scale.x])
+	h.animate(1.0)
+	m.toggle_focus()
+	h.animate(0.3)
+	await _shot("camel_claus_focus")
+	_say("camel_claus Focus: pose weight %.2f, reticle %s, model tilt %.1f deg" % [h._focus_k, h._focus_ring.visible,
+			rad_to_deg(h._model.basis.orthonormalized().get_euler().length())])
+	m.toggle_focus()
+	h.animate(0.3)
+	m.clock.paused = false
+	m.use_frenzy()
+	m.clock.paused = true
+	h.play_attack(Vector3(-0.6, 0.0, 0.8))
+	h.animate(0.03)
+	await _shot("camel_claus_frenzy_firing")
+	_say("camel_claus Frenzy: ring %s, interval %.3f s" % [h._frenzy_ring.visible, h.attacks[0].interval_s])
+	# Wind-up: engaged hero, cooldown inside the anticipation window.
+	h._since_shot = 0.1
+	h.cooldowns[0] = h._profile.anticipation_s * 0.25
+	h._recoil_t = INF
+	h.animate(0.0)
+	await _shot("camel_claus_windup")
+	_say("camel_claus wind-up at 75%%: weight %.2f, model scale y %.3f" % [h._windup, h._model.scale.y])
+	m.clock.paused = false
+	m.camera.global_transform = keep_xf
+	m.camera.size = keep_size
+	# Frenzy at the normal camera with the HUD, hero firing.
+	m.get_node("HUD").visible = true
+	await _wait_fire(h, 30.0)
+	await _shot("gamecam_hero_frenzy")
+	_labels(true)
+
+
+## Dev 11 size comparison: the whole roster side by side on a straight that runs across the screen (camera side, nearest
+## legal spots, touching footprints), at the normal camera and close; then the hero alone at the 1.5 m-modelled
+## alternative (display scale only, nothing re-prepared) for the owner's size decision.
+func _lineup() -> void:
+	for t: Node3D in m.towers_root.get_children():
+		m.sell(t)
+	m.get_node("HUD").visible = false  # size comparison without panels or the pause menu
+	for s: Node3D in m.snowballs.duplicate():
+		m.snowballs.erase(s)
+		s.free()
+	await _frames(2)
+	# Longest run of track that crosses the screen (tangent along world X); the row starts 1 m into it.
+	var d0: float = 0.0
+	var best: float = 0.0
+	var run_start: float = 0.0
+	var d: float = 1.0
+	while d < m.course.length() - 1.0:
+		if absf(_frame_at(d)[2].x) < 0.98:
+			run_start = d + 0.5
+		elif d - run_start > best:
+			best = d - run_start
+			d0 = run_start + 1.0
+		d += 0.5
+	_say("lineup straight: %.1f m from track distance %.1f" % [best, d0 - 1.0])
+	var f: Array = _frame_at(d0)
+	var side: float = signf(f[1].z)  # toward the camera (+Z)
+	var order: Array[StringName] = [&"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger", &"slope_wax_sprayer",
+			&"snow_sorcerer", HERO]
+	var along: float = 0.0
+	var placed: Array[Node3D] = []
+	var centre: Vector3 = Vector3.ZERO
+	for id: StringName in order:
+		var def: Resource = _def(id)
+		var r: float = def.footprint_units * 0.1
+		if not placed.is_empty():
+			along += placed[-1].footprint().z + r - 0.02
+		var t: Node3D = null
+		while t == null and along < 30.0:
+			var spot: Vector2 = _nearest_legal(def, d0, side, along)
+			t = m.try_place(def, spot) if spot != Vector2.INF else null
+			along += 0.01
+		if t == null:
+			var w: Vector3 = f[0] + f[1] * side * 1.5 + f[2] * along
+			_say("lineup %s: no legal spot at d %.1f (reason at 1.5 m: '%s')" % [id, d0,
+					m.placement_reason(def, Vector2(w.x, w.z))])
+			continue
+		placed.append(t)
+		centre += t.position
+		var mesh: MeshInstance3D = t._model.find_children("*", "MeshInstance3D")[0]
+		var box: AABB = mesh.global_transform * mesh.get_aabb()
+		var top: Vector2 = m.camera.unproject_position(t.position + Vector3.UP * box.end.y)
+		_say("lineup %s: %.2f m tall, %.0f px tall on screen at the game camera, half-width %.2f m" % [id, box.end.y,
+				m.camera.unproject_position(t.position).y - top.y, maxf(box.size.x, box.size.z) / 2.0])
+	centre /= placed.size()
+	_labels(false)
+	await _shot("gamecam_lineup")
+	var cam_xf: Transform3D = m.camera.global_transform
+	var cam_size: float = m.camera.size
+	var sp: Vector2 = m.camera.unproject_position(centre)
+	var img: Image = root.get_texture().get_image()
+	img.get_region(Rect2i(int(sp.x) - 110, int(sp.y) - 60, 220, 80)).save_png(OUT + "gamecam_lineup_crop.png")
+	_aim_camera(centre + Vector3.UP * 0.8, 10.0)
+	await _shot("closeup_lineup")
+	var h: Node3D = placed[order.find(HERO)]
+	m.clock.paused = true  # animate() would restore the display scale every tick
+	h._model.scale = Vector3.ONE * 1.5 * 1.5 / 1.68
+	await _shot("closeup_lineup_hero150")
+	m.camera.global_transform = cam_xf
+	m.camera.size = cam_size
+	await _shot("gamecam_lineup_hero150")
+	h._model.scale = Vector3.ONE * 1.5
+	m.clock.paused = false
+	await _hero_feedback(h)
+	m.get_node("HUD").visible = true

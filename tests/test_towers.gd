@@ -121,7 +121,7 @@ func _test_cannon_visual() -> void:
 	# the Sorcerer's staff is held beside the body, never behind): Cannon (P15-A02), Ranger + Wax (Dev 9), Sorcerer
 	# (Dev 10); prepare logs p15c_* / p15d_*.
 	for row: Array in [[&"avalanche_cannon", 0.934, 0.613, 0.5], [&"biathlon_ranger", 1.80, 0.467, 0.5],
-			[&"slope_wax_sprayer", 1.80, 0.714, 0.5], [&"snow_sorcerer", 1.50, 1.334, -0.25]]:
+			[&"slope_wax_sprayer", 1.80, 0.714, 0.5], [&"snow_sorcerer", 1.695, 1.508, -0.25]]:
 		_check_static_visual(row[0], row[1], row[2], row[3])
 	_check_booth_visual()
 	_completed.append("_test_cannon_visual")

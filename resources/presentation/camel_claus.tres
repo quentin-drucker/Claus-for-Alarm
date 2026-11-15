@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PresentationProfile" format=3 uid="uid://dpnbcbicgvkky"]
+
+[ext_resource type="PackedScene" uid="uid://bjfy4tv23h7e2" path="res://assets/models/camel_claus.glb" id="1_y7h4d"]
+[ext_resource type="Script" uid="uid://i6p52ffw8ka0" path="res://scripts/data/presentation_profile.gd" id="2_hmiki"]
+
+[resource]
+script = ExtResource("2_hmiki")
+model = ExtResource("1_y7h4d")
+recoil_m = 0.05
+recoil_squash = 0.05
+recoil_recover_s = 0.22
+recoil_tilt_deg = 3.0
+muzzle_flash_m = 0.3
+anticipation_s = 0.12
+anticipation_squash = 0.03
+anticipation_tilt_deg = -3.0
+focus_tilt_deg = -3.0
+focus_squash = 0.02
+frenzy_recoil_mult = 1.6
+ring_radius_m = 0.95

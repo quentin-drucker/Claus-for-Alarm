@@ -1,0 +1,61 @@
+camel_claus ghost: valid reason '', on-track reason 'On the ski track', ghost model animated false
+snow_sorcerer at (-7.29, -3.6), 1.710 m from the centreline: AABB y 0.000..1.695, footprint 0.60
+camel_claus at (-7.28, -2.4), 1.720 m from the centreline: AABB y 0.000..2.520, footprint 0.60
+slope_wax_sprayer at (-7.29, -1.2), 1.710 m from the centreline: AABB y 0.000..1.800, footprint 0.60
+snowball_rookie at (-7.29, -0.0), 1.710 m from the centreline: AABB y 0.001..1.871, footprint 0.60
+avalanche_cannon at (-7.29, 1.2), 1.710 m from the centreline: AABB y 0.000..0.934, footprint 0.60
+biathlon_ranger at (-7.29, 2.4), 1.710 m from the centreline: AABB y 0.000..1.800, footprint 0.60
+ski_resort_ticket_booth at (2.0, -7.61), 2.610 m from the centreline: AABB y 0.000..2.421, footprint 1.50, past the track edge -0.305 m
+  spacing snow_sorcerer -> camel_claus: 1.200 m (footprints touch at 1.20)
+  spacing camel_claus -> slope_wax_sprayer: 1.200 m (footprints touch at 1.20)
+  spacing slope_wax_sprayer -> snowball_rookie: 1.200 m (footprints touch at 1.20)
+  spacing snowball_rookie -> avalanche_cannon: 1.200 m (footprints touch at 1.20)
+  spacing avalanche_cannon -> biathlon_ranger: 1.200 m (footprints touch at 1.20)
+snow_sorcerer over 24 aims: past the track edge 0.094 m (parts < 0.35 m high: -0.053 m); into the camel_claus footprint 0.100 m
+camel_claus over 24 aims: past the track edge 0.225 m (parts < 0.35 m high: -0.146 m); into the snow_sorcerer footprint 0.245 m
+camel_claus over 24 aims: past the track edge 0.225 m (parts < 0.35 m high: -0.146 m); into the slope_wax_sprayer footprint 0.244 m
+slope_wax_sprayer over 24 aims: past the track edge 0.095 m (parts < 0.35 m high: -0.168 m); into the camel_claus footprint 0.105 m
+slope_wax_sprayer over 24 aims: past the track edge 0.095 m (parts < 0.35 m high: -0.168 m); into the snowball_rookie footprint 0.105 m
+avalanche_cannon over 24 aims: past the track edge 0.049 m (parts < 0.35 m high: 0.049 m); into the snowball_rookie footprint 0.059 m
+avalanche_cannon over 24 aims: past the track edge 0.049 m (parts < 0.35 m high: 0.049 m); into the biathlon_ranger footprint 0.059 m
+biathlon_ranger over 24 aims: past the track edge 0.393 m (parts < 0.35 m high: 0.136 m); into the avalanche_cannon footprint 0.391 m
+camel_claus material: albedo tex true, normal true, roughness tex true, metallic tex true (metallic 1.00), transparency 0, cull 0, outline overlay true, surfaces 1
+snow_sorcerer material: albedo tex true, normal true, roughness tex true, metallic tex true (metallic 1.00), transparency 0, cull 0, outline overlay true, surfaces 1
+avalanche_cannon aim: barrel vs muzzle->target (10 m) worst 0.0 deg; muzzle 0.00 m beside the centre line
+biathlon_ranger aim: barrel vs muzzle->target (10 m) worst 1.7 deg; muzzle 0.27 m beside the centre line
+slope_wax_sprayer aim: barrel vs muzzle->target (10 m) worst 2.5 deg; muzzle 0.42 m beside the centre line
+snow_sorcerer aim: barrel vs muzzle->target (10 m) worst 2.7 deg; muzzle 0.46 m beside the centre line
+camel_claus aim: barrel vs muzzle->target (10 m) worst 0.0 deg; muzzle 0.00 m beside the centre line
+ski_resort_ticket_booth tickets: 8 positions 1.80 m from the centre; behind the building at the game camera: 2 [(0.157498, -1.793097), (-0.829221, -1.597621)] (tickets draw without depth test, so they still show)
+snow_sorcerer ghost: valid reason '', on-track reason 'On the ski track', ghost model animated false
+camel_claus selected + upgraded false -> tiers (0, 0, 0), model kept true, footprint (-7.28, -2.4, 0.6)
+snow_sorcerer selected + upgraded true -> tiers (1, 0, 1), model kept true, footprint (-7.29, -3.6, 0.6)
+camel_claus reacted true
+snow_sorcerer reacted true
+camel_claus pause at t=0.033 s: model transform held true, flash true -> true
+snow_sorcerer pause at t=0.033 s: model transform held true, flash true -> true
+camel_claus 1x: reaction took 283 ms real (expected 270)
+camel_claus 2x: reaction took 142 ms real (expected 135)
+camel_claus 4x: reaction took 71 ms real (expected 68)
+snow_sorcerer 1x: reaction took 317 ms real (expected 310)
+snow_sorcerer 2x: reaction took 158 ms real (expected 155)
+snow_sorcerer 4x: reaction took 79 ms real (expected 78)
+avalanche_cannon after rapid fire at 4x (52 shot frames seen): transform at rest true, flash off true
+biathlon_ranger after rapid fire at 4x (50 shot frames seen): transform at rest true, flash off true
+slope_wax_sprayer after rapid fire at 4x (76 shot frames seen): transform at rest true, flash off true
+snow_sorcerer after rapid fire at 4x (66 shot frames seen): transform at rest true, flash off true
+camel_claus after rapid fire at 4x (84 shot frames seen): transform at rest true, flash off true
+ski_resort_ticket_booth after rapid fire at 4x (2 shot frames seen): transform at rest true, flash off true
+camel_claus sell: towers 7 -> 6, freed true
+snow_sorcerer sell: towers 6 -> 5, freed true
+lineup straight: 9.0 m from track distance 55.5
+lineup snowball_rookie: 1.87 m tall, 30 px tall on screen at the game camera, half-width 0.59 m
+lineup avalanche_cannon: 0.93 m tall, 15 px tall on screen at the game camera, half-width 0.49 m
+lineup biathlon_ranger: 1.80 m tall, 29 px tall on screen at the game camera, half-width 0.63 m
+lineup slope_wax_sprayer: 1.80 m tall, 29 px tall on screen at the game camera, half-width 0.58 m
+lineup snow_sorcerer: 1.69 m tall, 27 px tall on screen at the game camera, half-width 0.57 m
+lineup camel_claus: 2.52 m tall, 41 px tall on screen at the game camera, half-width 0.66 m
+camel_claus level-up at 0.25 s: XP ring true, hat glint true (scale 1.00)
+camel_claus Focus: pose weight 1.00, reticle true, model tilt 3.0 deg
+camel_claus Frenzy: ring true, interval 0.317 s
+camel_claus wind-up at 75%: weight 0.75, model scale y 1.466

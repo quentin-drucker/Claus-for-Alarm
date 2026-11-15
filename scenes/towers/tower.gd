@@ -14,6 +14,7 @@ const PROFILES: Dictionary[StringName, PresentationProfile] = {
 	&"slope_wax_sprayer": preload("res://resources/presentation/slope_wax_sprayer.tres"),
 	&"snow_sorcerer": preload("res://resources/presentation/snow_sorcerer.tres"),
 	&"ski_resort_ticket_booth": preload("res://resources/presentation/ski_resort_ticket_booth.tres"),
+	&"camel_claus": preload("res://resources/presentation/camel_claus.tres"),
 }
 ## Dark inverted-hull outline for character models (docs/ART_STYLE.md section 6).
 const OUTLINE: Color = Color("173c4e")
@@ -63,6 +64,19 @@ var _muzzle: Node3D
 var _flash: MeshInstance3D
 ## Seconds since the recoil started (simulation time); past kick + recover = at rest.
 var _recoil_t: float = INF
+## Hero presentation (P16-T01 base form): seconds since the last shot, wind-up and Focus pose weights 0..1,
+## ground rings (Frenzy pulse, Focus reticle), the level-up glint at the hat and the level it last showed.
+var _since_shot: float = INF
+var _windup: float = 0.0
+var _focus_k: float = 0.0
+var _fx_time: float = 0.0
+var _frenzy_ring: MeshInstance3D
+var _focus_ring: MeshInstance3D
+var _glint: MeshInstance3D
+var _lens: MeshInstance3D
+var _xp_ring: MeshInstance3D
+var _shown_level: int = 1
+var _level_t: float = INF
 
 
 func setup(definition: TowerDefinition, id: int) -> void:
@@ -88,8 +102,20 @@ func _set_model(profile: PresentationProfile) -> void:
 		_anim = null
 		_muzzle = null
 		_flash = null
+	for fx: MeshInstance3D in [_frenzy_ring, _focus_ring, _xp_ring]:
+		if fx:
+			fx.free()
+	_frenzy_ring = null
+	_focus_ring = null
+	_xp_ring = null
+	_glint = null
+	_lens = null
 	_profile = profile
 	_recoil_t = INF
+	_since_shot = INF
+	_windup = 0.0
+	_focus_k = 0.0
+	_level_t = INF
 	_body.visible = profile == null
 	_body.scale.y = 1.0 if profile == null else 0.04
 	_body.position.y = 0.5 if profile == null else 0.02
@@ -139,6 +165,50 @@ func _set_model(profile: PresentationProfile) -> void:
 		_flash.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		_flash.visible = false
 		_muzzle.add_child(_flash)
+	if def is HeroDefinition and profile.ring_radius_m > 0.0:
+		_shown_level = level
+		_frenzy_ring = _fx_ring(profile.ring_radius_m, 0.06, profile.frenzy_color)
+		_focus_ring = _fx_ring(profile.ring_radius_m * 0.8, 0.03, profile.focus_color)
+		_xp_ring = _fx_ring(profile.ring_radius_m * 0.6, 0.05, profile.level_up_color)
+		var hat: Node3D = _model.find_child("hat_top")
+		if hat:
+			_glint = _fx_mesh(SphereMesh.new(), profile.level_up_color)
+			_glint.mesh.radius = 0.12 / profile.display_scale
+			_glint.mesh.height = 0.24 / profile.display_scale
+			hat.add_child(_glint)
+		var goggle: Node3D = _model.find_child("focus_goggle")
+		if goggle:  # Focus: the goggles light up (doc 02: "goggles/aim reticle")
+			_lens = _fx_mesh(SphereMesh.new(), profile.focus_color)
+			_lens.mesh.radius = 0.09 / profile.display_scale
+			_lens.mesh.height = 0.09 / profile.display_scale
+			goggle.add_child(_lens)
+
+
+## Hidden flat unshaded ring on the ground (hero feedback), child of the tower root so aiming never turns it.
+func _fx_ring(radius: float, width: float, color: Color) -> MeshInstance3D:
+	var torus: TorusMesh = TorusMesh.new()
+	torus.inner_radius = radius - width
+	torus.outer_radius = radius
+	torus.rings = 48
+	torus.ring_segments = 4
+	var ring: MeshInstance3D = _fx_mesh(torus, color)
+	ring.scale.y = 0.15
+	ring.position.y = 0.03
+	add_child(ring)
+	return ring
+
+
+func _fx_mesh(mesh: PrimitiveMesh, color: Color) -> MeshInstance3D:
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_color = color
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mesh.material = material
+	var node: MeshInstance3D = MeshInstance3D.new()
+	node.mesh = mesh
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	node.visible = false
+	return node
 
 
 ## Where shot visuals start: the model's muzzle_A marker (thrower's hand, cannon bore), else the greybox 0.5 m point.
@@ -159,6 +229,7 @@ func play_attack(dir: Vector3) -> void:
 		_anim.play(&"attack")
 		if _anim.has_animation(&"idle"):
 			_anim.queue(&"idle")
+	_since_shot = 0.0
 	_start_reaction()
 
 
@@ -175,27 +246,74 @@ func _start_reaction() -> void:
 
 
 ## Presentation step, called by the match every simulation tick (so it stops with pause and follows 1x/2x/4x).
-## The pose is a pure function of `_recoil_t`, rebuilt from rest each step.
+## The pose is a pure function of the reaction timers and hero state, rebuilt from rest each step.
 func animate(dt: float) -> void:
 	if _anim:
 		_anim.advance(dt)
-	if _model == null or _recoil_t == INF:
+	if _model == null:
 		return
-	_recoil_t += dt
+	if _frenzy_ring:
+		_animate_hero(dt)
+	if _recoil_t != INF:
+		_recoil_t += dt
 	var k: float = _recoil_amount()
-	var s: float = _profile.display_scale
-	var w: float = deg_to_rad(_profile.weapon_yaw_deg)
+	var p: PresentationProfile = _profile
+	var s: float = p.display_scale
+	var w: float = deg_to_rad(p.weapon_yaw_deg)
+	var elastic: float = p.frenzy_recoil_mult if frenzy_left > 0.0 else 1.0
+	var squash: float = p.recoil_squash * k * elastic + p.anticipation_squash * _windup + p.focus_squash * _focus_k
+	var tilt: float = p.recoil_tilt_deg * k + p.anticipation_tilt_deg * _windup + p.focus_tilt_deg * _focus_k
 	# Models face -Z, the weapon along R_y(w) * -Z: slide back opposite the weapon and pitch across its axis.
-	_model.position = Vector3(sin(w), 0.0, cos(w)) * _profile.recoil_m * k
-	_model.basis = Basis(Vector3(cos(w), 0.0, -sin(w)), deg_to_rad(_profile.recoil_tilt_deg) * k) * Basis.from_scale(
-			Vector3(s * (1.0 + 0.5 * _profile.recoil_squash * k), s * (1.0 - _profile.recoil_squash * k),
-			s * (1.0 + 0.5 * _profile.recoil_squash * k)))
+	_model.position = Vector3(sin(w), 0.0, cos(w)) * p.recoil_m * k
+	_model.basis = Basis(Vector3(cos(w), 0.0, -sin(w)), deg_to_rad(tilt)) * Basis.from_scale(
+			Vector3(s * (1.0 + 0.5 * squash), s * (1.0 - squash), s * (1.0 + 0.5 * squash)))
 	if _flash:
-		var flash_on: bool = _recoil_t < _profile.recoil_kick_s + 0.5 * _profile.recoil_recover_s
+		var flash_on: bool = _recoil_t < p.recoil_kick_s + 0.5 * p.recoil_recover_s
 		_flash.visible = flash_on
 		_flash.scale = Vector3.ONE * (0.4 + 0.6 * k) if flash_on else Vector3.ONE
-	if _recoil_t >= _profile.recoil_kick_s + _profile.recoil_recover_s:
+	if _recoil_t >= p.recoil_kick_s + p.recoil_recover_s:
 		_recoil_t = INF  # exactly at rest
+
+
+## Hero feedback from existing state only (never writes simulation state): wind-up from the first attack's
+## cooldown while engaged, Focus pose ease, Frenzy pulse ring, Focus reticle ring, level-up glint + XP pulse.
+func _animate_hero(dt: float) -> void:
+	var p: PresentationProfile = _profile
+	_fx_time += dt
+	_since_shot += dt
+	var interval: float = attacks[0].interval_s
+	# Engaged = fired within the last interval; fades over 0.25 s when no target follows (no snap back).
+	var engaged: float = clampf((interval + 0.25 - _since_shot) / 0.25, 0.0, 1.0)
+	_windup = 0.0
+	if p.anticipation_s > 0.0 and engaged > 0.0:
+		_windup = clampf(1.0 - cooldowns[0] / p.anticipation_s, 0.0, 1.0) * engaged
+	_focus_k = move_toward(_focus_k, 1.0 if focus else 0.0, dt / 0.15)
+	var frenzy: bool = frenzy_left > 0.0
+	_frenzy_ring.visible = frenzy
+	if frenzy:
+		var pulse: float = 0.5 + 0.5 * sin(_fx_time * TAU * 3.0)
+		_frenzy_ring.scale = Vector3(1.0 + 0.06 * pulse, 0.15, 1.0 + 0.06 * pulse)
+		_frenzy_ring.transparency = 0.45 * (1.0 - pulse)
+	_focus_ring.visible = _focus_k > 0.0
+	_focus_ring.transparency = 1.0 - _focus_k
+	if _lens:
+		_lens.visible = _focus_k > 0.0
+		_lens.scale = Vector3.ONE * _focus_k
+	if level != _shown_level:
+		if level > _shown_level:
+			_level_t = 0.0
+		_shown_level = level
+	if _level_t != INF:
+		_level_t += dt
+		var u: float = _level_t / 0.8
+		if u >= 1.0:
+			_level_t = INF
+		_xp_ring.visible = u < 1.0
+		_xp_ring.scale = Vector3(1.0 + 1.2 * u, 0.15, 1.0 + 1.2 * u)
+		_xp_ring.transparency = u
+		if _glint:
+			_glint.visible = u < 1.0
+			_glint.scale = Vector3.ONE * sin(PI * minf(u * 1.6, 1.0))
 
 
 ## Recoil amount 0..1 at `_recoil_t`: fast linear kick, ease-out recovery, 0 at rest.

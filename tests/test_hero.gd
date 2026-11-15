@@ -33,7 +33,8 @@ func _run() -> void:
 	_test_frenzy()
 	_test_focus()
 	_test_round_xp()
-	_check(_completed.size() == 6, "every test function completed (%s)" % [_completed])
+	_test_visual()
+	_check(_completed.size() == 7, "every test function completed (%s)" % [_completed])
 	print("test_hero: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -218,3 +219,83 @@ func _test_round_xp() -> void:
 	print("\n".join(lines))
 	m.free()
 	_completed.append("_test_round_xp")
+
+
+## Camel Claus base form (Dev 11, presentation only): grounded 2.52 m GLB on a visual pivot, launcher marker in front,
+## every reachable shot (and the level-6 debug volley) starts its visual at the launcher while the simulated origin
+## stays the tower position; wind-up / Focus pose / Frenzy ring / level-up glint come from existing state, stay
+## bounded under Frenzy fire, freeze on pause and return exactly to rest; footprint unchanged.
+func _test_visual() -> void:
+	var m: Node3D = _new_match(1000)
+	var h: Node3D = m.try_place(content.hero, SPOT)
+	var model: Node3D = h._model
+	var p: Resource = h._profile
+	var rest: Transform3D = Transform3D(Basis.from_scale(Vector3.ONE * 1.5))
+	_check(model != null and h._anim == null and h._flash != null and h._frenzy_ring != null and h._glint != null,
+			"hero: static GLB, launcher puff, rings and glint")
+	var mesh: MeshInstance3D = model.find_children("*", "MeshInstance3D")[0]
+	var box: AABB = mesh.global_transform * mesh.get_aabb()
+	_check(absf(box.position.y) < 0.01 and absf(box.end.y - 2.52) < 0.03, "hero grounded, 2.52 m tall (%s)" % box)
+	_check(is_equal_approx(h.footprint().z, 0.6), "hero footprint 0.6 m unchanged")
+	var dir: Vector3 = Vector3(1, 0, 0)
+	h.play_attack(dir)
+	var muzzle: Vector3 = h.muzzle_position() - h.position
+	_check(h.rotation == Vector3.ZERO and absf(muzzle.y - 0.823) < 0.02 and muzzle.x > 0.3 and absf(muzzle.z) < 0.02,
+			"launcher marker 0.82 m high, in front along the aim; root never turns (%s)" % muzzle)
+	# Real shots: the visual starts at the launcher, the simulated shot at the tower position (XZ).
+	for lvl: int in [1, 6]:  # 6 = debug-only volley of two (unreachable in 25 rounds)
+		m.set_hero_level(lvl)
+		_park(m, &"coral", 14.0)
+		m.start_round()
+		var fired: Array = []
+		for i: int in 240:
+			m.clock.advance(STEP)
+			if not m.shots.is_empty():
+				fired = m.shots.duplicate()
+				break
+		var offset: Vector3 = h.muzzle_position() - h.position - Vector3.UP * 0.5  # faded by one tick below
+		_check(fired.size() == h.attacks[0].projectile_count, "level %d: %d shot(s) fired" % [lvl, fired.size()])
+		for shot: RefCounted in fired:
+			var start: Vector3 = shot.pos - shot.velocity * STEP
+			_check(Vector2(start.x - h.position.x, start.z - h.position.z).length() < 0.05
+					and shot.offset.is_equal_approx(offset.move_toward(Vector3.ZERO, m.MUZZLE_BLEND_MPS * STEP)), "level %d: sim origin = tower, visual offset = launcher" % lvl)
+		m.free()
+		m = _new_match(1000)
+		h = m.try_place(content.hero, SPOT)
+	model = h._model
+	# Level-up: glint + XP pulse once, then gone; a level change down shows nothing.
+	m.set_hero_level(4)
+	m.clock.advance(STEP)
+	_check(h._xp_ring.visible and h._glint.visible, "level-up shows the XP pulse and hat glint")
+	_sim(m, 1.0)
+	_check(not h._xp_ring.visible and not h._glint.visible, "level-up feedback ends")
+	# Focus: held pose eased in, reticle ring; off again = exact rest.
+	m.toggle_focus()
+	_sim(m, 0.3)
+	_check(is_equal_approx(h._focus_k, 1.0) and h._focus_ring.visible and h._lens.visible and model.transform != rest,
+			"Focus: pose + reticle + goggle lens")
+	m.toggle_focus()
+	_sim(m, 0.3)
+	_check(model.transform == rest and not h._focus_ring.visible and not h._lens.visible, "Focus off: exact rest")
+	# Frenzy: pulse ring while active; rapid fire stays bounded; pause freezes; ring off and exact rest after.
+	m.use_frenzy()
+	m.clock.advance(STEP)
+	_check(h._frenzy_ring.visible, "Frenzy: ring visible while active")
+	var squash_max: float = p.recoil_squash * p.frenzy_recoil_mult + p.anticipation_squash + 1e-5
+	for i: int in 30:
+		h.play_attack(dir)
+		h.animate(STEP)
+		h.animate(STEP)
+		_check(model.position.length() <= p.recoil_m + 1e-5 and model.scale.y >= 1.5 * (1.0 - squash_max)
+				and model.basis.orthonormalized().get_euler().length() <= deg_to_rad(4.0), "Frenzy rapid fire bounded")
+	m.set_paused(true)
+	var held: Transform3D = model.transform
+	_sim(m, 0.5)
+	_check(model.transform == held and held != rest, "pause freezes the hero pose")
+	m.set_paused(false)
+	m.start_round()
+	_sim(m, 9.0)  # Frenzy (8 s) runs out in a round; no snowballs, so nothing fires
+	_check(not h._frenzy_ring.visible and model.transform == rest and m.frenzy_state() == "cooldown",
+			"after Frenzy: ring off, exact rest (%s)" % model.transform)
+	m.free()
+	_completed.append("_test_visual")

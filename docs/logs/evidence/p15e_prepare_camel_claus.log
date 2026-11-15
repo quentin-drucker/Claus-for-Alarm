@@ -1,0 +1,10 @@
+FBX version: 7400
+camel_claus raw: size (0.494, 0.522, 1.000) envelope 0.338 open edges 0 flipped 11118
+camel_claus prepared: scale x1.6797, size (0.830, 0.877, 1.680) (display x1.5 = (1.245, 1.316, 2.520)), min z 0.0000, ground centre (-0.000, 0.023, 0.000), envelope 0.590 (display 0.885), tris 24994, open edges 0
+  marker muzzle_A at (-0.003, 0.221, 0.549) (display (-0.004, 0.332, 0.823))
+  marker effect_center at (0.000, 0.000, 0.840) (display (0.000, 0.000, 1.260))
+  marker focus_goggle at (-0.003, 0.121, 1.476) (display (-0.005, 0.181, 2.214))
+  marker hat_top at (-0.087, -0.203, 1.617) (display (-0.131, -0.304, 2.426))
+Info: Saved as "camel_claus.blend"
+01:20:23 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+  wrote assets/models/camel_claus.glb
