@@ -171,22 +171,37 @@ To facilitate reuse of BTD6 balance, retain for each original mechanic: attack t
 
 ## 4. Milestone dashboard and release definitions
 
-**Manual tracking:** change `⬜` to `✅` only after the gate criteria and evidence are satisfied. Track partial work in §12. Don't pretend these statuses auto-sync with individual checkboxes; the agent must explicitly update both.
+**Manual tracking:** mark [x] only when the stated task/gate scope has supporting evidence. [ ] Partial means work exists but acceptance remains; [ ] Deferred is outside submission scope. Update this dashboard and the task checklists together; they do not auto-sync.
 
 | ID | Milestone | Core phases | Gate / demonstration | Status | Evidence |
 |---|---|---|---|---|---|
-| G0 | Specifications and decisions recorded | P00 | All three hybrid MDs found; unresolved defaults tracked; source precedence accepted | ✅ | `docs/logs/SESSION_LOG.md` (2026-11-13), baseline `d1567e1` |
-| G1 | Editor & Web smoke | P01 | Project boots in editor; minimal Web export actually opens in browser | ✅ | `docs/logs/evidence/p01_*`, tag `p01-web-smoke` |
-| G2 | Data-driven match skeleton | P02–P04 | Path + towers + states work independently of final art | ✅ | `tests/test_{data,map,match}.gd` PASS; `docs/logs/evidence/p0[234]_*`; tag `g2-match-skeleton` |
-| G3 | Complete combat/economy vertical slice | P05–P07 | Layer changes, money, rounds, leaks, win/lose verified | ✅ | `tests/test_{combat,full_run}.gd` PASS; `docs/logs/evidence/p05_*, p06_*, p07_*`; itch ZIP `claus_for_alarm_g3_web_d2f1bba.zip`; specials DEFERRED (DEC-019) |
-| G4 | Initial six-tower mechanical roster | P08–P09 | All six tower **base kits** validated; at least a small verified upgrade sample; path locks | ✅ | `tests/test_{towers,upgrades,full_run}.gd` PASS; `docs/logs/evidence/p08_*, p09_*`; 35/90 tiers shipped; itch ZIP `claus_for_alarm_g4_web_aa11956.zip` |
-| G5 | Hero & special-property interactions | P10–P11 | Camel Claus auto-level, abilities/toggles; basic immunities, wax, economy | ⬜ (P10 done; P11 special snowballs DEFERRED, DEC-019) | `tests/test_hero.gd`, `p10_hero_levels.txt`, `p10_full_run.txt`; ZIP `claus_for_alarm_p10p13_web_b3620ca.zip` |
-| G6 | Technical alpha with functional UX | P12–P14 | Multiple rounds, upgrades, pause/restart, stress/debug and Web sanity | ⬜ | — |
-| G7 | Art asset pipeline established | P15 | One polished character + one snowball + one prop pass modeling QA and Web import | ⬜ | — |
-| G8 | Visual/audio beta | P16–P18 | Cohesive models, map, UI, VFX, sound, animation integrate without sim regressions | ⬜ | — |
-| G9 | Release candidate | P19 | Browser QA, no blockers, performance and controls pass | ⬜ | — |
-| G10 | Submission complete | P20 | URL works for a stranger; website, credits, artifacts and demo submitted | ⬜ | — |
-| G11 | Optional post-jam extension | P21 | Additional full tier trees and planned towers only when authorized | ⬜ | — |
+| G0 | Specifications and decisions recorded | P00 | Hybrid specs and decisions available | [x] Complete | Baseline d1567e1; session log |
+| G1 | Editor & Web smoke | P01 | Editor boot and actual browser export | [x] Complete | p01 evidence; later Dev 12 export/browser smoke also passes |
+| G2 | Data-driven match skeleton | P02-P04 | Path, placement, towers and match states | [x] Complete | test_data/map/match; Dev 12 regression |
+| G3 | Combat/economy vertical slice | P05-P07 | Layers, money, waves, leaks, win/lose | [x] Complete | test_combat/full_run; selected special layers now implemented |
+| G4 | Initial six-tower mechanical roster | P08-P09 | Six base kits, three upgrade paths and path locks | [x] Complete for submission scope | 54/90 tiers implemented (all paths through tier 3); remaining 36 deferred; test_towers/upgrades |
+| G5 | Hero & selected special-property interactions | P10-P11 | Hero progression/abilities; active immunities, camo, splits, wax and economy | [x] Implemented and regression-tested for current roster | test_hero/combat/upgrades/full_run; P11-T01-T03; DEC-025/031; dev12_tests.txt. Unused enemy classes/branches remain deferred. |
+| G6 | Technical alpha with functional UX | P12-P14 | Functional match loop plus complete browser/fresh-player acceptance | [ ] Partial: technical alpha exists | technical-alpha tag; Dev 12 12/12 suites and Web rounds 1-5. Full browser playthrough/restart and fresh-player acceptance remain. |
+| G7 | Art asset pipeline established | P15 | Character, snowball and prop QA plus Web import and owner acceptance | [ ] Partial: pipeline working; acceptance open | P15-A01-A16 delivered; P15-T09 review not closed. Old Rookie retained by owner DEC-046; replacement is not a blocker. |
+| G8 | Visual/audio beta | P16-P18 | Cohesive accepted models, terrain, UI, VFX, audio | [ ] Partial: integrated; owner requests visual revision | Dev 12 map/VFX/HUD/notices; P18 audio and animated menu exist. Dev 13 lighting/terrain/sidebar/portraits/UI pass pending. |
+| G9 | Release candidate | P19 | Final candidate passes browser, performance, input and hosted QA | [ ] Partial: local RC built/tested | claus_for_alarm_rc_web_d098ca5.zip; dev12_rc_smoke.txt; high-end stress p95 6.8 ms. Hosted/late-round browser checks and revised-art candidate pending. |
+| G10 | Submission complete | P20 | Public playable URL, completed website/credits and submitted entry | [ ] Pending | Upload/hosted verification, website credit publication, final media and submission confirmation outstanding. |
+| G11 | Optional post-jam extension | P21 | Additional towers/tiers/rigging when authorized | [ ] Deferred; outside submission | Includes selected AccuRIG Rookie replacement, extra towers and tiers 4-5. |
+
+**Dashboard reconciled after Dev 12 (2026-11-15).** Checked means evidence supports the stated submission scope; an unchecked partial gate does not mean its implementation is absent. Deferred work is not a submission blocker. No percentage is used because the original task list includes optional and superseded requirements.
+
+**Submission progress at a glance**
+- [x] Playable 25-round game, six regular towers plus hero, 54 implemented upgrades.
+- [x] Current roster integrated; larger hero approved; functional old Rookie retained (DEC-045/046).
+- [x] Animated main menu and original audio/settings integrated.
+- [x] Dev 12 map dressing, layer-break feedback and special-wave acknowledgment notices implemented.
+- [x] Local RC ZIP exported; extracted ZIP smoke-tested; 12/12 suites pass.
+- [ ] Owner-requested terrain/lighting and complete UI overhaul accepted (Dev 13 checklist, section 12.1.7).
+- [ ] Seven runtime-model portraits and per-tower pop counters implemented.
+- [ ] Revised final Web build tested, including late rounds and restart.
+- [ ] Public hosted game verified; website credits/media finished.
+- [ ] Fresh-player check recorded and submission confirmed.
+
 
 ### Dependency overview
 
@@ -759,15 +774,15 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 - [ ] **P16-T06** — Create **Slope Wax Sprayer** fitted technician costume, actual hose/tank/nozzle assembly, persistent wax indicator and three branch silhouettes. → PARTIAL (P15-A07): base form from the owner's Tripo source (harness, hose, tank pack, nozzle), nozzle marker + pump reaction; wax indicator (snowball effects) and branch silhouettes not in this batch
 - [ ] **P16-T07** — Create **Snow Sorcerer** original winter-festival magical athlete with unique robe/staff/elemental/summon identity; distinguish from visual clone of BTD6 Wizard. → PARTIAL (P15-A09): base form from the owner's Tripo source (robe, cape, snowflake staff), staff-head cast effect; elemental/summon forms deferred (upgrade forms deferred by owner); owner size review open (DEC-044); Dev 11: 1.70 m shown (DEC-044 approved)
 - [ ] **P16-T08** — Create **Ski Resort Ticket Booth** income building with cashier window, legible output pickup, bank and vending variants; functional gameplay node remains identical. → PARTIAL (P15-A10): base building from the owner's Tripo source (cashier counter, lamps, snow roof), income reaction at the window, tickets visible around it; bank/vending variants deferred
-- [ ] **P16-T09** — Create 5 basic rolling snowball shell materials/variants, mechanical property overlays and distinct child size; test shell-to-child timing and clear Powder/terrain contrast.
-- [ ] **P16-T10** — Create source-referenced *special* snowball classes actually used in released rounds: armor plates, stealth motif, regeneration, heavy shell and large threat body where needed.
-- [ ] **P16-T11** — Produce map kit: ski trail, berms, start/finish gates, evergreen sets, snowdrifts, fencing, skis/pucks/curling kit, chalet, warming hut, lights, background slopes and distant low-detail decorations.
-- [ ] **P16-T12** — Construct the final snowy environment **on top of locked route and placement coordinates**, not by moving the actual game path to fit concept art.
+- [ ] **P16-T09** — Create 5 basic rolling snowball shell materials/variants, mechanical property overlays and distinct child size; test shell-to-child timing and clear Powder/terrain contrast. **Status after Dev 12:** PARTIAL: existing five basic shells, special markers and roll retained; Dev 12 pooled layer-break feedback added. Owner reports washed-out terrain; Powder contrast and final surface finish remain in Dev 13.
+- [ ] **P16-T10** — Create source-referenced *special* snowball classes actually used in released rounds: armor plates, stealth motif, regeneration, heavy shell and large threat body where needed. **Status after Dev 12:** PARTIAL: active Black/White/Aurora/camo visuals exist; inactive armor/regrow/heavy classes remain deferred, not extra submission work.
+- [ ] **P16-T11** — Produce map kit: ski trail, berms, start/finish gates, evergreen sets, snowdrifts, fencing, skis/pucks/curling kit, chalet, warming hut, lights, background slopes and distant low-detail decorations. **Status after Dev 12:** PARTIAL: Dev 12 delivered trail berms, gates, flags, pine margins, fence, skis, rink/curling props and existing lodge. Owner requests organic terrain/material finish; remaining optional microdetail is lower priority.
+- [ ] **P16-T12** — Construct the final snowy environment **on top of locked route and placement coordinates**, not by moving the actual game path to fit concept art. **Status after Dev 12:** PARTIAL: Dev 12 dressing is built from locked route/bounds/blockers and passes test_map. Final visual acceptance reopened by owner; preserve the same gameplay geometry.
 - [ ] **P16-T13** — Build modular tier 1/2 accessories, 3 defining tier-3 visual identities and selective t4/t5 signatures **only for tiers currently implemented**.
 - [ ] **P16-T14** — For each commissioned asset, preserve `.blend` source, optimized `.glb`, manifest with `gameplay_id`, 4+ QA renders, material/rig/LOD notes and provenance. → PARTIAL: Cannon has source FBX + derived `.blend` + `.glb`, profile with `gameplay_id`, provenance/material notes (`art_src/models/README.md`), Godot captures; Blender clay/silhouette/close-up QA renders now made for Cannon, Ranger and Wax (`p15c_<id>_*`, Dev 9); Ranger and Wax have the same source/derived/profile/provenance set
 - [ ] **P16-T15** — Run 360° clay/silhouette/game-camera tests; reject visible default sphere/cylinder collage, floating clothing or unsupported mechanical joins. → PARTIAL (Dev 9): four-side + 3/4 clay, silhouettes and game-camera captures for Cannon, Ranger, Wax; no primitive collage or floating parts found (`p15c_b14_scorecard.md`); other assets pending
-- [ ] **P16-T16** — Batch/instance vegetation and repeated shells; verify clustered tower copies and high enemy density in browser before adding microdetail. → PARTIAL (Dev 9): browser density check of 12 clustered towers + 120 snowballs (`p15c_stress_web.txt`); vegetation/shell batching not started
-- [ ] **P16-T17** — Update presentation profiles to swap `.glb` without changes to tower stats, placement footprints or shot timing. → PARTIAL: done for the Cannon, Ranger and Wax Sprayer (identical gameplay transcripts, `p15a_tests.txt`, `p15c_tests.txt`); Sorcerer, Booth and hero also integrated (P15-A09?A15); selected Rookie replacement pending
+- [ ] **P16-T16** — Batch/instance vegetation and repeated shells; verify clustered tower copies and high enemy density in browser before adding microdetail. **Status after Dev 12:** PARTIAL: pines/posts/flags use MultiMesh; stress 432k primitives, p95 6.8 ms on one high-end GPU (dev12_stress_web.txt). Final shell batching/device acceptance not claimed.
+- [x] **P16-T17** - Bind the retained submission roster through presentation profiles without changing stats, footprints or shot timing. All seven current profiles/models integrated (P15-A03/A06/A07/A09/A10/A14 and existing Rookie); regression evidence p15a/p15c/p15d/p15e and dev12_tests.txt. Selected Rookie replacement deferred by DEC-046.
 - [ ] **P16-T18** — Document any deferred tier models and which cosmetics temporarily share a visual state; never call a tier fully visually implemented when it isn't.
 
 **P16 exit proof:** in-game models for every active roster entry plus map/enemies, integrated and art-reviewed at play camera, without mechanical regressions. **The end of P16 is not enough by itself**: animation and UI/audio polish follow.
@@ -778,19 +793,19 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Gate:** G8.
 
 - [ ] **P17-T01** — Connect each `PresentationEvent` to correct animation, VFX and UI reaction; no new simulation effects inside render-event callbacks.
-- [ ] **P17-T02** — Animate snowball tumble with speed/radius relation, hit reaction, outer shell change, tiny fragment burst, large shell shatter and leak feedback.
+- [ ] **P17-T02** — Animate snowball tumble with speed/radius relation, hit reaction, outer shell change, tiny fragment burst, large shell shatter and leak feedback. **Status after Dev 12:** PARTIAL: existing roll/shell changes plus Dev 12 pooled 32-slot colored break puff/ring, driven by sim time. Full visual acceptance remains open.
 - [ ] **P17-T03** — Animate athlete idle, target turn, anticipation, attack, followthrough and modest celebration using shared rig without model deformation defects.
 - [ ] **P17-T04** — Animate machines: cannon recoil, wax nozzle pump, ticket slot/collection, mechanical dials, and any active upgrade devices.
 - [ ] **P17-T05** — Animate Camel Claus: throw/ricochet, level-up, stance/visor, ability cast and ready/cooldown state; check sockets through all poses.
 - [ ] **P17-T06** — Produce VFX for ordinary hit, armor immune, wax slow/coating, magic impact, cannon blast, explosive layers, income pickup, hero ability and critical warnings.
 - [ ] **P17-T07** — Add restrained winter ambient motion: gentle snowfall, flag sway, pines, distant skier or lift if performance allows; ambience must not resemble enemies.
-- [ ] **P17-T08** — Create original GUI visual tokens, panels, tower cards, small portraits, upgrade icon rules and hierarchy according to A-06/A-07.
+- [ ] **P17-T08** — Create original GUI visual tokens, panels, tower cards, small portraits, upgrade icon rules and hierarchy according to A-06/A-07. **Status after Dev 12:** PARTIAL: Dev 12 winter skin/layout exists. Dedicated portrait sidebar and cohesive textured UI requested for Dev 13; not complete.
 - [ ] **P17-T09** — Make button hover/pressed/disabled/owned/path-locked feedback visually distinct and input-accessible; never conceal whether an upgrade is legal.
 - [ ] **P17-T10** — Implement selected hero profile with readable Focus toggle, skill ability radial cool-down and actual XP bar; confirm parity with simulation state.
-- [ ] **P17-T11** — Build wave-intro, upgrade-achievement, life-loss and victory/defeat animation sequences with brief, non-obstructive timings.
+- [ ] **P17-T11** — Build wave-intro, upgrade-achievement, life-loss and victory/defeat animation sequences with brief, non-obstructive timings. **Status after Dev 12:** PARTIAL: acknowledged Black/White/Camo/Aurora notices implemented/tested in Dev 12; complete themed notifications/result animation pass remains.
 - [ ] **P17-T12** — Implement VFX detail and reduced motion options; cosmetic particle systems drop first at load, critical UI/events retained.
 - [ ] **P17-T13** — Audit 320×180 thumbnail, grayscale/color-vision, low/high VFX, narrow window and 2× game speed.
-- [ ] **P17-T14** — Run full technical regression on combat, economy and upgrade paths after replacing every placeholder; compare deterministic logs to alpha snapshot.
+- [ ] **P17-T14** — Run full technical regression on combat, economy and upgrade paths after replacing every placeholder; compare deterministic logs to alpha snapshot. **Status after Dev 12:** PARTIAL: Dev 12 12/12 suites pass and bot transcripts unchanged. Repeat after the authorized Dev 13 changes; final-placeholder replacement acceptance not claimed.
 
 **P17 exit proof:** animation/effects and UI improve understanding rather than hiding the route, layer color, danger or controls; core simulation logs match technical alpha.
 
@@ -819,19 +834,19 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 **Gate:** G9.
 
 - [ ] **P19-T01** — Freeze release content and commit; only critical bug fixes or explicitly approved changes after freeze.
-- [ ] **P19-T02** — Export with correct Web template version, Compatibility/WebGL 2 renderer and host-compatible settings; verify single-thread default rather than relying on SharedArrayBuffer headers.
+- [x] **P19-T02** — Export with correct Web template version, Compatibility/WebGL 2 renderer and host-compatible settings; verify single-thread default rather than relying on SharedArrayBuffer headers. **Status after Dev 12:** DONE for Dev 12 RC: correct Godot Web release export, single-threaded Compatibility build, 0 errors/warnings (dev12_web_export.log). Repeat for the revised final candidate.
 - [ ] **P19-T03** — Run browser on target OS/Chromium and, where feasible, Firefox/Safari; test first load, cache refresh, fullscreen, input capture and audio unlock.
-- [ ] **P19-T04** — Test Web export served over HTTP(s) and investigate browser console/network errors, missing assets, security headers and script parse failures.
-- [ ] **P19-T05** — Measure FPS and frametime at opening scene, heaviest wave, largest number of towers and heaviest VFX mode; document device specs and final budgets.
+- [x] **P19-T04** — Test Web export served over HTTP(s) and investigate browser console/network errors, missing assets, security headers and script parse failures. **Status after Dev 12:** DONE locally for Dev 12 RC: extracted ZIP served over HTTP, Chrome 0 console errors and successful asset loading (dev12_rc_smoke.txt). Hosted site checks remain P20-T04/P19-T14.
+- [ ] **P19-T05** — Measure FPS and frametime at opening scene, heaviest wave, largest number of towers and heaviest VFX mode; document device specs and final budgets. **Status after Dev 12:** PARTIAL: bounded high-end stress p95 6.8 ms, 432k primitives, 1007 draws; first-use stalls recorded. Full final-candidate/device coverage remains.
 - [ ] **P19-T06** — Optimize mesh LODs, repeated snowball meshes, vegetation instances, transparencies, textures, audio size and UI layout while maintaining quality standards.
 - [ ] **P19-T07** — Stress test waves with very many snowballs/child splits, multiple high-pierce attacks, ability spam and sell/rebuild; game outcomes must remain deterministic.
-- [ ] **P19-T08** — Verify readability of Powder on snow, colorblind status patterns, range rings, UI text at smaller window and HUD placement at 16:9/16:10.
+- [ ] **P19-T08** — Verify readability of Powder on snow, colorblind status patterns, range rings, UI text at smaller window and HUD placement at 16:9/16:10. **Status after Dev 12:** PARTIAL: Dev 12 800x600 smoke check exists; owner still rejects terrain/UI readability. Recheck after Dev 13.
 - [ ] **P19-T09** — Verify robust fail states: selling last defense, repeated restart, rapid upgrade clicks, pause while ability active, game over during explosion, browser tab hidden/resumed.
-- [ ] **P19-T10** — Disable developer cheats/console commands/debug overlays in release build; retain logged errors for analysis if enabled safely.
+- [x] **P19-T10** — Disable developer cheats/console commands/debug overlays in release build; retain logged errors for analysis if enabled safely. **Status after Dev 12:** DONE for Dev 12 release: F3/F4 developer controls debug-only and release hint stripped; recorded in dev12_rc_smoke.txt. Reverify final artifact.
 - [ ] **P19-T11** — Test persistent settings and best-score storage if implemented, including no-save/error cases and browser storage restrictions.
 - [ ] **P19-T12** — Confirm game startup explains controls and main goal in less than a minute and requires no external installation.
 - [ ] **P19-T13** — Record and triage outstanding known issues and test against a release-blocker policy (see §9).
-- [ ] **P19-T14** — Create a candidate ZIP of the Web export with files kept together and naming intact; host a release candidate, verify URL independently.
+- [ ] **P19-T14** — Create a candidate ZIP of the Web export with files kept together and naming intact; host a release candidate, verify URL independently. **Status after Dev 12:** PARTIAL: build/archive/claus_for_alarm_rc_web_d098ca5.zip (33.7 MB, index.html at root) built and extracted copy tested. Hosting and independent URL verification remain.
 - [ ] **P19-T15** — Perform a final full game playthrough **on hosted release candidate**, not only editor or local development server.
 
 **P19 exit proof:** hosted release candidate, documented browser/platform testing, no unresolved critical bugs, acceptable measured performance, input/audio/restart validated.
@@ -848,7 +863,7 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 - [ ] **P20-T04** — Host Godot Web export on supported static site/store page; verify MIME/path/headers, `index.html` companions and no broken static asset routes.
 - [ ] **P20-T05** — Write concise instructions: how to place towers, start rounds, click upgrades, understand color layers, use Camel Claus abilities, pause and speed.
 - [ ] **P20-T06** — Write accurate game description that emphasizes original winter-sports theme and original assets; do not present as official BTD6 remake or endorsed title.
-- [ ] **P20-T07** — Create credits for team, game engine, original artwork, music/SFX licenses and third-party sources; references are informational, not redistributed assets.
+- [ ] **P20-T07** — Create credits for team, game engine, original artwork, music/SFX licenses and third-party sources; references are informational, not redistributed assets. **Status after Dev 12:** PARTIAL: source/license ledgers and copy-ready lumoize credit exist; website publication and complete public credits not verified.
 - [ ] **P20-T08** — Capture 4–6 actual gameplay screenshots and a short trailer/GIF if event expects media; exclude editor-only visuals or unimplemented features.
 - [ ] **P20-T09** — Prepare a short judge walkthrough: 15-second premise, one tower placement, a layer break, an upgrade, one Camel ability, win/loss highlight.
 - [ ] **P20-T10** — Create final release manifest with Git commit, build date, tested browsers, known issues, artifact URL and contingency local ZIP.
@@ -1057,15 +1072,15 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 
 | Field | Value |
 |---|---|
-| Current milestone | G4 complete; technical-alpha checkpoint exists. G6 acceptance remains incomplete; G7/P15 open. Saved evidence includes later special-enemy, art and P18 audio work; see section 12.1.1. |
-| Current phase | Dev 12 release candidate (local): course dressing + layer-break puffs (batch A), special-snowball introductions + HUD skin/layout (batch B), RC export/ZIP/browser checks (batch C). Rookie replacement deferred (DEC-046); hero 2.52 m approved (DEC-045). |
-| Active task IDs | P16-T11/T12 slice done (cosmetic, locked data); P16-T09/P17-T02 partial (existing shells/markers/roll + new pooled break puff); special-wave notices (DEFERRED_WORK item 2) done; P19/P20 open: upload + hosted verification + website credits. |
-| Latest verified commit | Dev 12: `4fcd4b4` (batch A), `ccd7f4c` (batch B), `27bd116` (HUD layout fix), `d098ca5` (Web cost cut + RC evidence), then the Dev 12 docs commit. HACKATHON/REGISTRY, design docs 01–03 and other source folders remain local (others'). |
+| Current milestone | G0-G5 implemented for current submission scope. G6/G7 acceptance partial; G8 visual revision pending; G9 local RC exists but hosted/final acceptance open; G10 submission pending. See the reconciled dashboard in section 4. |
+| Current phase | Dev 12 completed locally; owner requests Dev 13 terrain/lighting and full UI visual overhaul. Preserve the Dev 12 ZIP as fallback. Existing Rookie retained and larger hero approved. |
+| Active task IDs | Dev 13 V13-T01-T10 in section 12.1.7: terrain/lighting, dedicated sidebar/camera layout, seven portraits, UI-wide theme/motion/cursor, pop stats, final Web verification. Dev 12 notices remain implemented. P19/P20 hosted/submission work open. |
+| Latest verified commit | Dev 12 code/evidence d098ca5, documentation 08e7c0f; new work after those commits must be inspected separately. This reconciliation is documentation-only, not a new tested game build. |
 | Latest passing editor test | Godot MCP process runs of `match.tscn` (2026-11-15): dressing at the game camera, round 20 notice → Space → Black wave with break puffs, hero placed + F4 level 4 + selection layout; 0 errors/warnings (`dev12_*.png`) |
 | Latest passing Web build URL | Local only: `build/archive/claus_for_alarm_rc_web_d098ca5.zip` (extracted copy served and tested). Chrome 157 headless: menu, Play, 2 Rookies placed, rounds 1–5 at 4×, Rookie selected (3 upgrade paths), Booth bought at $750 and 4 tickets collected by hover only, pause overlay, 800×600 window, 0 console errors (`dev12_web_*`, `dev12_rc_smoke.txt`). Hosted itch page shows no game embed (draft/not public): NOT verified. |
 | Latest passing test suite | 12/12 incl. `test_menu_background` and new intro tests in `test_match` (`dev12_tests.txt`, 2026-11-15); full-run bot transcripts unchanged (no tracked evidence regenerated) |
-| Current blockers | Upload the RC ZIP to itch (owner account), set the page public and verify it in a private window; publish website credits (lumoize, website/README.md TODO); first-use browser stalls remain (fresh ~12 s to title, ~5.5 s match, ~2.4 s round 1; reload far shorter); no low-end/mobile measurement; fresh-player test not done. |
-| Primary next action | Owner: upload `claus_for_alarm_rc_web_d098ca5.zip` per docs/PUBLISHING.md, play round 1 on the hosted page with F12 open, publish the website credits, submit. Optional if time remains: a short hosted playthrough to round 20 to see the first notice live. |
+| Current blockers | Owner-reported washed-out snow and insufficiently finished terrain/UI; requested sidebar/portraits/pop stats not yet implemented. Hosted upload/verification, website credits and final late-round browser/fresh-player checks remain. First-use stalls and high-end-only performance evidence remain known limitations. |
+| Primary next action | Execute Dev 13 checklist (12.1.7), preserving tested behavior and protecting final release time. Owner can upload the fallback RC and prepare website credits concurrently; replace with verified final candidate before submission. |
 
 ### 12.1.1 Asset assessment and revised Dev 8 handoff (2026-11-14)
 
@@ -1224,6 +1239,32 @@ See `docs/DEFERRED_WORK.md` for desired behavior, reason, phase, considerations 
 - Batch A (`4fcd4b4`, `d098ca5`): `scenes/world/course_dressing.gd` (node `SkiCircuit/Dressing`) builds cosmetic dressing from the locked waypoints/bounds/blockers at load: snow berms on both track edges (mitred), START/FINISH arches, slalom flags on bend outsides, the Pond blocker styled as a frozen rink with boards and curling stones, split-rail fence outside the long edges, instanced pine margins outside the buildable ground and clear of the entry/exit lanes, snow ground/backdrop. Nothing joins `Blockers`: placement/LOS unchanged (test_map PASS). Snow > track luma kept; Powder reads on the track with its outline. `scripts/presentation/pop_effects.gd`: pooled (32) puff + ring in the broken layer's colour on `layer_broken`, sim time. Existing shells, special marker bands/letters (B/W/A/C) and roll reused. Web cost after a density cut: browser stress full mix 432k primitives, 1,007 draws, p95 6.8 ms (before dressing 357k / 969 / 5.1 ms; first cut 759k / 7.7 ms) (`dev12_stress_web.txt`).
 - Batch B (`ccd7f4c`, `27bd116`): special-snowball introductions from round data (Black 20, White 22, Camo 24, Aurora 25); `match.start_round()` (Space, Start button, bots) opens the notice instead of spawning; one Continue/Space acknowledges and starts; echo and paused refused; once per match; a new match resets. Text matches current data (White: no current cold attack). Tests in `test_match`; round loops in tests acknowledge (transcripts unchanged). HUD: winter theme, notice panel, purchase floaters (-$ / refusal reason), phase wording, tower names only when selected/ghosted, selected card stacked under the shop.
 - Batch C: 12/12 suites; release export 0 ERROR/WARNING; release excludes F3/F4 (debug-only, hint text stripped); ZIP `build/archive/claus_for_alarm_rc_web_d098ca5.zip` (33.7 MB, index.html at root) tested from an extracted copy (see 12.1 rows). Hosted itch page: no embed visible (not verified). Not done: hosted check, late-round browser playthrough to round 20+ (verified in editor/tests only), low-end/mobile, fresh-player test.
+
+### 12.1.7 Dev 13 owner-requested visual overhaul - pending checklist
+
+Requested after reviewing Dev 12 screenshots. These items are authorized work, **not implemented or visually approved by this documentation update**. The suggested Christmas ski-lodge palette is the working proposal; the owner explicitly requested themed wood/snow/Christmas UI and the BTD6-style sidebar organization.
+
+- [ ] **V13-T01 - Composition checkpoint:** one actual gameplay capture with corrected terrain, dedicated sidebar and representative selected-tower view at 1280x720; inspect before propagating styling.
+- [ ] **V13-T02 - Snow/lighting:** recover highlight detail; add subtle broad snow variation, fine grain/wind streaks and blue-gray shadow definition. Preserve Powder contrast; verify actual Web output.
+- [ ] **V13-T03 - Organic course/rink:** textured groomed trail, softer irregular banks/corners and organic ice shoreline. Keep locked enemy route/placement/LOS; preserve logical BoxMesh blocker proxies and make blocked ground visually understandable.
+- [ ] **V13-T04 - Dedicated right sidebar:** compact portrait-card shop; selected tower/upgrades in the sidebar; compact status and controls. Reserve playfield space and refit camera/input mapping. Verify whole route, picking, ticket hover and 800x600 layout.
+- [ ] **V13-T05 - Seven portraits:** capture actual current runtime models with consistent framing; torso-up characters and appropriate Cannon/Booth crops; static transparent PNGs reused in shop and selected view. Old Rookie retained.
+- [ ] **V13-T06 - Whole UI theme:** cohesive main-menu controls, help/settings, HUD, upgrades/hero, pause, special notices, notifications, tooltips and results/restart. Preserve animated menu environment and website-only public credit placement.
+- [ ] **V13-T07 - Motion/cursor/feedback:** restrained hover/press/selection animation, purchase/refusal feedback, readable notifications and accurate high-contrast custom cursor; keep interactions immediate and respect reduced motion where available.
+- [ ] **V13-T08 - Per-tower Pops:** actual layers broken attributed by source tower ID, including splash/secondary/DoT/splits; immune hits/leaks do not count; upgrades retain count, restart/new tower reset. layer_broken magnitude is cash, not pop count. Add focused attribution tests.
+- [ ] **V13-T09 - Integrated validation:** map/placement/notice tests, full regression suite, exported-browser interactions and late rounds, normal/small-window screenshots, bounded stress/loading comparison. No assumed low-end approval.
+- [ ] **V13-T10 - Final candidate/handoff:** fresh commit-named ZIP tested from extraction; update stale PUBLISHING artifact entry; hosted verification, website attribution/media and submission confirmation remain separately tracked under P19/P20.
+
+**Already delivered; preserve rather than rebuild**
+- [x] Six regular tower kits plus hero and current presentation profiles.
+- [x] Functional current Rookie; replacement deferred (DEC-046).
+- [x] Larger 2.52 m hero choice recorded (DEC-045).
+- [x] Animated winter main menu, corrected rink/lighting/orbit and source attribution records.
+- [x] Dev 12 cosmetic map kit and pooled layer-break effect.
+- [x] Special-wave notices at rounds 20/22/24/25, with acknowledgment/restart tests.
+- [x] Dev 12 HUD functional improvements, release-debug stripping, local ZIP and browser smoke evidence.
+
+**Release priority:** protect at least the final 90 minutes before the recorded 10:00 AM Eastern deadline for final QA/hosting/submission. Preserve the Dev 12 fallback ZIP. Deferrals (Rookie replacement, extra towers, new rigs, tiers 4-5 and pixelation) stay outside the required checklist. Do not check visual acceptance or public-host/submission items from automated local tests alone.
 
 ### 12.2 Session log template (append entries; do not rewrite history)
 

@@ -661,3 +661,10 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Open / not done:** upload + hosted check + website credits (owner); first-use stalls unchanged (fresh ~12 s to title, ~2.4 s round 1); late rounds verified in editor/tests, not in a browser playthrough; no low-end/mobile or fresh-player test.
 - **Next:** owner upload per docs/PUBLISHING.md -> private-window hosted check -> website credits -> submit.
 
+
+#### SESSION 2026-11-15 - Codex - reconcile milestone dashboard and Dev 13 checklist
+- **Owner request:** update master-plan checkboxes/dashboard to show actual progress.
+- **Reconciled:** G0-G5 implemented for current release scope; corrected obsolete G5 special-enemy deferral and G4 35/90 count to 54/90. G6-G9 show concrete partial evidence and remaining acceptance; G10 pending, G11 deferred.
+- **Checklist:** scoped completed profile integration and Dev 12 export/HTTP smoke/debug-stripping tasks checked; compound unfinished tasks retain partial annotations. Added V13-T01-T10 for the requested lighting/organic map/sidebar/portraits/UI/motion/cursor/pop-stat overhaul and final verification.
+- **Current handoff:** updated section12.1 to Dev13 priorities; preserved historical Dev12 evidence and fallback artifact. No claim of final visual approval, hosted playthrough, public credits or submitted entry.
+- **Validation:** documentation-only; checked against Dev12 session/evidence and current task records. No runtime tests rerun.
