@@ -10,6 +10,8 @@ served at `http://localhost:8147/` and smoke-tested in Chrome (local only, not h
 `docs/logs/evidence/dev13_web_smoke.txt` and `dev13_final_web_*.png`.
 **Fallback (Dev 12 RC): `build/archive/claus_for_alarm_rc_web_d098ca5.zip`** (served from `build/rc_d098ca5` on :8143).
 Older ZIPs in `build/archive/` are history only.
+Note: commits after `c10e144` on `main` (`3c766c1` browser loading splash, `381bee2` 4 s splash hold, by a parallel
+session) are **not** in the Dev 13 ZIP. Shipping them needs a new export from that commit and a fresh browser check.
 
 ## Rebuild the ZIP
 
