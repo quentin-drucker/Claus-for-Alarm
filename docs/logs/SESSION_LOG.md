@@ -750,3 +750,6 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - Website `img/menu.png` replaced with a 1440x900 Chrome capture of the final camel title screen (build `deb4aa6`); two alt texts updated from "Rookie elf" to Camel Claus. Published to `gh-pages`.
 - itch cover `docs/itch/cover_630x500.png` (+ 1260x1000 source) captured from the same build at a 1260x1000 window. Chrome 0 console errors.
 - Final upload: `build/archive/claus_for_alarm_final_web_deb4aa6.zip` (game code unchanged since `deb4aa6`).
+
+#### SESSION 2026-11-15 09:08 — Opus 5.5 — website hero cover (finishing an interrupted Codex edit)
+- Codex had replaced the hero "lift pass" image `website/img/menu.png` with the 1260x1000 camel title-screen cover (`docs/itch/cover_1260x1000.png`), updated both `<img>` sizes/alt texts and `img/README.md`, but ran out before committing/publishing. Reviewed the diff, checked the page locally at 1440x900 and 390x844 (no overflow, 0 console errors), committed, pushed and published to `gh-pages`.
