@@ -10,7 +10,8 @@ Project page: https://quentin-drucker.itch.io/claus-for-alarm
 
 1. Install **Godot 4.7.2** (standard build, not .NET): https://godotengine.org/download/archive/4.7.2-stable/
 2. Download this repository (`git clone https://github.com/quentin-drucker/Claus-for-Alarm.git` or
-   *Code → Download ZIP*) and extract it.
+   *Code → Download ZIP*) and extract it. On Windows keep it in a short folder (e.g. `Downloads` or `C:\Games`):
+   the longest file path inside is 175 characters and Windows' default limit is 260.
 3. Open Godot, choose **Import**, select `project.godot`, then **Import & Edit**. The first open imports all
    models, textures and audio (about a minute).
 4. Press **F5** (Run Project). The game starts at the title screen.
