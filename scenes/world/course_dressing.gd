@@ -163,9 +163,20 @@ func _gate(at: Vector3, dir: Vector3, hw: float, _name: String) -> void:
 	var yaw: float = atan2(dir.x, dir.z)
 	var side: Vector3 = _normal(Vector3.ZERO, dir) * (hw + 0.45)
 	for s: float in [-1.0, 1.0]:
-		_box(Vector3(0.22, 2.6, 0.22), at + side * s + Vector3.UP * 1.3, yaw, RED)
-	_box(Vector3((hw + 0.45) * 2.0 + 0.3, 0.5, 0.12), at + Vector3.UP * 2.45, yaw + PI / 2.0, BERM)
-	_box(Vector3((hw + 0.45) * 2.0 + 0.3, 0.1, 0.14), at + Vector3.UP * 2.2, yaw + PI / 2.0, GOLD)
+		var post: CylinderMesh = CylinderMesh.new()
+		post.top_radius = 0.11
+		post.bottom_radius = 0.13
+		post.height = 2.6
+		post.radial_segments = 10
+		post.material = _mat(RED)
+		var node: MeshInstance3D = MeshInstance3D.new()
+		node.mesh = post
+		node.position = at + side * s + Vector3.UP * 1.3
+		add_child(node)
+	# Banner across the track (Dev 13 fix: it ran along it), tilted toward the overhead camera so its face reads.
+	var span: float = (hw + 0.45) * 2.0 + 0.3
+	_box(Vector3(span, 0.5, 0.08), at + Vector3.UP * 2.45, yaw, BERM).rotation.x = -0.8
+	_box(Vector3(span, 0.1, 0.1), at + Vector3.UP * 2.18, yaw, GOLD).rotation.x = -0.8
 
 
 ## Slalom flags on the outside of each bend, just past the berm.
@@ -183,10 +194,13 @@ func _flags(pts: PackedVector3Array, hw: float) -> void:
 	pole.height = 1.2
 	pole.material = _mat(BERM)
 	_multi(pole, xforms, Vector3.UP * 0.6)
-	var flag: BoxMesh = BoxMesh.new()
-	flag.size = Vector3(0.45, 0.32, 0.03)
+	var flag: PrismMesh = PrismMesh.new()  # triangular pennant, apex pointing away from the pole
+	flag.size = Vector3(0.34, 0.5, 0.03)
 	flag.material = _mat(RED)
-	_multi(flag, xforms, Vector3(0.24, 1.0, 0.0))
+	var pennant: Array[Transform3D] = []
+	for x: Transform3D in xforms:
+		pennant.append(Transform3D(Basis(Vector3.BACK, -PI / 2.0), x.origin))
+	_multi(flag, pennant, Vector3(-0.98, 0.25, 0.0))
 
 
 ## The Pond blocker becomes an organic frozen rink (Dev 13). The logical blocker box stays (placement reads its
@@ -266,12 +280,34 @@ func _fence(b: Rect2) -> void:
 		while x <= b.end.x + 0.01:
 			posts.append(Transform3D(Basis(), Vector3(x, 0.0, z)))
 			x += 2.0
-		for h: float in [0.35, 0.65]:
-			_box(Vector3(b.size.x, 0.07, 0.07), Vector3(b.get_center().x, h, z), 0.0, WOOD)
-	var post: BoxMesh = BoxMesh.new()
-	post.size = Vector3(0.12, 0.85, 0.12)
+		for h: float in [0.35, 0.65]:  # round split rails
+			var rail: CylinderMesh = CylinderMesh.new()
+			rail.top_radius = 0.045
+			rail.bottom_radius = 0.045
+			rail.height = b.size.x
+			rail.radial_segments = 6
+			rail.material = _mat(WOOD)
+			var node: MeshInstance3D = MeshInstance3D.new()
+			node.mesh = rail
+			node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			node.position = Vector3(b.get_center().x, h, z)
+			node.rotation.z = PI / 2.0
+			add_child(node)
+	var post: CylinderMesh = CylinderMesh.new()
+	post.top_radius = 0.065
+	post.bottom_radius = 0.075
+	post.height = 0.85
+	post.radial_segments = 6
 	post.material = _mat(WOOD)
 	_multi(post, posts, Vector3.UP * 0.42)
+	var cap: SphereMesh = SphereMesh.new()  # a little snow on every post
+	cap.radius = 0.09
+	cap.height = 0.09
+	cap.radial_segments = 6
+	cap.rings = 2
+	cap.is_hemisphere = true
+	cap.material = _snow
+	_multi(cap, posts, Vector3.UP * 0.85)
 
 
 ## Pine clusters in the margins around the buildable ground (never inside it): three snow-dusted tiers + trunk.

@@ -1,0 +1,9 @@
+[LOG] STRESS mix full on Web: { &"snowball_rookie": 2, &"avalanche_cannon": 2, &"biathlon_ranger": 2, &"slope_wax_sprayer": 2, &"snow_sorcerer": 2, &"ski_resort_ticket_booth": 2 }, snowballs >= 120 (immune Coral, moving), max live shots 4
+[LOG] STRESS viewport (1152.0, 648.0), vsync true, 900 frames: frame ms mean 4.46 p50 4.20 p95 5.70 p99 7.10 max 240.50; frames > 1.5x p50: 15
+[LOG] STRESS draw calls p50 1176 max 1246; primitives p50 445050 max 455234; video mem 48.8 MB; adapter WebKit / WebKit WebGL; renderer gl_compatibility
+[LOG] STRESS DONE
+# Dev 13 browser stress, build/web_stress exported from ac1dc6c ("Web Stress" preset), served at http://localhost:8146/stress_full.html
+# Chrome 157 headless (playwright-cli), ANGLE NVIDIA GeForce RTX 5080 Laptop GPU D3D11. Same machine as Dev 12.
+# Dev 12 reference (dev12_stress_web.txt): full mix p95 6.8 ms, 432k primitives, 1,007 draw calls.
+# Dev 13: full mix p95 5.70 ms, primitives p50 445k (max 455k), draw calls p50 1,176 (max 1,246), video mem 48.8 MB.
+# One run only (bounded); high-end GPU only, no low-end/mobile claim.

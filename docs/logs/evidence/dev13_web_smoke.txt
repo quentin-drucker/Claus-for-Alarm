@@ -1,0 +1,16 @@
+Dev 13 local Web verification (NOT hosted). ZIP build/archive/claus_for_alarm_dev13_web_ac1dc6c.zip (34,693,250 bytes),
+extracted to build/rc_ac1dc6c (index.pck SHA-256 ba3f2432...0928, identical to the export), served http://localhost:8145/.
+Note: localhost:8143 serves build/rc_d098ca5 (Dev 12 fallback) and 8137 serves build/web (older menu preview): neither is this build.
+Browser: Chrome 157 headless via playwright-cli, 1280x720, WebGL2 ANGLE RTX 5080 Laptop D3D11, fresh in-memory profile.
+- First visit: loading overlay hidden 11.9 s after navigation (empty cache, localhost); title menu renders themed (dev13_web_menu.png).
+- Play -> match; Rookie (key 1 + click), Cannon (key 5 + click) placed at the clicked ground points; cash squeeze; ghost refusal text.
+- Hero (key 7) with $75: card disabled/red, ghost shows reason.
+- Space + F F (4x): rounds 1-3 clean (150 lives); Rookie selected: details view, portrait, Pops 63 (dev13_web_pops.png).
+- Top upgrade bought from the sidebar: 1-0-0, Pops kept 63, sell value updated (dev13_web_upgraded.png).
+- Rounds 4-8 at 4x; Ticket Booth bought at $750 and placed (dev13_web_tickets.png).
+- Ticket hover: a ticket appeared on the Booth and was gone a sweep later, but no "+$" floater was captured: browser hover
+  collection NOT conclusively re-verified this session. Editor check: collect_cursor is set over the playfield (also under
+  the non-interactive stat bar) and null over the sidebar; logic unchanged and covered by test_match/test_ui.
+- Console: 0 errors, 0 warnings throughout.
+Not done in the browser this session: special notices (round 20+), victory/defeat screens, 800x600 window (checked in the
+editor: dev13_match_800x600.png), restart.
