@@ -5,6 +5,9 @@ extends Node3D
 
 const POOL: int = 32
 const LIFE_S: float = 0.28
+## Dev 13: icy shards thrown out of each pop (one MultiMesh for the whole pool = one draw call).
+const SHARDS: int = 5
+const SHARD_LIFE_S: float = 0.42
 const SNOWBALL: Script = preload("res://scenes/enemies/snowball.gd")
 
 var _puffs: Array[MeshInstance3D] = []
@@ -12,6 +15,8 @@ var _rings: Array[MeshInstance3D] = []
 var _age: Array[float] = []
 var _next: int = 0
 var _materials: Dictionary[Color, StandardMaterial3D] = {}
+var _shards: MultiMesh = MultiMesh.new()
+var _origin: Array[Vector3] = []
 
 
 func _ready() -> void:
@@ -34,6 +39,23 @@ func _ready() -> void:
 			add_child(node)
 			pair[1].append(node)
 		_age.append(INF)
+		_origin.append(Vector3.ZERO)
+	var shard: BoxMesh = BoxMesh.new()
+	shard.size = Vector3(0.11, 0.11, 0.11)
+	var shard_material: StandardMaterial3D = StandardMaterial3D.new()
+	shard_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	shard_material.vertex_color_use_as_albedo = true
+	shard.material = shard_material
+	_shards.transform_format = MultiMesh.TRANSFORM_3D
+	_shards.use_colors = true
+	_shards.mesh = shard
+	_shards.instance_count = POOL * SHARDS
+	for j: int in _shards.instance_count:
+		_shards.set_instance_transform(j, Transform3D(Basis.from_scale(Vector3.ZERO), Vector3.ZERO))
+	var shards_node: MultiMeshInstance3D = MultiMeshInstance3D.new()
+	shards_node.multimesh = _shards
+	shards_node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(shards_node)
 	Events.emitted.connect(_on_event)
 
 
@@ -50,6 +72,9 @@ func _on_event(e: GameEvent) -> void:
 	_rings[i].material_override = material
 	_puffs[i].position = e.position + Vector3.UP * 0.45
 	_rings[i].position = e.position + Vector3.UP * 0.05
+	_origin[i] = e.position + Vector3.UP * 0.45
+	for j: int in SHARDS:
+		_shards.set_instance_color(i * SHARDS + j, color.lightened(0.45) if j % 2 == 0 else Color("eaf6ff"))
 	_pose(i)
 
 
@@ -62,18 +87,35 @@ func advance(dt: float) -> void:
 
 
 func _pose(i: int) -> void:
+	_pose_shards(i)
 	var u: float = _age[i] / LIFE_S
 	var on: bool = u < 1.0
 	_puffs[i].visible = on
 	_rings[i].visible = on
 	if not on:
-		_age[i] = INF
+		if _age[i] >= SHARD_LIFE_S:
+			_age[i] = INF
 		return
 	var k: float = 1.0 - (1.0 - u) * (1.0 - u)
 	_puffs[i].scale = Vector3.ONE * (0.7 + 0.5 * k)
 	_puffs[i].transparency = 0.3 + 0.7 * u
 	_rings[i].scale = Vector3(0.8 + 1.0 * k, 0.2, 0.8 + 1.0 * k)
 	_rings[i].transparency = 0.2 + 0.8 * u
+
+
+## Shards fly out on fixed per-slot directions (no RNG), arc under gravity, spin and shrink.
+func _pose_shards(i: int) -> void:
+	var t: float = _age[i]
+	for j: int in SHARDS:
+		var index: int = i * SHARDS + j
+		if t >= SHARD_LIFE_S:
+			_shards.set_instance_transform(index, Transform3D(Basis.from_scale(Vector3.ZERO), Vector3.ZERO))
+			continue
+		var a: float = TAU * (j + 0.37 * i) / SHARDS
+		var dir: Vector3 = Vector3(cos(a), 0.0, sin(a))
+		var pos: Vector3 = _origin[i] + dir * (2.2 * t) + Vector3.UP * (2.4 * t - 6.0 * t * t)
+		var size: float = 1.0 - t / SHARD_LIFE_S
+		_shards.set_instance_transform(index, Transform3D(Basis(dir.cross(Vector3.UP), t * 14.0).scaled(Vector3.ONE * size), pos))
 
 
 func _material(color: Color) -> StandardMaterial3D:

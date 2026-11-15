@@ -201,6 +201,9 @@ interval_s = 6.5
 pierce = 10
 damage_type = &"plasma"
 id = &"snow_sorcerer_wall"
+radius_units = 12.0
+zone_duration_s = 4.5
+zone_tick_s = 0.2
 status = Dictionary[String, String]({
 "damage": "VERIFIED_SOURCE",
 "interval_s": "VERIFIED_SOURCE",
@@ -403,6 +406,13 @@ script = ExtResource("4_imo6y")
 field = &"range_units"
 value = 10.0
 
+[sub_resource type="Resource" id="Resource_dev13_goggleshim_0"]
+script = ExtResource("4_imo6y")
+target = &"snow_sorcerer_base"
+field = &"interval_s"
+op = 1
+value = 0.75
+
 [sub_resource type="Resource" id="Resource_omss8"]
 script = ExtResource("3_d7t6d")
 path = 2
@@ -410,7 +420,7 @@ tier = 3
 display_name = "Goggle Shimmer"
 source_name = "Shimmer"
 price = 1500
-effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_q5nxf")])
+effects = Array[ExtResource("4_imo6y")]([SubResource("Resource_q5nxf"), SubResource("Resource_dev13_goggleshim_0")])
 id = &"snow_sorcerer_b3"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/shimmer/"
 status = Dictionary[String, String]({

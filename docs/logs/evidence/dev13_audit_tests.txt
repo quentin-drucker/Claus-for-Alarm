@@ -1,0 +1,14 @@
+﻿test_audit             exit         2s  test_audit: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_audio             exit         3s  test_audio: PASS |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_combat            exit         3s  test_combat: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_data              exit         1s  test_data: PASS
+test_full_run          exit        69s  test_full_run: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536)
+test_hero              exit         5s  test_hero: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_map               exit         1s  test_map: PASS
+test_match             exit         5s  test_match: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_menu_background   exit         1s  test_menu_background: PASS |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_playfeel          exit         2s  test_playfeel: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_pops              exit         2s  test_pops: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_towers            exit         5s  test_towers: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536)
+test_ui                exit         3s  test_ui: PASS |    at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735) |    at: cleanup (core/object/object.cpp:2536) |    at: clear (core/io/resource.cpp:822)
+test_upgrades          PASS after expectation update (first run: cannon 0-3-0 blast damage 1 -> 2 is the intended DEC-048 change)

@@ -34,6 +34,11 @@ extends GameDefinition
 ## `dot_interval_s` while the wax lasts.
 @export var dot_damage: int = 0
 @export var dot_interval_s: float = 0.0
+## > 0 (Dev 13, Wall of Fire): instead of a projectile, the attack leaves a zone of `radius_units` on the track at
+## the target for this many seconds; every `zone_tick_s` it hits up to `pierce` snowballs inside (camo included:
+## it is placed, not aimed).
+@export var zone_duration_s: float = 0.0
+@export var zone_tick_s: float = 0.2
 ## Sub-attacks created where a projectile hits (explosion, shrapnel), and where it ends (pierce used up or
 ## lifetime over: cluster bombs). Sub-projectiles inherit the parent's hit history and direction.
 ## Elements are AttackDefinitions; typed Array[Resource] because a self-typed array leaks the script at exit.
@@ -50,6 +55,8 @@ func validate() -> PackedStringArray:
 	var errors: PackedStringArray = super()
 	if interval_s <= 0.0:
 		errors.append("%s.interval_s: must be > 0" % id)
+	if zone_duration_s > 0.0 and (zone_tick_s <= 0.0 or radius_units <= 0.0):
+		errors.append("%s: a zone needs zone_tick_s > 0 and radius_units > 0" % id)
 	for sub: AttackDefinition in on_contact + on_expire:
 		errors.append_array(sub.validate())
 	return errors

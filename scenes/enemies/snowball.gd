@@ -8,8 +8,10 @@ const COLORS: Dictionary[StringName, Color] = {
 	# Specials (ART_STYLE tokens): Black / White / Aurora (internal id `purple`, DEC-036).
 	&"black": Color("262626"), &"white": Color("ffffff"), &"purple": Color("7a3fd6"),
 }
-## Placeholder letter marker for special types, so they read without colour (P13-T09). Camo adds "C".
-const MARKERS: Dictionary[StringName, String] = {&"black": "B", &"white": "W", &"purple": "A"}
+## Dev 13: specials read by their shell, not by letters: Black glossy charcoal, White cold glow, Aurora animated
+## ribbons, Camo blotches over the layer colour (plus the existing marker bands).
+const SPECIAL_SHADER: Shader = preload("res://assets/materials/snowball_special.gdshader")
+const DETAIL: Texture2D = preload("res://assets/textures/terrain/snow_detail.png")
 ## Dark outline so pale Powder still reads on snow (P05-T10); shared by every layer.
 const OUTLINE: Color = Color("173548")
 ## P15 art: one shared shell (vertex-colour AO, tinted per layer) and one marker band with material variants.
@@ -74,7 +76,7 @@ func set_layer(definition: EnemyDefinition) -> void:
 	var camo: bool = &"camo" in def.properties
 	var base: StringName = StringName(String(def.id).trim_prefix("camo_"))
 	$Mesh.mesh = _mesh(SHELL_SCENE)
-	$Mesh.material_override = _material(base, COLORS.get(base, Color.WHITE), true)
+	$Mesh.material_override = _material(StringName(("camo_" if camo else "") + base), COLORS.get(base, Color.WHITE), true)
 	var kind: StringName = &"camo" if camo else def.id
 	var band: MeshInstance3D = $Mesh.get_node_or_null(^"Band")
 	if band == null and MARKER_COLORS.has(kind):
@@ -85,22 +87,6 @@ func set_layer(definition: EnemyDefinition) -> void:
 	if band:
 		band.visible = MARKER_COLORS.has(kind)
 		band.material_override = _material(StringName("marker_" + kind), MARKER_COLORS.get(kind, Color.WHITE), false)
-	var text: String = MARKERS.get(def.id, "") + ("C" if camo else "")
-	var marker: Label3D = get_node_or_null(^"Marker")
-	if marker == null and text != "":
-		marker = Label3D.new()
-		marker.name = "Marker"
-		marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		marker.no_depth_test = true
-		marker.font_size = 64
-		marker.pixel_size = 0.01  # ~0.6 m letter on a 0.8 m snowball
-		marker.outline_size = 16
-		marker.position = Vector3.UP * 0.9
-		add_child(marker)
-	if marker:
-		marker.text = text
-
-
 ## Presentation only: roll the shell about the axis across its travel (B-07), never read by the simulation.
 func _process(_delta: float) -> void:
 	var step: Vector3 = position - _last_pos
@@ -128,10 +114,31 @@ static func _material(key: StringName, color: Color, shell: bool) -> Material:
 		outline.cull_mode = BaseMaterial3D.CULL_FRONT
 		outline.grow = true
 		outline.grow_amount = 0.03 if shell else 0.015
+		var special: bool = shell and (key == &"purple" or String(key).begins_with("camo_"))
+		if special:
+			var shader: ShaderMaterial = ShaderMaterial.new()
+			shader.shader = SPECIAL_SHADER
+			shader.set_shader_parameter(&"mode", 0 if key == &"purple" else 1)
+			shader.set_shader_parameter(&"base_color", color)
+			shader.set_shader_parameter(&"detail", DETAIL)
+			shader.next_pass = outline
+			_materials[key] = shader
+			return shader
 		var material: StandardMaterial3D = StandardMaterial3D.new()
 		material.albedo_color = color
 		material.vertex_color_use_as_albedo = shell
 		material.roughness = 0.75 if shell else 0.4
+		if key == &"black":  # glossy charcoal with a cold sheen
+			material.roughness = 0.22
+			material.metallic = 0.35
+			material.metallic_specular = 0.8
+		elif key == &"white":  # brighter than Powder, faint cold glow and rim
+			material.emission_enabled = true
+			material.emission = Color("bfefff")
+			material.emission_energy_multiplier = 0.35
+			material.rim_enabled = true
+			material.rim = 0.6
+			material.rim_tint = 0.2
 		if key == &"marker_purple":
 			material.emission_enabled = true
 			material.emission = color

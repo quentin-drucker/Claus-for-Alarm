@@ -139,7 +139,7 @@ func _test_fixtures() -> void:
 	var cannon: Array = [
 		[Vector3i(1, 0, 0), 40.0, 1.5, 1, 28, [], false], [Vector3i(2, 0, 0), 40.0, 1.5, 2, 38, [], false],
 		[Vector3i(3, 0, 0), 40.0, 1.5, 4, 80, [], false], [Vector3i(0, 1, 0), 40.0, 1.125, 1, 22, [], false],
-		[Vector3i(0, 2, 0), 44.0, 0.825, 1, 22, [], false], [Vector3i(0, 3, 0), 49.0, 0.825, 1, 22, [], false],
+		[Vector3i(0, 2, 0), 44.0, 0.825, 1, 22, [], false], [Vector3i(0, 3, 0), 49.0, 0.825, 2, 22, [], false],  # Dev 13 DEC-048: Big-Game Breaker +1 blast damage
 		[Vector3i(0, 0, 1), 52.0, 1.5, 1, 22, [], false], [Vector3i(0, 0, 2), 54.0, 1.5, 1, 22, [8, 1, 2], false],
 		[Vector3i(0, 0, 3), 54.0, 1.5, 1, 22, [8, 0, 1], true], [Vector3i(2, 0, 3), 54.0, 1.5, 2, 38, [8, 0, 1], true],
 	]

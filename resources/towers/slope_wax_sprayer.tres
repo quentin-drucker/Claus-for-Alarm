@@ -363,6 +363,18 @@ target = &"slope_wax_sprayer_splatter"
 field = &"slow_duration_s"
 value = 2.0
 
+[sub_resource type="Resource" id="Resource_dev13_giantsnowb_0"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_base"
+field = &"pierce"
+value = 3.0
+
+[sub_resource type="Resource" id="Resource_dev13_giantsnowb_1"]
+script = ExtResource("4_robqm")
+target = &"slope_wax_sprayer_splatter"
+field = &"pierce"
+value = 2.0
+
 [sub_resource type="Resource" id="Resource_bm5dy"]
 script = ExtResource("3_ss2kr")
 path = 2
@@ -370,7 +382,7 @@ tier = 3
 display_name = "Giant Snowball Wax"
 source_name = "MOAB Glue"
 price = 3600
-effects = Array[ExtResource("4_robqm")]([SubResource("Resource_a07oy"), SubResource("Resource_ikk2r")])
+effects = Array[ExtResource("4_robqm")]([SubResource("Resource_a07oy"), SubResource("Resource_ikk2r"), SubResource("Resource_dev13_giantsnowb_0"), SubResource("Resource_dev13_giantsnowb_1")])
 id = &"slope_wax_sprayer_b3"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/upgrades/moab-glue/"
 status = Dictionary[String, String]({

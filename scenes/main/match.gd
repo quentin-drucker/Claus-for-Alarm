@@ -30,7 +30,7 @@ const SPLIT_GAP_M: float = 0.15
 const SHOT_MESH: SphereMesh = preload("res://scenes/main/shot_mesh.tres")
 ## How fast a shot visual slides from the muzzle onto its simulated flight line (m/s, presentation only).
 const MUZZLE_BLEND_MPS: float = 6.0
-const BURST_COLOR: Color = Color(1.0, 0.85, 0.6, 0.45)
+const VFX: Script = preload("res://scripts/presentation/attack_vfx.gd")
 const PICKUP_COLOR: Color = Color("f9c96d")
 ## Click distance that collects a ticket pickup (metres).
 const PICKUP_RADIUS_M: float = 0.6
@@ -58,6 +58,16 @@ var pop_effects: Node3D
 
 
 ## One flying projectile (simulation state; `node` is its placeholder visual).
+## Wall of Fire style zone (Dev 13): hits up to `attack.pierce` snowballs inside every `zone_tick_s` until `left` runs out.
+class Zone:
+	var node: Node3D
+	var pos: Vector3
+	var attack: AttackDefinition
+	var left: float
+	var tick: float
+	var source_id: int
+
+
 class Shot:
 	var node: MeshInstance3D
 	var pos: Vector3
@@ -105,6 +115,7 @@ var _drops: Array = []
 var _drop_cursor: int = 0
 var _round_time: float = 0.0
 var _shots_root: Node3D = Node3D.new()
+var zones: Array[Zone] = []
 ## Hover-collection input (DEC-043): the cursor's ground point, or null. The match sets it every frame from the real
 ## mouse, but only after the mouse has moved inside the window and never over HUD controls or outside the viewport;
 ## headless tests and bots never feed it and call set_collect_cursor() instead. Applied in the simulation tick.
@@ -346,6 +357,7 @@ func _on_tick(dt: float) -> void:
 		_tick_hero(dt)
 	_fire_towers(dt)
 	_move_shots(dt)
+	_tick_zones(dt)
 	if lives <= 0:
 		lives = 0
 		_set_state(State.LOST)
@@ -372,7 +384,10 @@ func _fire_towers(dt: float) -> void:
 			var dir: Vector3 = _lead(target, tower.position, attack.projectile_speed_units * GameDefinition.UNIT_M) - tower.position
 			Events.send(&"attack_fired", tower.entity_id, target.entity_id, attack.damage, tower.position, [attack.id])
 			tower.play_attack(dir)
-			if tower.def.global_range:
+			if attack.zone_duration_s > 0.0:
+				_place_zone(attack, target.position, tower.entity_id)
+			elif tower.def.global_range:
+				VFX.tracer(_shots_root, tower.muzzle_position(), target.position + Vector3.UP * 0.4)
 				_instant_hit(attack, target, dir, tower.entity_id)
 			else:
 				var first: int = shots.size()
@@ -388,13 +403,14 @@ func _instant_hit(attack: AttackDefinition, target: Node3D, dir: Vector3, source
 	var hit: Dictionary[int, bool] = {target.entity_id: true}
 	var left: int = attack.pierce if attack.bounce_range_units > 0.0 else 1
 	while target:
-		_flash(target.position, 0.3)
+		VFX.burst(_shots_root, target.position, 0.3, attack.damage_type)
 		var where: Vector3 = target.position
 		_hit(attack, target, hit, dir, source_id)
 		left -= 1
 		target = _bounce_target(attack, where, hit) if left > 0 else null
 		if target:
 			hit[target.entity_id] = true
+			VFX.tracer(_shots_root, where + Vector3.UP * 0.4, target.position + Vector3.UP * 0.4)
 
 
 ## Nearest snowball not yet hit within the attack's bounce reach of `from` (ricochet), or null.
@@ -459,7 +475,7 @@ func _launch(attack: AttackDefinition, origin: Vector3, dir: Vector3, hit: Dicti
 		shot.source_id = source_id
 		shot.hit = hit.duplicate()
 		shot.node = MeshInstance3D.new()
-		shot.node.mesh = SHOT_MESH
+		shot.node.mesh = VFX.shot_mesh(attack)
 		shot.node.position = shot.pos + Vector3.UP * 0.5
 		_shots_root.add_child(shot.node)
 		shots.append(shot)
@@ -476,25 +492,41 @@ func _burst(attack: AttackDefinition, center: Vector3, source_id: int) -> void:
 		if snowballs.has(s) and Vector2(s.position.x - center.x, s.position.z - center.z).length() <= radius + HIT_RADIUS_M:
 			left -= 1
 			_apply(attack, s, source_id)
-	_flash(center, radius)
+	VFX.burst(_shots_root, center, radius, attack.damage_type)
 
 
-## Placeholder hit/explosion flash (presentation only).
-func _flash(center: Vector3, radius: float) -> void:
-	var flash: MeshInstance3D = MeshInstance3D.new()
-	var disc: CylinderMesh = CylinderMesh.new()
-	disc.top_radius = radius
-	disc.bottom_radius = radius
-	disc.height = 0.05
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_color = BURST_COLOR
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	disc.material = material
-	flash.mesh = disc
-	flash.position = Vector3(center.x, 0.3, center.z)
-	_shots_root.add_child(flash)
-	get_tree().create_timer(0.15, false).timeout.connect(flash.queue_free)
+## Places a zone attack (Wall of Fire) on the track at `at`; it ticks in _tick_zones until it burns out.
+func _place_zone(attack: AttackDefinition, at: Vector3, source_id: int) -> void:
+	var zone: Zone = Zone.new()
+	zone.attack = attack
+	zone.pos = Vector3(at.x, 0.0, at.z)
+	zone.left = attack.zone_duration_s
+	zone.source_id = source_id
+	zone.node = VFX.fire_zone(attack.radius_units * GameDefinition.UNIT_M)
+	zone.node.position = zone.pos
+	_shots_root.add_child(zone.node)
+	zones.append(zone)
+
+
+## Every zone hits up to `pierce` snowballs touching its circle each `zone_tick_s` (first tick on placement).
+func _tick_zones(dt: float) -> void:
+	for zone: Zone in zones.duplicate():
+		zone.tick -= dt
+		if zone.tick <= 1e-6:
+			zone.tick += zone.attack.zone_tick_s
+			var reach: float = zone.attack.radius_units * GameDefinition.UNIT_M + HIT_RADIUS_M
+			var left: int = zone.attack.pierce
+			for s: Node3D in snowballs.duplicate():
+				if left <= 0:
+					break
+				if snowballs.has(s) and Vector2(s.position.x - zone.pos.x, s.position.z - zone.pos.z).length() <= reach:
+					left -= 1
+					_apply(zone.attack, s, zone.source_id)
+		zone.left -= dt
+		VFX.animate_zone(zone.node, maxf(zone.left, 0.0) / zone.attack.zone_duration_s, clock.tick * SimClock.STEP)
+		if zone.left <= 1e-6:
+			zones.erase(zone)
+			zone.node.queue_free()
 
 
 ## A projectile touches snowball `s`: its own effect, then its contact sub-attacks at the contact point.

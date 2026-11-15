@@ -36,8 +36,6 @@ func _ready() -> void:
 
 func _on_event(e: GameEvent) -> void:
 	match e.type:
-		&"enemy_hit":
-			_float("*", e.position, HIT, 0.25, MAX_HIT_FLOATERS)
 		&"enemy_immune":
 			_float("IMMUNE", e.position, IMMUNE, 0.7)
 		&"enemy_leaked":
