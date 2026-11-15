@@ -14,3 +14,19 @@ Browser: Chrome 157 headless via playwright-cli, 1280x720, WebGL2 ANGLE RTX 5080
 - Console: 0 errors, 0 warnings throughout.
 Not done in the browser this session: special notices (round 20+), victory/defeat screens, 800x600 window (checked in the
 editor: dev13_match_800x600.png), restart.
+
+=== FINAL CANDIDATE: claus_for_alarm_dev13_web_c10e144.zip ===
+Exported from a clean git worktree at c10e144 (another session had uncommitted export_presets.cfg/web shell edits in the
+main tree; they are NOT in this build). Export exit 0, 0 ERROR/WARNING; --main-pack run: only the known exit-time
+"8 resources still in use" line. ZIP 34,694,272 bytes, SHA-256 72bc5de980fe0b5c9f6199da9a448a60bd63687916c81f1f716aee5d9e79ba5c;
+extracted index.pck SHA-256 e78fdcf3...79e5bc = export. Served from build/rc_c10e144 at http://localhost:8147/.
+Chrome 157 headless, fresh in-memory profile, RTX 5080 ANGLE D3D11:
+- First visit (empty cache, localhost): loader hidden after 12.0 s and 12.0 s (two fresh runs; ~0.3 s polling).
+- Play; Rookie + Wax placed by key + click; Space, F F (4x); rounds 1-2 (148 lives); Rookie selected: Pops 53,
+  upgrades/sell in the sidebar (dev13_final_web_selected_1280.png).
+- Resized to 800x600: whole route + sidebar fit, text readable (dev13_final_web_800x600.png); P pause overlay
+  (dev13_final_web_pause_800x600.png).
+- Console: 12 messages, 0 errors, 0 warnings.
+Not re-run on this ZIP (verified on ac1dc6c above or in the editor only): upgrade purchase, Booth, special notices,
+defeat/restart (editor: dev13_defeat_1280.png, Restart -> fresh 150 lives), victory screen (not shown this session).
+Hosted (itch) page: NOT verified.

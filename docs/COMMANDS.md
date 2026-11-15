@@ -105,6 +105,8 @@ labels, ghost/select/upgrade/sell, track-edge + neighbour clearance, muzzle alig
 "$GODOT" --path . -s res://tests/tools/roster_review.gd            # Dev 9: Ranger + Wax -> p15c_*
 "$GODOT" --path . -s res://tests/tools/roster_review.gd -- dev10   # Dev 10: Sorcerer + Booth (+ ticket visibility) -> p15d_*
 "$GODOT" --path . -s res://tests/tools/roster_review.gd -- dev11   # Dev 11: Camel Claus + Sorcerer, roster lineup, hero cues -> p15e_*
+"$GODOT" --path . -s res://tests/tools/portrait_capture.gd           # Dev 13: shop/detail portraits -> assets/ui/portraits/ (then --import)
+python art_src/tools/bake_snow_texture.py                           # Dev 13: tileable terrain detail texture
 # First-use stall probe (Web Stress build): pages probe.html / probe_warm.html = args ["--","probe"] / ["--","probe","warm"]
 ```
 

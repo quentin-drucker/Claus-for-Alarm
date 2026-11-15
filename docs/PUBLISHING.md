@@ -2,7 +2,14 @@
 
 Every verified milestone leaves an upload-ready ZIP in `build/archive/` (git-ignored, local only):
 `claus_for_alarm_<milestone>_web_<commit>.zip` — `index.html` at the zip root, single-threaded Web export
-(no SharedArrayBuffer / COOP-COEP needed). Latest: **`claus_for_alarm_alpha_web_619af86.zip`** (technical alpha: 25 exact rounds, specials, 1×/2×/4×, ~10 MB).
+(no SharedArrayBuffer / COOP-COEP needed).
+
+**Latest candidate (Dev 13, 2026-11-15): `build/archive/claus_for_alarm_dev13_web_c10e144.zip`** (34,694,272 bytes,
+SHA-256 `72bc5de9...79ba5c`). Exported from a clean worktree of commit `c10e144` (default HTML shell), extracted copy
+served at `http://localhost:8147/` and smoke-tested in Chrome (local only, not hosted): see
+`docs/logs/evidence/dev13_web_smoke.txt` and `dev13_final_web_*.png`.
+**Fallback (Dev 12 RC): `build/archive/claus_for_alarm_rc_web_d098ca5.zip`** (served from `build/rc_d098ca5` on :8143).
+Older ZIPs in `build/archive/` are history only.
 
 ## Rebuild the ZIP
 
@@ -23,8 +30,8 @@ Then run the Web smoke test in `docs/COMMANDS.md` against the extracted ZIP.
 3. Embed options: **Embed in page**, viewport **1280 × 720** (the game stretches to any size); tick
    **Fullscreen button**; leave **SharedArrayBuffer support** OFF; Mobile friendly OFF (mouse + keyboard game).
    Launch: *Click to launch in fullscreen* off; *Automatically start on page load* off is fine (the click also unlocks audio).
-4. Description: controls line — `1`–`6` pick a defender · click to place/select/collect tickets · upgrade buttons on the selected card · `T` target · `Space` start round ·
-   `P` pause · `F` 2× speed · `Esc`/right-click cancel. Genre: Strategy; tags: tower-defense, winter, christmas.
+4. Description: controls line — `1`–`7` pick a defender (7 = Camel Claus) · click to place/select/collect tickets · upgrades in the sidebar when a defender is selected · hover tickets to collect · `Q`/`E` hero abilities · `T` target · `Space` start round ·
+   `P` pause · `F` speed 1×/2×/4× · `Esc`/right-click cancel. Genre: Strategy; tags: tower-defense, winter, christmas.
 5. Visibility: **Draft** (or Restricted) → **Save** → open the page in a private window: game loads, round 1 plays,
    F12 console has 0 errors.
 6. Before the deadline (Sun Nov 15, 10:00 AM, `docs/HACKATHON.md`): set **Public**, copy the URL into the submission
