@@ -1,0 +1,13 @@
+Dev 13 audit candidate (local, NOT hosted): build/archive/claus_for_alarm_dev13audit_web_e71f47a.zip
+36,364,182 bytes, SHA-256 2f624688998c5cfd72a50da59686b6db0e6a80c7cb2ffcff5a2467a893778ff8.
+Exported from a clean worktree at e71f47a (= main incl. the parallel session's loading splash 3c766c1/381bee2 and
+floating menu Rookie 3352099; their verification is theirs). Export exit 0, 0 ERROR/WARNING; --main-pack: only the
+known exit-time "8 resources" line. Extracted to build/rc_e71f47a, served http://localhost:8148/.
+Chrome 157 headless, 1280x720, fresh profile:
+- Menu with floating Rookie renders (dev13_audit_web_load.png); load-to-menu not timed precisely (fixed 20 s wait;
+  the build holds the splash 4 s after menu readiness by design of 381bee2).
+- Play; Rookie placed; Sorcerer card selected-state outline while placing; ~9 waves at 4x.
+- Sorcerer selected, Middle path bought twice from the sidebar (0-2-0, Pops 196) (dev13_audit_web_sorcerer.png).
+- Next wave at 1x: fire zones on the track, frost bolts, fireball, pop bursts (dev13_audit_web_firewall.png).
+- Console: 42 messages, 0 errors, 0 warnings.
+Not re-checked in this build: special snowballs in the browser (editor capture dev13_vfx_*.png), stress numbers.

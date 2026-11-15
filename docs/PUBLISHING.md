@@ -4,7 +4,11 @@ Every verified milestone leaves an upload-ready ZIP in `build/archive/` (git-ign
 `claus_for_alarm_<milestone>_web_<commit>.zip` — `index.html` at the zip root, single-threaded Web export
 (no SharedArrayBuffer / COOP-COEP needed).
 
-**Latest candidate (Dev 13, 2026-11-15): `build/archive/claus_for_alarm_dev13_web_c10e144.zip`** (34,694,272 bytes,
+**Latest candidate (Dev 13 audit, 2026-11-15 07:45): `build/archive/claus_for_alarm_dev13audit_web_e71f47a.zip`**
+(36,364,182 bytes, SHA-256 `2f624688...778ff8`): upgrades audit + new attack/special/pop VFX, and it also contains the
+parallel session's loading splash + floating menu Rookie (main at `e71f47a`). Clean-worktree export, extracted copy on
+`http://localhost:8148/`, browser smoke in `docs/logs/evidence/dev13_audit_web_smoke.txt` (local only, not hosted).
+Previous candidate (no audit, no splash):  `build/archive/claus_for_alarm_dev13_web_c10e144.zip`** (34,694,272 bytes,
 SHA-256 `72bc5de9...79ba5c`). Exported from a clean worktree of commit `c10e144` (default HTML shell), extracted copy
 served at `http://localhost:8147/` and smoke-tested in Chrome (local only, not hosted): see
 `docs/logs/evidence/dev13_web_smoke.txt` and `dev13_final_web_*.png`.
