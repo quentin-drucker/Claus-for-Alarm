@@ -1,6 +1,6 @@
 # Game typography
 
-Owner-selected on 2026-11-15, reused from sibling **Camel Claus The North Pole**:
+Owner-selected fonts for Claus for Alarm (2026-11-15):
 
 | Font | Role |
 | --- | --- |

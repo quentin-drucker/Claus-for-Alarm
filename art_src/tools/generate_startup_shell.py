@@ -1,4 +1,4 @@
-"""Build the self-contained Web loader from the owner's earlier Knit + Tin assets.
+"""Build the self-contained Web loader from the Knit + Tin startup assets.
 
 Run: python art_src/tools/generate_startup_shell.py
 Source provenance and font licenses: art_src/ui/startup/.

@@ -1,34 +1,37 @@
-# Camel Claus studio website
+﻿# Camel Claus studio website
 
-Static site (no build step). Open `index.html` locally, or serve with `python -m http.server -d website`.
+Static site; no build step or dependencies. Open `index.html` directly, or run:
 
-- **itch.io link:** edit `ITCH_URL` at the top of `config.js`.
-- **Screenshots:** see `img/README.md`.
-- **Team names and credits:** the `#team` section of `index.html`.
-
-## Environment credit to add before release
-
-Owner decision (2026-11-15): credit the main-menu environment here on the game website, alongside the other contributors, **not on the game's main menu**. The site credits still contain placeholders; this is a publication TODO, not a claim that the live site is updated.
-
-Use this credit in `index.html`'s `#team` credits list:
-
-> Main-menu environment: [Christmas Low-poly Scene](https://sketchfab.com/3d-models/christmas-low-poly-scene-7984bd6024db4b89928ddeb625eebac0) by [lumoize](https://sketchfab.com/lumoize), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Adapted for Claus for Alarm: rescaled, static geometry batched, materials adjusted, source object animation baked, and orbit camera, lighting, sky and fog added. Original material animation is represented by steady emissive lights.
-
-Full attribution/adaptation notes: root `CREDITS.md`. Source metadata and original file hash: `art_src/environment/christmas_village/source_attribution.json`. Keep this credit when updating the site for submission.
-
-## Publish (GitHub Pages, `gh-pages` branch)
-
-Pages serves the `gh-pages` branch, which holds only this folder. After committing changes on `main`:
-
-```bash
-git push origin `git subtree split --prefix website main`:refs/heads/gh-pages --force
+```powershell
+python -m http.server 8156 --bind 127.0.0.1 --directory website
 ```
 
-Live at https://quentin-drucker.github.io/Claus-for-Alarm/ about a minute later.
+Then open http://127.0.0.1:8156/ .
 
-## Font credits for website
+The existing public URL is https://quentin-drucker.github.io/Claus-for-Alarm/ . The November 15 refresh is currently local; it has not been published by the website editing session.
 
-Owner's game typography pass uses Grenze Gotisch (The Grenze Gotisch Project Authors), New Rocker
-(Pablo Impallari, Brenda Gallo, Rodrigo Fuenzalida), and Barlow (The Barlow Project Authors), under SIL OFL 1.1.
-Include with the website's contributor/asset credits when next publishing. Full notices: assets/fonts/OFL_*.txt;
-provenance and exact roles: assets/fonts/README.md and root CREDITS.md. No in-game credit overlay requested.
+- `index.html`: game presentation, creator credit, process, asset attribution.
+- `style.css`: responsive winter-lodge design. New Rocker and Barlow are bundled with licenses in `fonts/`.
+- `config.js`: shared itch.io URL and progressive image-viewer enhancement. Keep the three HTML fallback links synchronized if the URL changes.
+- `img/`: original captures, reference sheets, and runtime portraits copied without editing. Source mapping: `img/README.md`.
+- `process/`: public copies of the four design documents, two prompt archives, and credit ledgers. Planning documents retain historical and deferred work, explicitly labeled on the page. Workstation root paths are removed from public copies.
+- `REVIEW.md`: assessment, verification, and final polish priorities.
+
+## Design direction
+
+Use the game's own visual language: spruce noticeboard, snow background, festive red controls, New Rocker display type, and a menu screenshot treated as a winter-games lift pass. Keep body text plain and readable. Process numbering denotes the actual sequence; document numbering matches the real files. Avoid unrelated stock art or invented gameplay imagery.
+
+## Credits
+
+The site credits Quentin Drucker as solo creator, including game design, AI-assisted development, 3D asset creation, rigging, animation, and audio integration. AccuRig source preparation is distinguished from the deferred runtime replacement. Main-menu environment attribution to lumoize (CC BY 4.0) is in the credits section; retain the adaptation notes. The shipped audio ledger credits Willosuna. Only add Pixabay attribution when an actual asset and its source are identified.
+
+## Publishing
+
+Pages currently serves the `gh-pages` branch, containing this folder only. The repository's established workflow is to commit the reviewed website changes to `main`, then publish the subtree. Do not stage unrelated game work. Do not run the publication command until the final website is intended to go live.
+
+```powershell
+$websiteCommit = git subtree split --prefix website main
+git push origin "${websiteCommit}:refs/heads/gh-pages" --force-with-lease
+```
+
+After publication, verify the public website in a private browser window. Updating the build on the same itch.io project uses the same play link; changing the itch.io project slug would require updating the site's links.

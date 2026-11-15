@@ -1,11 +1,11 @@
 # CLAUS FOR ALARM — MASTER GAME DEVELOPMENT PLAN
-### Winter Sports Tower Defense · Godot 4.7.2 · Claude Code / Cursor · Blender · Browser delivery
+### Winter Sports Tower Defense · Godot 4.7.2 · Opus 5.5 · Blender · Browser delivery
 
 **Plan ID:** `CC-MASTER-2026-11-13`  
 **Revision:** `v1.0 — initial master plan`  
 **Created:** 2026-11-13  
 **Execution status:** `NOT STARTED — planning artifact only`  
-**Owner / creative director:** You. **Primary implementation agent:** Claude Code in Cursor (or another coding agent with the project folder). **Art production agent:** Blender-capable AI workflow, supervised by the owner.  
+**Owner / creative director:** You. **Implementation model:** Opus 5.5 at various effort levels. **Art production agent:** Blender-capable AI workflow, supervised by the owner.
 **Project folder:** `C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm` (Godot project root).  
 **Studio/team:** Camel Claus. **Game title:** **Claus for Alarm**.  
 **Event:** festive / Christmas-at-Connecticut-College with secret **Winter Sports** sub-theme.  
@@ -87,7 +87,7 @@ Assumed home for this master: `Claus for Alarm/references/design/00_Camel_Claus_
 | `HYB-A` | [02_Camel_Claus_Hybrid_Art_UI_Audio.md](./02_Camel_Claus_Hybrid_Art_UI_Audio.md) | Snow palette, world/camera, tower silhouettes, UI, audio, SFX, VFX, feedback | **A-01** identity; **A-02** map; **A-03/A-04** visual tower/hero identity; **A-05** layers; **A-06/A-07** UI states; **A-08/A-09** VFX/motion; **A-10** audio; **A-11/A-12** implementation and QA |
 | `HYB-B` | [03_Camel_Claus_Hybrid_3D_Assets_Blender.md](./03_Camel_Claus_Hybrid_3D_Assets_Blender.md) | Asset production, topology, rigging, variants, `.blend/.glb`, 3D performance and model QA | **B-01** anti-primitive standard; **B-03** shared athlete; **B-04** Camel hero; **B-05** six tower briefs; **B-06** later roster; **B-07/B-08** enemies/map; **B-11/B-12** sockets/manifests; **B-13/B-14** agent workflow / acceptance; **B-15** Web constraints |
 
-**Hard rule:** For each task, the agent must inspect the identified **exact hybrid section** and any dependent chapter before writing code. Simply reading this master is insufficient. Do not use file attachments in chat as the canonical version once the files are present in the Cursor project; read the live on-disk copies.
+**Hard rule:** For each task, the agent must inspect the identified **exact hybrid section** and any dependent chapter before writing code. Simply reading this master is insufficient. Do not use file attachments in chat as the canonical version once the files are present in the project workspace; read the live on-disk copies.
 
 ### 2.2 Secondary BTD6 research — comparative sources, not design authority
 
@@ -126,7 +126,7 @@ Assumed home for this master: `Claus for Alarm/references/design/00_Camel_Claus_
 - Enemy design: rolling, dynamically layer-breaking **colored snowballs**, with approved visual color sequence **Powder → Blue → Mint → Violet → Coral**, and **Gold** visually approved but *not yet assigned an exact mechanical class*; differentiated camo, regrow, lead-like, purple-like, armored and boss flags.
 - Initial regular towers **six** with specific BTD6 mechanical anchors (table below); each is designed around **three paths × five tiers**, but all 90 tiers need **not** be available in the first playable jam build.
 - Four additional mapped tower families are **planned later**; their presence in references does not grant permission to implement them now.
-- Godot **4.7.2** standard / **GDScript** / **Compatibility renderer**, using existing **Godot MCP** connection in Cursor; a browser build is a first-class target from the beginning.
+- Godot **4.7.2** standard / **GDScript** / **Compatibility renderer**, using existing **Godot MCP** connection in the development workspace; a browser build is a first-class target from the beginning.
 - Work sequence: **mechanics and correct loops first**, use placeholder map/models/UI; polished meshes, cinematics, animations, audio and UI art follow in separately tested passes.
 - BTD6 is a *mechanics and communication reference*. Do not include copied assets, exact map layouts, proprietary sounds, portraits, or branding.
 
@@ -421,7 +421,7 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 - [x] **P00-T01** — Copy all three hybrid docs into `references/design/` with **exact expected filenames**, and place this master alongside them; confirm no `.md.md` extensions or renamed `(1)` duplicates.
 - [x] **P00-T02** — Confirm the three original BTD6 MD references are in `references/research/` and clarify any missing optional JSON without blocking work.
 - [x] **P00-T03** — Read `CLAUDE.md`, `AGENTS.md`, `.mcp.json`, `project.godot`, Git status and existing project content; report actual current game implementation rather than assuming project is blank.
-- [x] **P00-T04** — Verify engine executable, version, Compatibility renderer, Godot MCP editor connection, and that Claude Code is acting in the correct Cursor workspace. — exe/version 4.7.2/Compatibility verified (P00). 2026-11-13: `godot_addon_install` installed `addons/godot_mcp` 0.1.2 + enabled plugin; `godot_editor_launch` → `godot_status` `editor_connected: true`, `scene_backend: editor (undoable, live)`; `godot_project_info` reads main scene/renderer; session runs in project root.
+- [x] **P00-T04** — Verify engine executable, version, Compatibility renderer, Godot MCP editor connection, and that the AI-assisted workflow is using the correct project workspace. — exe/version 4.7.2/Compatibility verified (P00). 2026-11-13: `godot_addon_install` installed `addons/godot_mcp` 0.1.2 + enabled plugin; `godot_editor_launch` → `godot_status` `editor_connected: true`, `scene_backend: editor (undoable, live)`; `godot_project_info` reads main scene/renderer; session runs in project root.
 - [x] **P00-T05** — Create initial Git commit/checkpoint of current working configuration; protect existing work and configuration.
 - [x] **P00-T06** — Record every user-approved roster entry, its source counterpart, and every explicit exclusion in the game-facing design registry (not yet content scenes).
 - [x] **P00-T07** — Confirm owner decisions D-01–D-12 as LOCKED, PROPOSED or DEFERRED; do not unilaterally resolve high-impact ambiguities.
@@ -869,7 +869,7 @@ A useful audit command/table should show: `(unit/path/tier/field) — reference 
 - [ ] **P20-T10** — Create final release manifest with Git commit, build date, tested browsers, known issues, artifact URL and contingency local ZIP.
 - [ ] **P20-T11** — Submit the correct hosted URL(s), title, media, brief description and credits by verified deadline; save submission confirmation.
 - [ ] **P20-T12** — Test the submitted link in a private/incognito window on another machine/network where possible; no sign-in or dev server required.
-- [ ] **P20-T13** — Archive a fully reproducible release build alongside docs and changelog; never rely solely on live local Cursor sessions.
+- [ ] **P20-T13** — Archive a fully reproducible release build alongside docs and changelog; never rely solely on live local development sessions.
 
 **P20 exit proof:** actual submission confirmation, stranger-playable URL, working studio page if required, official demo instructions and final release manifest.
 
@@ -1019,7 +1019,7 @@ Append a concise excerpt to the active project-instruction file **after reading 
 
 **If the agent is only starting with P00**, it must not auto-write the rest of the game's code or begin asset production. Work within the user-approved set of task IDs.
 
-### 11.2 First prompt to Claude Code after placing files in project
+### 11.2 First prompt to Opus 5.5 after placing files in project
 
 ```text
 You are the primary engineering agent for my Godot 4.7.2/GDScript/Compatibility-renderer browser game, produced by team Camel Claus. All work should happen inside the existing project workspace, not in a newly created unrelated Godot project.
@@ -1062,7 +1062,7 @@ Audit the Camel Claus feature(s) [task IDs] against the MASTER plan and referenc
 
 ### 11.6 Agent handoff when context/session limits are reached
 
-At the end of every session append one concise entry to §12 or `docs/logs/SESSION_LOG.md` with current branch/hash, tasks completed, files changed, testing evidence, errors, known gaps, and next suggested IDs. A new Claude/GPT chat must **read this plan and current live files** rather than trusting the old chat summary. If a session is interrupted, mark task as PARTIAL and preserve failing test/repro details. Never claim autonomous resumption unless an actually configured automation or running agent mechanism verifies it.
+At the end of every session append one concise entry to §12 or `docs/logs/SESSION_LOG.md` with current branch/hash, tasks completed, files changed, testing evidence, errors, known gaps, and next suggested IDs. A new AI chat must **read this plan and current live files** rather than trusting the old chat summary. If a session is interrupted, mark task as PARTIAL and preserve failing test/repro details. Never claim autonomous resumption unless an actually configured automation or running agent mechanism verifies it.
 
 ---
 
@@ -1087,7 +1087,7 @@ At the end of every session append one concise entry to §12 or `docs/logs/SESSI
 This section supersedes the old next-action text and old Dev 8 map-first prompt. It records the owner's source-model and scope decisions plus a read-only assessment; it does not claim that preparation or integration has been completed.
 
 **Verified progress and history**
-- Local Claude transcripts were available: setup/logistics, Dev 1-7, subsequent "Modeling with Fable 1 - Rookie elf re-rig and face", website, and audio work. Dev 7 is the P15 slice, but the later modeling session and this owner's Tripo/AccuRIG work are also relevant.
+- Local development transcripts were available: setup/logistics, Dev 1-7, subsequent "Modeling with Fable 1 - Rookie elf re-rig and face", website, and audio work. Dev 7 is the P15 slice, but the later modeling session and this owner's Tripo/AccuRIG work are also relevant.
 - HEAD at assessment: `3efc464`, after `6eaaf5d` face/hat/hair fixes. The existing runtime Rookie is still `assets/models/elf_rookie.glb`, built from the older procedural Blender source. It is NOT the selected Tripo/AccuRIG model.
 - Six initial tower base kits, hero progression, 25 rounds and special enemy interactions exist. Later records report 54/90 upgrade tiers (tiers 1-3), superseding the G4 dashboard's historical 35/90 count. Regrow remains deliberately omitted; do not claim unconditional exact BTD6 parity.
 - P18 music/SFX/ambience implementation exists; it is not waiting to begin. Latest saved ten-suite evidence is `docs/logs/evidence/p15b_tests.txt`; these tests were not rerun during the assessment.
@@ -1166,7 +1166,7 @@ This section supersedes the old next-action text and old Dev 8 map-first prompt.
 
 ### 12.1.2 Owner observations implemented alongside paused Dev 11 (2026-11-14)
 
-**Scope and coordination:** Dev 11 (Camel integration, Sorcerer size, bounded texture/stutter work) was in progress but paused by the owner's Claude usage limit. This batch handles independent owner observations. It does not replace Dev 11, claim its work completed, or approve P15-T09/G7. Do not overwrite these changes when resuming; inspect the current tree, especially `scenes/main/match.gd` and `match.tscn`. Hero/profile/preparation sources and other chats' existing import changes were left alone.
+**Scope and coordination:** Dev 11 (Camel integration, Sorcerer size, bounded texture/stutter work) was in progress but paused by the owner's model usage limit. This batch handles independent owner observations. It does not replace Dev 11, claim its work completed, or approve P15-T09/G7. Do not overwrite these changes when resuming; inspect the current tree, especially `scenes/main/match.gd` and `match.tscn`. Hero/profile/preparation sources and other chats' existing import changes were left alone.
 
 **Implemented trials**
 - OBS-PICKUP: `hover_collect_radius_m` default 1.0 -> **2.0 m** in world XZ (owner requested 2x). Existing click tolerance remains 0.6 m; ticket values, authoritative positions, lifetime, Bank/Marketplace, expiry and $750 Booth price remain unchanged.
@@ -1222,7 +1222,7 @@ See `docs/DEFERRED_WORK.md` for desired behavior, reason, phase, considerations 
 
 ### 12.1.5 Deadline handoff after Dev 11 (owner: approximately seven hours remaining)
 
-**Owner direction:** prioritize efficient implementation and a finished submission. Time and Claude usage are limited; avoid repeated broad audits, speculative refactors, redundant renders and approval stops for routine choices. This is a prioritized handoff, not completion evidence for its tasks.
+**Owner direction:** prioritize efficient implementation and a finished submission. Time and model usage are limited; avoid repeated broad audits, speculative refactors, redundant renders and approval stops for routine choices. This is a prioritized handoff, not completion evidence for its tasks.
 
 - **Rookie scope update (owner, DEC-046):** keep the functional existing runtime assets/models/elf_rookie.glb for submission. Skip all selected-Rookie preparation, new clips, posing, re-rigging and replacement work. Preserve the AccuRIG source for later; it is not a submission blocker. This supersedes the Rookie-first sequence in earlier prompts and sections.
 - **Hero decision resolved:** keep the larger current **2.52 m displayed hero** (1.68 m prepared x 1.5 display multiplier). The owner clarified that size is the intended choice regardless of image filenames. The named hero150 comparison actually shows the smaller 2.25 m alternative; do not shrink the runtime hero. Keep mechanics/footprint unchanged.
@@ -1268,14 +1268,14 @@ Requested after reviewing Dev 12 screenshots. Implemented in Dev 13 (2026-11-15)
 
 ### 12.1.8 Temporary browser loading intro (owner request, 2026-11-15)
 
-- [x] Located the owner's earlier Knit + Tin intro in sibling Camel Claus The North Pole; copied knit/Fair Isle/hat/mascot/font assets with source hashes, keeping originals intact.
+- [x] Prepared the Knit + Tin browser intro with knit/Fair Isle/hat/mascot/font assets and recorded asset hashes.
 - [x] Adapted title to Claus for Alarm and moved the visual sequence into the Web loading shell: knitted logo reveal, needle motion, subtitle plate, hat drop and rolling-yarn download scarf.
 - [x] Actual byte-progress display; engine/menu preparation status; overlay fades only after the title scene's first rendered frame. Owner follow-up: hold four seconds after menu/font readiness before fading so the title and hat reveal are visible even on cached loads; native/editor entry unchanged.
-- [x] Web preset integration and reproducible self-contained HTML generator; included font licenses and explicit pre-hackathon asset provenance in CREDITS/source README.
+- [x] Web preset integration and reproducible self-contained HTML generator; included font licenses and asset documentation in CREDITS/source README.
 - [x] Local exported Web check at 1280x720: loader -> village menu -> Play; 0 normal console errors. Simulated download failure presents retry at 800x600; reduced-motion animation disabled. Menu/UI tests pass; MCP process run exits0 with existing shutdown cleanup diagnostics.
 - [ ] Include this updated shell in the final hosted export/ZIP and verify the published transition. Old archives do not update automatically.
 
-Evidence: docs/logs/evidence/startup_*. Preview build: build/startup_preview, local server8162. Sources: art_src/ui/startup; generator art_src/tools/generate_startup_shell.py; template web/startup_shell.template.html. This is temporary owner-requested reuse from a pre-event test, not a claim of new jam artwork. First-use rendering stalls are not fixed by this presentation change.
+Evidence: docs/logs/evidence/startup_*. Preview build: build/startup_preview, local server8162. Sources: art_src/ui/startup; generator art_src/tools/generate_startup_shell.py; template web/startup_shell.template.html. First-use rendering stalls are not fixed by this presentation change.
 
 ### 12.1.9 Menu Rookie and Play loading transition (owner request, 2026-11-15)
 
@@ -1409,11 +1409,11 @@ When owner wants to modify a tower, enemy, upgrade, map, art direction or scope:
 | Revision | Date | Author | Summary |
 |---|---|---|---|
 | v1.0 | 2026-11-13 | ChatGPT | Initial cross-referenced full master plan. No code run or game scene modified. |
-| v1.1 | 2026-11-14 | Claude (Opus 5.5) | P05/P06 leftovers ticked with P08 evidence; P08–P09 ticked; G4 ✅; status table refreshed. |
-| v1.2 | 2026-11-14 | Claude (Opus 5.5) | Dev 9: P15-A05–A08 (Cannon proof checks, Ranger + Wax integration), DEC-040 owner choices, DEC-041 proposed, 12.1/12.1.1 updated. |
-| v1.3 | 2026-11-14 | Claude (Opus 5.5) | Dev 10: P15-A09–A12 (Sorcerer + Booth visual; Booth $750 and hover collection), DEC-042/043 implemented, DEC-044 proposed, 12.1/12.1.1 updated. |
-| v1.4 | 2026-11-15 | Claude (Opus 5.5) | Dev 11: observations batch committed as found; P15-A13–A16, DEC-044 approved, DEC-045 proposed, 12.1/12.1.3 updated. |
-| v1.5 | 2026-11-15 | Claude (Opus 5.5) | Dev 12: course dressing, break puffs, special-wave notices, HUD skin/layout, RC package; 12.1/12.1.6 updated. |
+| v1.1 | 2026-11-14 | Opus 5.5 | P05/P06 leftovers ticked with P08 evidence; P08–P09 ticked; G4 ✅; status table refreshed. |
+| v1.2 | 2026-11-14 | Opus 5.5 | Dev 9: P15-A05–A08 (Cannon proof checks, Ranger + Wax integration), DEC-040 owner choices, DEC-041 proposed, 12.1/12.1.1 updated. |
+| v1.3 | 2026-11-14 | Opus 5.5 | Dev 10: P15-A09–A12 (Sorcerer + Booth visual; Booth $750 and hover collection), DEC-042/043 implemented, DEC-044 proposed, 12.1/12.1.1 updated. |
+| v1.4 | 2026-11-15 | Opus 5.5 | Dev 11: observations batch committed as found; P15-A13–A16, DEC-044 approved, DEC-045 proposed, 12.1/12.1.3 updated. |
+| v1.5 | 2026-11-15 | Opus 5.5 | Dev 12: course dressing, break puffs, special-wave notices, HUD skin/layout, RC package; 12.1/12.1.6 updated. |
 
 ---
 

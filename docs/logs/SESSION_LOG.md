@@ -2,7 +2,7 @@
 
 Append one entry per session (template: master plan §12.2). Evidence files go in `docs/logs/evidence/`.
 
-#### SESSION 2026-11-13 — Claude (Opus 5.5) — P00 (T01–T11)
+#### SESSION 2026-11-13 — Opus 5.5 — P00 (T01–T11)
 - **Goal:** document setup + audit; no gameplay code.
 - **Read:** master plan §§1–7, P00; HYB-M M-00/M-01/M-06/M-13; HYB-A A-00; HYB-B B-00/B-17.
 - **Repo commit before:** `b1c1bc8`; baseline checkpoint `d1567e1` (P00-T05).
@@ -17,10 +17,10 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Known conflict resolved:** CONVENTIONS "Art pipeline" (pixel_bake primitive workflow from North Pole) contradicted
   HYB-B anti-primitive charter → replaced with pointer to design 03; `pixel_bake.py` kept as legacy reference only.
 - **Owner decisions needed:** D-02…D-12 (all PROPOSED), hackathon deadline/submission rules, repo public vs private.
-- **Next suggested tasks:** P01-T01…T04 (minimal main scene, editor run, Web preset), after opening a Claude session in
+- **Next suggested tasks:** P01-T01…T04 (minimal main scene, editor run, Web preset), after opening a development session in
   `claus-for-alarm/` so the Godot MCP loads.
 
-#### SESSION 2026-11-13 — Claude (Opus 5.5) — P00-T04 re-check, P01 (T01–T10)
+#### SESSION 2026-11-13 — Opus 5.5 — P00-T04 re-check, P01 (T01–T10)
 - **Goal:** close P00-T04 (Godot MCP) and prove editor + Web smoke (G1). No gameplay/art.
 - **Read:** master plan §§2.3, 4, 6.7, 7.1, P01, 9.4, 12; HYB-M M-01, M-12; HYB-A A-10, A-12; HYB-B B-15.
 - **Repo commit before:** `7c57ade`.
@@ -41,8 +41,8 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Screenshots/logs:** `p01_web_boot.png`, `p01_web_input.png`, `p01_web_resize_1366.png`, `p01_web_resize_narrow.png`,
   `p01_web_console.log`, `p01_web_export.log`, `p01_editor_run.log`.
 - **Finished and checked tasks:** P01-T01…T10; G1.
-- **Partial tasks / why:** P00-T04 — `claude mcp list`: `godot` **⏸ Pending approval**; no `godot_*` tools; needs owner
-  approval (`/mcp` or restart `claude` inside `claus-for-alarm/`). The godot-mcp editor addon is also not installed.
+- **Partial tasks / why:** P00-T04 — the MCP connection check: `godot` **⏸ Pending approval**; no `godot_*` tools; needs owner
+  approval (`/mcp` or restart the development session inside `claus-for-alarm/`). The godot-mcp editor addon is also not installed.
 - **New gap/deviation IDs:** none. Notes: in-editor F5/Debugger not driven (CLI run used); audibility and Firefox/Edge,
   90% zoom not checked by a human; `python -m http.server` doesn't gzip (real host should); Godot editor was open
   during the session — `project.godot` and `export_presets.cfg` were written from outside, so reload the project if the
@@ -52,7 +52,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Repo commit after:** `8fa3293` (tag `p01-web-smoke`) + this log commit; local archive `build/archive/p01_smoke_web.zip`.
 - **Next suggested 1–4 task IDs:** approve MCP → close P00-T04; then P02-T01…T04 after owner go-ahead.
 
-#### SESSION 2026-11-13 — Claude (Opus 5.5) — P00-T04, P02, P03, P04 (G2)
+#### SESSION 2026-11-13 — Opus 5.5 — P00-T04, P02, P03, P04 (G2)
 - **Goal:** close P00-T04; data definitions + sim clock (P02), greybox map (P03), match loop + HUD (P04) → G2.
 - **Read:** master §§2.3, 3, 4, 6, 7, P02–P04; HYB-M M-00…M-14; HYB-A A-01, A-02, A-06, A-07, A-11, A-12; HYB-B B-08, B-16.
   Source facts fetched from teemo.dev (snowball speeds 25/35/45/80/87.5 u/s, $650 start cash, rounds 1–10 groups,
@@ -86,7 +86,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Approved owner decisions:** none new. Rounds = exact source rounds 1–10 as a placeholder until D-03.
 - **Next suggested 1–4 task IDs:** P05-T01…T04 (layer chain, shell damage, children, pop cash) after owner go-ahead.
 
-#### SESSION 2026-11-13/14 — Claude (Opus 5.5) — owner decisions, P05, P06, P07 (G3)
+#### SESSION 2026-11-13/14 — Opus 5.5 — owner decisions, P05, P06, P07 (G3)
 - **Goal:** record owner decisions (basic layers 1:1, no Gold, specials DEFERRED, D-03 rounds, lives 150, delete smoke
   test); combat/economy vertical slice with the Snowball Rookie only; Web build + itch ZIP.
 - **Read:** master §§4, 5, 7.2, 12.3, P05–P07, P11; existing code and data; source pages for rounds 11–20 and Dart Monkey
@@ -117,7 +117,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Repo commit after:** this entry's commit; ZIP `build/archive/claus_for_alarm_g3_web_d2f1bba.zip`.
 - **Next suggested task IDs:** P08-T01…T04 (Avalanche Cannon, Biathlon Ranger, Slope Wax Sprayer base kits) after go-ahead.
 
-#### SESSION 2026-11-14 — Claude (Opus 5.5) — P08, P09 (G4)
+#### SESSION 2026-11-14 — Opus 5.5 — P08, P09 (G4)
 - **Goal:** the other five base kits (each tested before the next), six-tower shop, reusable 3×5 upgrade engine with
   crosspath lock, shipped tiers only where the source pages give the numbers; mixed-roster bot; Web build + itch ZIP.
 - **Read:** master §§4, 12, P05–P09; HYB-M M-06, M-07, M-10, M-11, M-14; teemo.dev tower pages (6) and upgrade pages
@@ -160,7 +160,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Repo commit after:** this entry's commit; ZIP `build/archive/claus_for_alarm_g4_web_aa11956.zip`.
 - **Next suggested task IDs:** P10-T01… (Camel Claus hero) after go-ahead.
 
-#### SESSION 2026-11-14 — Claude (Opus 5.5) — owner decisions DEC-023/024, P10, P13 essentials
+#### SESSION 2026-11-14 — Opus 5.5 — owner decisions DEC-023/024, P10, P13 essentials
 - **Goal:** Booth economy deviation + filler tiers (owner); Camel Claus hero (P10); title / How to Play / tooltips /
   disabled reasons / volume settings (P13 essentials); hero + mixed bot, Web export, browser smoke, itch ZIP.
 - **Read:** master §§4, 6.4, 12, P10, P13; HYB-M M-04, M-07, M-09, M-10, M-11; teemo.dev Quincy, heroes system,
@@ -199,7 +199,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Next suggested task IDs:** owner art direction (P15) or P12-T04/T05 balance workbook, P13-T05/T06/T11 (legend,
   feedback placeholders, fresh-player test), P14 freeze.
 
-#### SESSION 2026-11-14 — Claude (Opus 5.5) — 25 exact rounds, specials, 1×/2×/4×, technical alpha (DEC-025…031, P11–P14)
+#### SESSION 2026-11-14 — Opus 5.5 — 25 exact rounds, specials, 1×/2×/4×, technical alpha (DEC-025…031, P11–P14)
 - **Goal:** exact BTD6 rounds 1–25 (win = round 25), the special types they need, 1×/2×/4× speed with identical results,
   hero reach for 25 rounds, Booth re-check, bots, P13-T05/T06/T11, P14 freeze, Web export + ZIP.
 - **Read:** SESSION_LOG, master §12.1/§12.3 (DEC-025…031), P11–P14, REGISTRY backburner; teemo.dev v56 round pages
@@ -244,7 +244,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Repo commit after:** this entry's commit; tag `technical-alpha`; ZIP `build/archive/claus_for_alarm_alpha_web_619af86.zip`.
 - **Next suggested task IDs:** owner fresh-player test (P13-T11) → fixes; P14-T05–T08 art-swap layer; P15 after go-ahead.
 
-#### SESSION 2026-11-14 10:00 — Claude Code (Opus 5.5) — P18 audio: SFX, router, music slots (T03/T04 + partial T01/T02/T06/T07/T08)
+#### SESSION 2026-11-14 10:00 — Opus 5.5 — P18 audio: SFX, router, music slots (T03/T04 + partial T01/T02/T06/T07/T08)
 - **Goal:** original code-synthesized SFX (DEC-035) hooked to gameplay events through one audio router; music slots
   for the owner's AI tracks; Web test. Scope limited to `assets/audio/`, `scripts/audio/` (another chat is on
   towers/enemies/map).
@@ -276,7 +276,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Next suggested task IDs:** owner listening pass → retune volumes in `audio_router.gd` SFX table; drop music files
   + fill CREDITS; P18-T05 buses if wanted.
 
-#### SESSION 2026-11-14 — Claude (Opus 5.5) — P15 style slice (T01, T03–T11)
+#### SESSION 2026-11-14 — Opus 5.5 — P15 style slice (T01, T03–T11)
 - **Goal:** style sheet + three polished assets (Rookie elf, snowball shells/markers, Lodge) through the B-13 loop, swapped
   into the game via the presentation layer, with B-14 evidence; then STOP for owner review.
 - **Read:** SESSION_LOG (latest), master §12.1/§12.3 (DEC-025…035), HYB-A A-01–A-05/A-08/A-12, HYB-B B-01–B-04/B-07/B-09–B-15.
@@ -312,7 +312,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Repo commit after:** this entry's commit.
 - **Next suggested task IDs:** owner review of the slice → Rookie revise pass → DEC-032 order (map + snowballs → hero → towers).
 
-#### SESSION 2026-11-14 — Claude (Opus 5.5) — DEC-036 owner review + Rookie revision to the B-14 gate (P15-T03/T04/T07–T10)
+#### SESSION 2026-11-14 — Opus 5.5 — DEC-036 owner review + Rookie revision to the B-14 gate (P15-T03/T04/T07–T10)
 - **Goal:** apply DEC-036 (1.5× elf/hero scale, colour tokens, Rookie hand-throw base look, Purple → Aurora, Blender
   add-on update), then revise the Rookie until it passes B-14; re-render; skeleton reuse check; STOP for owner review.
 - **Read:** owner review notes; HYB-B B-03/B-09/B-11/B-14; previous P15 entry and scorecard.
@@ -349,7 +349,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Repo commit after:** this entry's commit.
 - **Next suggested task IDs:** owner sign-off of the Rookie → DEC-032 order: map + snowballs → hero → towers.
 
-#### SESSION 2026-11-14 14:00 — Claude Code (Opus 5.5) — P18 audio swap to licensed packs (DEC-036): T01/T02/T03/T04/T10
+#### SESSION 2026-11-14 14:00 — Opus 5.5 — P18 audio swap to licensed packs (DEC-036): T01/T02/T03/T04/T10
 - **Goal:** owner found the code-synth SFX retro/generated; replace all SFX and add music with polished, legally
   usable, stylistically consistent audio (warm-cartoony festive, BTD6 feel as style reference only), with variation.
 - **Read:** HYB-A A-07/A-10; REF-A V-11 (BTD6 sound-event treatments, concurrency, mixer); master plan P18.
@@ -378,7 +378,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Next suggested task IDs:** owner listening pass (`docs/logs/evidence/p18_web_audio.txt` lists what plays when);
   retune levels in the `SFX` table of `audio_router.gd`; T05/T09/T11.
 
-#### SESSION 2026-11-14 15:00 — Claude Code (Opus 5.5) — P18 mix v2 (DEC-038): T01 update, T05
+#### SESSION 2026-11-14 15:00 — Opus 5.5 — P18 mix v2 (DEC-038): T01 update, T05
 - **Goal (owner listening feedback):** faster gameplay music like BTD6; tower sounds +40% with their own slider at a
   50% default; consider an ambience layer under the music.
 - **Changes:** gameplay music = `god_rest_ye_sleigh_chase` (168 BPM) for all rounds (`town_snowy_village` and the
@@ -397,7 +397,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Open:** listening pass (ambience level under the chase, tower level at 50%); one 57 s gameplay loop repeats over a
   full match — the paid full Christmas Music Pack (32 loops) or a CC BY track could add rotation if it tires.
 
-#### SESSION 2026-11-14 15:30 — Claude Code (Fable 5.1) — P15 Rookie redesign, review 1 of 2 (DEC-039: model overhaul)
+#### SESSION 2026-11-14 15:30 — Fable 5.1 — P15 Rookie redesign, review 1 of 2 (DEC-039: model overhaul)
 - **Goal:** rebuild the Rookie elf base (body + head + face) to the owner's generated concept sheets
   (`references/characters/christmas_elf_v1/`), face as sculpted geometry + a light painted texture; stop for review.
   Review 2 (re-rig: clavicles, raised-arm rest, shoulder weights) follows separately, since the remodel forces it.
@@ -430,7 +430,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Repo commit after:** this entry's commit.
 - **Next suggested task IDs:** owner review 1 → review 2 (re-rig) → P15-T09 sign-off.
 
-#### SESSION 2026-11-14 16:00 — Claude Code (Opus 5.5) — DEC-039 review 1 owner fixes (hat, hair, face)
+#### SESSION 2026-11-14 16:00 — Opus 5.5 — DEC-039 review 1 owner fixes (hat, hair, face)
 - **Owner feedback:** hat sat too high; hair patchy; face proportions uncanny ("just make an elf head/face").
 - **Changes (`build_elf_rookie.py`, `rig_elf.py` blush spot):** beanie, band and pompom 2.5 cm lower; one hair shell under
   the clumps (no scalp gaps); normal face layout: smaller, flatter eyes (r 4.3 cm, was 6) set closer and at mid-face,
@@ -442,7 +442,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   (model-only change, same nodes/sockets/actions as the previous verified export).
 - **Repo commit after:** this entry's commit. **Next:** owner review 1 verdict → review 2 (re-rig).
 
-#### SESSION 2026-11-14 20:00 — Claude Code (Opus 5.5) — Dev 8: P15-A01–A04 asset pipeline + Avalanche Cannon proof
+#### SESSION 2026-11-14 20:00 — Opus 5.5 — Dev 8: P15-A01–A04 asset pipeline + Avalanche Cannon proof
 - **Goal:** reproducible, non-destructive Tripo/AccuRIG FBX → GLB preparation; prove it with the Avalanche Cannon only
   (visual, no gameplay change); static-model-safe binding; verify and stop for owner review.
 - **Read:** AGENTS/CLAUDE, master plan 12.1/12.1.1, this log, `ART_STYLE.md`, `DEFERRED_WORK.md`, `art_src/models/README.md`,
@@ -484,7 +484,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   profile (one or two per batch, Rookie last with minimal clips), or (b) the queued map/snowball slice P16-T09/T11/T12.
   Recommend (a) for two towers first, while the pipeline is fresh, then (b).
 
-#### SESSION 2026-11-14 21:30 — Claude Code (Opus 5.5) — Dev 9: P15-A05–A08 Cannon proof checks + Biathlon Ranger + Slope Wax Sprayer
+#### SESSION 2026-11-14 21:30 — Opus 5.5 — Dev 9: P15-A05–A08 Cannon proof checks + Biathlon Ranger + Slope Wax Sprayer
 - **Goal:** close the Cannon proof checks (clay/silhouette/B-14, browser stress), then prepare and integrate the Ranger
   and Wax Sprayer with the Dev 8 pipeline (visual only), verify the combined batch and stop for owner review.
 - **Read:** AGENTS/CLAUDE, master plan 12.1/12.1.1 + Dev 8 progress, DEC-040, this log, `ART_STYLE.md`,
@@ -538,7 +538,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   Claus, then the AccuRIG Rookie minimal-clip task), then the map/snowball slice P16-T09/T11/T12 (swap the order if
   the deadline is close).
 
-#### SESSION 2026-11-15 00:30 — Claude Code (Opus 5.5) — Dev 10: P15-A09–A12 Sorcerer + Booth (visual) | Booth $750 + hover collection (gameplay)
+#### SESSION 2026-11-15 00:30 — Opus 5.5 — Dev 10: P15-A09–A12 Sorcerer + Booth (visual) | Booth $750 + hover collection (gameplay)
 - **Goal:** batch A: prepare/integrate Snow Sorcerer and Ticket Booth with the established pipeline (visual only,
   gameplay-identical); batch B: owner-directed Booth base price $750 (DEC-042) and cursor-proximity ticket collection
   (DEC-043) as a separately verified gameplay change; investigate profile serialization warnings and the browser
@@ -604,7 +604,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Docs:** master plan 12.1.2 (authoritative implemented-vs-deferred handoff), DEFERRED_WORK (zoom/UI safe areas, acknowledged special-wave notices, tiers 4-5, required P19 final Web optimization, final subtle pixel-look evaluation), ART_STYLE, ARCHITECTURE, IMPLEMENTATION_ASSUMPTIONS, HACKATHON. No redundant planning document created.
 - **Next:** resume authorized Dev 11 on top of these changes; inspect match.gd/match.tscn and this log first. Then selected AccuRIG Rookie integration, queued map/snowball slice, P17 UI/onboarding and P19 release verification. No extra roster, pixel shader, zoom or special-wave modal implemented now. Do not auto-close G7 or final browser-performance gates.
 
-#### SESSION 2026-11-15 01:00 — Claude Code (Opus 5.5) — Dev 11: P15-A13–A16 Camel Claus + Sorcerer 1.7 m (visual) | S3TC + first-use stall study (Web)
+#### SESSION 2026-11-15 01:00 — Opus 5.5 — Dev 11: P15-A13–A16 Camel Claus + Sorcerer 1.7 m (visual) | S3TC + first-use stall study (Web)
 - **Goal:** owner Dev 11 prompt: Camel Claus integration, Sorcerer 1.5 -> ~1.7 m (DEC-044 approved), bounded Web texture/stall pass; stop for review.
 - **Read:** AGENTS/CLAUDE, master plan 12.1/12.1.1/12.1.2, this log (incl. the observations entry), DEC-040–044, DEFERRED_WORK, model README, `prepare_source_model.py`, `PresentationProfile`, `tower.gd`, `match.gd`, tests, `p15d_stutter_web.txt`, `p15d_b14_scorecard.md`; docs 02 A-03/A-08 and 03 hero table for cue specs.
 - **Repo commit before:** `947f94e` + the uncommitted observations batch, committed unchanged first at the owner's choice (`1701bfc`; HACKATHON/REGISTRY/docs 01–03 left local).
@@ -629,7 +629,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Web:** export-release Web -> separate build/menu_preview_web, exit0. Dedicated browser session: captures show source village + smoke + orbit, How/Settings/back usable, narrow800x650 usable, Play opens match. Console0errors/0warnings. Evidence: menu_village_prepare/import/test_*/web_export/web_console logs; menu_village_web_final/orbit/how/settings/narrow/play captures.
 - **Scope/status:** master plan12.1.4 records this P17 menu slice, without closing G7/G8 or changing the remaining task order. Root CREDITS is current third-party environment attribution; audio ledger remains assets/audio/CREDITS.md. Existing unrelated uncommitted files left alone.
 
-#### SESSION 2026-11-15 ? Codex ? menu lighting, rink, lower orbit and winter horizon
+#### SESSION 2026-11-15 ? AI-assisted development ? menu lighting, rink, lower orbit and winter horizon
 - **Owner request:** snow was overbright compared with the FBX; central ice rink hard to distinguish; lower orbit camera slightly and replace the empty backdrop with a snowy/foggy environment.
 - **Investigation:** source has a separate Ice_Sheet mesh with an almost-white cyan material shared with house glass. Static batching had also discarded source smooth/flat polygon flags, visibly flattening cabins and terrain. Source SHA-256 remains ff5c191d46ab89a4f23acf9b690ba3f3d3b06d87d7984c4e743ddc3fc9d23184, matching the original attribution record.
 - **Changes:** menu sun/ambient reduced to 0.7/0.35, linear tonemapping; preserve source smooth shading in the batcher; isolate rink into RinkIce (linear RGB 0.22/0.55/0.70, roughness 0.55, metallic 0.22) without changing house glass. Rebuilt derived blend/GLB. Camera height 8.5 -> 6.5 m, FOV72/radius12/target3.2/orbit2 degrees per second retained. Procedural winter sky, Compatibility depth fog 16?44 m, and snow horizon plane at y=-0.65 m hide the finite scene edge. All changes are menu-only.
@@ -638,7 +638,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Local website:** copied verified build/menu_preview_web files to build/web, served at http://localhost:8137/. HTTP index.pck SHA-256 matches the export (33,711,648 bytes). Captured menu_lighting_localhost8137.png, then entered match successfully. Existing browser tabs may need a hard refresh.
 - **Documentation/scope:** master plan12.1.4, source README and attribution adaptation notes updated. Original FBX/download and author credit preserved; no gameplay or unrelated concurrent work changed. No new phase/gate sign-off.
 
-#### SESSION 2026-11-15 ? Codex ? menu push, website credit placement and deadline handoff
+#### SESSION 2026-11-15 ? AI-assisted development ? menu push, website credit placement and deadline handoff
 - **Owner direction:** push the menu work, remove creator attribution from the main menu, retain a website-credit reminder, and prepare an efficient next-development prompt with about seven hours left. Owner clarified: keep the larger current 2.52 m displayed Camel Claus, regardless of the hero150 image filename (which actually shows 2.25 m).
 - **Changes:** removed EnvironmentCredit and CreditShade through godot_node_remove / godot_scene_save; removed their script connections and resizing. Root CREDITS.md/source README retain attribution; website/README.md now has the copy-ready lumoize CC BY4.0 source/author/license/adaptation credit and an explicit before-release publication TODO. No claim that the live website is updated.
 - **Planning:** master plan12.1 status/12.1.4 updated, new12.1.5 records deadline priorities and recommended bounded Rookie/map/snowball/essential-UX work with protected release time; DEC-045 approves size only, no invented blanket visual sign-off. DEFERRED_WORK reflects hero size choice. Existing rigging/extra-roster deferrals preserved.
@@ -646,13 +646,13 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Git scope:** menu source/derived/runtime assets, menu scene/scripts/test, their evidence, CREDITS, website README and these planning notes only. Existing HACKATHON/REGISTRY/design01?03, other model folders/archive/references and unrelated warmup UID left untouched. Use a clean temporary worktree for pull --rebase and push, preserving unrelated local edits.
 - **Next:** owner sends deadline-focused Dev12 prompt. No additional gameplay/hero-size runtime changes in this batch; approved larger size already exists. Public website credit, hosted candidate and final submission remain pending.
 
-#### SESSION 2026-11-15 - Codex - defer Rookie replacement for submission
+#### SESSION 2026-11-15 - AI-assisted development - defer Rookie replacement for submission
 - **Owner decision (DEC-046):** keep the functional old Rookie model; skip selected-source replacement, posing, new clips and rig work for the hackathon.
 - **Docs:** updated master status/12.1.5/decision log/P16-T03, DEFERRED_WORK and model index. Earlier Rookie-first handoffs are superseded. AccuRIG source preserved for potential post-submission work; no acceptance gate auto-closed.
 - **Next:** start directly with map/snowball polish, then essential UI/onboarding and protected release QA/submission time. Recover the former Rookie time budget as contingency.
 - **Validation:** documentation-only diff reviewed; runtime/model/animation files unchanged, no tests needed.
 
-#### SESSION 2026-11-15 — Claude Code (Opus 5.5) — Dev 12: submission build (map/snowballs, special-wave notices + HUD, RC)
+#### SESSION 2026-11-15 — Opus 5.5 — Dev 12: submission build (map/snowballs, special-wave notices + HUD, RC)
 - **Goal:** owner Dev 12 prompt: batch A map + snowball presentation, batch B essential HUD/onboarding + special-enemy introductions, batch C release candidate; keep Rookie (DEC-046), hero 2.52 m (DEC-045), menu.
 - **Commits:** `4fcd4b4` (A), `ccd7f4c` (B), `27bd116` (HUD fix), `d098ca5` (Web cost cut + RC evidence), then this docs commit. Others' local edits untouched.
 - **Files:** new `scenes/world/course_dressing.gd` (+ node in `ski_circuit.tscn` via MCP), new `scripts/presentation/pop_effects.gd`, `match.gd` (pop hook, intro gate), `match_hud.gd` (theme, notice, layout), `feedback_layer.gd` (purchase floaters), `tower.gd` (labels only when selected), tests `test_match/test_full_run/test_hero`.
@@ -662,26 +662,26 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Next:** owner upload per docs/PUBLISHING.md -> private-window hosted check -> website credits -> submit.
 
 
-#### SESSION 2026-11-15 - Codex - reconcile milestone dashboard and Dev 13 checklist
+#### SESSION 2026-11-15 - AI-assisted development - reconcile milestone dashboard and Dev 13 checklist
 - **Owner request:** update master-plan checkboxes/dashboard to show actual progress.
 - **Reconciled:** G0-G5 implemented for current release scope; corrected obsolete G5 special-enemy deferral and G4 35/90 count to 54/90. G6-G9 show concrete partial evidence and remaining acceptance; G10 pending, G11 deferred.
 - **Checklist:** scoped completed profile integration and Dev 12 export/HTTP smoke/debug-stripping tasks checked; compound unfinished tasks retain partial annotations. Added V13-T01-T10 for the requested lighting/organic map/sidebar/portraits/UI/motion/cursor/pop-stat overhaul and final verification.
 - **Current handoff:** updated section12.1 to Dev13 priorities; preserved historical Dev12 evidence and fallback artifact. No claim of final visual approval, hosted playthrough, public credits or submitted entry.
 - **Validation:** documentation-only; checked against Dev12 session/evidence and current task records. No runtime tests rerun.
 
-#### SESSION 2026-11-15 - Codex - temporary Knit + Tin browser loading intro
-- **Owner request:** find/reuse sweater/Mega-Man-style splash with Santa hat from sibling pre-hackathon test; adapt title to Claus for Alarm.
-- **Found:** Camel Claus The North Pole, scenes/ui/splash.gd/.tscn + web/shell.html and its Knit + Tin guide. Copied only required raw textures/mascot/hat/fonts to art_src/ui/startup with provenance hashes/licenses; source project untouched.
-- **Adaptation:** self-contained generated Web shell, actual download-progress scarf, knitted logo/needles/hat/plate/mascot motion and reduced-motion support. Web export preset uses it; title_screen signals after first rendered frame. Uses no old Profile/Transition autoloads, no extra fixed intro delay; editor/native start remains the menu.
+#### SESSION 2026-11-15 - AI-assisted development - temporary Knit + Tin browser loading intro
+- **Owner request:** create a sweater-style splash with a Santa hat and the Claus for Alarm title.
+- **Assets:** prepared the required textures, mascot, hat, and fonts in art_src/ui/startup with hashes and font licenses.
+- **Adaptation:** self-contained generated Web shell, actual download-progress scarf, knitted logo/needles/hat/plate/mascot motion and reduced-motion support. Web export preset uses it; title_screen signals after first rendered frame. Uses no extra fixed intro delay; editor/native start remains the menu.
 - **Verification:** menu and UI headless tests PASS (existing exit resource cleanup diagnostics); export exit0; MCP process exit0 with existing 8-resource shutdown line. Chrome 1280x720 loader -> village menu -> Play, normal console0errors. Intentionally aborted engine download shows explicit retry at800x600, with expected network error only; reduced motion reports animation none. Evidence startup_*. Source HTML about170KB, entirely local/embedded.
-- **Scope:** first-draw stalls may still pause animation; loader does not eliminate them. Original pre-event provenance and OFL credits recorded honestly. Concurrent Dev13 changes untouched; isolated preview build/startup_preview on localhost8162. Final hosted artifact must be re-exported to include shell.
+- **Scope:** first-draw stalls may still pause animation; loader does not eliminate them. Asset hashes and OFL credits recorded. Concurrent Dev13 changes untouched; isolated preview build/startup_preview on localhost8162. Final hosted artifact must be re-exported to include shell.
 
-#### SESSION 2026-11-15 - Codex - keep splash visible after loading
+#### SESSION 2026-11-15 - AI-assisted development - keep splash visible after loading
 - **Owner request:** the loader disappears before the title reveals; wait a few seconds before transitioning.
 - **Change:** HTML shell waits for menu readiness and fonts, then holds four seconds before its existing 350ms fade. Duplicate ready callbacks cannot shorten/restart the hold; failures retain the error screen. Real download progress unchanged.
 - **Scope:** browser shell only; regenerate and re-export preview. Native/Godot scene behavior unchanged.
 
-#### SESSION 2026-11-15 04:00 — Claude Code (Opus 5.5) — Dev 13: cohesive visual overhaul + final candidate (V13-T01–T10)
+#### SESSION 2026-11-15 04:00 — Opus 5.5 — Dev 13: cohesive visual overhaul + final candidate (V13-T01–T10)
 - **Goal:** owner Dev 13 prompt: ski-lodge UI system, dedicated right sidebar + portraits, selected-tower Pops, snow/terrain/lighting finish, themed menus/overlays/cursor, Web verification, fresh release ZIP. Locked: old Rookie, 2.52 m hero, menu environment, combat/economy/waves/route/placement, no extra towers/rigs/tiers.
 - **Read:** AGENTS/CLAUDE/CONVENTIONS, this log, master 12.1/12.1.6/12.1.7, match_hud/match/camera/course_dressing/ski_circuit/tower/feedback, events path, tests.
 - **Commits:** `c0b246d` (A: sidebar HUD, theme, camera fit, portraits, Pops + test, terrain/lighting), `ac1dc6c` (B: menus, cursor, compact hero strip, zoom-46 fix), `c10e144` (C: gate banner orientation fix, pennants, round fence, Web evidence), then this docs commit.
@@ -693,14 +693,14 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Next:** owner review -> upload final ZIP (or fallback) per PUBLISHING -> private-window hosted check -> credits -> submit before 10:00 ET.
 - **Addendum (07:00):** a parallel session pushed `3c766c1` (Knit and Tin browser loading splash) and `381bee2` (4 s splash hold) after `c10e144`; the Dev 13 ZIP excludes them by design (clean worktree). A build including the splash must be exported from that commit and re-verified (load time will change).
 
-#### SESSION 2026-11-15 - Codex - remodeled Rookie menu showcase and Play loading
+#### SESSION 2026-11-15 - AI-assisted development - remodeled Rookie menu showcase and Play loading
 - **Owner request:** floating remodeled Rookie on title screen, with simple animation; reuse sweater loading screen when Play opens the map.
 - **Implementation:** menu-only static bake of selected AccuRIG FBX; transparent isolated viewport, soft bob/yaw/tilt, reduced-motion support, responsive framing. Source FBX and old gameplay Rookie untouched. Desktop maps verified VRAM-compressed. Scene node added/saved through MCP.
 - **Transition:** persistent CanvasLayer guards duplicate Play, shows browser sweater clone before resource loading, replaces scene and signals after first map draw. Overlay waits at least 2.7 seconds for reused title/hat reveal; initial four-second intro hold retained. Native fallback uses title/status. Stalls are covered, not eliminated.
 - **Validation:** menu/UI suites PASS; MCP process exits 0 with existing shutdown cleanup diagnostics only. Chrome 1440x900 menu/Play and 800x600 help, double-click Play, zero console errors; evidence menu_showcase_checks.txt and menu_*.png.
 - **Delivery:** preview build/startup_preview on localhost:8162. Master section 12.1.9 updated. Existing release ZIP/public host require re-export/upload; no hosted deployment claimed. Gameplay Rookie replacement and P15-T09/G7 remain deferred/open. Parallel upgrade_dump files left untouched.
 
-#### SESSION 2026-11-15 07:20 — Claude Code (Opus 5.5) — Dev 13 audit: upgrades, attack VFX, special shells, pop feedback
+#### SESSION 2026-11-15 07:20 — Opus 5.5 — Dev 13 audit: upgrades, attack VFX, special shells, pop feedback
 - **Goal:** owner audit prompt: every tower's 9 upgrades work and give a real benefit (BTD6 reference, simple substitutes allowed), distinctive attack VFX, specials without letters, snowy pop effect instead of "*". Hero left as is.
 - **Audit (`tests/tools/upgrade_dump.gd`, `tests/test_audit.gd`):** all 54 tier 1-3 upgrades change stats. Fixed: Hot Cocoa Barrier (Wall of Fire) was a plain projectile -> lingering fire zone (`AttackDefinition.zone_duration_s/zone_tick_s`, `match._place_zone/_tick_zones`, radius 12 units, 4.5 s, every 0.2 s up to pierce 10, camo included). Substitutes (DEC-048): Big-Game Breaker +1 blast damage, Giant Snowball Wax +3/+2 pierce, Goggle Shimmer x0.75 interval. Tiers 4-5 remain deferred ("coming soon").
 - **VFX (`scripts/presentation/attack_vfx.gd`):** projectiles by damage family (snowball, ice chunk, cannon shell, frost bolt, fireball, wax glob), colour-coded expanding impact disc + puff, Ranger tracer (also along ricochets), fire-zone flames animated on sim time. Pops: `pop_effects.gd` adds 5 icy shards per pop in one MultiMesh; the floating "*" on hits is gone (IMMUNE / lives / cash floaters kept).
@@ -709,7 +709,7 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Web:** candidate `build/archive/claus_for_alarm_dev13audit_web_e71f47a.zip` (clean worktree of main `e71f47a`, includes the parallel session's splash/menu Rookie). Chrome: Sorcerer 0-2-0 bought from the sidebar, fire zones burning on the track, 0 console errors (`dev13_audit_web_smoke.txt`, `dev13_audit_web_firewall.png`). Tests 14/14 PASS (test_upgrades expectation + p09 fixture updated for the intended Big-Game Breaker change).
 - **Open:** owner balance review of DEC-048 values; specials not re-checked in the browser; tiers 4-5 still "coming soon"; hosted check + submission.
 
-#### SESSION 2026-11-15 - Codex - game-wide typography
+#### SESSION 2026-11-15 - AI-assisted development - game-wide typography
 - **Owner request:** find fonts in old game; Grenze Gotisch for title/large announcements/subtitles/special information, New Rocker for main text, third font for dense cases; apply throughout UI.
 - **Implementation:** copied New Rocker TTF and decoded old prototype Grenze/Barlow WOFF2s. Instantiated Grenze variable font at 700. Barlow Medium handles compact numbers/stats/hints. Shared lodge theme + project default cover menu, shop, upgrades, tooltip popups, help/settings, special notices, pause/results, feedback and native loading fallback. World labels set through MCP; HTML loader regenerated with same fonts/licenses.
 - **Validation:** test_ui and test_menu_background PASS; clean Web export; MCP process exit0, existing 8-resources shutdown diagnostic only. Chrome 1440x900 and help 800x600, title/loading/shop/hover descriptions/upgrade purchase/round banner/pause inspected; zero console errors. Evidence fonts_checks.txt and fonts_*.png.
