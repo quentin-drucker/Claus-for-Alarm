@@ -1,7 +1,7 @@
 """B-14 QA captures for the P15 slice: per asset a clay turnaround sheet, a game-camera silhouette and a
 close-up (material). Run in Blender after opening the asset's .blend; set ASSET first:
 ASSET = "elf_rookie" | "snowball" | "lodge" | a prepared source model (open art_src/prepared/<id>.blend:
-"avalanche_cannon" | "biathlon_ranger" | "slope_wax_sprayer"); optional PREFIX (evidence file prefix, default "p15"); exec(open(<this>).read())"""
+"avalanche_cannon" | "biathlon_ranger" | "slope_wax_sprayer" | "snow_sorcerer" | "ski_resort_ticket_booth"); optional PREFIX (evidence file prefix, default "p15"); exec(open(<this>).read())"""
 exec(open(r"C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm\art_src\tools\cc_art.py").read())
 
 E = EVIDENCE
@@ -15,6 +15,8 @@ cfg = {
     "avalanche_cannon": ((0, 0, 0.31), 4, 0.95, ((0, 0.05, 0.31), (0.6, 1, 0.35), 3, 0.85)),
     "biathlon_ranger": ((0, 0, 0.6), 4, 1.45, ((-0.15, 0.2, 0.62), (-0.45, 1, 0.25), 3, 0.95)),
     "slope_wax_sprayer": ((0, 0, 0.6), 4, 1.3, ((0.08, 0.1, 0.62), (0.45, 1, 0.25), 3, 0.9)),
+    "snow_sorcerer": ((0, 0, 0.5), 4, 1.2, ((0.1, 0.05, 0.62), (0.4, 1, 0.25), 3, 0.8)),
+    "ski_resort_ticket_booth": ((0, 0, 0.81), 6, 2.1, ((0, 0.4, 0.75), (0.45, 1, 0.3), 6, 1.5)),
 }[ASSET]
 target, dist, ortho, close = cfg
 # The game-facing side: elf faces +Y; the lodge front faces -Y (toward the Godot camera).

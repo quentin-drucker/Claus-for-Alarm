@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PresentationProfile" format=3 uid="uid://cxgnnt70q5u0g"]
+
+[ext_resource type="PackedScene" uid="uid://c4l0w87ty0hfq" path="res://assets/models/snow_sorcerer.glb" id="1_mqgsa"]
+[ext_resource type="Script" uid="uid://i6p52ffw8ka0" path="res://scripts/data/presentation_profile.gd" id="2_voaa6"]
+
+[resource]
+script = ExtResource("2_voaa6")
+model = ExtResource("1_mqgsa")
+recoil_squash = -0.06
+recoil_kick_s = 0.06
+recoil_recover_s = 0.25
+recoil_tilt_deg = -4.0
+muzzle_flash_m = 0.35
+flash_color = Color(0.56078434, 0.84705883, 0.9098039, 0.8509804)

@@ -1,0 +1,8 @@
+STRESS mix full on Windows: { &"snowball_rookie": 2, &"avalanche_cannon": 2, &"biathlon_ranger": 2, &"slope_wax_sprayer": 2, &"snow_sorcerer": 2, &"ski_resort_ticket_booth": 2 }, snowballs >= 120 (immune Coral, moving), max live shots 4
+STRESS viewport (1152.0, 648.0), vsync false, 900 frames: frame ms mean 1.28 p50 1.19 p95 1.81 p99 2.89 max 3.46; frames > 1.5x p50: 45
+STRESS draw calls p50 966 max 976; primitives p50 342904 max 360112; video mem 81.5 MB; adapter NVIDIA / NVIDIA GeForce RTX 5080 Laptop GPU; renderer gl_compatibility
+STRESS DONE
+STRESS mix full (GREYBOX non-Rookie towers) on Windows: { &"snowball_rookie": 2, &"avalanche_cannon": 2, &"biathlon_ranger": 2, &"slope_wax_sprayer": 2, &"snow_sorcerer": 2, &"ski_resort_ticket_booth": 2 }, snowballs >= 120 (immune Coral, moving), max live shots 4
+STRESS viewport (1152.0, 648.0), vsync false, 900 frames: frame ms mean 1.27 p50 1.18 p95 1.71 p99 2.68 max 3.45; frames > 1.5x p50: 42
+STRESS draw calls p50 935 max 946; primitives p50 225412 max 230120; video mem 81.5 MB; adapter NVIDIA / NVIDIA GeForce RTX 5080 Laptop GPU; renderer gl_compatibility
+STRESS DONE

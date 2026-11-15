@@ -12,6 +12,8 @@ const PROFILES: Dictionary[StringName, PresentationProfile] = {
 	&"avalanche_cannon": preload("res://resources/presentation/avalanche_cannon.tres"),
 	&"biathlon_ranger": preload("res://resources/presentation/biathlon_ranger.tres"),
 	&"slope_wax_sprayer": preload("res://resources/presentation/slope_wax_sprayer.tres"),
+	&"snow_sorcerer": preload("res://resources/presentation/snow_sorcerer.tres"),
+	&"ski_resort_ticket_booth": preload("res://resources/presentation/ski_resort_ticket_booth.tres"),
 }
 ## Dark inverted-hull outline for character models (docs/ART_STYLE.md section 6).
 const OUTLINE: Color = Color("173c4e")
@@ -157,7 +159,17 @@ func play_attack(dir: Vector3) -> void:
 		_anim.play(&"attack")
 		if _anim.has_animation(&"idle"):
 			_anim.queue(&"idle")
-	if _profile.recoil_m > 0.0 or _flash:
+	_start_reaction()
+
+
+## Presentation only (called after the simulation produced Booth income): the reaction and window puff, no turning.
+func play_income() -> void:
+	if _pivot:
+		_start_reaction()
+
+
+func _start_reaction() -> void:
+	if _profile.recoil_m > 0.0 or _profile.recoil_squash != 0.0 or _flash:
 		# Re-entering mid-recovery starts the kick at the current amount: no snap, and no drift under rapid fire.
 		_recoil_t = _profile.recoil_kick_s * _recoil_amount()
 

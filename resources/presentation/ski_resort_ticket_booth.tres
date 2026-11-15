@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PresentationProfile" format=3 uid="uid://dpehdm26jtwur"]
+
+[ext_resource type="PackedScene" uid="uid://wmhiloqxwytd" path="res://assets/models/ski_resort_ticket_booth.glb" id="1_fppyt"]
+[ext_resource type="Script" uid="uid://i6p52ffw8ka0" path="res://scripts/data/presentation_profile.gd" id="2_wy2lu"]
+
+[resource]
+script = ExtResource("2_wy2lu")
+model = ExtResource("1_fppyt")
+recoil_squash = 0.04
+recoil_kick_s = 0.06
+recoil_recover_s = 0.25
+muzzle_flash_m = 0.45
+flash_color = Color(0.9764706, 0.7882353, 0.42745098, 0.8509804)

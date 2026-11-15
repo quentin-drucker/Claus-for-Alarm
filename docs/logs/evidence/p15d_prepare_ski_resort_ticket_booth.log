@@ -1,0 +1,5 @@
+ski_resort_ticket_booth raw: size (0.893, 1.000, 1.000) envelope 0.619 open edges 0 flipped 10
+ski_resort_ticket_booth prepared: scale x1.6143, size (1.442, 1.614, 1.614) (display x1.5 = (2.163, 2.421, 2.421)), min z 0.0000, ground centre (0.001, 0.000, 0.000), envelope 1.001 (display 1.501), tris 25000, open edges 0
+  marker muzzle_A at (-0.000, 0.721, 0.825) (display (-0.001, 1.081, 1.237))
+  marker effect_center at (0.000, 0.000, 0.807) (display (0.000, 0.000, 1.211))
+  wrote assets/models/ski_resort_ticket_booth.glb

@@ -1,0 +1,44 @@
+snow_sorcerer at (-7.29, -2.4), 1.710 m from the centreline: AABB y 0.000..1.500, footprint 0.60
+slope_wax_sprayer at (-7.29, -1.2), 1.710 m from the centreline: AABB y 0.000..1.800, footprint 0.60
+snowball_rookie at (-7.29, -0.0), 1.710 m from the centreline: AABB y 0.001..1.871, footprint 0.60
+avalanche_cannon at (-7.29, 1.2), 1.710 m from the centreline: AABB y 0.000..0.934, footprint 0.60
+biathlon_ranger at (-7.29, 2.4), 1.710 m from the centreline: AABB y 0.000..1.800, footprint 0.60
+ski_resort_ticket_booth at (2.0, -7.61), 2.610 m from the centreline: AABB y 0.000..2.421, footprint 1.50, past the track edge -0.305 m
+  spacing snow_sorcerer -> slope_wax_sprayer: 1.200 m (footprints touch at 1.20)
+  spacing slope_wax_sprayer -> snowball_rookie: 1.200 m (footprints touch at 1.20)
+  spacing snowball_rookie -> avalanche_cannon: 1.200 m (footprints touch at 1.20)
+  spacing avalanche_cannon -> biathlon_ranger: 1.200 m (footprints touch at 1.20)
+snow_sorcerer over 24 aims: past the track edge 0.010 m (parts < 0.35 m high: -0.109 m); into the slope_wax_sprayer footprint 0.017 m
+slope_wax_sprayer over 24 aims: past the track edge 0.095 m (parts < 0.35 m high: -0.168 m); into the snow_sorcerer footprint 0.105 m
+slope_wax_sprayer over 24 aims: past the track edge 0.095 m (parts < 0.35 m high: -0.168 m); into the snowball_rookie footprint 0.105 m
+avalanche_cannon over 24 aims: past the track edge 0.049 m (parts < 0.35 m high: 0.049 m); into the snowball_rookie footprint 0.059 m
+avalanche_cannon over 24 aims: past the track edge 0.049 m (parts < 0.35 m high: 0.049 m); into the biathlon_ranger footprint 0.059 m
+biathlon_ranger over 24 aims: past the track edge 0.393 m (parts < 0.35 m high: 0.136 m); into the avalanche_cannon footprint 0.391 m
+snow_sorcerer material: albedo tex true, normal true, roughness tex true, metallic tex true (metallic 1.00), transparency 0, cull 0, outline overlay true, surfaces 1
+ski_resort_ticket_booth material: albedo tex true, normal true, roughness tex true, metallic tex true (metallic 1.00), transparency 0, cull 0, outline overlay true, surfaces 1
+avalanche_cannon aim: barrel vs muzzle->target (10 m) worst 0.0 deg; muzzle 0.00 m beside the centre line
+biathlon_ranger aim: barrel vs muzzle->target (10 m) worst 1.7 deg; muzzle 0.27 m beside the centre line
+slope_wax_sprayer aim: barrel vs muzzle->target (10 m) worst 2.5 deg; muzzle 0.42 m beside the centre line
+snow_sorcerer aim: barrel vs muzzle->target (10 m) worst 2.4 deg; muzzle 0.41 m beside the centre line
+ski_resort_ticket_booth tickets: 8 positions 1.80 m from the centre; behind the building at the game camera: 2 [(0.157498, -1.793097), (-0.829221, -1.597621)] (tickets draw without depth test, so they still show)
+snow_sorcerer ghost: valid reason '', on-track reason 'On the ski track', ghost model animated false
+ski_resort_ticket_booth ghost: valid reason '', on-track reason 'On the ski track', ghost model animated false
+snow_sorcerer selected + upgraded true -> tiers (1, 0, 1), model kept true, footprint (-7.29, -2.4, 0.6)
+ski_resort_ticket_booth selected + upgraded true -> tiers (1, 0, 1), model kept true, footprint (2.0, -7.61, 1.5)
+snow_sorcerer reacted true
+ski_resort_ticket_booth reacted true
+snow_sorcerer pause at t=0.033 s: model transform held true, flash true -> true
+ski_resort_ticket_booth pause at t=0.033 s: model transform held true, flash true -> true
+snow_sorcerer 1x: reaction took 317 ms real (expected 310)
+snow_sorcerer 2x: reaction took 158 ms real (expected 155)
+snow_sorcerer 4x: reaction took 79 ms real (expected 78)
+ski_resort_ticket_booth 1x: reaction took 300 ms real (expected 310)
+ski_resort_ticket_booth 2x: reaction took 150 ms real (expected 155)
+ski_resort_ticket_booth 4x: reaction took 75 ms real (expected 78)
+avalanche_cannon after rapid fire at 4x (0 shot frames seen): transform at rest true, flash off true
+biathlon_ranger after rapid fire at 4x (50 shot frames seen): transform at rest true, flash off true
+slope_wax_sprayer after rapid fire at 4x (4 shot frames seen): transform at rest true, flash off true
+snow_sorcerer after rapid fire at 4x (8 shot frames seen): transform at rest true, flash off true
+ski_resort_ticket_booth after rapid fire at 4x (0 shot frames seen): transform at rest true, flash off true
+snow_sorcerer sell: towers 6 -> 5, freed true
+ski_resort_ticket_booth sell: towers 5 -> 4, freed true

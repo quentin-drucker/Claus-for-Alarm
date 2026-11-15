@@ -1,0 +1,5 @@
+snow_sorcerer raw: size (0.484, 0.414, 0.719) envelope 0.326 open edges 0 flipped 14
+snow_sorcerer prepared: scale x1.3918, size (0.673, 0.576, 1.000) (display x1.5 = (1.009, 0.864, 1.500)), min z 0.0000, ground centre (0.062, 0.038, 0.000), envelope 0.459 (display 0.688), tris 12508, open edges 0
+  marker muzzle_A at (0.271, 0.128, 0.889) (display (0.407, 0.192, 1.334))
+  marker effect_center at (0.000, 0.000, 0.500) (display (0.000, 0.000, 0.750))
+  wrote assets/models/snow_sorcerer.glb

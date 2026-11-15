@@ -1,15 +1,14 @@
 extends SceneTree
-## Dev 9 review captures + measurements for the Ranger / Wax Sprayer art binding next to the Rookie and Cannon
-## (needs a window, not --headless):  godot --path . -s res://tests/tools/roster_review.gd
-## Writes docs/logs/evidence/p15c_*. Presentation checks only: the regression suites own gameplay.
+## Review captures + measurements for the prepared tower models next to the Rookie (needs a window, not --headless):
+##   godot --path . -s res://tests/tools/roster_review.gd            # Dev 9: Ranger + Wax      -> p15c_*
+##   godot --path . -s res://tests/tools/roster_review.gd -- dev10   # Dev 10: Sorcerer + Booth -> p15d_*
+## Writes docs/logs/evidence/. Presentation checks only: the regression suites own gameplay.
 
 const MATCH: String = "res://scenes/main/match.tscn"
-const OUT: String = "res://docs/logs/evidence/p15c_"
 const SIZE: Vector2i = Vector2i(1152, 648)
-## Row order along the track (Wax first: past the Ranger the straight meets an obstacle).
-const ROSTER: Array[StringName] = [&"slope_wax_sprayer", &"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger"]
-const SHOOTERS: Array[StringName] = [&"avalanche_cannon", &"biathlon_ranger", &"slope_wax_sprayer"]
-const NEW: Array[StringName] = [&"biathlon_ranger", &"slope_wax_sprayer"]
+const BOOTH: StringName = &"ski_resort_ticket_booth"
+## Track distance (m) of the Booth's nearest legal spot (Dev 10; away from the roster row).
+const BOOTH_AT: float = 40.0
 ## Track distance (m) of the roster row's Rookie (the Cannon review spot, tests/test_towers.gd SPOT).
 const ROW_AT: float = 14.0
 const SIDE: float = -1.0
@@ -21,9 +20,22 @@ var m: Node3D
 var content: Node
 var log_lines: PackedStringArray = []
 var towers: Dictionary = {}  # id -> roster tower
+var dev10: bool = OS.get_cmdline_user_args().has("dev10")
+var OUT: String = "res://docs/logs/evidence/%s_" % ("p15d" if dev10 else "p15c")
+## Row order along the track (Wax first: past the Ranger the straight meets an obstacle; Dev 10 puts the Sorcerer
+## before it). The Booth (1.5 m footprint) stands on its own spot. REACTORS = everything that reacts (Booth: income).
+var ROSTER: Array[StringName] = [&"slope_wax_sprayer", &"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger"]
+var SHOOTERS: Array[StringName] = [&"avalanche_cannon", &"biathlon_ranger", &"slope_wax_sprayer"]
+var NEW: Array[StringName] = [&"biathlon_ranger", &"slope_wax_sprayer"]
+var REACTORS: Array[StringName] = []
 
 
 func _initialize() -> void:
+	if dev10:
+		ROSTER.push_front(&"snow_sorcerer")
+		SHOOTERS.append(&"snow_sorcerer")
+		NEW.assign([&"snow_sorcerer", BOOTH])
+	REACTORS.assign(SHOOTERS + ([BOOTH] if dev10 else []))
 	_run.call_deferred()
 
 
@@ -116,13 +128,13 @@ func _verts(tower: Node3D) -> PackedVector3Array:
 
 ## Over 24 aims: worst reach past the track edge (all parts, and parts below 0.35 m that could touch the surface)
 ## and worst reach into the neighbour's footprint circle (m; > 0 = over).
-func _clearance(tower: Node3D, neighbour: Vector3) -> Vector3:
+func _clearance(tower: Node3D, neighbour: Vector3, aims: int = 24) -> Vector3:
 	var mesh: MeshInstance3D = tower._model.find_children("*", "MeshInstance3D")[0]
 	var verts: PackedVector3Array = _verts(tower)
 	var worst: Vector3 = -Vector3.INF
 	var keep: float = tower._pivot.rotation.y
-	for k: int in 24:
-		tower._pivot.rotation.y = TAU * k / 24.0
+	for k: int in aims:
+		tower._pivot.rotation.y = TAU * k / 24.0 if aims > 1 else keep
 		var xf: Transform3D = mesh.global_transform
 		for j: int in range(0, verts.size(), 4):
 			var w: Vector3 = xf * verts[j]
@@ -157,7 +169,7 @@ func _top_up(count: int) -> void:
 
 func _review() -> void:
 	# Roster row: Rookie, Cannon, Ranger, Wax at the nearest legal spots along one straight, touching footprints.
-	var along: float = -1.2
+	var along: float = -1.2 * (ROSTER.size() - 3)
 	var row_centre: Vector3 = Vector3.ZERO
 	for id: StringName in ROSTER:
 		var def: Resource = content.get_tower(id)
@@ -175,6 +187,16 @@ func _review() -> void:
 				Vector2(t.position.x, t.position.z), _track_distance(Vector2(t.position.x, t.position.z)),
 				box.position.y, box.end.y, t.footprint().z])
 	var ids: Array = towers.keys()
+	if dev10:  # the Booth at its nearest legal spot to the track
+		var bdef: Resource = content.get_tower(BOOTH)
+		var b: Node3D = m.try_place(bdef, _nearest_legal(bdef, BOOTH_AT, SIDE))
+		towers[BOOTH] = b
+		var bm: MeshInstance3D = b._model.find_children("*", "MeshInstance3D")[0]
+		var bb: AABB = bm.global_transform * bm.get_aabb()
+		var c: Vector3 = _clearance(b, Vector3(INF, INF, 0.0), 1)
+		_say("%s at %s, %.3f m from the centreline: AABB y %.3f..%.3f, footprint %.2f, past the track edge %.3f m" % [
+				BOOTH, Vector2(b.position.x, b.position.z), _track_distance(Vector2(b.position.x, b.position.z)),
+				bb.position.y, bb.end.y, b.footprint().z, c.x])
 	for i: int in ids.size() - 1:
 		_say("  spacing %s -> %s: %.3f m (footprints touch at 1.20)" % [ids[i], ids[i + 1],
 				towers[ids[i]].position.distance_to(towers[ids[i + 1]].position)])
@@ -220,6 +242,8 @@ func _review() -> void:
 				worst_deg, worst_side])
 		t._recoil_t = INF
 		t.animate(0.0)
+	if dev10:
+		await _ticket_visibility(towers[BOOTH])
 	# Placement ghost valid/invalid for the new models.
 	m.set_process(false)  # drive the ghost exactly as match._process does, without the OS cursor
 	for id: StringName in NEW:
@@ -249,13 +273,13 @@ func _review() -> void:
 		m.select(null)
 	# Firing: whole roster at the normal camera, then pause mid-reaction.
 	for id: StringName in NEW:
-		_say("%s fired %s" % [id, await _wait_fire(towers[id], 30.0)])
+		_say("%s reacted %s" % [id, await _wait_fire(towers[id], 40.0)])
 	var ranger: Node3D = towers[&"biathlon_ranger"]
 	await _wait_fire(ranger, 30.0)
 	await _shot("gamecam_roster_firing")
 	for id: StringName in NEW:
 		var t: Node3D = towers[id]
-		await _wait_fire(t, 30.0)
+		await _wait_fire(t, 40.0)
 		while t._recoil_t < 0.03:
 			await process_frame
 		m.set_paused(true)
@@ -275,8 +299,11 @@ func _review() -> void:
 	m.clock.paused = true
 	for id: StringName in NEW:
 		var t: Node3D = towers[id]
-		_aim_camera(t.position + Vector3.UP * 0.4, 4.8)
-		t.play_attack(Vector3(-0.8, 0.0, 0.6) if id == &"biathlon_ranger" else Vector3(-0.6, 0.0, 0.8))
+		_aim_camera(t.position + Vector3.UP * (1.0 if id == BOOTH else 0.4), 7.0 if id == BOOTH else 4.8)
+		if id == BOOTH:
+			t.play_income()
+		else:
+			t.play_attack(Vector3(-0.8, 0.0, 0.6) if id == &"biathlon_ranger" else Vector3(-0.6, 0.0, 0.8))
 		t.animate(t._profile.recoil_kick_s * 0.8)
 		await _shot("%s_closeup_firing" % id)
 		t.animate(10.0)
@@ -291,8 +318,8 @@ func _review() -> void:
 		var sim_ms: float = (t._profile.recoil_kick_s + t._profile.recoil_recover_s) * 1000.0
 		for speed: float in [1.0, 2.0, 4.0]:
 			m.clock.speed = speed
-			if not await _wait_fire(t, 30.0):
-				_say("%s %dx: did not fire within 30 s" % [id, speed])
+			if not await _wait_fire(t, 40.0):
+				_say("%s %dx: did not react within 40 s" % [id, speed])
 				continue
 			var start: int = Time.get_ticks_usec()
 			while t._recoil_t != INF:
@@ -306,13 +333,13 @@ func _review() -> void:
 	while Time.get_ticks_msec() < end:
 		_keep_firing()
 		await process_frame
-		for id: StringName in SHOOTERS:
+		for id: StringName in REACTORS:
 			if towers[id]._recoil_t < 0.02:
 				shots[id] = shots.get(id, 0) + 1
 	m.clock.speed = 1.0
 	m.clock.paused = false
 	m.set_paused(true)  # no new shots; then step each pose past its reaction by hand
-	for id: StringName in SHOOTERS:
+	for id: StringName in REACTORS:
 		var t: Node3D = towers[id]
 		t.animate(10.0)  # one long step past any reaction: the pose is a pure function of time since the kick
 		_say("%s after rapid fire at 4x (%d shot frames seen): transform at rest %s, flash off %s" % [id,
@@ -331,3 +358,32 @@ func _review() -> void:
 		await _frames(2)
 		_say("%s sell: towers %d -> %d, freed %s" % [id, before, m.towers_root.get_child_count(),
 				not is_instance_valid(t)])
+
+
+## Dev 10: drops all 8 possible ticket positions (2-2-0 drops 8 per round) around the Booth and reports which ones the
+## building hides at the game camera (a Booth vertex in front of the ticket within 6 px on screen). Removed after.
+func _ticket_visibility(b: Node3D) -> void:
+	var cam: Camera3D = m.camera
+	var mesh: MeshInstance3D = b._model.find_children("*", "MeshInstance3D")[0]
+	var verts: PackedVector3Array = _verts(b)
+	var pts: Array = []
+	for j: int in range(0, verts.size(), 3):
+		var w: Vector3 = mesh.global_transform * verts[j]
+		pts.append([cam.unproject_position(w), -(cam.global_transform.affine_inverse() * w).z])
+	for k: int in 8:
+		m._drop_pickup(b, k)
+	var hidden: Array = []
+	for pk: Object in m.pickups:
+		var top: Vector3 = pk.pos + Vector3.UP * 0.25
+		var sp: Vector2 = cam.unproject_position(top)
+		var depth: float = -(cam.global_transform.affine_inverse() * top).z
+		var blocked: bool = pts.any(func(q: Array) -> bool: return q[0].distance_to(sp) < 6.0 and q[1] < depth - 0.05)
+		if blocked:
+			hidden.append(Vector2(pk.pos.x - b.position.x, pk.pos.z - b.position.z))
+	_say("%s tickets: %d positions 1.80 m from the centre; behind the building at the game camera: %d %s (tickets draw without depth test, so they still show)" % [
+			BOOTH, m.pickups.size(), hidden.size(), hidden])
+	var img: Image = await _shot("booth_tickets")
+	var sp: Vector2 = cam.unproject_position(b.position)
+	img.get_region(Rect2i(int(sp.x) - 75, int(sp.y) - 95, 150, 140)).save_png(OUT + "booth_tickets_crop.png")
+	for pk: Object in m.pickups.duplicate():
+		m._remove_pickup(pk)

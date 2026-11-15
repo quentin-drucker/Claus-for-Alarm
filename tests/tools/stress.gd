@@ -1,9 +1,10 @@
 extends Node
 ## Presentation stress scene (P15-A04 follow-up, Dev 9): the real match with ~120 moving, immune Coral snowballs kept
 ## topped up and a tower mix firing at them; prints frame-time / draw-call stats as STRESS lines.
-##   Desktop: godot --path . res://tests/tools/stress.tscn -- cannon|roster [greybox]
+##   Desktop: godot --path . res://tests/tools/stress.tscn -- cannon|roster|full [greybox]
 ##   Browser: export preset "Web Stress" (build/web_stress), open stress_cannon.html / stress_roster.html (COMMANDS.md)
-## Mixes: cannon = 8 Cannons + 4 Rookies (the Dev 8 desktop mix); roster = 3 each of Rookie/Cannon/Ranger/Wax.
+## Mixes: cannon = 8 Cannons + 4 Rookies (the Dev 8 desktop mix); roster = 3 each of Rookie/Cannon/Ranger/Wax;
+## full = 2 each of all six towers (Dev 10, Booths drop tickets that stay uncollected).
 ## Presentation measurement only: never used by the regression suites.
 
 const MATCH: PackedScene = preload("res://scenes/main/match.tscn")
@@ -19,7 +20,7 @@ var _label: Label
 
 func _ready() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	var mix: String = "roster" if args.has("roster") else "cannon"
+	var mix: String = "full" if args.has("full") else "roster" if args.has("roster") else "cannon"
 	if not OS.has_feature("web"):
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)  # browsers always pace to the display
 	m = MATCH.instantiate()
@@ -43,7 +44,10 @@ func _run(mix: String, greybox: bool) -> void:
 	m.lives = 1000000
 	var ids: Array[StringName] = []
 	for i: int in 12:
-		if mix == "roster":
+		if mix == "full":
+			ids.append([&"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger", &"slope_wax_sprayer",
+					&"snow_sorcerer", &"ski_resort_ticket_booth"][i % 6])
+		elif mix == "roster":
 			ids.append([&"snowball_rookie", &"avalanche_cannon", &"biathlon_ranger", &"slope_wax_sprayer"][i % 4])
 		else:
 			ids.append(&"avalanche_cannon" if i % 3 != 2 else &"snowball_rookie")

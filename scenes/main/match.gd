@@ -569,6 +569,7 @@ func _plan_drops() -> void:
 func _drop_pickup(booth: Node3D, k: int) -> void:
 	if not is_instance_valid(booth) or booth.get_parent() != towers_root:
 		return  # sold this round
+	booth.play_income()  # presentation only
 	if booth.bank_capacity > 0:  # Monkey Bank: straight into the bank
 		booth.bank = mini(booth.bank_capacity, booth.bank + booth.cash_per_pickup)
 		Events.send(&"income_banked", booth.entity_id, 0, booth.cash_per_pickup, booth.position)
@@ -593,6 +594,9 @@ func _drop_pickup(booth: Node3D, k: int) -> void:
 	material.albedo_color = PICKUP_COLOR
 	material.emission_enabled = true
 	material.emission = PICKUP_COLOR * 0.4
+	# Drawn over everything (transparent pass, no depth test): a ticket behind the 2.4 m Booth stays visible.
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.no_depth_test = true
 	box.material = material
 	pickup.node.mesh = box
 	pickup.node.position = pickup.pos + Vector3.UP * 0.15

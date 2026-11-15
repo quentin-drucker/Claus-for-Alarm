@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PresentationProfile" format=3]
+[gd_resource type="Resource" script_class="PresentationProfile" format=3 uid="uid://cma2ft5tsts34"]
 
 [ext_resource type="PackedScene" uid="uid://ddyy0kh40m54k" path="res://assets/models/biathlon_ranger.glb" id="1_model"]
 [ext_resource type="Script" uid="uid://i6p52ffw8ka0" path="res://scripts/data/presentation_profile.gd" id="2_script"]

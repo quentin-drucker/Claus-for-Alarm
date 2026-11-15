@@ -35,8 +35,8 @@ runtime by the model's `resources/presentation/<id>.tres`.
 | Camel Claus | 1.000 · 0 · (−0.001, −0.076) · 0.338 | recalculated normals disagree on 11k faces: the recalc is unreliable on this mesh, check visually before changing | no |
 | Biathlon Ranger | 1.000 · 0 · (−0.067, 0.080) · 0.559 | faces −Y; rifle barrel 60° off the body axis toward the character's left at 27% height (PCA, pitched ~3° down); ground centre = boots (the bipod feet stay above the 2 cm band); 16 faces differ from a recalc (no visible defect) | **yes** (Dev 9): yaw 180°, height 1.2 m (1.8 m shown, = Rookie), envelope 0.67 m (1.0 m shown: the rifle), `muzzle_A` (−0.426, 0.458, 0.312) at the barrel tip, `effect_center`; profile `weapon_yaw_deg` 60 |
 | Slope Wax Sprayer | 1.000 · 0 · (−0.005, −0.037) · 0.392 | faces −Y; spray wand in the right hand points along the body axis (0.26 m right of centre), nozzle at ~40% height; tank pack sets the envelope | **yes** (Dev 9): yaw 180°, height 1.2 m (1.8 m shown), envelope 0.47 m (0.71 m shown), `muzzle_A` (0.281, 0.304, 0.476) in the nozzle, `effect_center` |
-| Snow Sorcerer | 0.719 · −0.007 · (−0.036, −0.035) · 0.326 | 7 mm below ground, 12.5k tris | no |
-| Ski Resort Ticket Booth | 1.000 · 0 · (0.000, 0.001) · 0.619 | building; data footprint r 1.5 m | no |
+| Snow Sorcerer | 0.719 · −0.007 · (−0.036, −0.035) · 0.326 | faces −Y; 7 mm below ground; the staff foot touches the ground beside the boots and drags the contact-band centre 4 cm sideways (boots centre (0.004, 0.000)); staff in the right hand, snowflake head at ~88% height; 12.5k tris; 14 faces differ from a recalc (no visible defect) | **yes** (Dev 10): yaw 180°, centred on the largest contact cluster (boots), grounded, height 1.0 m (1.5 m shown, compact: 80% of the Rookie), envelope 0.46 m (0.69 m shown), `muzzle_A` (0.271, 0.128, 0.889) in the staff head, `effect_center` |
+| Ski Resort Ticket Booth | 1.000 · 0 · (0.000, 0.001) · 0.619 | building; ticket window/counter faces −Y; back and side walls are plain panels; data footprint r 1.5 m; 10 faces differ from a recalc (no visible defect) | **yes** (Dev 10): yaw 180°, envelope 1.0 m modelled = 1.5 m shown (vertex corners on the footprint circle), 1.61 m tall (2.42 m shown), `muzzle_A` (0, 0.721, 0.825) at the ticket counter, `effect_center`; stationary (never aims) |
 | Hockey Slapper | 0.786 · −0.011 · (0.103, −0.053) · 0.287 | no gameplay (not in the submission) | no |
 | Snowboard Trickster | 0.801 · 0 · (0.008, 0.014) · 0.299 | object yaw −10°; no gameplay | no |
 
@@ -49,6 +49,6 @@ they are not copied from the Cannon. Machines are fitted by envelope (Cannon: fo
 Prepare logs: `docs/logs/evidence/p15c_prepare_<id>.log`; QA renders `p15c_<id>_{clay_turnaround,silhouette,closeup}.png`
 (`qa_render.py` with the prepared `.blend`); B-14: `p15c_b14_scorecard.md`.
 
-Integration status (Dev 9): Cannon, Ranger and Wax Sprayer are bound in game (`resources/presentation/<id>.tres`) and
+Integration status (Dev 10): Cannon, Ranger, Wax Sprayer, Snow Sorcerer and Ticket Booth are bound in game (`resources/presentation/<id>.tres`) and
 verified in the editor and the exported Web build; **owner approval of their size/readability is still open**, and
-availability of the other sources (Sorcerer, Booth, Camel Claus, AccuRIG Rookie) is not integration.
+availability of the other sources (Camel Claus, AccuRIG Rookie) is not integration. Dev 10 records: `docs/logs/evidence/p15d_prepare_<id>.log`, QA renders `p15d_<id>_*`.

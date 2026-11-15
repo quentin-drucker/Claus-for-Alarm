@@ -29,7 +29,8 @@ GROUND_BAND = 0.02  # verts this close to the lowest point count as ground conta
 # One entry per supplied source. Measured values are from `inspect` (raw import, source units; 2026-11-14).
 # `yaw_deg`: turn about Z so the model faces +Y. `fit`: ("envelope", r) scales the largest horizontal distance from
 # the placement centre to r metres (modelled, before the 1.5x display scale); ("height", h) scales the height.
-# `markers`: name -> "centre" (half height) or ("tip", weapon yaw, z band) (see weapon_tip). Only entries with `prepare: True` are exported.
+# `markers`: name -> "centre" (half height), ("tip", weapon yaw, z band) (weapon_tip) or ("top", x fraction)
+# (staff_top). `ground`: "largest_cluster" centres on the feet when a prop also touches the ground. Only entries with `prepare: True` are exported.
 PROFILES = {
     "avalanche_cannon": {
         "fbx": "avalanche_cannon/avalanche_cannon.fbx",
@@ -67,13 +68,34 @@ PROFILES = {
         # Spray wand in the right hand points along the body axis (offset to the right), nozzle at ~37% height.
         "markers": {"muzzle_A": ("tip", 0.0, 0.28, 0.5), "effect_center": "centre"},
     },
+    "snow_sorcerer": {
+        "fbx": "snow_sorcerer/snow_sorcerer.fbx",
+        "prepare": True,
+        "yaw_deg": 180.0,  # source faces -Y (boots side by side along X)
+        # Raw 0.719 tall and 7 mm below ground. The staff foot touches the ground beside the boots and drags the
+        # contact-band centre 4 cm sideways: centre on the largest contact cluster (the boots) instead.
+        "ground": "largest_cluster",
+        # Compact robed elf (ART_STYLE 2 "short robed Sorcerer"): 1.0 m modelled = 1.5 m shown (Rookie 1.87 m).
+        "fit": ("height", 1.0),
+        "texture_px": 1024,
+        # Snowflake staff head: top slab of the verts on the staff side (+X after the turn, the right hand).
+        "markers": {"muzzle_A": ("top", 0.5), "effect_center": "centre"},
+    },
+    "ski_resort_ticket_booth": {
+        "fbx": "ski_resort_ticket_booth/ski_resort_ticket_booth.fbx",
+        "prepare": True,
+        "yaw_deg": 180.0,  # ticket window/counter faces -Y in the source
+        # Building inside its 1.5 m data footprint: envelope 1.0 m modelled = 1.5 m shown (corners on the footprint
+        # circle), 1.62 m tall modelled = 2.42 m shown.
+        "fit": ("envelope", 1.0),
+        "texture_px": 1024,
+        # Ticket window: front-most slab (the counter) between 30% and 60% height.
+        "markers": {"muzzle_A": ("tip", 0.0, 0.3, 0.6), "effect_center": "centre"},
+    },
     # Inspected only (not prepared in this slice). Raw import: height, footprint size, notes.
     "snowball_rookie": {"fbx": "snowball_rookie/snowball_rookie_rigged.fbx", "prepare": False,
                         "note": "AccuRIG 71 bones, 0.01 armature scale, only T-Pose actions; embedded maps"},
     "camel_claus": {"fbx": "camel_claus/camel_claus.fbx", "prepare": False},
-    "snow_sorcerer": {"fbx": "snow_sorcerer/snow_sorcerer.fbx", "prepare": False, "note": "7 mm below ground"},
-    "ski_resort_ticket_booth": {"fbx": "ski_resort_ticket_booth/ski_resort_ticket_booth.fbx", "prepare": False,
-                                "note": "footprint r 1.5 m (data)"},
     "hockey_slapper": {"fbx": "hockey_slapper/hockey_slapper.fbx", "prepare": False,
                        "note": "no gameplay; 11 mm below ground, off-centre"},
     "snowboard_trickster": {"fbx": "snowboard_trickster/snowboard_trickster.fbx", "prepare": False,
@@ -176,6 +198,42 @@ def weapon_tip(ob, yaw_deg, z_lo, z_hi):
     return fwd * (front - 0.04) + side * s + Vector((0, 0, z))
 
 
+def staff_top(ob, x_frac):
+    """Centroid of the top 6% (of the height) of the verts beyond `x_frac` of the model's +X reach (a held staff)."""
+    pts = [ob.matrix_world @ v.co for v in ob.data.vertices]
+    reach = max(p.x for p in pts)
+    side = [p for p in pts if p.x > x_frac * reach]
+    top = max(p.z for p in side)
+    head = [p for p in side if p.z > top - 0.06 * max(p.z for p in pts)]
+    return sum(head, Vector()) / len(head)
+
+
+def largest_ground_cluster(ob):
+    """Centre (x, y, min z) of the biggest connected patch of contact-band verts (1.5 cm grid): the feet, not a prop."""
+    pts = [ob.matrix_world @ v.co for v in ob.data.vertices]
+    lo = min(p.z for p in pts)
+    cells = {}
+    for p in pts:
+        if p.z < lo + GROUND_BAND:
+            cells.setdefault((int(p.x // 0.015), int(p.y // 0.015)), []).append(p)
+    seen, best = set(), []
+    for c in cells:
+        if c in seen:
+            continue
+        stack, grp = [c], []
+        seen.add(c)
+        while stack:
+            k = stack.pop()
+            grp += cells[k]
+            for n in [(k[0] + dx, k[1] + dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1)]:
+                if n in cells and n not in seen:
+                    seen.add(n)
+                    stack.append(n)
+        best = grp if len(grp) > len(best) else best
+    return Vector(((min(p.x for p in best) + max(p.x for p in best)) / 2,
+                   (min(p.y for p in best) + max(p.y for p in best)) / 2, lo))
+
+
 def prepare(name):
     prof = PROFILES[name]
     ob = import_source(name)
@@ -187,7 +245,7 @@ def prepare(name):
     # Bake object transform, then centre on the ground contact, turn to +Y and scale to the profile fit.
     ob.data.transform(ob.matrix_world)
     ob.matrix_world = Matrix.Identity(4)
-    g = raw["ground_centre"]
+    g = largest_ground_cluster(ob) if prof.get("ground") == "largest_cluster" else raw["ground_centre"]
     kind, target = prof["fit"]
     scale = target / (raw["envelope"] if kind == "envelope" else raw["size"].z)
     ob.data.transform(Matrix.Scale(scale, 4) @ Matrix.Rotation(math.radians(prof["yaw_deg"]), 4, "Z")
@@ -206,7 +264,8 @@ def prepare(name):
     for marker, spec in prof["markers"].items():
         e = bpy.data.objects.new(marker, None)
         e.empty_display_size = 0.05
-        e.location = Vector((0, 0, out["size"].z * 0.5)) if spec == "centre" else weapon_tip(ob, *spec[1:])
+        e.location = (Vector((0, 0, out["size"].z * 0.5)) if spec == "centre" else staff_top(ob, spec[1])
+                      if spec[0] == "top" else weapon_tip(ob, *spec[1:]))
         bpy.context.scene.collection.objects.link(e)
         print(f"  marker {marker} at {fmt(e.location)} (display {fmt(e.location * 1.5)})")
     os.makedirs(PREPARED, exist_ok=True)

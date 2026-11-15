@@ -1,0 +1,28 @@
+test_data: exit 0, test_data: PASS
+test_map: exit 0, test_map: PASS
+test_match: exit 0, test_match: PASS
+test_combat: exit 0, test_combat: PASS
+test_towers: exit 0, test_towers: PASS
+test_upgrades: exit 0, test_upgrades: PASS
+test_hero: exit 0, test_hero: PASS
+test_ui: exit 0, test_ui: PASS
+test_full_run: exit 0, test_full_run: PASS
+test_audio: exit 0, test_audio: PASS
+
+Batch A (visual only) STATE transcripts vs the pre-change baseline at c4bdbba (this session):
+  test_data identical (0 lines)
+  test_map identical (0 lines)
+  test_match identical (122 lines)
+  test_combat identical (49 lines)
+  test_towers DIFFERS:
+7a8,11
+> STATE PREPARE -> ROUND_SPAWN tick=0 round=1 lives=150 cash=1400
+> STATE ROUND_SPAWN -> ROUND_CLEANUP tick=1051 round=1 lives=150 cash=1400
+> STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+> STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+  test_upgrades identical (52 lines)
+  test_hero identical (108 lines)
+  test_ui identical (2 lines)
+  test_full_run identical (1127 lines)
+  test_audio identical (0 lines)
+  test_towers: only additions — two 'BOOT -> PREPARE' lines (new Sorcerer row + Booth visual check) and the Booth check's round-1 start/cleanup lines; every pre-existing STATE line unchanged

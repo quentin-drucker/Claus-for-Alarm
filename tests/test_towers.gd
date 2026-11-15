@@ -115,16 +115,19 @@ func _test_cannon() -> void:
 ## P15-A02/A03: the Cannon's art binding is presentation only. Grounded GLB at the 1.5x display scale, shots start
 ## at the bore marker, rapid-fire recoil returns exactly to rest (no drift), and pause freezes the reaction.
 func _test_cannon_visual() -> void:
-	# id, displayed height (m), muzzle height (m): P15-A02 Cannon, P15 Dev 9 Ranger + Wax (prepare logs p15c_*).
-	for row: Array in [[&"avalanche_cannon", 0.934, 0.613], [&"biathlon_ranger", 1.80, 0.467],
-			[&"slope_wax_sprayer", 1.80, 0.714]]:
-		_check_static_visual(row[0], row[1], row[2])
+	# id, displayed height (m), muzzle height (m), min cosine of the muzzle bearing to the shot (weapons point at it;
+	# the Sorcerer's staff is held beside the body, never behind): Cannon (P15-A02), Ranger + Wax (Dev 9), Sorcerer
+	# (Dev 10); prepare logs p15c_* / p15d_*.
+	for row: Array in [[&"avalanche_cannon", 0.934, 0.613, 0.5], [&"biathlon_ranger", 1.80, 0.467, 0.5],
+			[&"slope_wax_sprayer", 1.80, 0.714, 0.5], [&"snow_sorcerer", 1.50, 1.334, -0.25]]:
+		_check_static_visual(row[0], row[1], row[2], row[3])
+	_check_booth_visual()
 	_completed.append("_test_cannon_visual")
 
 
 ## Static (unrigged) GLB on a visual pivot: grounded at its height, muzzle marker on the weapon, the weapon (not the
 ## root) aims, rapid fire stays bounded, pause freezes the reaction and it returns exactly to rest.
-func _check_static_visual(id: StringName, height: float, muzzle_y: float) -> void:
+func _check_static_visual(id: StringName, height: float, muzzle_y: float, min_cos: float) -> void:
 	var m: Node3D = _new_match()
 	var t: Node3D = m.try_place(content.get_tower(id), SPOT)
 	var p: Resource = t._profile
@@ -140,13 +143,13 @@ func _check_static_visual(id: StringName, height: float, muzzle_y: float) -> voi
 			and t.rotation == Vector3.ZERO, "%s: visual pivot aims the weapon, gameplay root does not turn" % id)
 	var muzzle: Vector3 = t.muzzle_position() - t.position
 	var flat: Vector3 = Vector3(muzzle.x, 0.0, muzzle.z)
-	_check(absf(muzzle.y - muzzle_y) < 0.02 and flat.length() < 1.0 and flat.dot(dir) > 0.5 * flat.length(),
+	_check(absf(muzzle.y - muzzle_y) < 0.02 and flat.length() < 1.0 and flat.dot(dir) > min_cos * flat.length(),
 			"%s: muzzle marker on the shot side (%s)" % [id, muzzle])
 	for i: int in 30:  # far faster than any upgrade: a shot every 2 ticks
 		t.play_attack(dir)
 		t.animate(STEP)
 		t.animate(STEP)
-		_check(model.position.length() <= p.recoil_m + 1e-5 and model.scale.y >= 1.5 * (1.0 - p.recoil_squash) - 1e-5
+		_check(model.position.length() <= p.recoil_m + 1e-5 and absf(model.scale.y - 1.5) <= 1.5 * absf(p.recoil_squash) + 1e-5
 				and model.basis.orthonormalized().get_euler().length() <= deg_to_rad(absf(p.recoil_tilt_deg)) + 1e-4,
 				"%s: reaction stays bounded" % id)
 	m.clock.paused = true
@@ -159,6 +162,37 @@ func _check_static_visual(id: StringName, height: float, muzzle_y: float) -> voi
 	_check(model.transform == Transform3D(Basis.from_scale(Vector3.ONE * 1.5)) and not t._flash.visible,
 			"%s: reaction returns exactly to rest (%s)" % [id, model.transform])
 	_check(m.towers_root.get_child_count() == 1 and is_equal_approx(t.footprint().z, 0.6), "%s: footprint 0.6 m" % id)
+	m.free()
+
+
+## Ticket Booth building (Dev 10): grounded 2.42 m, inside its 1.5 m footprint, stationary (faces the camera through
+## a round of income and never aims), window marker in front, income reaction returns exactly to rest.
+func _check_booth_visual() -> void:
+	var m: Node3D = _new_match()
+	m.ledger.credit(0, 2000, &"test", 0)
+	var t: Node3D = m.try_place(content.get_tower(&"ski_resort_ticket_booth"), Vector2(12.0, 1.5))
+	var model: Node3D = t._model
+	var mesh: MeshInstance3D = model.find_children("*", "MeshInstance3D")[0]
+	var box: AABB = mesh.global_transform * mesh.get_aabb()
+	var half: float = 0.0  # widest vertex from the centre (the AABB corner overstates the rounded roof)
+	for v: Vector3 in mesh.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]:
+		var w: Vector3 = mesh.global_transform * v - t.position
+		half = maxf(half, Vector2(w.x, w.z).length())
+	_check(absf(box.position.y) < 0.01 and absf(box.end.y - 2.42) < 0.02 and half <= 1.5 + 0.005,
+			"booth grounded, 2.42 m tall, corners within the 1.5 m footprint (%s)" % box)
+	var window: Vector3 = t.muzzle_position() - t.position
+	_check(window.z > 0.9 and absf(window.y - 1.237) < 0.02, "booth window marker faces the camera (%s)" % window)
+	m.start_round()
+	var reacted: bool = false
+	for i: int in 60 * 30:
+		m.clock.advance(STEP)
+		reacted = reacted or t._recoil_t != INF
+	_check(reacted, "booth income triggers its reaction")
+	_check(is_equal_approx(t._pivot.rotation.y, PI) and t.rotation == Vector3.ZERO, "booth stays still (never aims)")
+	t.animate(10.0)
+	_check(model.transform == Transform3D(Basis.from_scale(Vector3.ONE * 1.5)) and not t._flash.visible,
+			"booth reaction returns exactly to rest")
+	_check(is_equal_approx(t.footprint().z, 1.5), "booth footprint 1.5 m")
 	m.free()
 
 
