@@ -651,3 +651,13 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Docs:** updated master status/12.1.5/decision log/P16-T03, DEFERRED_WORK and model index. Earlier Rookie-first handoffs are superseded. AccuRIG source preserved for potential post-submission work; no acceptance gate auto-closed.
 - **Next:** start directly with map/snowball polish, then essential UI/onboarding and protected release QA/submission time. Recover the former Rookie time budget as contingency.
 - **Validation:** documentation-only diff reviewed; runtime/model/animation files unchanged, no tests needed.
+
+#### SESSION 2026-11-15 — Claude Code (Opus 5.5) — Dev 12: submission build (map/snowballs, special-wave notices + HUD, RC)
+- **Goal:** owner Dev 12 prompt: batch A map + snowball presentation, batch B essential HUD/onboarding + special-enemy introductions, batch C release candidate; keep Rookie (DEC-046), hero 2.52 m (DEC-045), menu.
+- **Commits:** `4fcd4b4` (A), `ccd7f4c` (B), `27bd116` (HUD fix), `d098ca5` (Web cost cut + RC evidence), then this docs commit. Others' local edits untouched.
+- **Files:** new `scenes/world/course_dressing.gd` (+ node in `ski_circuit.tscn` via MCP), new `scripts/presentation/pop_effects.gd`, `match.gd` (pop hook, intro gate), `match_hud.gd` (theme, notice, layout), `feedback_layer.gd` (purchase floaters), `tower.gd` (labels only when selected), tests `test_match/test_full_run/test_hero`.
+- **Tests:** 12/12 PASS (`dev12_tests.txt`); MCP editor runs 0 errors; release export 0 ERROR/WARNING.
+- **Web (local):** extracted RC ZIP in Chrome 157 headless: menu, placement, upgrades card, 4x rounds 1–5, Booth $750 + hover collection ($200 from 4 tickets, no click), pause overlay, 800x600, 0 console errors; stress full mix p95 6.8 ms, 432k prims. Hosted itch page not verified (no embed visible).
+- **Open / not done:** upload + hosted check + website credits (owner); first-use stalls unchanged (fresh ~12 s to title, ~2.4 s round 1); late rounds verified in editor/tests, not in a browser playthrough; no low-end/mobile or fresh-player test.
+- **Next:** owner upload per docs/PUBLISHING.md -> private-window hosted check -> website credits -> submit.
+
