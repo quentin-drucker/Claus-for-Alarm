@@ -537,3 +537,56 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Next suggested task IDs:** owner review + DEC-041 → remaining initial-roster visuals (Sorcerer + Booth, then Camel
   Claus, then the AccuRIG Rookie minimal-clip task), then the map/snowball slice P16-T09/T11/T12 (swap the order if
   the deadline is close).
+
+#### SESSION 2026-11-15 00:30 — Claude Code (Opus 5.5) — Dev 10: P15-A09–A12 Sorcerer + Booth (visual) | Booth $750 + hover collection (gameplay)
+- **Goal:** batch A: prepare/integrate Snow Sorcerer and Ticket Booth with the established pipeline (visual only,
+  gameplay-identical); batch B: owner-directed Booth base price $750 (DEC-042) and cursor-proximity ticket collection
+  (DEC-043) as a separately verified gameplay change; investigate profile serialization warnings and the browser
+  first-shot stutter; stop for review.
+- **Read:** AGENTS/CLAUDE, master plan 12.1/12.1.1 + Dev 10 handoff, DEC-040–043, this log, DEFERRED_WORK, model README,
+  `prepare_source_model.py`, `PresentationProfile`, `tower.gd`, `match.gd` (input, tick, pickups), test_towers/ui/
+  upgrades/full_run economy checks.
+- **Repo commit before:** `c4bdbba` + others' uncommitted HACKATHON/REGISTRY/design docs 01–03, source folders, archive,
+  `references/towers/` (untouched) and the owner's uncommitted master-plan edits (Dev 10 handoff, DEC-042/043), which
+  this batch's plan update builds on and commits. Live Blender held someone's unsaved scene: Blender ran headless.
+- **Commits:** `e154e5c` batch A (visual), `13dadad` batch B (gameplay), then this docs/evidence commit.
+- **Files changed (A):** `prepare_source_model.py` (`largest_ground_cluster`, `staff_top`, two profiles), `qa_render.py`,
+  new prepared `.blend`/`.glb` + maps for both, new `resources/presentation/{snow_sorcerer,ski_resort_ticket_booth}.tres`
+  (editor resource tool), Ranger/Wax profiles re-saved with their own UIDs, `tower.gd` (profiles, `play_income`,
+  `_start_reaction`), `match.gd` (calls `play_income`; ticket visuals drawn over the building), texture imports
+  (`compress/mode=2` for all Tripo maps), `test_towers.gd` (Sorcerer row, Booth building check), `roster_review.gd`
+  (`-- dev10`, ticket visibility), `stress.gd` (`full` mix), model README, evidence `p15d_*` (visual).
+- **Files changed (B):** `ski_resort_ticket_booth.tres` (price 750, ORIGINAL_DEVIATION, notes/role), `match.gd`
+  (`hover_collect_radius_m`, `collect_cursor`/`set_collect_cursor`, `_collect_near_cursor` in the tick), HUD hint and How
+  to Play text, `test_towers.gd` (`_test_booth_price`, `_test_ticket_hover`), `test_ui.gd` (price/tooltip).
+- **Asset provenance:** owner-supplied Tripo exports `art_src/models/{snow_sorcerer,ski_resort_ticket_booth}/*.fbx` and
+  their `.fbm` maps (read only, unchanged); derived files rebuilt by the script (`p15d_prepare_<id>.log`); the Cannon,
+  Ranger and Wax GLBs re-prepare byte-identical.
+- **Findings:** Sorcerer faced −Y, 7 mm below ground, staff foot dragged the contact centre 4 cm (fixed by centring on
+  the boots); Booth: 1 of 4 base ticket spots hidden behind the 2.4 m building at the game camera (tickets now drawn on
+  top). Profile warnings: hand-written Dev 9 `.tres` lacked their own UID; "invalid UID" warnings only with a stale
+  headless UID cache (fixed by `--import`). Texture `compress/mode=2` still gives WebP → RGB8 (no VRAM compression):
+  ~86 MB video memory in the browser stress. First-use browser hitches are repeatable (cause not proven).
+- **Tests run:** after A: 10/10 PASS, transcripts identical except added test matches (`p15d_tests_visual.txt`);
+  `roster_review.gd -- dev10` (`p15d_review.txt`); desktop stress full mix. After B: 10/10 PASS, differences all from
+  the $750 price (`p15d_tests_gameplay.txt`). Editor process runs (MCP) 0 errors/warnings, incl. real-mouse hover,
+  pause, resume.
+- **Web result:** release export exit 0, 0 ERROR/WARNING; `--main-pack` only the P18 audio exit lines; Chrome 157 on the
+  exported build: Sorcerer placed, Booth bought for $750, hover credited once, click on the same spot nothing, paused
+  sweep nothing, pause + 1×/2×/4×, 0 console errors (`p15d_web_*`); stress full mix p95 4.40 ms, one 250.6 ms frame,
+  962 draws, 85.6 MB (`p15d_stress_web.txt`); stutter probe (`p15d_stutter_web.txt`).
+- **Screenshots/logs:** `p15d_gamecam_roster_{idle,firing,round}.png`, `p15d_gamecam_roster_idle_zoom4x.png`,
+  `p15d_closeup_roster_rest.png`, `p15d_<id>_{closeup_firing,closeup_rest,ghost_valid,ghost_invalid,selected_upgraded,
+  clay_turnaround,silhouette,closeup}.png`, `p15d_booth_tickets{,_crop,_crop_zoom4x}.png`, `p15d_thumb_320x180.png`,
+  `p15d_godot_*.png`, `p15d_web_*.png`, `p15d_stress_web_{full,roster}.png`, `p15d_b14_scorecard.md`.
+- **Finished and checked tasks:** P15-A09, A10 (batch A), A11, A12 (batch B); owner review pending. Partial notes:
+  P16-T07/T08. DEC-042/043 implemented. **Not marked:** P15-T09, G7.
+- **New decision (PROPOSED):** DEC-044 (Sorcerer compact size + staff pulse, Booth fit/stationary/income reaction,
+  tickets drawn on top).
+- **Known defects / open:** Sorcerer staff barely reads at the game camera (B-14 6/4/0); Booth back/side walls plain;
+  Tripo gloss; labels cover neighbours; textures not VRAM-compressed (~86 MB); repeatable first-use hitches; UI blocking
+  not exercised with a ticket under a panel (layout has none); hover radius 1.0 m is a default, not owner-tuned.
+- **Repo commit after:** this entry's commit.
+- **Next suggested task IDs:** owner review + DEC-044 → Camel Claus (P16-T01 base form, this pipeline) → selected
+  AccuRIG Rookie with minimal clips → map/snowball slice P16-T09/T11/T12; reassess order against the remaining time
+  (texture memory and first-use warm-up are cheap Web-risk fixes worth scheduling before release QA).

@@ -52,19 +52,19 @@ round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers
    19   17.2  141       0   141        0   480    148      14
    20    7.6   66       0    66        0   666    148      14
    21   21.2  230       0   230        0  1017    148      14
-   22   16.9  176       0   176        0  1315    148      14
-   23   14.9  154       0   154      200   542    148      15
-   24   14.7   43       3    40      200   506    145      17
-   25   27.2  210       0   210      200   641    145      19
-result WON at round 25, 145 lives, play time 12.1 min at 1x, 4.6 min at 4x (sim + 5s prepare per round)
+   22   15.4  176       0   176      200   565    148      16
+   23   13.2  154       0   154      200   642    148      18
+   24   14.7   43       3    40      200   406    145      21
+   25   23.2  210       0   210      200   541    145      23
+result WON at round 25, 145 lives, play time 12.0 min at 1x, 4.6 min at 4x (sim + 5s prepare per round)
 most lives leaked: round 24 (3); leaked by type { "powder": 2, "camo_mint": 3 }; immune hits by damage type { "explosion": 1 }
 type      count  invested  pops  pops/$100  tickets$   (tiers)
-Rookie       14      2800  1855       66.3         0   
+Rookie       18      3600  1882       52.3         0   
 Wax           1       225     0        0.0         0   
-Cannon        1       625   578       92.5         0   1-0-0
-Sorcerer      1       550    20        3.6         0   0-0-1
-Ranger        1       800   363       45.4         0   0-0-1
-Booth         1      1250     0        0.0       600   
+Cannon        1       625   574       91.8         0   1-0-0
+Sorcerer      1       550     7        1.3         0   0-0-1
+Ranger        1       800   353       44.1         0   0-0-1
+Booth         1       750     0        0.0       800   
 == Hero + mixed roster (tier-3 upgrades, Frenzy when ready)
 round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers
     1   19.3   20       0    20        0   371    150       2
@@ -88,21 +88,21 @@ round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers
    19   18.6  141       0   141        0   667    150      11
    20    8.7   66       0    66        0   403    150      11
    21   19.7  230       0   230        0   754    150      11
-   22   14.2  176       0   176        0  1052    150      11
-   23   13.6  154       0   154        0  1329    150      11
-   24   11.7   43       0    43      200   446    150      12
-   25   28.3  210       0   210      200   981    150      12
-result WON at round 25, 150 lives, play time 11.6 min at 1x, 4.5 min at 4x (sim + 5s prepare per round)
-most lives leaked: none; leaked by type {  }; immune hits by damage type { "explosion": 3, "energy": 4 }
+   22   14.2  176       0   176      200   502    150      12
+   23   13.6  154       0   154      200   529    150      12
+   24    9.4   43       0    43      200   446    150      12
+   25   25.4  210       0   210      200   881    150      12
+result WON at round 25, 150 lives, play time 11.5 min at 1x, 4.4 min at 4x (sim + 5s prepare per round)
+most lives leaked: none; leaked by type {  }; immune hits by damage type { "explosion": 3, "energy": 3 }
 hero level 6, 7120 XP; Frenzy used 7 times
 type      count  invested  pops  pops/$100  tickets$   (tiers)
-Rookie        6      1200   800       66.7         0   
-Hero          1       540   756      140.0         0   
-Wax           1       225     0        0.0         0   
-Cannon        1      1275   625       49.0         0   2-0-0
-Sorcerer      1       875   357       40.8         0   2-0-0
-Ranger        1       350   283       80.9         0   
-Booth         1      1250     0        0.0       400   
+Rookie        6      1200   778       64.8         0   
+Hero          1       540   757      140.2         0   
+Wax           1       325     0        0.0         0   0-1-0
+Cannon        1      1275   618       48.5         0   2-0-0
+Sorcerer      1       875   348       39.8         0   2-0-0
+Ranger        1      1250   320       25.6         0   0-0-2
+Booth         1       750     0        0.0       800   
 == Booth economy (report only)
 round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers
     1   19.3   20       0    20        0   171    150       3
@@ -112,34 +112,34 @@ round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers
     5   24.1   59       0    59        0   585    150       4
     6   26.5   57       0    57        0   748    150       4
     7   34.9   75       0    75        0   930    150       4
-    8   34.3   92       0    92        0  1130    150       4
-    9   38.1   90       2    88        0  1327    148       4
-   10   70.7  204      14   190      200   577    134       5
-   11   25.8   78       0    78      300   566    134       5
-   12   27.6   80       6    74      300  1052    128       5
-   13   40.5  169       0   169      400   734    128       7
-   14   30.5  145       0   145      400   793    128      10
-   15   25.9  151       0   151      400   859    128      13
-   16   18.8  152       0   152      400   727    128      17
-   17    6.5   48       0    48      400   692    128      20
-   18   30.3  240       0   240      400   850    128      23
-   19   17.0  141       0   141      400   710    128      27
-   20    6.6   66       0    66      400   696    128      30
-   21   19.5  230       0   230      400   847    128      33
-   22   10.3  176       0   176      400   745    128      37
-   23    9.0  154       0   154      400   822    128      40
-   24   14.7   43       3    40      400   586    125      44
-   25   22.8  210       0   210      400   921    125      46
-result WON at round 25, 125 lives, play time 12.5 min at 1x, 4.7 min at 4x (sim + 5s prepare per round)
-most lives leaked: round 10 (14); leaked by type { "powder": 10, "blue": 6, "mint": 6, "camo_mint": 3 }; immune hits by damage type {  }
+    8   34.3   92       0    92      200   580    150       5
+    9   38.1   90       2    88      300   577    148       5
+   10   70.7  204      14   190      300  1177    134       5
+   11   25.8   78       0    78      400   766    134       7
+   12   19.2   80       0    80      400   758    134      10
+   13   33.3  169       0   169      400   840    134      13
+   14   28.1  145       0   145      400   699    134      17
+   15   25.5  151       0   151      400   765    134      20
+   16   17.5  152       0   152      400   833    134      23
+   17    6.5   48       0    48      400   598    134      27
+   18   30.3  240       0   240      400   956    134      29
+   19   17.0  141       0   141      400   816    134      33
+   20    6.7   66       0    66      400   602    134      37
+   21   19.1  230       0   230      400   753    134      40
+   22    9.5  176       0   176      400   851    134      43
+   23    9.4  154       0   154      400   728    134      47
+   24   14.7   43       3    40      400   692    131      50
+   25   22.8  210       0   210      400   827    131      53
+result WON at round 25, 131 lives, play time 12.2 min at 1x, 4.6 min at 4x (sim + 5s prepare per round)
+most lives leaked: round 10 (14); leaked by type { "powder": 10, "blue": 6, "camo_mint": 3 }; immune hits by damage type {  }
 type      count  invested  pops  pops/$100  tickets$   (tiers)
-Rookie       45      9000  2796       31.1         0   
-Booth         1      2350     0        0.0      6000   2-0-0
+Rookie       52     10400  2802       26.9         0   
+Booth         1      1850     0        0.0      6800   2-0-0
 == Speed equivalence (DEC-029): [state, lives, ledger, event digest, end tick] vs 1x
-Hero + mixed at 2x: IDENTICAL (end tick 34165, 8378 events digest 3122044193)
-Hero + mixed at 4x: IDENTICAL (end tick 34165, 8378 events digest 3122044193)
+Hero + mixed at 2x: IDENTICAL (end tick 33857, 8371 events digest 3452254666)
+Hero + mixed at 4x: IDENTICAL (end tick 33857, 8371 events digest 3452254666)
 Rookie-only at 4x: IDENTICAL (end tick 33470, 9497 events digest 2534976382)
-Booth economy at 4x: IDENTICAL (end tick 37499, 9619 events digest 1635114113)
+Booth economy at 4x: IDENTICAL (end tick 36264, 9715 events digest 2452460119)
 == Solo Cannon
 round  sim_s  RBE  leaked  pop$  ticket$  cash  lives  towers
     1   25.1   20       0    20        0   396    150       1

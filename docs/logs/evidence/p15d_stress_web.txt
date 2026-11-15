@@ -1,0 +1,17 @@
+Browser: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36", viewport 1152x648 dpr 1, WebGL ANGLE (NVIDIA GeForce RTX 5080 Laptop GPU, D3D11), playwright-cli Chrome; build: build/web_stress (preset Web Stress, release template); Dev 10 tree (e154e5c + 13dadad)
+
+== full
+STRESS mix full on Web: { &"snowball_rookie": 2, &"avalanche_cannon": 2, &"biathlon_ranger": 2, &"slope_wax_sprayer": 2, &"snow_sorcerer": 2, &"ski_resort_ticket_booth": 2 }, snowballs >= 120 (immune Coral, moving), max live shots 4 
+STRESS viewport (1152.0, 648.0), vsync true, 900 frames: frame ms mean 4.44 p50 4.20 p95 4.40 p99 4.70 max 250.60; frames > 1.5x p50: 2 
+STRESS draw calls p50 962 max 1004; primitives p50 343238 max 361806; video mem 85.6 MB; adapter WebKit / WebKit WebGL; renderer gl_compatibility 
+STRESS DONE 
+"rAF 1000 frames (page-side, overlapping warm-up + measurement): p50 4.20 p95 4.30 p99 4.30 max 12.50 ms"
+Total messages: 9 (Errors: 0, Warnings: 0)
+
+== roster
+STRESS mix roster on Web: { &"snowball_rookie": 3, &"avalanche_cannon": 3, &"biathlon_ranger": 3, &"slope_wax_sprayer": 3 }, snowballs >= 120 (immune Coral, moving), max live shots 6 
+STRESS viewport (1152.0, 648.0), vsync true, 900 frames: frame ms mean 4.19 p50 4.20 p95 4.40 p99 6.60 max 14.50; frames > 1.5x p50: 10 
+STRESS draw calls p50 969 max 1048; primitives p50 388046 max 403090; video mem 86.2 MB; adapter WebKit / WebKit WebGL; renderer gl_compatibility 
+STRESS DONE 
+"rAF 1000 frames (page-side, overlapping warm-up + measurement): p50 4.20 p95 4.30 p99 4.30 max 8.40 ms"
+Total messages: 9 (Errors: 0, Warnings: 0)

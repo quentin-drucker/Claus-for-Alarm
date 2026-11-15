@@ -102,10 +102,12 @@ Dev 9 roster review (Rookie, Cannon, Ranger, Wax; writes `p15c_*`: roster row at
 labels, ghost/select/upgrade/sell, track-edge + neighbour clearance, muzzle alignment, pause, 1x/2x/4x, rapid-fire rest):
 
 ```bash
-"$GODOT" --path . -s res://tests/tools/roster_review.gd
+"$GODOT" --path . -s res://tests/tools/roster_review.gd            # Dev 9: Ranger + Wax -> p15c_*
+"$GODOT" --path . -s res://tests/tools/roster_review.gd -- dev10   # Dev 10: Sorcerer + Booth (+ ticket visibility) -> p15d_*
 ```
 
-Stress scene (desktop and browser; prints `STRESS` lines; mixes `cannon` = 8 Cannons + 4 Rookies, `roster` = 3 each):
+Stress scene (desktop and browser; prints `STRESS` lines; mixes `cannon` = 8 Cannons + 4 Rookies, `roster` = 3 each of
+Rookie/Cannon/Ranger/Wax, `full` = 2 each of all six towers; the browser launcher loop below also takes `full`):
 
 ```bash
 "$GODOT" --path . --resolution 1152x648 res://tests/tools/stress.tscn -- cannon       # vsync off on desktop
@@ -113,6 +115,6 @@ Stress scene (desktop and browser; prints `STRESS` lines; mixes `cannon` = 8 Can
 # Browser: the "Web Stress" preset (custom feature `stress` -> application/run/main_scene.stress; release web
 # templates refuse a scene path on the command line). The release "Web" preset never has that feature.
 "$GODOT" --headless --path . --export-release "Web Stress" build/web_stress/index.html
-for mix in cannon roster; do sed "s|\"args\":\[\]|\"args\":[\"--\",\"$mix\"]|" build/web_stress/index.html > build/web_stress/stress_$mix.html; done
+for mix in cannon roster full; do sed "s|\"args\":\[\]|\"args\":[\"--\",\"$mix\"]|" build/web_stress/index.html > build/web_stress/stress_$mix.html; done
 python -m http.server 8144 -d build/web_stress    # open /stress_cannon.html, read the STRESS lines in the console
 ```

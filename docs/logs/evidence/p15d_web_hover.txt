@@ -1,0 +1,11 @@
+-- booth bought (round 4 done): income_collected 0, pickup_spawned 0, pickup_expired 0
+-- 6.5 s into round 5, cursor away: income_collected 0, pickup_spawned 1, pickup_expired 0
+-- after hovering the east ticket (no click): income_collected 1, pickup_spawned 2, pickup_expired 0
+-- after clicking the same spot: income_collected 1, pickup_spawned 3, pickup_expired 0
+-- paused, cursor swept over the other ticket spots: income_collected 1, pickup_spawned 3, pickup_expired 0
+-- resumed with the cursor on a ticket spot: income_collected 1, pickup_spawned 3, pickup_expired 0
+pickup_spawned tick=9882 src=141 tgt=0 mag=50.0 tags=[] 
+pickup_spawned tick=10130 src=141 tgt=0 mag=50.0 tags=[] 
+income_collected tick=10159 src=141 tgt=0 mag=50.0 tags=[] 
+pickup_spawned tick=10377 src=141 tgt=0 mag=50.0 tags=[] 
+Total messages: 198 (Errors: 0, Warnings: 0)

@@ -1,0 +1,19 @@
+Dev 10 first-shot stutter probe (exported release build + --log-events copy, Chrome 157 headless shell via
+playwright-cli, ANGLE D3D11, RTX 5080 laptop, 1152x648, display-paced 240 Hz). Script: per run, record every
+requestAnimationFrame timestamp from page load; Play, place one Rookie by mouse, Space (round 1), Space 28.6 s later
+(round 2); list frames > 34 ms relative to the round-1 Space press; event log gives sim ticks.
+Run 1 = new browser profile (no shader/disk cache); runs 2-3 = reloads in the same browser.
+
+run      | first placement      | round-1 start           | round-1 first shot          | round-2 first shot | worst
+fresh1   | 4 x ~235 ms (-2.9 s) | 1866.5 ms at +1.90 s    | 174.9 ms at +6.97 s (*)     | none > 34 ms       | 1866.5
+reload2  | 4 x ~235 ms (-2.9 s) | 245.9 ms at +0.28 s     | 104.2 ms at +5.28 s         | none > 34 ms       | 245.9
+reload3  | 4 x ~235 ms (-2.8 s) | 245.8 ms at +0.28 s     | 100.1 ms at +5.28 s         | none > 34 ms       | 245.8
+First attack_fired = round_started + 305 ticks (5.08 s sim) in every run; (*) fresh1's 1.87 s stall dropped sim
+steps (MAX_STEPS_PER_FRAME), so its first shot came ~1.7 s later in wall time.
+
+Conclusion: REPEATABLE first-use hitches (every load; much larger on a fresh profile), not a one-off. They occur the
+first time a tower is placed, the first round starts (first snowballs) and the first shot is fired; the same events
+in round 2 cause none. The harness itself does not stall on key presses (round-2 Space press: no long frame).
+Cause NOT proven: consistent with first-draw shader/pipeline compilation (ANGLE) and/or first audio stream use; not
+separated in this probe. Possible mitigation (not done, out of scope): warm materials/SFX once at match load.
+0 console errors in all runs.
