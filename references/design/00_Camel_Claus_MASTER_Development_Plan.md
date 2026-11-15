@@ -1266,6 +1266,17 @@ Requested after reviewing Dev 12 screenshots. These items are authorized work, *
 
 **Release priority:** protect at least the final 90 minutes before the recorded 10:00 AM Eastern deadline for final QA/hosting/submission. Preserve the Dev 12 fallback ZIP. Deferrals (Rookie replacement, extra towers, new rigs, tiers 4-5 and pixelation) stay outside the required checklist. Do not check visual acceptance or public-host/submission items from automated local tests alone.
 
+### 12.1.8 Temporary browser loading intro (owner request, 2026-11-15)
+
+- [x] Located the owner's earlier Knit + Tin intro in sibling Camel Claus The North Pole; copied knit/Fair Isle/hat/mascot/font assets with source hashes, keeping originals intact.
+- [x] Adapted title to Claus for Alarm and moved the visual sequence into the Web loading shell: knitted logo reveal, needle motion, subtitle plate, hat drop and rolling-yarn download scarf.
+- [x] Actual byte-progress display; engine/menu preparation status; overlay fades only after the title scene's first rendered frame. No added mandatory wait after loading; native/editor entry unchanged.
+- [x] Web preset integration and reproducible self-contained HTML generator; included font licenses and explicit pre-hackathon asset provenance in CREDITS/source README.
+- [x] Local exported Web check at 1280x720: loader -> village menu -> Play; 0 normal console errors. Simulated download failure presents retry at 800x600; reduced-motion animation disabled. Menu/UI tests pass; MCP process run exits0 with existing shutdown cleanup diagnostics.
+- [ ] Include this updated shell in the final hosted export/ZIP and verify the published transition. Old archives do not update automatically.
+
+Evidence: docs/logs/evidence/startup_*. Preview build: build/startup_preview, local server8162. Sources: art_src/ui/startup; generator art_src/tools/generate_startup_shell.py; template web/startup_shell.template.html. This is temporary owner-requested reuse from a pre-event test, not a claim of new jam artwork. First-use rendering stalls are not fixed by this presentation change.
+
 ### 12.2 Session log template (append entries; do not rewrite history)
 
 ```md

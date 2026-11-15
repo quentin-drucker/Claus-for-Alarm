@@ -1,0 +1,51 @@
+{
+  "origin_project": "Camel Claus The North Pole",
+  "origin_note": "Owner-supplied pre-hackathon test project; reused at owner request on 2026-11-15. Not newly created for this game.",
+  "files": [
+    {
+      "source": "assets/ui/tin/knit_red.png",
+      "copy": "knit_red.png",
+      "sha256": "4dd6412c7c5854dbd5049370549804c58ee61672d77be305c6560c2076d602c2"
+    },
+    {
+      "source": "assets/ui/tin/fair_isle_big.png",
+      "copy": "fair_isle_big.png",
+      "sha256": "94f29d12c529ec82d567d9dafc7fb237978931ed02836199e6fb6d19221d89c7"
+    },
+    {
+      "source": "assets/ui/tin/knit_overlay.png",
+      "copy": "knit_overlay.png",
+      "sha256": "5172e616de990f7e67aca135c1f633bd2b1e8a35c8caa1b7155799b96f76f651"
+    },
+    {
+      "source": "assets/ui/hat_santa.png",
+      "copy": "hat_santa.png",
+      "sha256": "794ee0d73137405516de381f109cb6b1133f74fe33d95b6d3d3680ecfbb9f0f3"
+    },
+    {
+      "source": "assets/ui/claus_3q.png",
+      "copy": "claus_3q.png",
+      "sha256": "17db28a70e84f80f6dcbb76a2056630c5ca77b126ff34f773016faa6d44031bc"
+    },
+    {
+      "source": "assets/fonts/BowlbyOne-Regular.ttf",
+      "copy": "BowlbyOne-Regular.ttf",
+      "sha256": "c46a806d7b51fd4987e5f0be449fe40a944cb407e43290ce1cdeed029a8cdc1d"
+    },
+    {
+      "source": "assets/fonts/OFL_bowlbyone.txt",
+      "copy": "OFL_bowlbyone.txt",
+      "sha256": "f3ee3eb20a9d565bee2bbc0d616de382a113327d7506565b2f3d3bee5f489375"
+    },
+    {
+      "source": "art_src/web/NewRocker-latin.woff2",
+      "copy": "NewRocker-latin.woff2",
+      "sha256": "69700006fdbc25867540159d57402b5778561e0e1c9e619d35c81dfb668e6a2e"
+    },
+    {
+      "source": "assets/fonts/OFL_newrocker.txt",
+      "copy": "OFL_newrocker.txt",
+      "sha256": "942d51cf079299e83e9dd7a9a37eb92260524e8d1d576b2f0b3f7ca207c53f8e"
+    }
+  ]
+}

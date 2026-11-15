@@ -34,6 +34,15 @@ func _ready() -> void:
 	_show(_menu)
 	resized.connect(_fit_menu)
 	_fit_menu()
+	_finish_web_loading.call_deferred()
+
+
+func _finish_web_loading() -> void:
+	if not OS.has_feature("web"):
+		return
+	# Keep the HTML sweater loader over download, engine startup and first village draw.
+	await RenderingServer.frame_post_draw
+	JavaScriptBridge.eval("if (typeof window.clausMenuReady === 'function') window.clausMenuReady();")
 
 
 func _fit_menu() -> void:
