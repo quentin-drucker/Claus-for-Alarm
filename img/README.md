@@ -4,7 +4,7 @@ Images are copies of existing project art/captures, not new generated depictions
 
 | Website file | Original project source |
 | --- | --- |
-| `menu.png` | `docs/logs/evidence/fonts_menu_web.png` |
+| `menu.png` | `docs/itch/cover_1260x1000.png` |
 | `upgrades.png` | `docs/logs/evidence/fonts_upgrades_web.png` |
 | `gameplay.png` | `docs/logs/evidence/dev13_web_wave.png` (between rounds) |
 | `rookie-reference.png` | `references/characters/christmas_elf_v1/01_body_front_side_back.png` |
