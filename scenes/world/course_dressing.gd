@@ -6,7 +6,6 @@ extends Node3D
 
 const SNOW: Color = Color("eef6fa")
 const BERM: Color = Color("fbfdff")
-const GROOVE: Color = Color("9aaec0")
 const SNOW_FAR: Color = Color("d9e7ef")
 const PINE: Color = Color("1f5a4a")
 const PINE_DARK: Color = Color("173f36")
@@ -16,10 +15,15 @@ const RED: Color = Color("c73e49")
 const GOLD: Color = Color("f9c96d")
 const ICE: Color = Color("a9d6e8")
 const SEED: int = 20261115
+const SNOW_SHADER: Shader = preload("res://assets/materials/snow.gdshader")
+const TRACK_SHADER: Shader = preload("res://assets/materials/track.gdshader")
+const ICE_SHADER: Shader = preload("res://assets/materials/ice.gdshader")
+const DETAIL: Texture2D = preload("res://assets/textures/terrain/snow_detail.png")
 
 var _course: Node3D
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()  # local, fixed seed: never the global RNG
 var _materials: Dictionary[Color, StandardMaterial3D] = {}
+var _snow: ShaderMaterial
 
 
 func _ready() -> void:
@@ -29,12 +33,24 @@ func _ready() -> void:
 	for marker: Node in _course.get_node("Waypoints").get_children():
 		pts.append((marker as Node3D).position)
 	var hw: float = _course.track_half_width
-	(_course.get_node("Backdrop") as MeshInstance3D).material_override = _mat(SNOW_FAR, 1.0)
-	(_course.get_node("Ground") as MeshInstance3D).material_override = _mat(SNOW, 1.0)
-	# Groomed track: raised snow berms on both edges, corduroy grooves down the lane.
+	_snow = ShaderMaterial.new()
+	_snow.shader = SNOW_SHADER
+	_snow.set_shader_parameter(&"detail", DETAIL)
+	(_course.get_node("Backdrop") as MeshInstance3D).material_override = _snow
+	(_course.get_node("Ground") as MeshInstance3D).material_override = _snow
+	# Groomed trail (Dev 13): one ribbon whose outer corners are arcs of radius hw about each waypoint and whose inner
+	# corners are sharp: exactly the capsule-union track that Placement blocks, and the snowballs' centre line stays
+	# hw inside it everywhere. Ends run past the map edge. Irregular snow banks follow both edges.
+	var route: PackedVector3Array = pts.duplicate()
+	route[0] += (pts[0] - pts[1]).normalized() * 3.0
+	route[-1] += (pts[-1] - pts[-2]).normalized() * 3.0
+	var track: ShaderMaterial = ShaderMaterial.new()
+	track.shader = TRACK_SHADER
+	track.set_shader_parameter(&"detail", DETAIL)
 	for side: float in [-1.0, 1.0]:
-		_strip(_offset_line(pts, side * (hw + 0.16)), 0.32, 0.12, BERM)
-	_strip(_offset_line(pts, 0.0), 0.05, 0.05, GROOVE)
+		_ribbon(route, side, PackedFloat32Array([0.0, hw]), PackedFloat32Array([0.035, 0.035]), track, 0.0)
+		_ribbon(route, side, PackedFloat32Array([hw - 0.02, hw + 0.12, hw + 0.32, hw + 0.55]),
+				PackedFloat32Array([0.03, 0.16, 0.13, 0.0]), _snow, 0.07)
 	_gate(pts[0].lerp(pts[1], 1.0 / pts[0].distance_to(pts[1])), pts[1] - pts[0], hw, "START")
 	_gate(pts[-1].lerp(pts[-2], 1.0 / pts[-1].distance_to(pts[-2])), pts[-1] - pts[-2], hw, "FINISH")
 	_flags(pts, hw)
@@ -43,6 +59,76 @@ func _ready() -> void:
 	_fence(bounds)
 	_pines(bounds, pts)
 	_skis(Vector3(bounds.position.x + 0.8, 0.0, pts[0].z + hw + 1.2))
+
+
+## Ribbon on one `side` of the route (+1 left of travel) through cross-section offsets `d` (m from the centre line)
+## at heights `h`; heights above 5 cm get +-`jitter` noise along the route (banks). Straights are sampled every
+## 0.5 m; an outer corner sweeps an arc about the waypoint, an inner corner meets at the mitre. UV: x across
+## (0 centre -> 1 outer edge, for the trail shader), y = metres along the route.
+func _ribbon(pts: PackedVector3Array, side: float, d: PackedFloat32Array, h: PackedFloat32Array, material: Material,
+		jitter: float) -> void:
+	var sections: Array = []  # [base points (one per offset), v]
+	var v: float = 0.0
+	for i: int in pts.size() - 1:
+		var a: Vector3 = pts[i]
+		var b: Vector3 = pts[i + 1]
+		var n: Vector3 = _normal(a, b) * side
+		var length: float = a.distance_to(b)
+		var steps: int = maxi(1, ceili(length / 0.5))
+		# On the inner side of a corner the mitre lies d[-1] back along the segment: stop samples short of it.
+		var keep_from: float = d[-1] + 0.05 if i > 0 and _turn(pts[i - 1], a, b) * side > 0.0 else 0.0
+		var keep_to: float = length - d[-1] - 0.05 if i < pts.size() - 2 and _turn(a, b, pts[i + 2]) * side > 0.0 else length
+		for k: int in steps + 1:
+			var at: float = length * k / steps
+			if (k == 0 and i > 0) or (k == steps and i < pts.size() - 2) or at < keep_from or at > keep_to:
+				continue  # corners are added below
+			sections.append([_cross(a.lerp(b, float(k) / steps), n, d), v + at])
+		v += length
+		if i < pts.size() - 2:
+			var n2: Vector3 = _normal(b, pts[i + 2]) * side
+			if _turn(a, b, pts[i + 2]) * side > 0.0:
+				sections.append([_cross(b, n + n2, d), v])  # inner side: offsets meet at the mitre (exact at 90 deg)
+			else:
+				for k: int in 9:
+					sections.append([_cross(b, n.slerp(n2, k / 8.0).normalized(), d), v])
+	var st: SurfaceTool = SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for s: int in sections.size():
+		var base: PackedVector3Array = sections[s][0]
+		var along: float = sections[s][1]
+		for k: int in d.size():
+			var y: float = h[k]
+			if jitter > 0.0 and h[k] > 0.05:
+				y += jitter * sin(along * 1.7 + side * 2.0 + k) * sin(along * 0.63 + k * 1.3)
+			st.set_uv(Vector2(float(k) / (d.size() - 1), along))
+			st.add_vertex(base[k] + Vector3.UP * y)
+	var row: int = d.size()
+	for s: int in sections.size() - 1:
+		for k: int in row - 1:
+			var i0: int = s * row + k
+			var quad: Array[int] = [i0, i0 + row, i0 + 1, i0 + 1, i0 + row, i0 + row + 1]
+			if side < 0.0:
+				quad = [i0, i0 + 1, i0 + row, i0 + 1, i0 + row + 1, i0 + row]
+			for idx: int in quad:
+				st.add_index(idx)
+	st.generate_normals()
+	var node: MeshInstance3D = MeshInstance3D.new()
+	node.mesh = st.commit()
+	node.material_override = material
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(node)
+
+
+func _cross(p: Vector3, dir: Vector3, d: PackedFloat32Array) -> PackedVector3Array:
+	var out: PackedVector3Array = PackedVector3Array()
+	for x: float in d:
+		out.append(p + dir * x)
+	return out
+
+
+## > 0 when the route turns left (toward +normal) at b.
+func _turn(a: Vector3, b: Vector3, c: Vector3) -> float:
+	return _normal(a, b).dot(c - b)
 
 
 func _mat(color: Color, roughness: float = 0.85) -> StandardMaterial3D:
@@ -67,33 +153,9 @@ func _box(size: Vector3, pos: Vector3, yaw: float, color: Color) -> MeshInstance
 	return node
 
 
-## Centre line offset sideways by `d` (left of travel = +), mitred at the right-angle corners; ends run to the map edge.
-func _offset_line(pts: PackedVector3Array, d: float) -> PackedVector3Array:
-	var out: PackedVector3Array = PackedVector3Array()
-	for i: int in pts.size():
-		var n: Vector3 = Vector3.ZERO
-		if i > 0:
-			n += _normal(pts[i - 1], pts[i])
-		if i < pts.size() - 1:
-			n += _normal(pts[i], pts[i + 1])
-		if i > 0 and i < pts.size() - 1:
-			out.append(pts[i] + n * d)  # 90-degree corners: n1 + n2 is the exact mitre offset
-		else:
-			out.append(pts[i] + n.normalized() * d)
-	return out
-
-
 func _normal(a: Vector3, b: Vector3) -> Vector3:
 	var t: Vector3 = (b - a).normalized()
 	return Vector3(-t.z, 0.0, t.x)
-
-
-func _strip(line: PackedVector3Array, width: float, height: float, color: Color) -> void:
-	for i: int in line.size() - 1:
-		var a: Vector3 = line[i]
-		var b: Vector3 = line[i + 1]
-		_box(Vector3(width, height, a.distance_to(b) + width), (a + b) / 2.0 + Vector3.UP * height / 2.0,
-				atan2(b.x - a.x, b.z - a.z), color)
 
 
 ## Arch over the track: two red posts, a white banner with a gold trim, centred at `at`, facing along `dir`.
@@ -127,20 +189,62 @@ func _flags(pts: PackedVector3Array, hw: float) -> void:
 	_multi(flag, xforms, Vector3(0.24, 1.0, 0.0))
 
 
-## The Pond blocker becomes a frozen rink: ice top, white boards with a red stripe, two curling stones.
+## The Pond blocker becomes an organic frozen rink (Dev 13). The logical blocker box stays (placement reads its
+## BoxMesh) but is hidden; the ice shoreline covers the whole blocked rectangle (never inside its corners) and a snowy
+## rim rings it, so no buildable-looking snow rejects a placement. Two curling stones and a painted ring.
 func _rink(pond: MeshInstance3D) -> void:
-	var ice: StandardMaterial3D = _mat(ICE, 0.15)
-	pond.material_override = ice
-	var size: Vector3 = (pond.mesh as BoxMesh).size
+	pond.visible = false
+	var half: Vector3 = (pond.mesh as BoxMesh).size / 2.0
 	var c: Vector3 = Vector3(pond.position.x, 0.0, pond.position.z)
-	for k: int in 4:
-		var horizontal: bool = k < 2
-		var s: float = -1.0 if k % 2 == 0 else 1.0
-		var length: float = (size.x if horizontal else size.z) + 0.2
-		var offset: Vector3 = Vector3(0, 0, s * (size.z / 2.0 + 0.05)) if horizontal else Vector3(s * (size.x / 2.0 + 0.05), 0, 0)
-		var yaw: float = PI / 2.0 if horizontal else 0.0
-		_box(Vector3(0.1, 0.3, length), c + offset + Vector3.UP * 0.15, yaw, BERM)
-		_box(Vector3(0.11, 0.06, length), c + offset + Vector3.UP * 0.24, yaw, RED)
+	var shore: PackedVector2Array = PackedVector2Array()
+	for k: int in 48:
+		var a: float = TAU * k / 48.0
+		var dir: Vector2 = Vector2(cos(a), sin(a))
+		# superellipse (power 4) whose 45-degree points pass 0.12 m outside the corners; the wobble only grows it
+		var se: float = pow(pow(absf(dir.x) / half.x, 4.0) + pow(absf(dir.y) / half.z, 4.0), -0.25)
+		shore.append(dir * se * (1.0 / pow(0.5, 0.25) * 1.0 + 0.12 / half.x) * (1.0 + 0.04 * (1.0 + sin(a * 3.0 + 1.0) * sin(a * 5.0))))
+	var st: SurfaceTool = SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	st.set_normal(Vector3.UP)
+	for k: int in shore.size():
+		var p0: Vector2 = shore[k]
+		var p1: Vector2 = shore[(k + 1) % shore.size()]
+		for p: Vector2 in [Vector2.ZERO, p0, p1]:
+			st.set_uv(p)
+			st.add_vertex(c + Vector3(p.x, 0.045, p.y))
+	var ice: MeshInstance3D = MeshInstance3D.new()
+	ice.mesh = st.commit()
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = ICE_SHADER
+	material.set_shader_parameter(&"detail", DETAIL)
+	material.set_shader_parameter(&"shore_radius", shore[0].length())
+	ice.material_override = material
+	ice.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(ice)
+	# Snowy rim: a low bank around the shoreline (closed ribbon).
+	var rim: SurfaceTool = SurfaceTool.new()
+	rim.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var profile: Array = [[-0.05, 0.05], [0.15, 0.17], [0.38, 0.12], [0.62, 0.0]]
+	for k: int in shore.size() + 1:
+		var p: Vector2 = shore[k % shore.size()]
+		var out: Vector2 = p.normalized()
+		for q: Array in profile:
+			var at: Vector2 = p + out * q[0]
+			var y: float = q[1] * (1.0 + 0.3 * sin(k * 1.9)) if q[1] > 0.06 else q[1]
+			rim.set_uv(at)
+			rim.add_vertex(c + Vector3(at.x, y, at.y))
+	var n: int = profile.size()
+	for k: int in shore.size():
+		for j: int in n - 1:
+			var i0: int = k * n + j
+			for idx: int in [i0, i0 + 1, i0 + n, i0 + 1, i0 + n + 1, i0 + n]:
+				rim.add_index(idx)
+	rim.generate_normals()
+	var rim_node: MeshInstance3D = MeshInstance3D.new()
+	rim_node.mesh = rim.commit()
+	rim_node.material_override = _snow
+	rim_node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(rim_node)
 	for stone: Array in [[Vector3(-0.6, 0, 0.4), RED], [Vector3(0.5, 0, -0.5), GOLD]]:
 		var body: CylinderMesh = CylinderMesh.new()
 		body.top_radius = 0.16

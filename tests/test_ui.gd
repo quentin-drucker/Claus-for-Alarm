@@ -69,7 +69,7 @@ func _test_hud() -> void:
 	await process_frame  # the HUD builds its buttons after the match is ready
 	var hud: CanvasLayer = m.get_node("HUD")
 	var booth: Button = hud._shop_buttons[5]
-	_check(booth.disabled and "need $100" in booth.text, "Booth shop button says how much is missing (%s)" % booth.text)
+	_check(booth.disabled and "Need $100" in booth.tooltip_text and hud._shop_price[5].text == "$750", "Booth card says how much is missing (%s)" % booth.tooltip_text)
 	_check("$750" in booth.tooltip_text and "Income" in booth.tooltip_text and "cursor" in booth.tooltip_text,
 			"Booth tooltip: cost + role, including hover collection")
 	_check("Range 32" in hud._shop_buttons[0].tooltip_text, "Rookie tooltip shows its stats")
@@ -90,7 +90,7 @@ func _test_hud() -> void:
 	_check("locked: only one path past tier 2" in hud._upgrade_buttons[1].text, "second path tier-3 lock reason: %s" % hud._upgrade_buttons[1].text)
 	_check(hud._upgrade_buttons[0].tooltip_text != "", "upgrade tooltip describes the effect")
 	var hero: Node3D = m.try_place(content.hero, Vector2(0.5, 0))
-	_check(hero != null and hud._shop_buttons[6].disabled and "on the course" in hud._shop_buttons[6].text, "hero shop button: on the course")
+	_check(hero != null and hud._shop_buttons[6].disabled and "On the course" in hud._shop_price[6].text, "hero shop card: on the course")
 	_check(hud._hero_panel.visible and "unlocks at level 3" in hud._frenzy.text and hud._frenzy.disabled, "hero panel: Frenzy locked reason")
 	m.set_hero_level(3)
 	hud._refresh_hero()

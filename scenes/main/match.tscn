@@ -2,16 +2,16 @@
 
 [ext_resource type="Script" uid="uid://dsndxn8m6i48x" path="res://scenes/main/match.gd" id="1_mjjqx"]
 [ext_resource type="PackedScene" uid="uid://yw5i67cssy66" path="res://scenes/world/ski_circuit.tscn" id="2_vjtkt"]
-[ext_resource type="Script" path="res://scenes/main/gameplay_camera.gd" id="3_22vbd"]
+[ext_resource type="Script" uid="uid://c885oprk6jdjo" path="res://scenes/main/gameplay_camera.gd" id="3_22vbd"]
 [ext_resource type="PackedScene" uid="uid://bhxd54cvah866" path="res://scenes/towers/tower.tscn" id="3_t1281"]
 [ext_resource type="PackedScene" uid="uid://d0v7443nwc0e5" path="res://scenes/ui/match_hud.tscn" id="4_vjtkt"]
 
 [sub_resource type="Environment" id="Environment_22vbd"]
 background_mode = 1
-background_color = Color(0.6862745, 0.78039217, 0.8352941, 1)
+background_color = Color(0.62, 0.72, 0.8, 1)
 ambient_light_source = 2
-ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.35
+ambient_light_color = Color(0.62, 0.71, 0.85, 1)
+ambient_light_energy = 0.62
 
 [node name="Match" type="Node3D" unique_id=1964082969]
 script = ExtResource("1_mjjqx")
@@ -30,8 +30,10 @@ script = ExtResource("3_22vbd")
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=1912981365]
 transform = Transform3D(0.81915206, -0.46984634, 0.32898995, 0, 0.57357645, 0.81915206, -0.57357645, -0.6710101, 0.46984634, 0, 0, 0)
-light_energy = 0.6
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 0.32
 shadow_enabled = true
+shadow_opacity = 0.75
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1988552080]
 environment = SubResource("Environment_22vbd")

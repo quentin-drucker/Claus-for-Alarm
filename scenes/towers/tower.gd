@@ -26,6 +26,8 @@ var entity_id: int = 0
 ## Cash invested (base + upgrades), for the sell value.
 var spent: int = 0
 var tiers: Vector3i = Vector3i.ZERO
+## Layers this placed tower has broken (Dev 13 HUD stat; counted by the match from layer_broken, never read by combat).
+var pops: int = 0
 ## Working stats: copies of `def` values with owned upgrades applied (rebuild_stats). The simulation reads these.
 var range_units: float = 0.0
 var attacks: Array[AttackDefinition] = []

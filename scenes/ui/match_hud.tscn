@@ -5,16 +5,6 @@
 [node name="MatchHUD" type="CanvasLayer" unique_id=2085087208]
 script = ExtResource("1_khiuf")
 
-[node name="StatsPanel" type="PanelContainer" parent="." unique_id=222281968]
-offset_left = 12.0
-offset_top = 12.0
-
-[node name="Stats" type="Label" parent="StatsPanel" unique_id=86776508]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Lives"
-
 [node name="DebugPanel" type="PanelContainer" parent="." unique_id=940159762]
 unique_name_in_owner = true
 offset_left = 12.0
@@ -24,101 +14,6 @@ offset_top = 60.0
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
-
-[node name="ShopPanel" type="PanelContainer" parent="." unique_id=381246664]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -250.0
-offset_top = 12.0
-offset_right = -12.0
-grow_horizontal = 0
-
-[node name="Shop" type="VBoxContainer" parent="ShopPanel" unique_id=195612867]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="ShopTitle" type="Label" parent="ShopPanel/Shop" unique_id=575142879]
-layout_mode = 2
-text = "Defenders"
-horizontal_alignment = 1
-
-[node name="InfoPanel" type="PanelContainer" parent="." unique_id=1707571845]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -262.0
-offset_top = 300.0
-offset_right = -12.0
-grow_horizontal = 0
-
-[node name="InfoBox" type="VBoxContainer" parent="InfoPanel" unique_id=1391417346]
-layout_mode = 2
-
-[node name="InfoText" type="Label" parent="InfoPanel/InfoBox" unique_id=115256275]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-
-[node name="TargetButton" type="Button" parent="InfoPanel/InfoBox" unique_id=1927838887]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-text = "Target: First (T)"
-
-[node name="SellButton" type="Button" parent="InfoPanel/InfoBox" unique_id=1079952859]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-text = "Sell"
-
-[node name="Controls" type="HBoxContainer" parent="." unique_id=543005299]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -430.0
-offset_top = -56.0
-offset_right = -12.0
-offset_bottom = -12.0
-grow_horizontal = 0
-grow_vertical = 0
-alignment = 2
-
-[node name="StartButton" type="Button" parent="Controls" unique_id=1202231211]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-text = "Start round (Space)"
-
-[node name="PauseButton" type="Button" parent="Controls" unique_id=816095986]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-text = "Pause (P)"
-
-[node name="SpeedButton" type="Button" parent="Controls" unique_id=534253697]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-text = "Speed 1x (F)"
-
-[node name="Hint" type="Label" parent="." unique_id=15312907]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = -40.0
-offset_right = 700.0
-offset_bottom = -14.0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.90588236, 0.95686275, 0.972549, 1)
-theme_override_colors/font_outline_color = Color(0.09019608, 0.23529412, 0.30588236, 1)
-theme_override_constants/outline_size = 6
-text = "1-7 buy · click place/select · hover tickets · T target · Q Frenzy · E Focus · Esc cancel · F3 debug"
 
 [node name="Overlay" type="ColorRect" parent="." unique_id=1225822617]
 unique_name_in_owner = true

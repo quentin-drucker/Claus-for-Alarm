@@ -14,21 +14,7 @@ var _cumulative: PackedFloat32Array = []
 
 
 func _ready() -> void:
-	_build_cumulative()
-	# Track surface built from the waypoints so the visual can never drift from the simulated path.
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_color = track_color
-	for i: int in waypoints.size() - 1:
-		var a: Vector3 = waypoints[i]
-		var b: Vector3 = waypoints[i + 1]
-		var box: BoxMesh = BoxMesh.new()
-		box.size = Vector3(track_half_width * 2.0, 0.04, a.distance_to(b) + track_half_width * 2.0)
-		box.material = material
-		var segment: MeshInstance3D = MeshInstance3D.new()
-		segment.mesh = box
-		segment.position = (a + b) / 2.0 + Vector3(0, 0.02, 0)
-		segment.rotation.y = atan2(b.x - a.x, b.z - a.z)
-		add_child(segment)
+	_build_cumulative()  # the visible trail is built from the same waypoints by Dressing (course_dressing.gd)
 
 
 func length() -> float:

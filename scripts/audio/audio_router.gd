@@ -257,7 +257,8 @@ func _variant_paths(slot: StringName) -> Array[String]:
 
 ## Every Button anywhere gets the UI click and a quiet hover tick; no scene needs to know about audio.
 func _on_node_added(node: Node) -> void:
-	if node is BaseButton:
+	if node is BaseButton and not node.has_meta(&"audio_wired"):  # a reparented button enters the tree again
+		node.set_meta(&"audio_wired", true)
 		node.pressed.connect(play.bind(&"click"))
 		node.mouse_entered.connect(func() -> void:
 			if not node.disabled:

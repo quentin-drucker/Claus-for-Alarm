@@ -139,7 +139,20 @@ func _ready() -> void:
 	pop_effects = POP_EFFECTS.new()
 	pop_effects.name = "PopEffects"
 	add_child(pop_effects)
+	Events.emitted.connect(_count_pop)
 	_set_state(State.PREPARE)
+
+
+## Pops (Dev 13, observational): one per `layer_broken` attributed to a placed tower/hero by source_id, which every
+## break path carries (direct hits, explosions, sub-attacks, wax damage over time, split children). Immune hits and
+## leaks send no layer_broken. Magnitude is cash, so it is never used. A new tower starts at 0; restart reloads.
+func _count_pop(event: GameEvent) -> void:
+	if event.type != &"layer_broken":
+		return
+	for tower: Node3D in towers_root.get_children():
+		if tower.entity_id == event.source_id:
+			tower.pops += 1
+			return
 
 
 func _process(_delta: float) -> void:
@@ -765,6 +778,7 @@ func begin_placing(def: TowerDefinition) -> void:
 	select(null)
 	placing = def
 	ghost.setup(def, 0)
+	changed.emit()  # the HUD marks the card being placed
 
 
 func cancel() -> void:
