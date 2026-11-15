@@ -1,0 +1,3 @@
+stress GREYBOX cannons: 12 towers (8 Cannons + 4 Rookies), snowballs >= 120 (immune Coral, moving), max live shots 4,
+  900 frames vsync off at (1152, 648): frame ms mean 1.29 p50 1.23 p95 1.83 p99 2.59 max 3.72
+  draw calls p50 942 max 1034; primitives p50 310592 max 325280; video mem 33.5 MB; renderer NVIDIA GeForce RTX 5080 Laptop GPU / gl_compatibility

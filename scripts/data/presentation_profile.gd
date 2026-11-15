@@ -1,0 +1,20 @@
+class_name PresentationProfile
+extends Resource
+## Art binding for one gameplay id (P14-T05, P15-A02). Presentation only: the simulation never reads it.
+## Per-model scale, facing, ground contact and placement centre are baked into the GLB by
+## art_src/tools/prepare_source_model.py; only the shared display scale is applied here.
+
+## Runtime model. Optional: an AnimationPlayer with `idle`/`attack`, marker nodes `muzzle_A` and `effect_center`.
+@export var model: PackedScene
+## Applied once to the modelled GLB (DEC-036: 1.5 for tower models). Footprint and range stay data.
+@export var display_scale: float = 1.5
+## Old procedural Rookie: colour lives in the COLOR_0 vertex atlas, which the glTF import does not always flag.
+@export var vertex_color_albedo: bool = false
+## Procedural shot reaction (0 = none): slide back along the aim by this many metres, with a squash, then recover.
+@export var recoil_m: float = 0.0
+## Vertical squash at the kick peak (0.08 = 8% shorter, half that wider). Scales about the ground origin.
+@export var recoil_squash: float = 0.0
+@export var recoil_kick_s: float = 0.05
+@export var recoil_recover_s: float = 0.3
+## Snow puff diameter at `muzzle_A` in displayed metres (0 = none).
+@export var muzzle_flash_m: float = 0.0

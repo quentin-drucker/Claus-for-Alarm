@@ -1,0 +1,22 @@
+test_data: PASS
+test_map: PASS
+test_match: PASS
+test_combat: PASS
+test_towers: PASS
+test_upgrades: PASS
+test_hero: PASS
+test_ui: PASS
+test_full_run: PASS
+test_audio: PASS
+
+Deterministic gameplay transcript (STATE lines: tick, round, lives, cash) vs pre-change baseline at 3efc464 + docs:
+  test_full_run identical (1127 lines)
+  test_combat identical (49 lines)
+  test_upgrades identical (52 lines)
+  test_map identical (0 lines)
+  test_match identical (122 lines)
+  test_hero identical (108 lines)
+  test_ui identical (2 lines)
+  test_audio identical (0 lines)
+  test_data identical (0 lines)
+  test_towers: identical except one added match (new _test_cannon_visual)

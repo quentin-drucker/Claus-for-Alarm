@@ -1,0 +1,3 @@
+stress Cannon GLB: 12 towers (8 Cannons + 4 Rookies), snowballs >= 120 (immune Coral, moving), max live shots 4,
+  900 frames vsync off at (1152, 648): frame ms mean 1.35 p50 1.28 p95 1.82 p99 2.88 max 4.52
+  draw calls p50 968 max 1058; primitives p50 416892 max 431776; video mem 33.5 MB; renderer NVIDIA GeForce RTX 5080 Laptop GPU / gl_compatibility

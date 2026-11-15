@@ -1,0 +1,11 @@
+### Result
+Total messages: 8 (Errors: 0, Warnings: 0)
+
+[LOG] Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org @ http://localhost:8143/index.js:451
+[LOG] OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL @ http://localhost:8143/index.js:451
+[LOG] Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support. @ http://localhost:8143/index.js:451
+[LOG] STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650 @ http://localhost:8143/index.js:451
+[LOG] STATE PREPARE -> ROUND_SPAWN tick=133 round=1 lives=150 cash=75 @ http://localhost:8143/index.js:451
+[LOG] STATE ROUND_SPAWN -> ROUND_CLEANUP tick=1184 round=1 lives=150 cash=91 @ http://localhost:8143/index.js:451
+[LOG] STATE ROUND_CLEANUP -> ROUND_REWARD tick=1367 round=1 lives=150 cash=95 @ http://localhost:8143/index.js:451
+[LOG] STATE ROUND_REWARD -> PREPARE tick=1367 round=1 lives=150 cash=196 @ http://localhost:8143/index.js:451

@@ -72,3 +72,25 @@ game-camera captures for readability checks.
 Shared helpers and the palette: `cc_art.py` (`metaball_mesh` = continuous sculpted forms, `band_elements` = trims that
 follow a garment's real cross-section, `export_glb`). After re-export: reimport in Godot (focus the editor), run the
 tests, then the Web export check above.
+
+## Source-model preparation (P15-A01, Tripo/AccuRIG FBX → GLB)
+
+```bash
+BLENDER="/c/Program Files/Blender Foundation/Blender 5.3/blender.exe"
+"$BLENDER" -b --factory-startup --python art_src/tools/prepare_source_model.py -- inspect            # measure all sources
+"$BLENDER" -b --factory-startup --python art_src/tools/prepare_source_model.py -- avalanche_cannon   # ~3 s
+"$GODOT" --headless --path . --import                       # reimport (or focus the editor)
+```
+
+Writes `art_src/prepared/<id>.blend` and `assets/models/<id>.glb`; the source folder under `art_src/models/` is only
+read. Godot extracts the GLB maps as `assets/models/<id>_<map>.png` (default VRAM compression + mipmaps: right for
+painted PBR maps). Bind a prepared model with `resources/presentation/<id>.tres` and the `PROFILES` table in
+`scenes/towers/tower.gd`.
+
+Review captures + stress (needs a window, not `--headless`; writes `docs/logs/evidence/p15a_*`):
+
+```bash
+"$GODOT" --path . -s res://tests/tools/cannon_review.gd -- review            # screenshots, ghost/select/upgrade/sell, pause, 1x/2x/4x
+"$GODOT" --path . -s res://tests/tools/cannon_review.gd -- stress            # 8 Cannons + 4 Rookies + 120 snowballs, vsync off
+"$GODOT" --path . -s res://tests/tools/cannon_review.gd -- stress greybox    # same scene, Cannons without the GLB
+```

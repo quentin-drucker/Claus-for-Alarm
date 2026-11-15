@@ -441,3 +441,45 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
   `match.tscn` (Rookie placed, round 1) 0 errors/warnings (`p15b_godot_gamecam.png`). Test suites and Web not rerun
   (model-only change, same nodes/sockets/actions as the previous verified export).
 - **Repo commit after:** this entry's commit. **Next:** owner review 1 verdict → review 2 (re-rig).
+
+#### SESSION 2026-11-14 20:00 — Claude Code (Opus 5.5) — Dev 8: P15-A01–A04 asset pipeline + Avalanche Cannon proof
+- **Goal:** reproducible, non-destructive Tripo/AccuRIG FBX → GLB preparation; prove it with the Avalanche Cannon only
+  (visual, no gameplay change); static-model-safe binding; verify and stop for owner review.
+- **Read:** AGENTS/CLAUDE, master plan 12.1/12.1.1, this log, `ART_STYLE.md`, `DEFERRED_WORK.md`, `art_src/models/README.md`,
+  `STABLE_IDS.md`, `COMMANDS.md`; HYB-A A-03/A-04/A-08/A-12; HYB-B B-09/B-11/B-14/B-15; `tower.gd`, `match.gd`, `sim_clock.gd`.
+- **Repo commit before:** `3efc464` + uncommitted handoff docs/sources. Committed the handoff files this work depends on
+  as found (`74d65d7`: master plan 12.1.1, DEFERRED_WORK, model index, Cannon source FBX). Left untouched/uncommitted:
+  HACKATHON, REGISTRY, design docs 01–03, other source folders, `art_src/archive/`, `references/towers/`.
+- **Files changed:** new `art_src/tools/prepare_source_model.py`, `art_src/prepared/avalanche_cannon.blend`,
+  `assets/models/avalanche_cannon.glb` (+3 extracted PNG maps), `scripts/data/presentation_profile.gd`,
+  `resources/presentation/{snowball_rookie,avalanche_cannon}.tres`, `tests/tools/cannon_review.gd`; edited
+  `scenes/towers/tower.gd` (PROFILES, visual pivot, optional AnimationPlayer in sim time, recoil, muzzle puff),
+  `scenes/main/match.gd` (one line: `tower.animate(dt)` per tick), `tests/test_towers.gd` (`_test_cannon_visual`),
+  plan, `art_src/models/README.md`, `COMMANDS.md`, `CONVENTIONS.md`, `STABLE_IDS.md`, `DEFERRED_WORK.md`, evidence `p15a_*`.
+- **Asset provenance:** owner-supplied Tripo export `art_src/models/avalanche_cannon/avalanche_cannon.fbx` + its
+  `tripo_convert_c7694e20-….fbm/` maps (unchanged); derived files are rebuilt by the script.
+- **Cannon findings/fixes:** "3 non-manifold edges" = one floating 1 cm triangle (deleted); muzzle faced −Y (turned 180°);
+  grounded/centred already; normals fine; 2048² JPEG maps → 1024² PNG (Godot's JPEG loader rejected Blender-written
+  JPEGs: the first import rendered black); HASHED → opaque, single-sided. Envelope 0.66 m shown vs 0.6 m footprint,
+  0.93 m tall shown; worst sled-foot reach over the track edge 4.9 cm at the nearest legal spot.
+- **Tests run:** `for t in test_data … test_audio` 10/10 PASS; STATE transcripts identical to the pre-change run
+  (`p15a_tests.txt`); `cannon_review.gd -- review` and `-- stress [greybox]`; editor process run (MCP) 0 errors/warnings.
+- **Web result:** export exit 0, 0 ERROR/WARNING (`p15a_web_export.log`); `--main-pack` only the known exit-time
+  resources line; Chrome 1152×648 via playwright-cli, mouse/keyboard: Cannon + Rookie placed, round 1 won, pause,
+  1×/2×/4×, 0 console errors, 240 fps, worst frame 6.3 ms (`p15a_web_*`).
+- **Stress (desktop, new):** 8 Cannons + 4 Rookies + 120 moving snowballs: p95 1.82 ms, 968 draws, 417k prims
+  vs greybox Cannons p95 1.83 ms, 942 draws, 311k prims (`p15a_stress*.txt`).
+- **Screenshots/logs:** `p15a_{gamecam_placed,gamecam_firing,gamecam_round1,closeup_firing,closeup_rest,ghost_valid,
+  ghost_invalid,selected_upgraded,paused_midrecoil,thumb_320x180,stress,stress_greybox,godot_process_run}.png`,
+  `p15a_{review,stress,stress_greybox,tests,source_inspect,prepare_cannon}.txt/.log`.
+- **Finished and checked tasks:** P15-A01, A02, A03, A04 (owner review pending); P14-T06. Partial notes: P14-T05,
+  P16-T04/T14/T17. **Not marked:** P15-T09, G7.
+- **New decision (PROPOSED):** DEC-040 (Cannon size from footprint, gold muzzle puff, clips in sim time, 1024² PNG).
+- **Known defects / open:** Rookie idle now pauses and follows game speed, and the ghost Rookie no longer idles
+  (behaviour change, DEC-040); tower Label3D names overlap at touching footprints (existing); Cannon is ~6 px at the
+  320×180 thumbnail; no Blender clay QA renders/B-14 score for the Tripo Cannon; stress measured on a high-end desktop
+  GPU only.
+- **Repo commit after:** this entry's commit.
+- **Next suggested task IDs:** owner Cannon review → (a) prepare Ranger/Wax/Sorcerer/Booth/Camel Claus with the same
+  profile (one or two per batch, Rookie last with minimal clips), or (b) the queued map/snowball slice P16-T09/T11/T12.
+  Recommend (a) for two towers first, while the pipeline is fresh, then (b).

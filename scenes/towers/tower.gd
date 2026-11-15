@@ -6,10 +6,12 @@ const COLORS: Dictionary[StringName, Color] = {
 	&"snowball_rookie": Color("20517a"), &"avalanche_cannon": Color("173c4e"), &"biathlon_ranger": Color("1b6d68"),
 	&"slope_wax_sprayer": Color("d9545c"), &"snow_sorcerer": Color("7a4fb0"), &"ski_resort_ticket_booth": Color("f9c96d"),
 }
-## P15 art binding (presentation only): tower id -> model. Towers without one keep the greybox body.
-const MODELS: Dictionary[StringName, PackedScene] = {&"snowball_rookie": preload("res://assets/models/elf_rookie.glb")}
-## Display scale for elf towers and the hero (DEC-036). Presentation only: footprint and range stay as data.
-const MODEL_SCALE: float = 1.5
+## P15 art binding (presentation only): tower id -> PresentationProfile. Towers without one keep the greybox body.
+const PROFILES: Dictionary[StringName, PresentationProfile] = {
+	&"snowball_rookie": preload("res://resources/presentation/snowball_rookie.tres"),
+	&"avalanche_cannon": preload("res://resources/presentation/avalanche_cannon.tres"),
+}
+const FLASH_COLOR: Color = Color(0.976, 0.788, 0.427, 0.85)  # Warm gold: reads on white snow (A-08 blast flash)
 ## Dark inverted-hull outline for character models (docs/ART_STYLE.md section 6).
 const OUTLINE: Color = Color("173c4e")
 const VALID: Color = Color("3f9b7b")
@@ -49,9 +51,15 @@ var priority: int = 0
 @onready var _body: MeshInstance3D = $Body
 @onready var _label: Label3D = $Label
 @onready var _range: MeshInstance3D = $Range
+## Presentation: `_pivot` turns to aim; `_model` (the GLB) recoils inside it. The tower root never moves.
+var _profile: PresentationProfile
+var _pivot: Node3D
 var _model: Node3D
 var _anim: AnimationPlayer
 var _muzzle: Node3D
+var _flash: MeshInstance3D
+## Seconds since the recoil started (simulation time); past kick + recover = at rest.
+var _recoil_t: float = INF
 
 
 func setup(definition: TowerDefinition, id: int) -> void:
@@ -63,28 +71,34 @@ func setup(definition: TowerDefinition, id: int) -> void:
 	_body.scale = Vector3(radius / 0.5, 1.0, radius / 0.5)  # Body mesh radius is 0.5
 	_label.text = def.display_name.get_slice(" ", def.display_name.get_slice_count(" ") - 1)
 	_set_color(COLORS.get(def.id, Color.GRAY))
-	_set_model(MODELS.get(def.id))
+	_set_model(PROFILES.get(def.id))
 	set_selected(false)
 
 
 ## Swaps the art model (the ghost is re-setup for every tower type). With a model, the greybox body only
 ## shows as a flat footprint disc under the ghost.
-func _set_model(scene: PackedScene) -> void:
-	if _model:
-		_model.free()
+func _set_model(profile: PresentationProfile) -> void:
+	if _pivot:
+		_pivot.free()
+		_pivot = null
 		_model = null
 		_anim = null
 		_muzzle = null
-	_body.visible = scene == null
-	_body.scale.y = 1.0 if scene == null else 0.04
-	_body.position.y = 0.5 if scene == null else 0.02
-	_label.position.y = 1.5 if scene == null else 2.7  # clear of the 1.5x model cap at the game camera
-	if scene == null:
+		_flash = null
+	_profile = profile
+	_recoil_t = INF
+	_body.visible = profile == null
+	_body.scale.y = 1.0 if profile == null else 0.04
+	_body.position.y = 0.5 if profile == null else 0.02
+	_label.position.y = 1.5 if profile == null else 2.7  # clear of the 1.5x model cap at the game camera
+	if profile == null:
 		return
-	_model = scene.instantiate()
-	_model.rotation.y = PI  # models face -Z; idle towers face the camera (+Z)
-	_model.scale = Vector3.ONE * MODEL_SCALE
-	add_child(_model)
+	_pivot = Node3D.new()
+	_pivot.rotation.y = PI  # models face -Z; idle towers face the camera (+Z)
+	add_child(_pivot)
+	_model = profile.model.instantiate()
+	_model.scale = Vector3.ONE * profile.display_scale
+	_pivot.add_child(_model)
 	var outline: StandardMaterial3D = StandardMaterial3D.new()
 	outline.albedo_color = OUTLINE
 	outline.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
@@ -93,31 +107,89 @@ func _set_model(scene: PackedScene) -> void:
 	outline.grow_amount = 0.012
 	for mesh: MeshInstance3D in _model.find_children("*", "MeshInstance3D"):
 		mesh.material_overlay = outline
-		for i: int in mesh.mesh.get_surface_count():
-			# Elf colour lives in COLOR_0 (vertex-colour atlas); the glTF import does not always flag it.
-			var material: BaseMaterial3D = mesh.mesh.surface_get_material(i) as BaseMaterial3D
-			if material:
-				material.vertex_color_use_as_albedo = true
-	_anim = _model.find_child("AnimationPlayer")
+		if profile.vertex_color_albedo:
+			for i: int in mesh.mesh.get_surface_count():
+				var material: BaseMaterial3D = mesh.mesh.surface_get_material(i) as BaseMaterial3D
+				if material:
+					material.vertex_color_use_as_albedo = true
 	_muzzle = _model.find_child("muzzle_A")
-	_anim.play(&"idle")
+	_anim = _model.find_child("AnimationPlayer")
+	if _anim:
+		# Advanced from animate() in simulation time, so pause and 1x/2x/4x apply to skeletal clips too.
+		_anim.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
+		if _anim.has_animation(&"idle"):
+			_anim.play(&"idle")
+			_anim.advance(0.0)
+	if profile.muzzle_flash_m > 0.0 and _muzzle:
+		var puff: SphereMesh = SphereMesh.new()
+		puff.radius = 0.5 * profile.muzzle_flash_m / profile.display_scale  # the marker inherits the display scale
+		puff.height = 2.0 * puff.radius
+		puff.radial_segments = 12
+		puff.rings = 6
+		var material: StandardMaterial3D = StandardMaterial3D.new()
+		material.albedo_color = FLASH_COLOR
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		puff.material = material
+		_flash = MeshInstance3D.new()
+		_flash.mesh = puff
+		_flash.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		_flash.visible = false
+		_muzzle.add_child(_flash)
 
 
-## Where shot visuals start: the model's muzzle_A socket (in the thrower's hand), else the greybox 0.5 m point.
+## Where shot visuals start: the model's muzzle_A marker (thrower's hand, cannon bore), else the greybox 0.5 m point.
 func muzzle_position() -> Vector3:
 	if _muzzle and _muzzle.is_inside_tree():
 		return _muzzle.global_position
 	return position + Vector3.UP * 0.5
 
 
-## Presentation only (called after the simulation fired): face the shot and play the throw.
+## Presentation only (called after the simulation fired): face the shot, play the attack clip if the model has one,
+## and start the procedural recoil.
 func play_attack(dir: Vector3) -> void:
-	if _anim == null:
+	if _pivot == null:
 		return
-	_model.rotation.y = atan2(-dir.x, -dir.z)
-	_anim.stop()
-	_anim.play(&"attack")
-	_anim.queue(&"idle")
+	_pivot.rotation.y = atan2(-dir.x, -dir.z)
+	if _anim and _anim.has_animation(&"attack"):
+		_anim.stop()
+		_anim.play(&"attack")
+		if _anim.has_animation(&"idle"):
+			_anim.queue(&"idle")
+	if _profile.recoil_m > 0.0 or _flash:
+		# Re-entering mid-recovery starts the kick at the current amount: no snap, and no drift under rapid fire.
+		_recoil_t = _profile.recoil_kick_s * _recoil_amount()
+
+
+## Presentation step, called by the match every simulation tick (so it stops with pause and follows 1x/2x/4x).
+## The pose is a pure function of `_recoil_t`, rebuilt from rest each step.
+func animate(dt: float) -> void:
+	if _anim:
+		_anim.advance(dt)
+	if _model == null or _recoil_t == INF:
+		return
+	_recoil_t += dt
+	var k: float = _recoil_amount()
+	var s: float = _profile.display_scale
+	_model.position = Vector3(0.0, 0.0, _profile.recoil_m * k)  # model faces -Z: +Z slides it back from the shot
+	_model.scale = Vector3(s * (1.0 + 0.5 * _profile.recoil_squash * k), s * (1.0 - _profile.recoil_squash * k),
+			s * (1.0 + 0.5 * _profile.recoil_squash * k))
+	if _flash:
+		var flash_on: bool = _recoil_t < _profile.recoil_kick_s + 0.5 * _profile.recoil_recover_s
+		_flash.visible = flash_on
+		_flash.scale = Vector3.ONE * (0.4 + 0.6 * k) if flash_on else Vector3.ONE
+	if _recoil_t >= _profile.recoil_kick_s + _profile.recoil_recover_s:
+		_recoil_t = INF  # exactly at rest
+
+
+## Recoil amount 0..1 at `_recoil_t`: fast linear kick, ease-out recovery, 0 at rest.
+func _recoil_amount() -> float:
+	if _recoil_t == INF:
+		return 0.0
+	if _recoil_t < _profile.recoil_kick_s:
+		return _recoil_t / _profile.recoil_kick_s
+	var u: float = clampf((_recoil_t - _profile.recoil_kick_s) / _profile.recoil_recover_s, 0.0, 1.0)
+	return (1.0 - u) * (1.0 - u)
 
 
 ## Recomputes the working stats from `def`. Attack resources are deep copies so upgrades never touch shared data.

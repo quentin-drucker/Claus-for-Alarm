@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PresentationProfile" format=3 uid="uid://pmyn3ytdipkk"]
+
+[ext_resource type="PackedScene" uid="uid://u4xshfnr53dc" path="res://assets/models/elf_rookie.glb" id="1_ytsea"]
+[ext_resource type="Script" uid="uid://i6p52ffw8ka0" path="res://scripts/data/presentation_profile.gd" id="2_imtm7"]
+
+[resource]
+script = ExtResource("2_imtm7")
+model = ExtResource("1_ytsea")
+vertex_color_albedo = true

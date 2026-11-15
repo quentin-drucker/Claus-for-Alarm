@@ -254,6 +254,7 @@ func _on_tick(dt: float) -> void:
 
 func _fire_towers(dt: float) -> void:
 	for tower: Node3D in towers_root.get_children():
+		tower.animate(dt)  # presentation only; never feeds back into the simulation
 		for i: int in tower.attacks.size():
 			var attack: AttackDefinition = tower.attacks[i]
 			tower.cooldowns[i] -= dt

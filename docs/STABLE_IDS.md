@@ -36,6 +36,8 @@ Damage types in data: `corrosive`, `energy`, `explosion`, `glue`, `normal`, `pla
 
 ## Scene / placeholder paths (art-swap points, P15+)
 - Tower body: `res://scenes/towers/tower.tscn` (one scene; `def.id` picks the look)
+- Tower art binding: `res://resources/presentation/<tower id>.tres` (`PresentationProfile`: model, display scale,
+  optional clips, recoil, muzzle puff); markers in the GLB: `muzzle_A`, `effect_center` (P15-A02)
 - Snowball: `res://scenes/enemies/snowball.tscn` (`$Mesh` material by `def.id`, `Marker` letter for specials)
 - Map `res://scenes/world/ski_circuit.tscn`; match `res://scenes/main/match.tscn`; HUD `res://scenes/ui/match_hud.tscn`
 - Placeholder feedback `res://scenes/ui/feedback_layer.gd` (listens to Events; replace with VFX/SFX)

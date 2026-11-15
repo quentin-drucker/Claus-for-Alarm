@@ -27,12 +27,13 @@ func _run() -> void:
 	content = root.get_node("Content")
 	root.get_node("Events").emitted.connect(func(e: RefCounted) -> void: _events.append(e))
 	_test_cannon()
+	_test_cannon_visual()
 	_test_ranger()
 	_test_wax()
 	_test_sorcerer()
 	_test_booth()
 	_test_base_report()
-	_check(_completed.size() == 6, "every test function completed (%s)" % [_completed])
+	_check(_completed.size() == 7, "every test function completed (%s)" % [_completed])
 	print("test_towers: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -109,6 +110,39 @@ func _test_cannon() -> void:
 	_check(m.snowballs.size() == 2, "blast pierce 2 pops 2 of 4 (left %d)" % m.snowballs.size())
 	m.free()
 	_completed.append("_test_cannon")
+
+
+## P15-A02/A03: the Cannon's art binding is presentation only. Grounded GLB at the 1.5x display scale, shots start
+## at the bore marker, rapid-fire recoil returns exactly to rest (no drift), and pause freezes the reaction.
+func _test_cannon_visual() -> void:
+	var m: Node3D = _new_match()
+	var cannon: Node3D = m.try_place(content.get_tower(&"avalanche_cannon"), SPOT)
+	var model: Node3D = cannon._model
+	_check(model != null and cannon._anim == null and cannon._flash != null, "cannon: static GLB, muzzle puff, no clip")
+	var mesh: MeshInstance3D = model.find_children("*", "MeshInstance3D")[0]
+	var box: AABB = mesh.global_transform * mesh.get_aabb()
+	_check(absf(box.position.y) < 0.01 and absf(box.end.y - 0.934) < 0.02, "cannon grounded, 0.93 m tall (%s)" % box)
+	var muzzle: Vector3 = cannon.muzzle_position() - cannon.position
+	_check(absf(muzzle.y - 0.613) < 0.02 and Vector2(muzzle.x, muzzle.z).length() < 0.6, "bore marker (%s)" % muzzle)
+	cannon.play_attack(Vector3(1, 0, 0))
+	_check(absf(cannon._pivot.rotation.y - atan2(-1.0, 0.0)) < 1e-4 and cannon.rotation == Vector3.ZERO,
+			"visual pivot aims, gameplay root does not turn")
+	for i: int in 30:  # far faster than any upgrade: a shot every 2 ticks
+		cannon.play_attack(Vector3(1, 0, 0))
+		cannon.animate(STEP)
+		cannon.animate(STEP)
+		_check(model.position.z <= 0.12 + 1e-5 and model.scale.y >= 1.5 * 0.92 - 1e-5, "recoil stays bounded")
+	m.clock.paused = true
+	var held: Vector3 = model.position
+	_sim(m, 0.5)
+	_check(model.position == held and model.position.z > 0.0, "pause freezes the recoil")
+	m.clock.paused = false
+	_sim(m, 1.0)
+	_check(model.position == Vector3.ZERO and model.scale == Vector3.ONE * 1.5 and not cannon._flash.visible,
+			"recoil returns exactly to rest (%s, %s)" % [model.position, model.scale])
+	_check(m.towers_root.get_child_count() == 1 and is_equal_approx(cannon.footprint().z, 0.6), "footprint unchanged (0.6 m)")
+	m.free()
+	_completed.append("_test_cannon_visual")
 
 
 ## P08-T03: whole-map targeting with line of sight (the Lodge blocks it), not a big radius. Instant hit,

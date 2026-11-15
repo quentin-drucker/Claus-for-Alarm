@@ -19,6 +19,13 @@ Add a rule here when you notice drift; don't add rules "just in case".
 - Script lives next to its scene with the same name (`player.tscn` + `player.gd`).
 - Textures Godot extracts from a `.glb` (`assets/models/<name>_<image>.png`) must be re-imported with `compress/mode=0` (lossless) and `mipmaps/generate=false`; the default is VRAM compression, which smears pixel art.
   Reimporting the `.glb` re-extracts them and flips `mipmaps/generate` back to `true`: set it again after every model reimport.
+  That rule is for the hand-built pixel/vertex-colour models (e.g. the elf eye); painted Tripo PBR maps keep the
+  default VRAM compression + mipmaps.
+- Prepared source models (`prepare_source_model.py`): bake scale, facing, grounding and centre into the GLB; the 1.5×
+  display scale lives only in the `PresentationProfile`. Export GLB maps as PNG: Godot 4.7 failed to decode
+  Blender-written JPEGs inside a GLB (the model rendered black).
+- Tower art never moves the tower root: aim and reactions go on the visual pivot, driven from `animate(dt)` in
+  simulation time (pause and 1×/2×/4× apply).
 
 ## Folders
 

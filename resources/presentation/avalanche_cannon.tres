@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PresentationProfile" format=3 uid="uid://y6go2ibqcsyl"]
+
+[ext_resource type="PackedScene" uid="uid://5hw8fc45pgx" path="res://assets/models/avalanche_cannon.glb" id="1_j1i7h"]
+[ext_resource type="Script" uid="uid://i6p52ffw8ka0" path="res://scripts/data/presentation_profile.gd" id="2_5ufdj"]
+
+[resource]
+script = ExtResource("2_5ufdj")
+model = ExtResource("1_j1i7h")
+recoil_m = 0.12
+recoil_squash = 0.08
+muzzle_flash_m = 0.5

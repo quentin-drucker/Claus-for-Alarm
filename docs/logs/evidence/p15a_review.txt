@@ -1,0 +1,15 @@
+nearest legal Cannon centre (-7.29, 0.0): 1.710 m from the centreline (half width 1.10 + footprint 0.60)
+neighbours: Rookie 1.204 m, Cannon 1.204 m from the Cannon (footprints touch at 1.20)
+Cannon AABB y 0.0000..0.9344 m (float/sink check), size (0.978579, 0.934398, 0.988621)
+muzzle_A world (-7.289668, 0.612984, 0.211794) (tower at y 0)
+worst low-part overhang past the track edge over 24 aims: 0.049 m (> 0 = over the track)
+material M_avalanche_cannon: albedo tex true, normal true/true, ORM rough true metal true, transparency 0, cull 0, overlay true
+ghost: valid reason '', on-track reason 'On the ski track'
+selected + upgraded true -> tiers (1, 0, 1), model kept true, footprint (-7.29, 0.0, 0.6)
+round 1: Cannon fired true
+pause at recoil t=0.050 s: model offset (0.0, 0.0, 0.12) -> (0.0, 0.0, 0.12) after 30 frames (flash true -> true)
+speed 1x: recoil + recovery took 352 ms real (expected 350)
+speed 2x: recoil + recovery took 174 ms real (expected 175)
+speed 4x: recoil + recovery took 87 ms real (expected 88)
+sell: towers 3 -> 2, freed true
+rookie still animated by AnimationPlayer: true
