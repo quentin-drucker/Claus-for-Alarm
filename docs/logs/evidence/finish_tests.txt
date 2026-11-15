@@ -1,0 +1,4 @@
+test_screen_finish exit=0 test_screen_finish: PASS
+test_ui exit=0 test_ui: PASS
+test_menu_background exit=0 test_menu_background: PASS
+test_match exit=0 test_match: PASS

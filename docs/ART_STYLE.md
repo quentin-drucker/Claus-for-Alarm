@@ -95,6 +95,21 @@ Use the semantic variations in `scripts/ui/lodge_theme.gd` rather than adding ar
 use Barlow. The browser loading shell follows the same roles. Preserve wrapping and sidebar scrolling;
 font changes do not change gameplay. Source/license details: `assets/fonts/README.md` and root `CREDITS.md`.
 
-## 9. Deferred final aesthetic exploration
+## 9. Presentation finish (DEC-049, owner direction 2026-11-15)
 
-The owner wants a subtle modern-3D/pixel influence; do not implement pixelation yet. Evaluate low-resolution 3D rendering/upscale versus selective post-processing, texture filtering and material treatment after the major UI and asset passes. Start by preserving crisp text/critical HUD. Compare multiple resolutions, silhouette/projectile readability and Web Compatibility performance before choosing an approach. Acceptance criteria and phase assignment: `docs/DEFERRED_WORK.md`, final P17 polish followed by P19 validation.
+A modern 3D game with a delicate pixel finish, not an 8-bit makeover. One autoload, `ScreenFinish`
+(`scripts/presentation/screen_finish.gd`), runs a final screen-texture pass over the whole composed frame: world,
+HUD, menus, tooltips, pause/results and notices (text is not masked out; the whole effect stays light instead).
+
+| Parameter | Default | Meaning |
+|---|---|---|
+| `enabled` | true | F8 toggles OFF / SUBTLE (owner comparison) |
+| `pixel_cell_size` | 3 | cell in base-UI px (1152x648), scaled to the window, snapped to whole physical px |
+| `pixel_blend` | 0.30 | share of the cell-averaged colour |
+| `vignette_strength` | 0.08 | corner darkening, broad and soft |
+| `snow_opacity` | 0.60 | static powder in the bottom corners + light dusting, kept under the bottom controls |
+
+Enlarged character views are pixelated more strongly, since they blow the model up: the menu Rookie renders at 1/3
+resolution with nearest upscale (`rookie_showcase.gd`), portraits use `assets/materials/portrait_pixel.gdshader`
+(32 blocks across). No palette reduction, dithering, scanlines or chromatic aberration. The HTML sweater loader
+lives outside Godot and is left untreated; the hardware cursor is untreated.

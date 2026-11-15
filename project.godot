@@ -21,6 +21,7 @@ run/main_scene.stress="res://tests/tools/stress.tscn"
 Events="*uid://nprb2qvahj4c"
 Content="*uid://deldewonhhrmd"
 Audio="*uid://0v64x7e7rpe2"
+ScreenFinish="*res://scripts/presentation/screen_finish.gd"
 
 [display]
 

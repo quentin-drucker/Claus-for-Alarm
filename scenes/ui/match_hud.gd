@@ -17,6 +17,7 @@ var _shop_buttons: Array[Button] = []
 var _shop_price: Array[Label] = []
 var _upgrade_buttons: Array[Button] = []
 var _portraits: Dictionary[StringName, Texture2D] = {}
+var _portrait_pixel: ShaderMaterial = ShaderMaterial.new()  # DEC-049 stronger pixel finish on enlarged portraits
 # Sidebar.
 var _sidebar: FRAME = FRAME.new()
 var _shop_view: VBoxContainer = VBoxContainer.new()
@@ -124,6 +125,8 @@ func _button(text: String, on_press: Callable, variation: StringName = &"", lift
 
 
 func _portrait(id: StringName) -> Texture2D:
+	if not _portrait_pixel.shader:
+		_portrait_pixel.shader = preload("res://assets/materials/portrait_pixel.gdshader")
 	if not _portraits.has(id):
 		_portraits[id] = load(PORTRAIT % id) if ResourceLoader.exists(PORTRAIT % id) else null
 	return _portraits[id]
@@ -203,6 +206,7 @@ func _card(i: int, def: TowerDefinition) -> Button:
 	var pic: TextureRect = TextureRect.new()
 	pic.texture = _portrait(def.id)
 	pic.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	pic.material = _portrait_pixel
 	pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	pic.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -236,6 +240,7 @@ func _build_details() -> void:
 	frame.theme_type_variation = &"LodgeInset"
 	_det_portrait.custom_minimum_size = Vector2(64, 64)
 	_det_portrait.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	_det_portrait.material = _portrait_pixel
 	_det_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_det_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	frame.add_child(_det_portrait)
@@ -280,6 +285,7 @@ func _build_hero_panel() -> void:
 	pic.texture = _portrait(&"camel_claus")
 	pic.custom_minimum_size = Vector2(38, 38)
 	pic.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	pic.material = _portrait_pixel
 	pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	head.add_child(pic)
