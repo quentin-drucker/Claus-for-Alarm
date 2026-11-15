@@ -33,7 +33,7 @@ const MUZZLE_BLEND_MPS: float = 6.0
 const VFX: Script = preload("res://scripts/presentation/attack_vfx.gd")
 const PICKUP_COLOR: Color = Color("f9c96d")
 ## Click distance that collects a ticket pickup (metres).
-const PICKUP_RADIUS_M: float = 0.6
+const PICKUP_RADIUS_M: float = 1.2  # Dev 13 owner: click reach doubled (0.6 -> 1.2 m)
 
 ## Owner experiment: moving-projectile contact only, 0.4 -> 0.6 m. 1.0 restores baseline.
 ## Enemy radius, targeting, ricochet reach, hitscan and explosion radii stay unchanged.
@@ -41,7 +41,7 @@ const PICKUP_RADIUS_M: float = 0.6
 
 ## DEC-043: every ticket pickup within this world-XZ distance of the cursor's ground point is collected without a
 ## click. Owner doubled the original 1 m implementation default to 2 m (2026-11-14).
-@export var hover_collect_radius_m: float = 2.0
+@export var hover_collect_radius_m: float = 4.0  # Dev 13 owner: doubled again (2 -> 4 m)
 
 ## Special-snowball introductions (P13-T05, Dev 12): shown before the first round whose schedule contains the kind
 ## (camo = any camo_* id); the round only starts after an explicit Continue / Space. Text follows current data.
@@ -728,22 +728,42 @@ func _drop_pickup(booth: Node3D, k: int) -> void:
 	pickup.ratio = booth.auto_collect_ratio
 	pickup.source_id = booth.entity_id
 	pickup.node = MeshInstance3D.new()
-	var box: BoxMesh = BoxMesh.new()
-	box.size = Vector3(0.35, 0.2, 0.35)
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_color = PICKUP_COLOR
-	material.emission_enabled = true
-	material.emission = PICKUP_COLOR * 0.4
-	# Drawn over everything (transparent pass, no depth test): a ticket behind the 2.4 m Booth stays visible.
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.no_depth_test = true
-	box.material = material
-	pickup.node.mesh = box
+	pickup.node.mesh = _ticket_mesh()
 	pickup.node.position = pickup.pos + Vector3.UP * 0.15
 	_shots_root.add_child(pickup.node)
 	ticket_effects.spawn_ticket(pickup.node, booth.muzzle_position(), pickup.pos + Vector3.UP * 0.15)
 	pickups.append(pickup)
 	Events.send(&"pickup_spawned", booth.entity_id, 0, pickup.value, pickup.pos)
+
+
+## Dev 13 ski-ticket pickup: gold card with a red band, white punch hole and edge stubs, one shared ArrayMesh
+## (three surfaces), tilted toward the overhead camera. Drawn over everything so it never hides behind the Booth.
+static var _ticket: ArrayMesh
+
+
+static func _ticket_mesh() -> ArrayMesh:
+	if _ticket != null:
+		return _ticket
+	_ticket = ArrayMesh.new()
+	var tilt: Basis = Basis(Vector3.RIGHT, deg_to_rad(40.0)).scaled(Vector3.ONE * 1.25)  # faces the 50-degree camera
+	for part: Array in [[Vector3(0.56, 0.035, 0.34), Vector3.ZERO, Color("f9c96d")],
+			[Vector3(0.14, 0.04, 0.345), Vector3(-0.12, 0.0, 0.0), Color("c4363f")],
+			[Vector3(0.07, 0.045, 0.07), Vector3(0.17, 0.0, 0.0), Color("fbfdff")]]:
+		var box: BoxMesh = BoxMesh.new()
+		box.size = part[0]
+		var st: SurfaceTool = SurfaceTool.new()
+		st.append_from(box, 0, Transform3D(tilt, tilt * part[1]))
+		var m: StandardMaterial3D = StandardMaterial3D.new()
+		m.albedo_color = part[2]
+		m.emission_enabled = true
+		m.emission = part[2] * 0.35
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.no_depth_test = true
+		m.render_priority = 1 if part[2] != Color("f9c96d") else 0
+		st.set_material(m)
+		st.commit(_ticket)
+		_ticket.surface_set_material(_ticket.get_surface_count() - 1, m)
+	return _ticket
 
 
 ## Collects the pickup nearest to `point` within reach. Returns whether one was collected.

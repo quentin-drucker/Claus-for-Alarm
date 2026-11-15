@@ -373,7 +373,7 @@ func _test_booth_price() -> void:
 func _test_ticket_hover() -> void:
 	var booth: Resource = content.get_tower(&"ski_resort_ticket_booth")
 	var m: Node3D = _new_match()
-	_check(is_equal_approx(m.hover_collect_radius_m, 2.0) and m.collect_cursor == null and not m._mouse_in_window,
+	_check(is_equal_approx(m.hover_collect_radius_m, 4.0) and m.collect_cursor == null and not m._mouse_in_window,
 			"owner doubled default radius to 2.0 m; no cursor input in headless runs")
 	# Keep this legacy ordering/expiry fixture at its original radius. New-radius boundaries
 	# and visual lifecycle are exercised independently in test_playfeel.gd.

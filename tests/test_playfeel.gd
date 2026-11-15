@@ -28,13 +28,13 @@ func _run() -> void:
 	var m: Node3D = fresh()
 	m.ledger.credit(0, 2000, &"test", 0)
 	var booth: Node3D = m.try_place(content.get_tower(&"ski_resort_ticket_booth"), Vector2(12, 1.5))
-	check(is_equal_approx(m.hover_collect_radius_m, 2.0), "pickup radius doubled to 2 m")
+	check(is_equal_approx(m.hover_collect_radius_m, 4.0), "pickup radius 4 m (Dev 13 owner: doubled again)")
 	m._drop_pickup(booth, 0)
 	var p: Object = m.pickups[0]
 	var visual: MeshInstance3D = p.node
 	var resting: Vector3 = p.pos + Vector3.UP * 0.15
 	check(visual.position.distance_to(booth.muzzle_position()) < 0.001, "ticket starts at Booth window")
-	m.set_collect_cursor(p.pos + Vector3(2.01, 0, 0))
+	m.set_collect_cursor(p.pos + Vector3(4.01, 0, 0))
 	for i: int in 10:
 		m.clock.advance(STEP)
 	check(p in m.pickups and visual.position.y > resting.y, "outside radius: ticket arcs upward without credit")
@@ -47,10 +47,10 @@ func _run() -> void:
 		m.clock.advance(STEP)
 	check(visual.position.distance_to(resting) < 0.001, "spawn settles at original pickup position")
 	var before: int = m.ledger.cash
-	var target: Vector3 = p.pos + Vector3(1.99, 0, 0)
+	var target: Vector3 = p.pos + Vector3(3.99, 0, 0)
 	m.set_collect_cursor(target)
 	m.clock.advance(STEP)
-	check(p not in m.pickups and m.ledger.cash == before + 50, "inside 2 m: payment immediate and once")
+	check(p not in m.pickups and m.ledger.cash == before + 50, "inside 4 m: payment immediate and once")
 	check(is_instance_valid(visual) and not visual.is_queued_for_deletion(), "magnetic visual survives authoritative collection")
 	m.collect(p)
 	check(m.ledger.cash == before + 50, "repeated collection cannot duplicate payment")
