@@ -14,6 +14,11 @@ var _hero_text: Label = Label.new()
 var _hero_xp: ProgressBar = ProgressBar.new()
 var _frenzy: Button = Button.new()
 var _focus: Button = Button.new()
+## Special-snowball introduction (P13-T05): modal notice until Continue / Space.
+var _intro_panel: PanelContainer = PanelContainer.new()
+var _intro_title: Label = Label.new()
+var _intro_text: Label = Label.new()
+var _intro_continue: Button = Button.new()
 ## Placeholder event feedback (P13-T06): floating text + banner.
 var feedback: Control = preload("res://scenes/ui/feedback_layer.gd").new()
 
@@ -59,6 +64,8 @@ func _ready() -> void:
 		_target.get_parent().move_child(button, _target.get_index())
 		_upgrade_buttons.append(button)
 	_build_hero_panel()
+	_build_intro_panel()
+	_apply_theme()
 	feedback.camera = match_node.camera
 	feedback.flash_target = _stats
 	add_child(feedback)
@@ -89,6 +96,61 @@ func _process(_delta: float) -> void:
 		_debug_text.text = _debug_lines()
 	if _hero_panel.visible:
 		_refresh_hero()  # cooldown seconds change every tick; reading state only
+
+
+## Winter HUD skin (Dev 12, A-01 tokens): navy panels, spruce-blue buttons, gold pressed/hover accent.
+func _apply_theme() -> void:
+	var theme: Theme = Theme.new()
+	var panel: StyleBoxFlat = _box(Color(0.09, 0.21, 0.28, 0.9), Color(0.56, 0.85, 0.91, 0.35))
+	theme.set_stylebox(&"panel", &"PanelContainer", panel)
+	theme.set_stylebox(&"panel", &"Panel", panel)
+	for pair: Array in [[&"normal", Color("20517a")], [&"hover", Color("2b6a9c")], [&"pressed", Color("b98a3a")],
+			[&"disabled", Color(0.09, 0.21, 0.28, 0.75)], [&"focus", Color(0, 0, 0, 0)]]:
+		var b: StyleBoxFlat = _box(pair[1], Color(0.976, 0.788, 0.427, 0.9) if pair[0] == &"focus" else Color(0, 0, 0, 0))
+		if pair[0] == &"focus":
+			b.draw_center = false
+		theme.set_stylebox(pair[0], &"Button", b)
+	theme.set_color(&"font_color", &"Button", Color("eef6fa"))
+	theme.set_color(&"font_hover_color", &"Button", Color.WHITE)
+	theme.set_color(&"font_pressed_color", &"Button", Color.WHITE)
+	theme.set_color(&"font_disabled_color", &"Button", Color(0.75, 0.8, 0.85, 0.55))
+	theme.set_color(&"font_color", &"Label", Color("eef6fa"))
+	for c: Node in get_children():
+		if c is Control and c != feedback:
+			(c as Control).theme = theme
+
+
+func _box(color: Color, border: Color) -> StyleBoxFlat:
+	var b: StyleBoxFlat = StyleBoxFlat.new()
+	b.bg_color = color
+	b.set_corner_radius_all(6)
+	b.set_content_margin_all(6)
+	b.content_margin_left = 10
+	b.content_margin_right = 10
+	if border.a > 0.0:
+		b.set_border_width_all(1)
+		b.border_color = border
+	return b
+
+
+func _build_intro_panel() -> void:
+	add_child(_intro_panel)
+	_intro_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	_intro_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_intro_panel.grow_vertical = Control.GROW_DIRECTION_BOTH
+	_intro_panel.custom_minimum_size = Vector2(460, 0)
+	var box: VBoxContainer = VBoxContainer.new()
+	box.add_theme_constant_override(&"separation", 10)
+	_intro_panel.add_child(box)
+	_intro_title.add_theme_font_size_override(&"font_size", 26)
+	_intro_title.add_theme_color_override(&"font_color", Color("f9c96d"))
+	_intro_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_intro_text.custom_minimum_size.x = 440
+	_intro_continue.focus_mode = Control.FOCUS_NONE  # Space reaches the match, which acknowledges exactly once
+	_intro_continue.pressed.connect(func() -> void: match_node.acknowledge_intro())
+	for c: Control in [_intro_title, _intro_text, _intro_continue]:
+		box.add_child(c)
+	_intro_panel.visible = false
 
 
 func _build_hero_panel() -> void:
@@ -163,8 +225,10 @@ func _refresh() -> void:
 	var m: Node3D = match_node
 	var over: bool = m.is_over()
 	var state_name: String = m.State.keys()[m.state]
+	var phase: String = {"PREPARE": "Build phase", "ROUND_SPAWN": "Wave incoming", "ROUND_CLEANUP": "Clearing wave",
+			"ROUND_REWARD": "Wave cleared", "WON": "Victory", "LOST": "Defeat"}.get(state_name, state_name.capitalize())
 	_stats.text = "Lives %d    Cash $%d    Round %d / %d    %s" % [m.lives, m.ledger.cash,
-			m.round_index + 1, Content.rounds.size(), state_name.capitalize()]
+			maxi(m.round_index + 1, 1) if m.state != m.State.PREPARE else m.round_index + 2, Content.rounds.size(), phase]
 	for i: int in _shop_buttons.size():
 		var def: TowerDefinition = m.shop[i]
 		var text: String = "%d  %s  $%d" % [i + 1, def.display_name, def.price]
@@ -179,6 +243,8 @@ func _refresh() -> void:
 		_start.text = "Match over"
 	elif m.clock.paused:
 		_start.text = "Paused (P to resume)"
+	elif m.intro != &"":
+		_start.text = "Read the notice (Space)"
 	elif m.state != m.State.PREPARE:
 		_start.text = "Round in progress"
 	else:
@@ -188,6 +254,13 @@ func _refresh() -> void:
 	_speed.text = "Speed %dx (F)" % m.clock.speed
 	_refresh_info()
 	_refresh_hero()
+	_intro_panel.visible = m.intro != &"" and not over
+	if _intro_panel.visible:
+		var info: Array = m.INTROS[m.intro]
+		_intro_title.text = "New in round %d: %s" % [m.round_index + 2, info[0]]
+		_intro_text.text = info[1]
+		_intro_continue.text = "Continue - start round %d (Space)" % (m.round_index + 2)
+		_intro_continue.disabled = m.clock.paused
 	_overlay.visible = over or m.clock.paused
 	_resume.visible = not over
 	if m.state == m.State.WON:

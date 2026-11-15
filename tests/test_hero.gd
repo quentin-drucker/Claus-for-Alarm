@@ -199,7 +199,8 @@ func _test_round_xp() -> void:
 	var xp: int = 0
 	var reached: Dictionary = {}
 	while not m.is_over():
-		m.start_round()
+		if not m.start_round():
+			m.acknowledge_intro()  # rounds 20/22/24/25 open a special-snowball notice first
 		while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
 			m.clock.advance(STEP)
 		var r: int = m.round_index + 1

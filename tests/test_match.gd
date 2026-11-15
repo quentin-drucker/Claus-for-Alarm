@@ -96,7 +96,7 @@ func _run() -> void:
 	# Win: survive every round (lives raised only for this flow test).
 	var winner: Node3D = _new_match()
 	winner.lives = 1000000
-	while winner.start_round():
+	while winner.start_round() or winner.acknowledge_intro():
 		_sim(winner, 120.0, func() -> bool: return winner.state != S.ROUND_SPAWN and winner.state != S.ROUND_CLEANUP)
 	_check(winner.state == S.WON and winner.round_index == content.rounds.size() - 1, "won after the last round")
 	var bonus: int = 0
@@ -104,6 +104,50 @@ func _run() -> void:
 		bonus += rules.round_bonus_base + i + 1
 	_check(winner.ledger.cash == rules.start_cash + bonus, "all round bonuses paid once")
 	winner.free()
+
+	# Special-snowball introductions (P13-T05, Dev 12): first rounds come from the round data.
+	var probe: Node3D = _new_match()
+	var first: Dictionary = {}
+	for i: int in content.rounds.size():
+		probe.round_index = i - 1
+		var kind: StringName = probe._unseen_intro(i)
+		while kind != &"":
+			first[kind] = i + 1
+			probe._intros_seen[kind] = true
+			kind = probe._unseen_intro(i)
+	_check(first == {&"black": 20, &"white": 22, &"camo": 24, &"purple": 25}, "intro rounds from data: %s" % [first])
+	probe.free()
+	var intro: Node3D = _new_match()
+	intro.lives = 1000000
+	intro.round_index = 18  # next round is 20 (first Black)
+	_check(not intro.start_round() and intro.intro == &"black" and intro.state == S.PREPARE and intro.round_index == 18
+			and intro.snowballs.is_empty(), "round 20 opens the Black notice instead of spawning")
+	_check(not intro.start_round() and not intro.can_start_round() and intro.round_index == 18,
+			"repeated start (Space/Start button) while the notice is open does nothing")
+	_sim(intro, 5.0, func() -> bool: return false)
+	_check(intro.state == S.PREPARE and intro.snowballs.is_empty(), "no spawn while waiting for acknowledgment")
+	var space: InputEventKey = InputEventKey.new()
+	space.keycode = KEY_SPACE
+	space.pressed = true
+	space.echo = true
+	intro._unhandled_input(space)
+	_check(intro.intro == &"black" and intro.state == S.PREPARE, "held Space (echo) does not acknowledge")
+	intro.set_paused(true)
+	_check(not intro.acknowledge_intro() and intro.intro == &"black" and intro.state == S.PREPARE,
+			"paused: Continue is refused and the notice stays")
+	intro.set_paused(false)
+	space.echo = false
+	intro._unhandled_input(space)
+	_check(intro.intro == &"" and intro.state == S.ROUND_SPAWN and intro.round_index == 19, "one Space press acknowledges and starts round 20")
+	_sim(intro, 120.0, func() -> bool: return intro.state == S.PREPARE)
+	_check(intro.start_round() and intro.round_index == 20, "round 21 (Black again) starts directly: once per match")
+	_sim(intro, 120.0, func() -> bool: return intro.state == S.PREPARE)
+	_check(not intro.start_round() and intro.intro == &"white", "round 22 opens the White notice")
+	intro.free()
+	var again: Node3D = _new_match()
+	again.round_index = 18
+	_check(not again.start_round() and again.intro == &"black", "a new match (restart) shows the notices again")
+	again.free()
 
 	_check(root.get_node("Events").get_signal_connection_list("emitted").size() == events_baseline, "no leaked subscriptions")
 	print("test_match: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))

@@ -199,7 +199,7 @@ func _play(plan: Array, title: String, out: PackedStringArray, speed: float = 1.
 		b.lives = m.lives
 		b.tx = m.ledger.transactions.size()
 		b.tick = m.clock.tick
-		_check(m.start_round(), "%s: round %d starts" % [title, m.round_index + 2])
+		_check(m.start_round() or m.acknowledge_intro(), "%s: round %d starts" % [title, m.round_index + 2])
 	m.clock.ticked.connect(on_tick)
 	while b.end_tick == 0:
 		m.clock.advance(STEP)

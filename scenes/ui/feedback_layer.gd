@@ -51,6 +51,10 @@ func _on_event(e: GameEvent) -> void:
 				banner("SNOWBALL FRENZY!")
 			elif "focused_shot" in e.tags:
 				banner("Focused Shot %s" % ("ON" if e.magnitude > 0.0 else "off"))
+		&"tower_placed", &"tower_upgraded":
+			_float("-$%d" % e.magnitude, e.position, INCOME, 0.9)
+		&"purchase_failed":
+			_float(e.tags[0] if e.tags.size() > 0 else "Can't buy", e.position, LEAK, 1.0)
 		&"hero_level_up":
 			_float("Level %d!" % e.magnitude, e.position, INCOME, 1.5)
 		&"round_started":

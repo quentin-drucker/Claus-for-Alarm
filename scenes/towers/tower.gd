@@ -424,6 +424,7 @@ func footprint() -> Vector3:
 
 func set_selected(on: bool) -> void:
 	_range.visible = on and range_units > 0.0
+	_label.visible = on or _profile == null  # Dev 12: names only on the selected tower/ghost (no overlap)
 
 
 ## Ghost look: translucent green/red body, range ring, reason text when invalid.

@@ -1,0 +1,14 @@
+test_data exit 0 test_data: PASS 0
+test_map exit 0 test_map: PASS 0
+test_match exit 0 test_match: PASS 0
+test_combat exit 0 test_combat: PASS 0
+test_towers exit 0 test_towers: PASS 0
+test_upgrades exit 0 test_upgrades: PASS 0
+test_hero exit 0 test_hero: PASS 0
+test_ui exit 0 test_ui: PASS 0
+test_full_run exit 0 test_full_run: PASS 0
+test_audio exit 0 test_audio: PASS 0
+test_playfeel exit 0 test_playfeel: PASS 0
+test_menu_background exit 0 test_menu_background: PASS 0
+
+[exited with code 0]

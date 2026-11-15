@@ -43,6 +43,14 @@ const PICKUP_RADIUS_M: float = 0.6
 ## click. Owner doubled the original 1 m implementation default to 2 m (2026-11-14).
 @export var hover_collect_radius_m: float = 2.0
 
+## Special-snowball introductions (P13-T05, Dev 12): shown before the first round whose schedule contains the kind
+## (camo = any camo_* id); the round only starts after an explicit Continue / Space. Text follows current data.
+const INTROS: Dictionary[StringName, Array] = {
+	&"black": ["Black snowballs", "Immune to explosions: Avalanche Cannon blasts and other explosive attacks do nothing to them. Sharp, energy, plasma and ricochet attacks still work. Each one breaks into 2 Coral."],
+	&"white": ["White snowballs", "Immune to cold effects. None of your current defenders uses cold, so every attack still works on them. Each one breaks into 2 Coral."],
+	&"camo": ["Camo snowballs", "Hidden from defenders without camo detection: they cannot be targeted. Camel Claus detects camo from level 5; some Rookie, Ranger and Sorcerer upgrades add detection (see the upgrade text). Blasts still damage camo snowballs they reach, and their children stay camo."],
+	&"purple": ["Aurora snowballs", "Immune to energy, fire and plasma: most Snow Sorcerer magic does nothing to them. Sharp, explosive and ricochet attacks still work. Each one breaks into 2 Coral."],
+}
 const TICKET_EFFECTS = preload("res://scripts/presentation/ticket_effects.gd")
 const POP_EFFECTS = preload("res://scripts/presentation/pop_effects.gd")
 var ticket_effects: Node3D
@@ -101,6 +109,9 @@ var _shots_root: Node3D = Node3D.new()
 ## mouse, but only after the mouse has moved inside the window and never over HUD controls or outside the viewport;
 ## headless tests and bots never feed it and call set_collect_cursor() instead. Applied in the simulation tick.
 var collect_cursor: Variant = null
+## Pending special-snowball introduction (INTROS key) blocking the next round, or &"" (P13-T05).
+var intro: StringName = &""
+var _intros_seen: Dictionary[StringName, bool] = {}
 var _mouse_in_window: bool = false
 
 @onready var course: Node3D = $SkiCircuit
@@ -166,7 +177,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if key and key.pressed and not key.echo:
 		match key.keycode:
 			KEY_SPACE:
-				start_round()
+				if intro != &"":
+					acknowledge_intro()
+				else:
+					start_round()
 			KEY_P:
 				set_paused(not clock.paused)
 			KEY_F:
@@ -207,11 +221,18 @@ func is_over() -> bool:
 
 
 func can_start_round() -> bool:
-	return state == State.PREPARE and not clock.paused
+	return state == State.PREPARE and not clock.paused and intro == &""
 
 
+## Every wave-start path (Space, Start button, bots) comes here. A round with an unseen special kind opens its
+## introduction instead and returns false; acknowledge_intro() then starts it.
 func start_round() -> bool:
 	if not can_start_round():
+		return false
+	var kind: StringName = _unseen_intro(round_index + 1)
+	if kind != &"":
+		intro = kind
+		changed.emit()
 		return false
 	round_index += 1
 	_schedule = Content.rounds[round_index].schedule()
@@ -221,6 +242,28 @@ func start_round() -> bool:
 	_set_state(State.ROUND_SPAWN)
 	Events.send(&"round_started", 0, 0, round_index + 1)
 	return true
+
+
+## Continue on a special-snowball introduction: marks it seen for this match and starts the round.
+func acknowledge_intro() -> bool:
+	if intro == &"" or is_over() or clock.paused:
+		return false
+	_intros_seen[intro] = true
+	intro = &""
+	changed.emit()
+	return start_round()
+
+
+## First INTROS kind in round `i`'s schedule not yet introduced this match, or &"".
+func _unseen_intro(i: int) -> StringName:
+	if i >= Content.rounds.size():
+		return &""
+	for entry: Array in Content.rounds[i].schedule():
+		var id: StringName = entry[1]
+		var kind: StringName = &"camo" if String(id).begins_with("camo_") else id
+		if INTROS.has(kind) and not _intros_seen.has(kind):
+			return kind
+	return &""
 
 
 func set_paused(on: bool) -> void:
