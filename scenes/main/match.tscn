@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dsndxn8m6i48x" path="res://scenes/main/match.gd" id="1_mjjqx"]
 [ext_resource type="PackedScene" uid="uid://yw5i67cssy66" path="res://scenes/world/ski_circuit.tscn" id="2_vjtkt"]
+[ext_resource type="Script" path="res://scenes/main/gameplay_camera.gd" id="3_22vbd"]
 [ext_resource type="PackedScene" uid="uid://bhxd54cvah866" path="res://scenes/towers/tower.tscn" id="3_t1281"]
 [ext_resource type="PackedScene" uid="uid://d0v7443nwc0e5" path="res://scenes/ui/match_hud.tscn" id="4_vjtkt"]
 
@@ -25,6 +26,7 @@ current = true
 size = 46.0
 near = 1.0
 far = 80.0
+script = ExtResource("3_22vbd")
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=1912981365]
 transform = Transform3D(0.81915206, -0.46984634, 0.32898995, 0, 0.57357645, 0.81915206, -0.57357645, -0.6710101, 0.46984634, 0, 0, 0)

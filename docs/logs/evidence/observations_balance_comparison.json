@@ -1,0 +1,22 @@
+{
+  "before": [
+    "result WON at round 25, 147 lives, play time 11.4 min at 1x, 4.4 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 145 lives, play time 12.0 min at 1x, 4.6 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 150 lives, play time 11.5 min at 1x, 4.4 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 131 lives, play time 12.2 min at 1x, 4.6 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 4 lives, play time 12.1 min at 1x, 4.6 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 147 lives, play time 11.3 min at 1x, 4.4 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 37 lives, play time 11.8 min at 1x, 4.5 min at 4x (sim + 5s prepare per round)",
+    "result LOST at round 4, 0 lives, play time 3.5 min at 1x, 1.1 min at 4x (sim + 5s prepare per round)"
+  ],
+  "after": [
+    "result WON at round 25, 147 lives, play time 11.3 min at 1x, 4.4 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 147 lives, play time 11.7 min at 1x, 4.5 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 150 lives, play time 11.4 min at 1x, 4.4 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 141 lives, play time 12.0 min at 1x, 4.6 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 4 lives, play time 12.1 min at 1x, 4.6 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 147 lives, play time 11.3 min at 1x, 4.4 min at 4x (sim + 5s prepare per round)",
+    "result WON at round 25, 37 lives, play time 11.6 min at 1x, 4.5 min at 4x (sim + 5s prepare per round)",
+    "result LOST at round 4, 0 lives, play time 3.5 min at 1x, 1.1 min at 4x (sim + 5s prepare per round)"
+  ]
+}

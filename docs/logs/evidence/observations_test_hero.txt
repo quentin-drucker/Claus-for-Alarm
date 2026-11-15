@@ -1,0 +1,144 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+STATE PREPARE -> ROUND_SPAWN tick=120 round=1 lives=150 cash=1110
+STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+STATE PREPARE -> ROUND_SPAWN tick=0 round=1 lives=1000000 cash=100110
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=1051 round=1 lives=1000000 cash=100126
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=1219 round=1 lives=1000000 cash=100130
+STATE ROUND_REWARD -> PREPARE tick=1219 round=1 lives=1000000 cash=100231
+STATE PREPARE -> ROUND_SPAWN tick=1219 round=2 lives=1000000 cash=100231
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=2359 round=2 lives=1000000 cash=100261
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=2549 round=2 lives=1000000 cash=100266
+STATE ROUND_REWARD -> PREPARE tick=2549 round=2 lives=1000000 cash=100368
+STATE PREPARE -> ROUND_SPAWN tick=2549 round=3 lives=1000000 cash=100368
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=3552 round=3 lives=1000000 cash=100397
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=3717 round=3 lives=1000000 cash=100403
+STATE ROUND_REWARD -> PREPARE tick=3717 round=3 lives=1000000 cash=100506
+STATE PREPARE -> ROUND_SPAWN tick=3717 round=4 lives=1000000 cash=100506
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=4756 round=4 lives=1000000 cash=100550
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=5649 round=4 lives=999999 cash=100576
+STATE ROUND_REWARD -> PREPARE tick=5649 round=4 lives=999999 cash=100680
+STATE PREPARE -> ROUND_SPAWN tick=5649 round=5 lives=999999 cash=100680
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=6639 round=5 lives=999999 cash=100729
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=6776 round=5 lives=999999 cash=100739
+STATE ROUND_REWARD -> PREPARE tick=6776 round=5 lives=999999 cash=100844
+STATE PREPARE -> ROUND_SPAWN tick=6776 round=6 lives=999999 cash=100844
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=7898 round=6 lives=999999 cash=100889
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=8085 round=6 lives=999999 cash=100901
+STATE ROUND_REWARD -> PREPARE tick=8085 round=6 lives=999999 cash=101007
+STATE PREPARE -> ROUND_SPAWN tick=8085 round=7 lives=999999 cash=101007
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=9694 round=7 lives=999999 cash=101070
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=9909 round=7 lives=999999 cash=101082
+STATE ROUND_REWARD -> PREPARE tick=9909 round=7 lives=999999 cash=101189
+STATE PREPARE -> ROUND_SPAWN tick=9909 round=8 lives=999999 cash=101189
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=11642 round=8 lives=999999 cash=101272
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=11823 round=8 lives=999999 cash=101281
+STATE ROUND_REWARD -> PREPARE tick=11823 round=8 lives=999999 cash=101389
+STATE PREPARE -> ROUND_SPAWN tick=11823 round=9 lives=999999 cash=101389
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=12960 round=9 lives=999999 cash=101461
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=13266 round=9 lives=999999 cash=101479
+STATE ROUND_REWARD -> PREPARE tick=13266 round=9 lives=999999 cash=101588
+STATE PREPARE -> ROUND_SPAWN tick=13266 round=10 lives=999999 cash=101588
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=16146 round=10 lives=999999 cash=101752
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=17463 round=10 lives=999998 cash=101791
+STATE ROUND_REWARD -> PREPARE tick=17463 round=10 lives=999998 cash=101901
+STATE PREPARE -> ROUND_SPAWN tick=17463 round=11 lives=999998 cash=101901
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=18613 round=11 lives=999998 cash=101956
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=19365 round=11 lives=999997 cash=101978
+STATE ROUND_REWARD -> PREPARE tick=19365 round=11 lives=999997 cash=102089
+STATE PREPARE -> ROUND_SPAWN tick=19365 round=12 lives=999997 cash=102089
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=20409 round=12 lives=999997 cash=102152
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=20810 round=12 lives=999993 cash=102165
+STATE ROUND_REWARD -> PREPARE tick=20810 round=12 lives=999993 cash=102277
+STATE PREPARE -> ROUND_SPAWN tick=20810 round=13 lives=999993 cash=102277
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=22743 round=13 lives=999993 cash=102398
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=23989 round=13 lives=999976 cash=102429
+STATE ROUND_REWARD -> PREPARE tick=23989 round=13 lives=999976 cash=102542
+STATE PREPARE -> ROUND_SPAWN tick=23989 round=14 lives=999976 cash=102542
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=25587 round=14 lives=999972 cash=102632
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=26489 round=14 lives=999948 cash=102659
+STATE ROUND_REWARD -> PREPARE tick=26489 round=14 lives=999948 cash=102773
+STATE PREPARE -> ROUND_SPAWN tick=26489 round=15 lives=999948 cash=102773
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=27989 round=15 lives=999948 cash=102850
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=29223 round=15 lives=999899 cash=102875
+STATE ROUND_REWARD -> PREPARE tick=29223 round=15 lives=999899 cash=102990
+STATE PREPARE -> ROUND_SPAWN tick=29223 round=16 lives=999899 cash=102990
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=30185 round=16 lives=999899 cash=103050
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=31078 round=16 lives=999827 cash=103070
+STATE ROUND_REWARD -> PREPARE tick=31078 round=16 lives=999827 cash=103186
+STATE PREPARE -> ROUND_SPAWN tick=31078 round=17 lives=999827 cash=103186
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=31378 round=17 lives=999827 cash=103200
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=32192 round=17 lives=999813 cash=103220
+STATE ROUND_REWARD -> PREPARE tick=32192 round=17 lives=999813 cash=103337
+STATE PREPARE -> ROUND_SPAWN tick=32192 round=18 lives=999813 cash=103337
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=33802 round=18 lives=999808 cash=103444
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=34935 round=18 lives=999709 cash=103473
+STATE ROUND_REWARD -> PREPARE tick=34935 round=18 lives=999709 cash=103591
+STATE PREPARE -> ROUND_SPAWN tick=34935 round=19 lives=999709 cash=103591
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=35881 round=19 lives=999690 cash=103640
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=37011 round=19 lives=999626 cash=103649
+STATE ROUND_REWARD -> PREPARE tick=37011 round=19 lives=999626 cash=103768
+STATE PREPARE -> ROUND_SPAWN tick=37011 round=20 lives=999626 cash=103768
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=37326 round=20 lives=999626 cash=103779
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=37981 round=20 lives=999582 cash=103790
+STATE ROUND_REWARD -> PREPARE tick=37981 round=20 lives=999582 cash=103910
+STATE PREPARE -> ROUND_SPAWN tick=37981 round=21 lives=999582 cash=103910
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=39069 round=21 lives=999505 cash=103971
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=39664 round=21 lives=999417 cash=103975
+STATE ROUND_REWARD -> PREPARE tick=39664 round=21 lives=999417 cash=104096
+STATE PREPARE -> ROUND_SPAWN tick=39664 round=22 lives=999417 cash=104096
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=40144 round=22 lives=999417 cash=104124
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=40738 round=22 lives=999289 cash=104144
+STATE ROUND_REWARD -> PREPARE tick=40738 round=22 lives=999289 cash=104266
+STATE PREPARE -> ROUND_SPAWN tick=40738 round=23 lives=999289 cash=104266
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=41148 round=23 lives=999289 cash=104287
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=41829 round=23 lives=999181 cash=104312
+STATE ROUND_REWARD -> PREPARE tick=41829 round=23 lives=999181 cash=104435
+STATE PREPARE -> ROUND_SPAWN tick=41829 round=24 lives=999181 cash=104435
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=42369 round=24 lives=999181 cash=104454
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=42735 round=24 lives=999181 cash=104478
+STATE ROUND_REWARD -> PREPARE tick=42735 round=24 lives=999181 cash=104602
+STATE PREPARE -> ROUND_SPAWN tick=42735 round=25 lives=999181 cash=104602
+STATE ROUND_SPAWN -> ROUND_CLEANUP tick=44004 round=25 lives=999145 cash=104660
+STATE ROUND_CLEANUP -> ROUND_REWARD tick=44858 round=25 lives=999049 cash=104680
+STATE ROUND_REWARD -> WON tick=44858 round=25 lives=999049 cash=104805
+P10 hero XP in a normal match (hero placed before round 1, BTD6 round XP 20r+20, 40r-380 from round 21).
+round  xp_gained  total_xp  level
+    1         40        40      1
+    2         60       100      1
+    3         80       180      2
+    4        100       280      2
+    5        120       400      2
+    6        140       540      2
+    7        160       700      3
+    8        180       880      3
+    9        200      1080      3
+   10        220      1300      3
+   11        240      1540      3
+   12        260      1800      4
+   13        280      2080      4
+   14        300      2380      4
+   15        320      2700      4
+   16        340      3040      4
+   17        360      3400      4
+   18        380      3780      5
+   19        400      4180      5
+   20        420      4600      5
+   21        460      5060      5
+   22        500      5560      5
+   23        540      6100      5
+   24        580      6680      5
+   25        620      7300      6
+Reached: level 2 after round 3, 3 after 7 (Snowball Frenzy), 4 after 12 (Focused Shot), 5 after 18 (camo), 6 after 25 (two shots: only once round 25 is won).
+Max level in a normal match: 6 (7300 XP; level 7 needs 11,960). Level 6 is implemented (fixtures); levels 7-20 data only until DEC-030.
+test_hero: PASS
+WARNING: 72 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 32 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

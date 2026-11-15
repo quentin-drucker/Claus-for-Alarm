@@ -35,9 +35,16 @@ const PICKUP_COLOR: Color = Color("f9c96d")
 ## Click distance that collects a ticket pickup (metres).
 const PICKUP_RADIUS_M: float = 0.6
 
+## Owner experiment: moving-projectile contact only, 0.4 -> 0.6 m. 1.0 restores baseline.
+## Enemy radius, targeting, ricochet reach, hitscan and explosion radii stay unchanged.
+@export_range(0.1, 3.0, 0.05) var projectile_hitbox_multiplier: float = 1.5
+
 ## DEC-043: every ticket pickup within this world-XZ distance of the cursor's ground point is collected without a
-## click (implementation default, not an owner-chosen value).
-@export var hover_collect_radius_m: float = 1.0
+## click. Owner doubled the original 1 m implementation default to 2 m (2026-11-14).
+@export var hover_collect_radius_m: float = 2.0
+
+const TICKET_EFFECTS = preload("res://scripts/presentation/ticket_effects.gd")
+var ticket_effects: Node3D
 
 
 ## One flying projectile (simulation state; `node` is its placeholder visual).
@@ -113,6 +120,9 @@ func _ready() -> void:
 	ghost.visible = false
 	_shots_root.name = "Shots"
 	add_child(_shots_root)
+	ticket_effects = TICKET_EFFECTS.new()
+	ticket_effects.name = "TicketEffects"
+	add_child(ticket_effects)
 	_set_state(State.PREPARE)
 
 
@@ -236,6 +246,7 @@ func cycle_priority(tower: Node3D) -> void:
 
 func _on_tick(dt: float) -> void:
 	Events.tick = clock.tick
+	ticket_effects.advance(dt, collect_cursor)
 	if is_over():
 		return
 	if state == State.ROUND_SPAWN:
@@ -453,7 +464,7 @@ func _move_shots(dt: float) -> void:
 				break
 			if was_hit(shot.hit, s) or not snowballs.has(s):
 				continue
-			if Geometry3D.get_closest_point_to_segment(s.position, from, shot.pos).distance_to(s.position) > HIT_RADIUS_M:
+			if Geometry3D.get_closest_point_to_segment(s.position, from, shot.pos).distance_to(s.position) > projectile_contact_radius():
 				continue
 			shot.hit[s.entity_id] = true
 			shot.pierce -= 1  # an immune contact still uses pierce (BTD6: Lead blocks darts)
@@ -585,6 +596,10 @@ func _set_state(next: State) -> void:
 
 # --- Ticket Booth income (P08-T06). ---
 
+## Effective swept contact tolerance for moving shots; distinct from every area/range query.
+func projectile_contact_radius() -> float:
+	return HIT_RADIUS_M * projectile_hitbox_multiplier
+
 ## Each booth drops its pickups evenly over the round's spawn time.
 ## ponytail: even spacing is a PROTOTYPE_ASSUMPTION; the source pages give no in-round timing.
 func _plan_drops() -> void:
@@ -632,6 +647,7 @@ func _drop_pickup(booth: Node3D, k: int) -> void:
 	pickup.node.mesh = box
 	pickup.node.position = pickup.pos + Vector3.UP * 0.15
 	_shots_root.add_child(pickup.node)
+	ticket_effects.spawn_ticket(pickup.node, booth.muzzle_position(), pickup.pos + Vector3.UP * 0.15)
 	pickups.append(pickup)
 	Events.send(&"pickup_spawned", booth.entity_id, 0, pickup.value, pickup.pos)
 
@@ -640,7 +656,7 @@ func _drop_pickup(booth: Node3D, k: int) -> void:
 func collect_at(point: Vector3) -> bool:
 	for pickup: Pickup in pickups:
 		if Vector2(pickup.pos.x - point.x, pickup.pos.z - point.z).length() <= PICKUP_RADIUS_M:
-			collect(pickup)
+			collect(pickup, point)
 			return true
 	return false
 
@@ -652,15 +668,18 @@ func _collect_near_cursor() -> void:
 	var c: Vector3 = collect_cursor
 	for pickup: Pickup in pickups.duplicate():
 		if Vector2(pickup.pos.x - c.x, pickup.pos.z - c.z).length() <= hover_collect_radius_m:
-			collect(pickup)
+			collect(pickup, c)
 
 
 ## The one credit path for a ticket (click, hover): a pickup is credited at most once, never after the match ends.
-func collect(pickup: Pickup) -> void:
+func collect(pickup: Pickup, toward: Variant = null) -> void:
 	if is_over() or pickup not in pickups:
 		return
 	ledger.credit(clock.tick, pickup.value, &"ticket_income", pickup.source_id)
-	_remove_pickup(pickup)
+	# Remove authoritative state immediately; its detached visual cannot expire or pay again.
+	pickups.erase(pickup)
+	var visual_target: Vector3 = pickup.pos if toward == null else toward
+	ticket_effects.collect_ticket(pickup.node, visual_target)
 	Events.send(&"income_collected", pickup.source_id, 0, pickup.value, pickup.pos)
 	changed.emit()
 
@@ -679,6 +698,7 @@ func collect_bank(booth: Node3D) -> int:
 
 func _remove_pickup(pickup: Pickup) -> void:
 	pickups.erase(pickup)
+	ticket_effects.forget(pickup.node)
 	pickup.node.queue_free()
 
 

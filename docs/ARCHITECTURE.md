@@ -46,12 +46,21 @@ listens to events. Nothing in presentation may change cash, lives, damage or rou
 - `check_placement(pos_xz, radius, towers)` → `""` or a reason (`Outside the course`, `On the ski track`,
   `Blocked by scenery`, `Too close to another tower`); the match adds `Not enough cash`. Ghost and purchase use the
   same call, so the preview can never disagree with the rule.
-- Camera (P03-T02 decision): fixed orthographic, pitch −60°, `keep_aspect = KEEP_WIDTH`, width 42 m, centred
-  2.5 m right of the map so the right-hand shop never covers the course. Orthographic keeps range rings true
-  circles in size everywhere and makes cursor → ground picking exact at any window size.
+- Camera: orthographic width 46 m (zoom unchanged), `keep_aspect = KEEP_WIDTH`.
+  Owner elevation trial: 50 degrees, previously 60. `scenes/main/gameplay_camera.gd`
+  orbits the same ground focus and exposes the angle for tuning; set elevation to 60 to revert.
+  Ray/ground projection remains the picking authority. Final framing/zoom and right/bottom UI safe areas
+  are deferred to P17; projection roundtrip and locked-geometry tests cover this change.
 - Geometry is frozen by `tests/test_map.gd`; changing the route/blockers requires a balance review.
 
 ## Match (P04) — `scenes/main/match.tscn` + `scenes/ui/match_hud.tscn`
+
+Owner play-feel trials (2026-11-14): `match.gd` exposes a moving-projectile-only
+`projectile_hitbox_multiplier` (1.5, tolerance 0.6 m; 1.0 restores 0.4 m). This does not
+alter targeting, enemy size, hitscan or splash queries. Ticket collection radius is 2 m;
+`scripts/presentation/ticket_effects.gd` animates spawn/collection only. Payments and
+pickup expiry stay in the match; collection immediately removes the authoritative
+pickup while its visual finishes independently, so animations cannot duplicate income.
 
 States (`match.gd` `State`, legal moves in `TRANSITIONS`; illegal ones push an error and are ignored):
 

@@ -1,0 +1,79 @@
+[
+  {
+    "suite": "data",
+    "exit": 0,
+    "result": [
+      "test_data: PASS"
+    ]
+  },
+  {
+    "suite": "map",
+    "exit": 0,
+    "result": [
+      "test_map: PASS"
+    ]
+  },
+  {
+    "suite": "match",
+    "exit": 0,
+    "result": [
+      "test_match: PASS"
+    ]
+  },
+  {
+    "suite": "combat",
+    "exit": 0,
+    "result": [
+      "test_combat: PASS"
+    ]
+  },
+  {
+    "suite": "towers",
+    "exit": 0,
+    "result": [
+      "test_towers: PASS"
+    ]
+  },
+  {
+    "suite": "upgrades",
+    "exit": 0,
+    "result": [
+      "test_upgrades: PASS"
+    ]
+  },
+  {
+    "suite": "hero",
+    "exit": 0,
+    "result": [
+      "test_hero: PASS"
+    ]
+  },
+  {
+    "suite": "ui",
+    "exit": 0,
+    "result": [
+      "test_ui: PASS"
+    ]
+  },
+  {
+    "suite": "full_run",
+    "exit": 0,
+    "result": [
+      "test_full_run: PASS"
+    ]
+  },
+  {
+    "suite": "audio",
+    "exit": 0,
+    "result": [
+      "test_audio: PASS"
+    ]
+  },
+  {
+    "suite": "playfeel",
+    "exit": 0,
+    "result": [
+      "test_playfeel: PASS"
+    ]
+  }
+]

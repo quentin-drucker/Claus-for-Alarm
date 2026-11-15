@@ -72,7 +72,9 @@ hide geometry (A-12).
   pale Powder snowballs stay legible on white snow. Environment has **no** outline (it reads by mass and value).
 - Shading is plain PBR-lite (StandardMaterial3D), no cel ramp; form comes from geometry + baked vertex AO.
 
-## 7. Readability rules at the game camera (ortho, 46 m wide, 60° pitch ≈ 25 px per metre at 1152 px)
+## 7. Readability rules at the game camera (ortho, 46 m wide, 50° elevation trial)
+
+Owner trial (2026-11-14): `scenes/main/gameplay_camera.gd` exposes `elevation_degrees` (50 by default; 60 restores the previous pitch), ground focus and orbit distance. Orthographic zoom remains 46. Camera projection/picking is regression-tested; final art approval remains open. Zoom/composition changes belong to the later UI-safe-area pass, not this pitch trial.
 
 1. Measured: a 1.2 m elf is ~22 px tall at 1152×648 at 1.0×, so it is shown at **1.5× (~33 px, DEC-036)**; cap colour,
    jacket colour, face and the role prop must each cover ≥ 4 px blocks.
@@ -81,3 +83,7 @@ hide geometry (A-12).
 4. Snowball tiers must differ in hue **and** pattern; specials keep their B/W/P/C letter markers (non-colour cue).
 5. Powder keeps its dark outline; nothing white-on-white without a contour.
 6. Thumbnail test: at 320×180 the track, the snowballs and every tower stay identifiable (A-12).
+
+## 8. Deferred final aesthetic exploration
+
+The owner wants a subtle modern-3D/pixel influence; do not implement pixelation yet. Evaluate low-resolution 3D rendering/upscale versus selective post-processing, texture filtering and material treatment after the major UI and asset passes. Start by preserving crisp text/critical HUD. Compare multiple resolutions, silhouette/projectile readability and Web Compatibility performance before choosing an approach. Acceptance criteria and phase assignment: `docs/DEFERRED_WORK.md`, final P17 polish followed by P19 validation.

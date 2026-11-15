@@ -1145,6 +1145,42 @@ This section supersedes the old next-action text and old Dev 8 map-first prompt.
 - First-shot stutter (`p15d_stutter_web.txt`): repeatable, not a one-off — every load shows long frames at the first placement (~235 ms), first round start (246 ms; 1.87 s on a fresh browser profile) and first shot (100–175 ms); round 2's first shots show none. Cause not proven (consistent with first-draw shader/pipeline compilation or first audio use).
 - Readability at the normal camera (`p15d_gamecam_roster_*`): the Booth is the strongest tower read; the Sorcerer reads as a red hat with a faint icy staff tip (thin prop on a compact body); Label3D names still cover neighbours at touching footprints; 320×180: towers are colour blobs, the Booth stays recognisable.
 
+### 12.1.2 Owner observations implemented alongside paused Dev 11 (2026-11-14)
+
+**Scope and coordination:** Dev 11 (Camel integration, Sorcerer size, bounded texture/stutter work) was in progress but paused by the owner's Claude usage limit. This batch handles independent owner observations. It does not replace Dev 11, claim its work completed, or approve P15-T09/G7. Do not overwrite these changes when resuming; inspect the current tree, especially `scenes/main/match.gd` and `match.tscn`. Hero/profile/preparation sources and other chats' existing import changes were left alone.
+
+**Implemented trials**
+- OBS-PICKUP: `hover_collect_radius_m` default 1.0 -> **2.0 m** in world XZ (owner requested 2x). Existing click tolerance remains 0.6 m; ticket values, authoritative positions, lifetime, Bank/Marketplace, expiry and $750 Booth price remain unchanged.
+- OBS-TICKET-FX: `scripts/presentation/ticket_effects.gd` animates the existing ticket visual from the Booth window/muzzle marker to its original resting point over 0.42 s with an upward/outward arc and settling scale. On hover/click it accelerates toward the collection point over 0.22 s, following valid cursor input. Authoritative payment/removal still occurs immediately in `collect()`; the detached effect cannot pay or expire again. Instant same-tick collection is supported. Effects advance on game ticks (pause/speed respected), clean up on finish/expiry/scene teardown, and collected effects are capped at 48.
+- OBS-CAMERA: `scenes/main/gameplay_camera.gd` exposes elevation, focus and orbit distance. Default elevation **60 -> 50 degrees**; preserve original ground focus, orthographic size **46**, map data and projection-based picking. Script attached using `godot_node_set`/`godot_scene_save`, not text editing of the scene. `elevation_degrees=60` restores the previous pitch. No gameplay zoom change was made.
+- OBS-CONTACT (EXPERIMENTAL BALANCE): moving-projectile swept-contact tolerance **0.4 -> 0.6 m** via `projectile_hitbox_multiplier=1.5`; set 1.0 to restore baseline. This codebase has no independent projectile-shape radius, so the existing sweep tolerance is the applicable dimension. Enemy physical/visual radius remains 0.4 m. Target ranges, ricochet search distance, hitscan Ranger attacks, burst/explosion radii, damage, speed, lifetime, pierce and visual size are unchanged. Moving shots from Rookie, Cannon, Wax, Sorcerer, hero and projectile sub-attacks share this sweep. More reliable contact intentionally changes encounter outcomes; this is not an identical-gameplay art swap.
+
+**Upgrade/showcase audit**
+- `tests/test_upgrades.gd` and `docs/logs/evidence/p10_upgrade_coverage.txt` confirm **9 available upgrades per initial tower**, top/middle/bottom tiers 1-3 = 54/90. All six initial towers meet the requested tier-depth target. The remaining 36 tier-4/5 entries are unavailable; HUD labels them "coming soon", and purchases are refused.
+- Existing documented approximations/fillers remain explicitly labelled; availability does not establish full BTD6 fidelity.
+- Showcase roster remains six implemented regular towers + Camel Claus. Hockey/Snowboard source art is not authority to add mechanics. Existing deferrals remain in force.
+- Tier-4/5 implementation is post-showcase work; upgrade-form cosmetics and broad rigging remain deferred separately.
+
+**Deferred requirements / authoritative backlog**
+See `docs/DEFERRED_WORK.md` for desired behavior, reason, phase, considerations and completion criteria:
+1. P17/P13-T08: slight zoom/composition review with right/bottom UI safe areas, aspect ratios and full playfield visibility.
+2. P17/P13-T05: acknowledged, non-expiring special-enemy introductions before relevant waves; block every start path until acknowledgment, avoid repeat notices within a match. Verified active first introductions: Black r20 (explosion immunity), White r22 (cold immunity; no current cold attack), Camo r24 (detection required), Aurora r25 (energy/fire/plasma immunity). Metal/Lead remains deferred.
+3. P19-T05–T10: **required final Web optimization/acceptance gate**, covering target devices, frame times, loading/download, draw calls, meshes, textures/VRAM, shaders, VFX and late-wave entity counts. Retain reasonable resource practices now; do not indefinitely defer a blocking regression.
+4. Final P17 visual polish then P19: evaluate subtle pixel aesthetic, low-res 3D vs selective effects/material/filtering; initially compare crisp HUD/text; no pixel shader implemented now.
+5. P21: tiers 4–5 as potential later extension, clearly unavailable in showcase.
+
+**Verification and limits**
+- Headless baseline: all ten existing suites passed before edits. After edits: those ten plus `tests/test_playfeel.gd` pass (11/11); `observations_tests.json` and per-suite logs under `docs/logs/evidence/`.
+- New tests cover 2 m pickup boundaries, spawn origin/settling, paused visuals, magnetic movement, immediate once-only credit, same-tick spawn collection, original-vs-expanded swept misses/hits, unchanged splash reach, and camera projection roundtrips with zoom unchanged.
+- The legacy 1 m hover ordering/expiry fixture explicitly selects radius 1 m; the new suite independently verifies the new default. This preserves coverage rather than changing the fixture's unrelated timing assertions.
+- Full-run speed equivalence still passes. Before/after bot lives: Rookie-only 147 -> 147; mixed roster 145 -> 147; hero mix 150 -> 150; Booth-economy 131 -> 141. These are measured consequences of the contact experiment, not a balance-parity claim. Solo Ranger remains 4 lives, Cannon 147, Sorcerer 37, Wax loses r4. Review fairness by playing before locking the multiplier.
+- Web export to separate `build/observations_web/` succeeded. Browser checks/captures and any remaining manual review are recorded in the appended SESSION_LOG entry.
+- Native windowed review attempts crashed at startup with Windows exit 3221225725 before rendering; headless tests and Web work. No claim of successful native-window visual verification. Existing exit-time resource cleanup warnings also appear in the pre-change baseline.
+- MCP tools are available through a temporary stdio client calling the installed local server: `godot_status`/`godot_project_info` confirmed Godot 4.7.2, no connected editor. Scene operations can use its headless backend. Direct filesystem/GDScript edits, headless tests, Web export/browser checks and standalone Blender commands are available; no user reconnection is required for those operations.
+- Camera angle, ticket motion and contact multiplier remain owner-review/tuning items, not final art sign-off.
+
+**Next:** resume the authorized Dev 11 work on top of this batch, then selected Rookie integration and queued map/snowball slice. Keep final P17 composition/onboarding/pixel exploration and P19 Web acceptance visible; do not expand the roster or begin broad optimizations prematurely.
+
 ### 12.2 Session log template (append entries; do not rewrite history)
 
 ```md
