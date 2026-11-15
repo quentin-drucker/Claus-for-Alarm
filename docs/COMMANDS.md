@@ -104,6 +104,8 @@ labels, ghost/select/upgrade/sell, track-edge + neighbour clearance, muzzle alig
 ```bash
 "$GODOT" --path . -s res://tests/tools/roster_review.gd            # Dev 9: Ranger + Wax -> p15c_*
 "$GODOT" --path . -s res://tests/tools/roster_review.gd -- dev10   # Dev 10: Sorcerer + Booth (+ ticket visibility) -> p15d_*
+"$GODOT" --path . -s res://tests/tools/roster_review.gd -- dev11   # Dev 11: Camel Claus + Sorcerer, roster lineup, hero cues -> p15e_*
+# First-use stall probe (Web Stress build): pages probe.html / probe_warm.html = args ["--","probe"] / ["--","probe","warm"]
 ```
 
 Stress scene (desktop and browser; prints `STRESS` lines; mixes `cannon` = 8 Cannons + 4 Rookies, `roster` = 3 each of
