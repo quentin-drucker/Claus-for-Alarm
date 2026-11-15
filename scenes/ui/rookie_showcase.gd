@@ -11,9 +11,7 @@ var portrait_camera: Camera3D
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stretch = true
-	# DEC-049: the enlarged menu model renders at 1/3 resolution, upscaled with nearest: a clear pixel finish.
-	stretch_shrink = 3
-	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	# DEC-052: full-resolution render (the DEC-049 1/3-res nearest pixel finish was removed by the owner).
 	var viewport: SubViewport = SubViewport.new()
 	viewport.name = "PortraitViewport"
 	viewport.size = Vector2i(420, 540)

@@ -9,7 +9,7 @@ const SHADER: Shader = preload("res://assets/materials/ambient_snow.gdshader")
 @export var flake_count: int = 700
 @export var gust_flakes: int = 220
 @export var gust_interval_s: Vector2 = Vector2(6.0, 13.0)
-@export var gust_life_s: float = 4.5
+@export var gust_life_s: float = 2.8
 ## Snowfall volume (world metres); matches the shader defaults and covers the orthographic view around the course.
 @export var box: AABB = AABB(Vector3(-27.0, 0.0, -22.0), Vector3(54.0, 13.0, 40.0))
 
@@ -62,6 +62,7 @@ func _start_gust() -> void:
 	_gust_material.set_shader_parameter(&"gust_start", start)
 	_gust_material.set_shader_parameter(&"gust_dir", dir)
 	_gust_material.set_shader_parameter(&"gust_age", 0.0)
+	_gust_material.set_shader_parameter(&"gust_phase", _rng.randf() * TAU)
 	_gust_age_s = 0.0
 	_gust_node.visible = true
 	_next_gust_s = _rng.randf_range(gust_interval_s.x, gust_interval_s.y)
