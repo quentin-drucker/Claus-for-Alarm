@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="TowerDefinition" format=3]
+[gd_resource type="Resource" script_class="TowerDefinition" format=3 uid="uid://ucoddsqurctc"]
 
-[ext_resource type="Script" path="res://scripts/data/attack_definition.gd" id="1_ugbfv"]
-[ext_resource type="Script" path="res://scripts/data/tower_definition.gd" id="2_cklkp"]
-[ext_resource type="Script" path="res://scripts/data/upgrade_definition.gd" id="3_ggmou"]
-[ext_resource type="Script" path="res://scripts/data/upgrade_effect.gd" id="4_cklkp"]
+[ext_resource type="Script" uid="uid://doeiupb0x4o8r" path="res://scripts/data/attack_definition.gd" id="1_ugbfv"]
+[ext_resource type="Script" uid="uid://conactegm1aen" path="res://scripts/data/tower_definition.gd" id="2_cklkp"]
+[ext_resource type="Script" uid="uid://bjtbc83i8x7hp" path="res://scripts/data/upgrade_definition.gd" id="3_ggmou"]
+[ext_resource type="Script" uid="uid://b3d802k426wsg" path="res://scripts/data/upgrade_effect.gd" id="4_cklkp"]
 
 [sub_resource type="Resource" id="Resource_ggmou"]
 script = ExtResource("4_cklkp")
@@ -303,13 +303,13 @@ notes = "v56 price; effect requires per-upgrade verification"
 script = ExtResource("2_cklkp")
 display_name = "Ski Resort Ticket Booth"
 source_tower = "Banana Farm"
-price = 1250
+price = 750
 footprint_units = 15.0
 upgrades = Array[ExtResource("3_ggmou")]([SubResource("Resource_080va"), SubResource("Resource_0tjqv"), SubResource("Resource_hetah"), SubResource("Resource_gdwjw"), SubResource("Resource_tcicd"), SubResource("Resource_1u2k5"), SubResource("Resource_wrw24"), SubResource("Resource_ig4s5"), SubResource("Resource_n1etg"), SubResource("Resource_0hfn6"), SubResource("Resource_n5ret"), SubResource("Resource_vgrmp"), SubResource("Resource_767l8"), SubResource("Resource_vwol2"), SubResource("Resource_m2u7c")])
 pickups_per_round = 4
 cash_per_pickup = 50
 pickup_lifetime_s = 15.0
-role = "Income: drops tickets every round; click them to collect cash."
+role = "Income: drops tickets every round; move the cursor over them (or click) to collect cash."
 id = &"ski_resort_ticket_booth"
 source_url = "https://teemo.dev/game-design/bloons-td-6/wiki/towers/banana-farm/"
 status = Dictionary[String, String]({
@@ -317,7 +317,7 @@ status = Dictionary[String, String]({
 "footprint_units": "VERIFIED_SOURCE",
 "pickup_lifetime_s": "VERIFIED_SOURCE",
 "pickups_per_round": "VERIFIED_SOURCE",
-"price": "VERIFIED_SOURCE",
+"price": "ORIGINAL_DEVIATION",
 "range_units": "NOT_APPLICABLE"
 })
-notes = "Base kit: M-10 (v56) except cash per pickup: ORIGINAL_DEVIATION $20 -> $50 (owner 2026-11-14) so a $1,250 Booth pays back in ~6 rounds of a 19-round match. Footprint radius 15 from the source page. 4 pickups per round; pickups rot after 15 s."
+notes = "Base kit: M-10 (v56) except two owner ORIGINAL_DEVIATIONs: price $1,250 -> $750 (DEC-042, Dev 10; source v56 price $1,250) and cash per pickup $20 -> $50 (owner 2026-11-14). Base income 4 x $50 per round: a fully collected $750 Booth pays back in 3.75 production rounds (excluding timing and upgrades). Upgrade prices unchanged. Footprint radius 15 from the source page. Pickups rot after 15 s."

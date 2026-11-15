@@ -77,7 +77,7 @@ text = "Snowballs roll down the ski course from START to FINISH. Stop them befor
 • Start a round with Start round (Space) when you are ready. F cycles speed 1x / 2x / 4x, P pauses.
 • Layers: every hit knocks off one layer: Coral > Violet > Mint > Blue > Powder > gone. Each layer pays $1, plus a bonus after every round. Outer layers roll faster.
 • Special snowballs carry a letter.  B = Black: explosions can't hurt it.  W = White: immune to cold.  A = Aurora: Snow Sorcerer magic can't hurt it.  B, W and A split into 2 Coral when hit.  C = Camo: only defenders with camo detection can see it (some upgrades, Camel Claus level 5).
-• Income: the Ticket Booth drops tickets every round. Click them to collect before they melt.
+• Income: the Ticket Booth drops tickets every round. Move the cursor over them (or click) to collect before they melt.
 • Lose lives: a snowball that reaches the finish costs one life per layer it still has (a Black, White or Aurora costs 11).
 • Win by surviving all 25 rounds. You lose when your lives reach 0."
 autowrap_mode = 3

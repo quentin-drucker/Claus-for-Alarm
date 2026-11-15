@@ -35,6 +35,10 @@ const PICKUP_COLOR: Color = Color("f9c96d")
 ## Click distance that collects a ticket pickup (metres).
 const PICKUP_RADIUS_M: float = 0.6
 
+## DEC-043: every ticket pickup within this world-XZ distance of the cursor's ground point is collected without a
+## click (implementation default, not an owner-chosen value).
+@export var hover_collect_radius_m: float = 1.0
+
 
 ## One flying projectile (simulation state; `node` is its placeholder visual).
 class Shot:
@@ -84,6 +88,11 @@ var _drops: Array = []
 var _drop_cursor: int = 0
 var _round_time: float = 0.0
 var _shots_root: Node3D = Node3D.new()
+## Hover-collection input (DEC-043): the cursor's ground point, or null. The match sets it every frame from the real
+## mouse, but only after the mouse has moved inside the window and never over HUD controls or outside the viewport;
+## headless tests and bots never feed it and call set_collect_cursor() instead. Applied in the simulation tick.
+var collect_cursor: Variant = null
+var _mouse_in_window: bool = false
 
 @onready var course: Node3D = $SkiCircuit
 @onready var camera: Camera3D = $Camera3D
@@ -114,6 +123,26 @@ func _process(_delta: float) -> void:
 		if hit != null:
 			ghost.position = Vector3(hit.x, 0.0, hit.z)
 			ghost.show_ghost(placement_reason(placing, Vector2(hit.x, hit.z)))
+	if _mouse_in_window:
+		var vp: Viewport = get_viewport()
+		var over_ui: bool = vp.gui_get_hovered_control() != null
+		collect_cursor = null if over_ui or not vp.get_visible_rect().has_point(vp.get_mouse_position()) else mouse_ground()
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		_mouse_in_window = true  # a real cursor inside the window (never in headless runs)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_MOUSE_EXIT or what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		_mouse_in_window = false
+		collect_cursor = null
+
+
+## Explicit hover-collection input (DEC-043): a ground point, or null to stop. Takes effect on the next tick.
+func set_collect_cursor(point: Variant) -> void:
+	collect_cursor = point
 
 
 ## World input only; clicks on HUD controls never reach here (GUI handles them first).
@@ -202,7 +231,8 @@ func cycle_priority(tower: Node3D) -> void:
 		changed.emit()
 
 
-# --- Simulation tick. Fixed order: spawn -> move -> leaks -> towers fire -> shots hit -> round state. ---
+# --- Simulation tick. Fixed order: spawn + ticket drops -> hover collection -> ticket expiry -> move -> leaks ->
+# towers fire -> shots hit -> round state. Paused = no tick, so nothing is collected while paused. ---
 
 func _on_tick(dt: float) -> void:
 	Events.tick = clock.tick
@@ -216,6 +246,7 @@ func _on_tick(dt: float) -> void:
 		while _drop_cursor < _drops.size() and _drops[_drop_cursor][0] <= _round_time + 1e-6:
 			_drop_pickup(_drops[_drop_cursor][1], _drops[_drop_cursor][2])
 			_drop_cursor += 1
+	_collect_near_cursor()  # after this tick's drops (a still cursor takes a new ticket), before expiry
 	for pickup: Pickup in pickups.duplicate():
 		pickup.life -= dt
 		if pickup.life <= 0.0:
@@ -614,6 +645,17 @@ func collect_at(point: Vector3) -> bool:
 	return false
 
 
+## DEC-043: collects every pickup within hover_collect_radius_m of collect_cursor (world XZ) through collect().
+func _collect_near_cursor() -> void:
+	if collect_cursor == null:
+		return
+	var c: Vector3 = collect_cursor
+	for pickup: Pickup in pickups.duplicate():
+		if Vector2(pickup.pos.x - c.x, pickup.pos.z - c.z).length() <= hover_collect_radius_m:
+			collect(pickup)
+
+
+## The one credit path for a ticket (click, hover): a pickup is credited at most once, never after the match ends.
 func collect(pickup: Pickup) -> void:
 	if is_over() or pickup not in pickups:
 		return

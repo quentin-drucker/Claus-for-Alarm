@@ -32,8 +32,10 @@ func _run() -> void:
 	_test_wax()
 	_test_sorcerer()
 	_test_booth()
+	_test_booth_price()
+	_test_ticket_hover()
 	_test_base_report()
-	_check(_completed.size() == 7, "every test function completed (%s)" % [_completed])
+	_check(_completed.size() == 9, "every test function completed (%s)" % [_completed])
 	print("test_towers: %s" % ("PASS" if _failures == 0 else "%d FAILURES" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -342,6 +344,141 @@ func _test_booth() -> void:
 	_completed.append("_test_booth")
 
 
+## DEC-042 (Dev 10): base price $750 (ORIGINAL_DEVIATION); upgrade prices unchanged; sellback from what was spent.
+func _test_booth_price() -> void:
+	var booth: Resource = content.get_tower(&"ski_resort_ticket_booth")
+	_check(booth.price == 750 and booth.status["price"] == "ORIGINAL_DEVIATION", "booth costs $750 (ORIGINAL_DEVIATION)")
+	_check(booth.get_upgrade(0, 1).price == 500 and booth.get_upgrade(1, 1).price == 300
+			and booth.get_upgrade(2, 1).price == 250, "booth tier-1 upgrade prices unchanged (%d/%d/%d)" % [
+			booth.get_upgrade(0, 1).price, booth.get_upgrade(1, 1).price, booth.get_upgrade(2, 1).price])
+	var m: Node3D = _new_match()
+	var spot: Vector2 = Vector2(12.0, 1.5)
+	_check(m.ledger.cash == 650 and m.try_place(booth, spot) == null and m.ledger.cash == 650,
+			"$650 start cash cannot buy it, nothing charged")
+	m.ledger.credit(0, 100, &"test", 0)
+	var t: Node3D = m.try_place(booth, spot)
+	_check(t != null and m.ledger.cash == 0 and t.spent == 750, "exactly $750 buys it (cash %d)" % m.ledger.cash)
+	_check(m.sell_value(t) == roundi(750 * 0.7), "sellback from the $750 invested: $%d" % m.sell_value(t))
+	m.ledger.credit(0, booth.get_upgrade(1, 1).price, &"test", 0)
+	_check(m.buy_upgrade(t, 1) and t.spent == 750 + booth.get_upgrade(1, 1).price
+			and m.sell_value(t) == roundi(t.spent * 0.7), "invested includes upgrades; sellback follows it")
+	m.sell(t)
+	_check(m.ledger.cash == roundi((750 + booth.get_upgrade(1, 1).price) * 0.7), "sale pays the sellback once")
+	m.free()
+	_completed.append("_test_booth_price")
+
+
+## DEC-043 (Dev 10): hover collection as explicit input (set_collect_cursor), applied in the tick after the drops and
+## before expiry; every ticket within 1.0 m (world XZ) is collected once, through collect(); click still works.
+func _test_ticket_hover() -> void:
+	var booth: Resource = content.get_tower(&"ski_resort_ticket_booth")
+	var m: Node3D = _new_match()
+	_check(is_equal_approx(m.hover_collect_radius_m, 1.0) and m.collect_cursor == null and not m._mouse_in_window,
+			"default radius 1.0 m; no cursor input in headless runs")
+	m.ledger.credit(0, 2000, &"test", 0)
+	var b: Node3D = m.try_place(booth, Vector2(12.0, 1.5))
+	for k: int in 4:
+		m._drop_pickup(b, k)
+	var p: Array = m.pickups.duplicate()
+	var paid: Callable = func() -> int: return _cash(m, &"ticket_income")
+	# Just inside / just outside the radius.
+	m.set_collect_cursor(p[0].pos + Vector3(0.99, 0.0, 0.0))
+	m.clock.advance(STEP)
+	_check(p[0] not in m.pickups and paid.call() == 50, "0.99 m away: collected ($%d)" % paid.call())
+	m.set_collect_cursor(p[1].pos + Vector3(0.0, 0.0, 1.01))
+	m.clock.advance(STEP)
+	_check(p[1] in m.pickups and paid.call() == 50, "1.01 m away: not collected")
+	# Several within reach at once: all collected in one tick, each once.
+	p[2].pos = p[1].pos + Vector3(0.5, 0.0, 0.0)
+	m.set_collect_cursor(p[1].pos + Vector3(0.25, 0.0, 0.0))
+	m.clock.advance(STEP)
+	_check(p[1] not in m.pickups and p[2] not in m.pickups and paid.call() == 150, "two nearby tickets in one tick")
+	m.clock.advance(STEP)
+	_check(paid.call() == 150, "no second credit on the next tick")
+	# Click and hover on the same ticket: credited once.
+	m.set_collect_cursor(null)
+	_check(m.collect_at(p[3].pos) and paid.call() == 200, "click still collects")
+	m.set_collect_cursor(p[3].pos)
+	m.clock.advance(STEP)
+	_check(paid.call() == 200 and not m.collect_at(p[3].pos), "click then hover: credited once")
+	# Paused: nothing collected; resumes on the next real tick.
+	m._drop_pickup(b, 0)
+	var q: Object = m.pickups[0]
+	m.set_collect_cursor(q.pos)
+	m.clock.paused = true
+	m.clock.advance(STEP)
+	_check(q in m.pickups and paid.call() == 200, "paused: no hover collection")
+	m.clock.paused = false
+	m.clock.advance(STEP)
+	_check(q not in m.pickups and paid.call() == 250, "unpaused: collected")
+	# Same-tick expiry vs hover: hover runs first, so the ticket pays its full value once and no salvage is added.
+	m._drop_pickup(b, 1)
+	q = m.pickups[0]
+	q.life = STEP * 0.5
+	q.ratio = 0.5
+	m.set_collect_cursor(q.pos)
+	_events.clear()
+	m.clock.advance(STEP)
+	_check(paid.call() == 300 and not _events.any(func(e: RefCounted) -> bool: return e.type == &"pickup_expired"),
+			"hover beats same-tick expiry: full value once, no salvage ($%d)" % paid.call())
+	# Expired before the cursor arrives: nothing to collect.
+	m.set_collect_cursor(null)
+	m._drop_pickup(b, 2)
+	var spot: Vector3 = m.pickups[0].pos
+	_sim(m, 15.1)
+	m.set_collect_cursor(spot)
+	m.clock.advance(STEP)
+	_check(m.pickups.is_empty() and paid.call() == 300, "expired ticket pays nothing on hover")
+	# A still cursor takes a new ticket the tick it drops (the round's 4th drop position, k = 3).
+	_check(m.state == m.State.PREPARE, "between rounds (PREPARE)")
+	var k3: Vector3 = b.position + Vector3(cos(3 * 2.4), 0.0, sin(3 * 2.4)) * (b.footprint().z + 0.3)
+	m.set_collect_cursor(k3)
+	m.start_round()
+	var seen_on_ground: bool = false
+	var before: int = paid.call()
+	while m.state == m.State.ROUND_SPAWN and paid.call() < before + 50:
+		m.clock.advance(STEP)
+		seen_on_ground = seen_on_ground or m.pickups.any(func(x: Object) -> bool: return x.pos.distance_to(k3) < 0.01)
+	_check(paid.call() == before + 50 and not seen_on_ground, "still cursor: the 4th drop is collected on its tick")
+	# Between rounds the match is active: a ticket left on the ground is still collected by hover.
+	while m.state != m.State.PREPARE:
+		m.clock.advance(STEP)
+	m.set_collect_cursor(null)
+	m._drop_pickup(b, 0)
+	q = m.pickups[-1]
+	m.set_collect_cursor(q.pos)
+	before = paid.call()
+	m.clock.advance(STEP)
+	_check(m.state == m.State.PREPARE and q not in m.pickups and paid.call() == before + 50,
+			"between rounds: hover collects")
+	# After the match ends: no hover collection.
+	m.set_collect_cursor(null)
+	m._drop_pickup(b, 0)
+	q = m.pickups[-1]
+	m.lives = 0
+	m.start_round()
+	m.clock.advance(STEP)
+	m.set_collect_cursor(q.pos)
+	before = paid.call()
+	m.clock.advance(STEP)
+	_check(m.is_over() and q in m.pickups and paid.call() == before, "after defeat nothing is collected")
+	m.free()
+	# Bank drops no tickets, so a parked cursor changes nothing: the bank fills as before.
+	m = _new_match()
+	m.ledger.credit(0, 100000, &"test", 0)
+	b = m.try_place(booth, Vector2(12.0, 1.5))
+	for tier: int in 3:
+		m.buy_upgrade(b, 1)
+	m.set_collect_cursor(Vector3(b.position.x, 0.0, b.position.z))
+	m.start_round()
+	while m.state == m.State.ROUND_SPAWN or m.state == m.State.ROUND_CLEANUP:
+		m.clock.advance(STEP)
+	_check(b.bank == roundi(4 * 112 * 1.15) and _cash(m, &"ticket_income") == 0, "Bank: deposits only, hover takes nothing")
+	m.free()
+	# The real-mouse path (UI blocking, viewport edge) needs a window: checked in the editor run and in the browser.
+	_completed.append("_test_ticket_hover")
+
+
 ## P08-T10: base stats vs HYB-M M-10 (v56 Medium) for all six, with provenance; writes the comparison report.
 func _test_base_report() -> void:
 	# id: [price, range (0 = global/none), interval, damage, pierce, extra]
@@ -351,7 +488,7 @@ func _test_base_report() -> void:
 		&"biathlon_ranger": [350, 0.0, 1.59, 2, 1, "global LOS"],
 		&"slope_wax_sprayer": [225, 46.0, 1.0, 0, 1, "slow 0.5"],
 		&"snow_sorcerer": [250, 40.0, 1.1, 1, 3, "energy"],
-		&"ski_resort_ticket_booth": [1250, 0.0, 0.0, 0, 0, "4 x $50 / round"],
+		&"ski_resort_ticket_booth": [750, 0.0, 0.0, 0, 0, "4 x $50 / round"],
 	}
 	var lines: PackedStringArray = ["P08-T10 base kit vs M-10 (v56 Medium). Provenance per field from the .tres status.",
 			"id                       price  range  interval  dmg  pierce  extra                 footprint  match"]

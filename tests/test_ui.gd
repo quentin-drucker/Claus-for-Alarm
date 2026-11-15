@@ -69,8 +69,9 @@ func _test_hud() -> void:
 	await process_frame  # the HUD builds its buttons after the match is ready
 	var hud: CanvasLayer = m.get_node("HUD")
 	var booth: Button = hud._shop_buttons[5]
-	_check(booth.disabled and "need $600" in booth.text, "Booth shop button says how much is missing (%s)" % booth.text)
-	_check("$1250" in booth.tooltip_text and "Income" in booth.tooltip_text, "Booth tooltip: cost + role")
+	_check(booth.disabled and "need $100" in booth.text, "Booth shop button says how much is missing (%s)" % booth.text)
+	_check("$750" in booth.tooltip_text and "Income" in booth.tooltip_text and "cursor" in booth.tooltip_text,
+			"Booth tooltip: cost + role, including hover collection")
 	_check("Range 32" in hud._shop_buttons[0].tooltip_text, "Rookie tooltip shows its stats")
 	_check(hud._start.text == "Start round 1 (Space)" and not hud._start.disabled, "start button ready")
 	var rookie: Node3D = m.try_place(content.get_tower(&"snowball_rookie"), Vector2(-7.2, 0))

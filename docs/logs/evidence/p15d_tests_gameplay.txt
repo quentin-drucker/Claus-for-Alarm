@@ -1,0 +1,39 @@
+test_data: test_data: PASS
+test_map: test_map: PASS
+test_match: test_match: PASS
+test_combat: test_combat: PASS
+test_towers: test_towers: PASS
+test_upgrades: test_upgrades: PASS
+test_hero: test_hero: PASS
+test_ui: test_ui: PASS
+test_full_run: test_full_run: PASS
+test_audio: test_audio: PASS
+
+Batch B (DEC-042 Booth $750, DEC-043 hover collection) STATE transcripts vs batch A (e154e5c):
+  test_data identical (0 lines)
+  test_map identical (0 lines)
+  test_match identical (122 lines)
+  test_combat identical (49 lines)
+  test_towers differs: 33 changed lines
+  test_upgrades differs: 32 changed lines
+  test_hero identical (108 lines)
+  test_ui identical (2 lines)
+  test_full_run differs: 416 changed lines
+  test_audio identical (0 lines)
+
+Expected differences (all from the authorized $1,250 -> $750 Booth price; no test feeds the hover cursor except
+_test_ticket_hover, and bots/headless runs never read the desktop mouse):
+- test_upgrades: every match that buys a Booth keeps $500 more cash (e.g. round 1 start 89070 -> 89570); Bank,
+  Marketplace, EZ Collect and Salvage results unchanged (the suite's own checks pass).
+- test_towers: the Booth tests start with $500 more (1400 -> 1900); plus the new _test_booth_price and
+  _test_ticket_hover matches (added STATE lines).
+- test_full_run (bot policies; the suite's pass/fail checks unchanged):
+    Rookie-only, Solo Cannon/Ranger/Sorcerer/Wax: identical results (no Booth bought).
+    Mixed roster: Booth $750 (was $1,250) bought earlier -> ticket income 600 -> 800, 18 Rookies instead of 14;
+      result WON r25, 145 lives (unchanged).
+    Hero + mixed: Booth income 400 -> 800; WON r25, 150 lives (unchanged).
+    Booth economy (report only): invested 2350 -> 1850, ticket income 6000 -> 6800, lives 125 -> 131.
+    Speed equivalence (DEC-029): still IDENTICAL at 2x/4x vs 1x for every policy (new digests).
+- test_ui: Booth button "need $100" (was $600), tooltip "$750" + hover text.
+- UID warnings seen in a first run after the editor re-saved the Booth .tres: stale headless UID cache (UIDs match
+  the .uid files); gone after `godot --headless --path . --import` (CONVENTIONS gotcha). 0 in this run.
