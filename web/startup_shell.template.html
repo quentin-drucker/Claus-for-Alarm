@@ -59,11 +59,22 @@ $GODOT_HEAD_INCLUDE
 <noscript><p style="position:fixed;z-index:20;top:50%;background:#1a2438;color:white;padding:20px">Enable JavaScript to play Claus for Alarm.</p></noscript>
 <script>
 // Defined before the engine loads: title_screen.gd calls this after its first rendered frame.
+const STARTUP_READY_HOLD_MS = 4000;
 window.clausMenuReady = function () {
  const overlay = document.getElementById('startup');
- if (!overlay || overlay.dataset.failed) return;
- overlay.classList.add('done');
- setTimeout(() => {overlay.remove(); document.getElementById('canvas').focus();}, 360);
+ if (!overlay || overlay.dataset.failed || overlay.dataset.ready) return;
+ overlay.dataset.ready = 'true';
+ // Give the title/hat time to reveal even on cached loads or after a startup stall.
+ document.fonts.ready.then(function () {
+  if (!overlay.isConnected || overlay.dataset.failed) return;
+  document.getElementById('stage').textContent = 'Ready! Opening the Christmas village…';
+  document.getElementById('details').textContent = '';
+  setTimeout(function () {
+   if (!overlay.isConnected || overlay.dataset.failed) return;
+   overlay.classList.add('done');
+   setTimeout(() => {overlay.remove(); document.getElementById('canvas').focus();}, 360);
+  }, STARTUP_READY_HOLD_MS);
+ });
 };
 window.clausLoadFailure = function (error) {
  const overlay = document.getElementById('startup');

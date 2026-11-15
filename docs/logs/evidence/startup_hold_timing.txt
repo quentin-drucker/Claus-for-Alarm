@@ -1,0 +1,4 @@
+Chrome 1280x720, exported preview on localhost8162.
+Measured menu-ready to fade: 4000.6 ms; overlay removed: 4362.7 ms.
+Checked overlay still present at +2000 ms; full title/hat visible in startup_hold_ready.png.
+Normal console: 0 errors, 0 warnings. Export exit0.

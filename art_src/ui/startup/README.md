@@ -7,8 +7,8 @@ The source splash combines red knit/Fair Isle textures, a chunky logo, knitting 
 - Editable layout/animation: `web/startup_shell.template.html`.
 - Rebuild: `python art_src/tools/generate_startup_shell.py` -> self-contained `web/shell.html`.
 - Web preset uses `html/custom_html_shell`; all art/fonts are embedded (no external font/CDN requests).
-- Download scarf uses actual byte progress; engine/menu preparation uses a status message. No fake timer, mandatory post-load intro, or promise of eliminating shader stalls.
-- `title_screen.gd` signals the shell after `RenderingServer.frame_post_draw`; the overlay fades away to the existing village menu. Native/editor startup stays on the title scene.
+- Download scarf uses actual byte progress; engine/menu preparation uses a status message. Download progress stays real; owner follow-up adds a four-second hold after the menu and fonts are ready so the title/hat reveal can finish. This does not eliminate shader stalls.
+- `title_screen.gd` signals the shell after `RenderingServer.frame_post_draw`; the overlay holds for four seconds after menu/font readiness, then fades to the existing village menu. Native/editor startup stays on the title scene.
 - Reduced motion stops CSS animation; load errors show a retry control.
 
 Fonts: Bowlby One by Vernon Adams; New Rocker by Pablo Impallari, Brenda Gallo and Rodrigo Fuenzalida. SIL OFL 1.1 licenses retained here and embedded as comments in the generated shell for distribution.
