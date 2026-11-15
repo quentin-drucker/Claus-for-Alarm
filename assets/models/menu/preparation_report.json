@@ -1,0 +1,19 @@
+{
+  "source": "art_src\\environment\\christmas_village\\christmas_low_poly_scene.fbx",
+  "source_meshes": 342,
+  "batched_static_meshes": 322,
+  "runtime_meshes": 21,
+  "frames": [
+    2,
+    490
+  ],
+  "fps": 24,
+  "tree_center_source": [
+    0.0010024867951869965,
+    -0.0007328372448682785,
+    0.0019003191264346242
+  ],
+  "scale": 100,
+  "author": "lumoize",
+  "license": "CC BY 4.0"
+}

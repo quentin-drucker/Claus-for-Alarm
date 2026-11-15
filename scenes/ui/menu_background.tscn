@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ch3ckhrxv5cl1"]
+
+[ext_resource type="Script" uid="uid://j61g3khu6q0k" path="res://scenes/ui/menu_background.gd" id="1_jhwhf"]
+
+[node name="MenuBackground" type="Node3D" unique_id=234913934]
+script = ExtResource("1_jhwhf")

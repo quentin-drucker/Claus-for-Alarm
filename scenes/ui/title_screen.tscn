@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bdy1iojhlloal"]
 
 [ext_resource type="Script" uid="uid://dia21s28cy76a" path="res://scenes/ui/title_screen.gd" id="1_eb34j"]
+[ext_resource type="PackedScene" uid="uid://ch3ckhrxv5cl1" path="res://scenes/ui/menu_background.tscn" id="2_aqpy5"]
 
 [node name="TitleScreen" type="Control" unique_id=794947286]
 layout_mode = 3
@@ -11,47 +12,33 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_eb34j")
 
+[node name="VillageBackdrop" type="SubViewportContainer" parent="." unique_id=766441456]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+stretch = true
+
+[node name="VillageViewport" type="SubViewport" parent="VillageBackdrop" unique_id=610604116]
+own_world_3d = true
+handle_input_locally = false
+gui_disable_input = true
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="MenuBackground" parent="VillageBackdrop/VillageViewport" unique_id=234913934 instance=ExtResource("2_aqpy5")]
+
 [node name="Background" type="ColorRect" parent="." unique_id=251825745]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+mouse_filter = 2
+color = Color(0.015, 0.04, 0.06, 0.12)
 
 [node name="Center" type="CenterContainer" parent="." unique_id=723606817]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-
-[node name="Menu" type="VBoxContainer" parent="Center" unique_id=2017165613]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 0)
-layout_mode = 2
-
-[node name="Title" type="Label" parent="Center/Menu" unique_id=833771141]
-layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "Claus for Alarm"
-horizontal_alignment = 1
-
-[node name="Subtitle" type="Label" parent="Center/Menu" unique_id=2076450767]
-layout_mode = 2
-text = "A winter-sports tower defense by Camel Claus"
-horizontal_alignment = 1
-
-[node name="PlayButton" type="Button" parent="Center/Menu" unique_id=1106411940]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Play"
-
-[node name="HowButton" type="Button" parent="Center/Menu" unique_id=1770097047]
-unique_name_in_owner = true
-layout_mode = 2
-text = "How to Play"
-
-[node name="SettingsButton" type="Button" parent="Center/Menu" unique_id=1871400890]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Settings"
 
 [node name="HowPanel" type="PanelContainer" parent="Center" unique_id=1582373905]
 unique_name_in_owner = true
@@ -154,3 +141,47 @@ autowrap_mode = 3
 unique_name_in_owner = true
 layout_mode = 2
 text = "Back"
+
+[node name="MenuSide" type="CenterContainer" parent="." unique_id=182266805]
+layout_mode = 0
+anchor_right = 0.44
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Menu" type="VBoxContainer" parent="MenuSide" unique_id=2017165613]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MenuSide/Menu" unique_id=833771141]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.0627451, 0.13725491, 0.19607843, 1)
+theme_override_colors/font_outline_color = Color(0.0627451, 0.13725491, 0.19607843, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 48
+text = "Claus for Alarm"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="MenuSide/Menu" unique_id=2076450767]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.0627451, 0.13725491, 0.19607843, 1)
+theme_override_constants/outline_size = 3
+text = "A winter-sports tower defense by Camel Claus"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="MenuSide/Menu" unique_id=1106411940]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play"
+
+[node name="HowButton" type="Button" parent="MenuSide/Menu" unique_id=1770097047]
+unique_name_in_owner = true
+layout_mode = 2
+text = "How to Play"
+
+[node name="SettingsButton" type="Button" parent="MenuSide/Menu" unique_id=1871400890]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Settings"

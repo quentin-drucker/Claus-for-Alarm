@@ -1,0 +1,56 @@
+FBX version: 7500
+WARNING! Importing material's animation is not supported for Nodal materials...
+Info: Saved as "christmas_village.blend"
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.3\blender.shared\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.3\blender.shared\bf_intern_meshopt_bridge.dll
+02:17:42 | INFO: Starting glTF 2.0 export
+02:17:42 | INFO: Extracting primitive: Mesh.282
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.283
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.284
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.286
+02:17:42 | INFO: Primitives created: 8
+02:17:42 | INFO: Extracting primitive: Mesh.288
+02:17:42 | INFO: Primitives created: 8
+02:17:42 | INFO: Extracting primitive: Mesh.301
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.302
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.303
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.292
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.293
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.294
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.297
+02:17:42 | INFO: Primitives created: 7
+02:17:42 | INFO: Extracting primitive: Mesh.298
+02:17:42 | INFO: Primitives created: 7
+02:17:42 | INFO: Extracting primitive: Mesh.305
+02:17:42 | INFO: Primitives created: 8
+02:17:42 | INFO: Extracting primitive: Mesh.306
+02:17:42 | INFO: Primitives created: 8
+02:17:42 | INFO: Extracting primitive: Mesh.308
+02:17:42 | INFO: Primitives created: 8
+02:17:42 | INFO: Extracting primitive: Mesh.310
+02:17:42 | INFO: Primitives created: 8
+02:17:42 | INFO: Extracting primitive: Mesh.339
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.340
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: Mesh.341
+02:17:42 | INFO: Primitives created: 1
+02:17:42 | INFO: Extracting primitive: VillageStaticGeometry
+02:17:42 | INFO: Primitives created: 26
+02:17:42 | INFO: Finished glTF 2.0 export in 0.7442140579223633 s
+
+MENU_PREPARATION {"source": "art_src\\environment\\christmas_village\\christmas_low_poly_scene.fbx", "source_meshes": 342, "batched_static_meshes": 322, "runtime_meshes": 21, "frames": [2, 490], "fps": 24, "tree_center_source": [0.0010024867951869965, -0.0007328372448682785, 0.0019003191264346242], "scale": 100, "author": "lumoize", "license": "CC BY 4.0"}
+Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+
+Blender quit
+C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm\art_src\tools\prepare_menu_village.py:55: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  if not material.use_nodes:

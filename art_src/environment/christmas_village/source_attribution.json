@@ -1,0 +1,54 @@
+{
+  "name": "Christmas Low-poly Scene",
+  "viewerUrl": "https://sketchfab.com/3d-models/christmas-low-poly-scene-7984bd6024db4b89928ddeb625eebac0",
+  "description": "A lowpoly christmas scene I made to study lighting and textures in Redshift. This scene is converted to normal mats for Sketchfab.\n \n The animation is a bit janky on sketchfab for some reason on Sketchfab, so if the lights are glitching out that is why.\n \n The scene is available to download for free if uh.. you want.",
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "user": {
+    "uid": "f1dc8def5adb4c60885b5c11c9c0bfdd",
+    "username": "lumoize",
+    "displayName": "lumoize",
+    "account": "basic",
+    "profileUrl": "https://sketchfab.com/lumoize",
+    "avatar": {
+      "uid": "786a7278534d40db9ceb0f152af56055",
+      "uri": "https://api.sketchfab.com/v3/avatars/786a7278534d40db9ceb0f152af56055",
+      "images": [
+        {
+          "width": 32,
+          "height": 32,
+          "size": 886,
+          "url": "https://media.sketchfab.com/avatars/786a7278534d40db9ceb0f152af56055/76de88442e27409a89e707f346aef663.jpeg"
+        },
+        {
+          "width": 48,
+          "height": 48,
+          "size": 1417,
+          "url": "https://media.sketchfab.com/avatars/786a7278534d40db9ceb0f152af56055/6a264c1463b344ada2d1b7c09ebba5f2.jpeg"
+        },
+        {
+          "width": 90,
+          "height": 90,
+          "size": 3499,
+          "url": "https://media.sketchfab.com/avatars/786a7278534d40db9ceb0f152af56055/2d59dbc9d671446e8d7e51265e1c3298.jpeg"
+        },
+        {
+          "width": 100,
+          "height": 100,
+          "size": 4074,
+          "url": "https://media.sketchfab.com/avatars/786a7278534d40db9ceb0f152af56055/ac88944ff20d4665943207adc52d6b67.jpeg"
+        }
+      ]
+    },
+    "uri": "https://api.sketchfab.com/v3/users/f1dc8def5adb4c60885b5c11c9c0bfdd"
+  },
+  "animationCount": 1,
+  "verified_date": "2026-11-15",
+  "source_sha256": "ff5c191d46ab89a4f23acf9b690ba3f3d3b06d87d7984c4e743ddc3fc9d23184"
+}
