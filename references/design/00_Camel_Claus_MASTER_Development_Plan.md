@@ -1277,6 +1277,15 @@ Requested after reviewing Dev 12 screenshots. Implemented in Dev 13 (2026-11-15)
 
 Evidence: docs/logs/evidence/startup_*. Preview build: build/startup_preview, local server8162. Sources: art_src/ui/startup; generator art_src/tools/generate_startup_shell.py; template web/startup_shell.template.html. This is temporary owner-requested reuse from a pre-event test, not a claim of new jam artwork. First-use rendering stalls are not fixed by this presentation change.
 
+### 12.1.9 Menu Rookie and Play loading transition (owner request, 2026-11-15)
+
+- [x] Remodeled AccuRIG Rookie prepared as a separate menu-only static GLB; floating bob, gentle turn and tilt in an isolated transparent viewport. Source FBX and old gameplay Rookie untouched; gameplay replacement/rig animation remain deferred.
+- [x] Reuse the Knit + Tin browser overlay immediately on Play; load map resource, switch scene, wait for first rendered map frame, then fade. Preserve initial four-second splash hold; reused reveal has a 2.7-second minimum. Repeated Play presses guarded. Native Play has a simple title/status fallback.
+- [x] Menu/UI suites pass; MCP process run has only previously recorded shutdown cleanup diagnostics. Chrome export: menu model visible, loading overlay -> map, zero console errors. Evidence: `menu_rookie_web.png`, `menu_map_loading_web.png`, `menu_map_ready_web.png`, `menu_showcase_checks.txt`.
+- [ ] Owner visual review and final hosted export/upload. Existing Dev 13 archive does not include these menu/loading changes; preview is `build/startup_preview` on localhost:8162.
+
+The loader covers first-use stalls; it does not eliminate them or guarantee continuous animation while the browser main thread is blocked. Menu-only change does not close P15-T09/G7 or authorize gameplay Rookie replacement.
+
 ### 12.2 Session log template (append entries; do not rewrite history)
 
 ```md

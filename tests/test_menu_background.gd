@@ -17,6 +17,11 @@ func check(ok: bool, label: String) -> void:
 func _run() -> void:
 	var title: Control = load("res://scenes/ui/title_screen.tscn").instantiate()
 	root.add_child(title)
+	var rookie: SubViewportContainer = title.get_node("RookieShowcase")
+	check(rookie.model.scene_file_path == "res://assets/models/menu/rookie_showcase.glb",
+			"menu uses remodeled Rookie, independently of gameplay profile")
+	check(rookie.get_node("PortraitViewport").own_world_3d and rookie.mouse_filter == Control.MOUSE_FILTER_IGNORE,
+			"Rookie has isolated lighting and cannot intercept menu clicks")
 	var viewport: SubViewport = title.get_node("VillageBackdrop/VillageViewport")
 	var background: Node3D = viewport.get_node("MenuBackground")
 	check(viewport.own_world_3d and viewport.gui_disable_input, "menu has its own world and ignores GUI input")
@@ -56,6 +61,7 @@ func _run() -> void:
 	check(not title.has_node("EnvironmentCredit") and not title.has_node("CreditShade"),
 			"owner moved public attribution to website, with no menu credit bar")
 	title.get_node("%HowButton").pressed.emit()
+	check(not rookie.visible, "Rookie hides while help panel is open")
 	check(title.get_node("%HowPanel").visible and not title.get_node("%Menu").visible, "How to Play still opens")
 	title.get_node("%HowBack").pressed.emit()
 	title.get_node("%SettingsButton").pressed.emit()

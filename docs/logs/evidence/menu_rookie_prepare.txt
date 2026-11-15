@@ -1,0 +1,14 @@
+FBX version: 7200
+Warning: No mesh data to join
+Info: Saved as "rookie_menu.blend"
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.3\blender.shared\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.3\blender.shared\bf_intern_meshopt_bridge.dll
+07:18:07 | INFO: Starting glTF 2.0 export
+07:18:07 | INFO: Extracting primitive: tripo_mesh_027442bb_001
+07:18:07 | INFO: Primitives created: 1
+07:18:07 | INFO: Finished glTF 2.0 export in 0.03334307670593262 s
+
+MENU_ROOKIE C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm\assets\models\menu\rookie_showcase.glb
+Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+
+Blender quit

@@ -1,0 +1,27 @@
+2026-11-15: menu Rookie + Play loading transition
+
+Godot 4.7.2, Compatibility Web export, Chrome, local localhost:8162 preview.
+test_menu_background: PASS (including remodeled menu source, isolated world/input and help-panel hiding).
+test_ui: PASS.
+MCP godot_run_start mode=process headless=true quit_after_frames=60: exit 0.
+MCP godot_run_output level=error: only established shutdown '8 resources still in use' diagnostic;
+no runtime script errors. Tests also retain existing shutdown cleanup warnings.
+
+Web: 1440x900 menu render inspected, entire Rookie framed including hands; gentle bob/yaw/tilt.
+How to Play hides the showcase; 800x600 help layout usable. Old gameplay Rookie unchanged.
+Desktop texture imports verified path.s3tc and vram_texture=true for both menu maps.
+
+First map transition observation (performance.now, milliseconds):
+overlay shown 53376.6, first map frame callback 60636.4, overlay removed 61044.3.
+Thus overlay precedes resource/scene preparation, covers 7259.8 ms until first map frame,
+then fades. This is one local observation, not a performance benchmark.
+Final cached build also checked by double-clicking Play: one overlay and one map transition.
+No browser console errors or warnings. Captures: menu_rookie_web.png,
+menu_map_loading_web.png, menu_map_ready_web.png, menu_rookie_help_web.png, menu_rookie_narrow_web.png.
+
+Initial Web intro still holds four seconds after menu/font readiness. Map reuse waits for first draw
+and a minimum 2.7 seconds since showing, then fades for 350 ms. UI masks loading cost, does not remove it;
+browser main-thread stalls can still interrupt animation. Native uses plain title/status fallback;
+native windowed visuals and low-end/mobile performance not measured in this pass.
+
+Preview build/startup_preview includes these changes. Existing release archives and public hosts do not.

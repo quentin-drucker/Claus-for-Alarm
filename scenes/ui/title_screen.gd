@@ -5,6 +5,8 @@ extends Control
 
 const MATCH: String = "res://scenes/main/match.tscn"
 const LODGE := preload("res://scripts/ui/lodge_theme.gd")
+const MAP_LOADING := preload("res://scripts/ui/map_loading.gd")
+var _opening_match: bool = false
 const SETTINGS_PATH: String = "user://settings.cfg"
 const BUSES: PackedStringArray = ["Music", "SFX", "Towers", "Ambience"]
 ## Slider value on first run (no saved settings).
@@ -20,7 +22,7 @@ const GAIN: Dictionary[String, float] = {"Towers": 2.0}
 
 func _ready() -> void:
 	_style_menu()
-	%PlayButton.pressed.connect(get_tree().change_scene_to_file.bind(MATCH))
+	%PlayButton.pressed.connect(_open_match)
 	%HowButton.pressed.connect(_show.bind(_how))
 	%SettingsButton.pressed.connect(_show.bind(_settings))
 	%HowBack.pressed.connect(_show.bind(_menu))
@@ -48,6 +50,18 @@ func _finish_web_loading() -> void:
 func _fit_menu() -> void:
 	# Side menu leaves the central tree visible; narrow windows keep the menu usable.
 	$MenuSide.anchor_right = 0.44 if size.x >= 900.0 else 1.0
+	$RookieShowcase.visible = size.x >= 900.0 and _menu.visible
+
+
+func _open_match() -> void:
+	if _opening_match:
+		return
+	_opening_match = true
+	%PlayButton.disabled = true
+	var loader: CanvasLayer = MAP_LOADING.new()
+	loader.name = "MapLoading"
+	loader.destination = MATCH
+	get_tree().root.add_child(loader)
 
 
 ## Dev 13: the shared ski-lodge theme (timber-framed panels, red primary Play, cream text) over the 3D backdrop.
@@ -67,6 +81,7 @@ func _show(panel: Control) -> void:
 	$Background.color.a = 0.12 if panel == _menu else 0.45
 	for p: Control in [_menu, _how, _settings]:
 		p.visible = p == panel
+	_fit_menu()
 
 
 func _on_volume_changed(value: float, bus: String) -> void:

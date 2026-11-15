@@ -11,6 +11,9 @@
 #canvas{display:block;width:100%;height:100%;outline:none}
 #startup{position:fixed;inset:0;z-index:10;overflow:hidden;color:#fff8ee;background:#8e1f2e url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAAbklEQVR4nGOcpm/7nwEJ/PjwkQEbePLrOwqfCV0BhwA/QU1YNRILmLA5DdnWJ1hsk2HjpMBGBjwBgg2AbAMBnDZyCPBjdSYMUOZUYp0rA3UmdWzEZquKmARW26hnIwMJgAVdAN256E6k2EayNQIAPpkgKxIlk/cAAAAASUVORK5CYII=');transition:opacity .35s ease;isolation:isolate}
 #startup.done{opacity:0;pointer-events:none}
+#startup[data-phase="map"] .scarf{width:100%;animation:scarf-drift 2s linear infinite}
+#startup[data-phase="map"] .yarn{left:50%}
+@keyframes scarf-drift{to{background-position:52px center}}
 .band{position:absolute;left:0;right:0;height:30px;background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAeCAYAAABjTz27AAABqElEQVR4nOVYsUoEMRBNwiJaaSUWByKI17mllX6K5X7GFfcBlhZb+il2lpaKYGMhVgqCi81KAg/iMGOy2bs1xteE5PJ2NjM7M3mnL+vTXnnoXt8Uh6fPj2/zw909lSPP0IXNne3gwznkwtPvXe8idHVy5hbPb67d2M5rNzZ3t25cHBy5cfl4r7j9dm69hv2Wbw1gf4i/KntGJYILue81zsuzjS21bnv6Yv+458KHB/z0YjnyjL8YA9/LOfIq6QfrjYeX52jDIR6+dQA5sWp7RhWGyg8n942iygCoRgCqjuR5qRj41UrCjOFJ71lshLStcv4CTk89PxToI/Cy3y84ewDygUanIXyJV1yEKrowNjJS7qWiIZHBXMo9sWxPBdpbYm8TncCb7EA0d1Ij0wpzoLgc0pIeop19bLVL1UPLwO08SQ+tE6vWQ1WIKOka6mmLGD00FAtBF0kwqbpmah4HjvfrZTsW7byOSofi9JDGXY47PadPaPhz4xlVGMyQcEr6JCeeUYVBI4foLRYdmfaB0N0q9H9baP9Ye0b9F8UaUpAUufA0PdBfxxcGEXX1v6UzlQAAAABJRU5ErkJggg==') repeat-x;image-rendering:pixelated;opacity:.85}
 .top{top:3.5%}.bottom{bottom:3.5%}
 .composition{position:absolute;inset:11% 3% 13%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:12px}
@@ -255,6 +258,30 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 <script>
 // Defined before the engine loads: title_screen.gd calls this after its first rendered frame.
 const STARTUP_READY_HOLD_MS = 4000;
+const startupTemplate = document.getElementById('startup').cloneNode(true);
+function dismissLoading(overlay) {
+ if (!overlay.isConnected || overlay.dataset.failed) return;
+ overlay.classList.add('done');
+ setTimeout(() => {overlay.remove(); document.getElementById('canvas').focus();}, 360);
+}
+window.clausShowMapLoading = function () {
+ if (document.getElementById('startup')) return;
+ const overlay = startupTemplate.cloneNode(true);
+ overlay.dataset.phase = 'map';
+ overlay.dataset.shownAt = String(performance.now());
+ overlay.querySelector('#stage').textContent = 'Preparing the ski course...';
+ overlay.querySelector('#details').textContent = 'Getting the map and defenders ready';
+ overlay.querySelector('.scarf-track').setAttribute('aria-label', 'Preparing the ski course');
+ document.body.appendChild(overlay);
+};
+window.clausMapReady = function () {
+ const overlay = document.getElementById('startup');
+ if (!overlay || overlay.dataset.phase !== 'map' || overlay.dataset.ready) return;
+ overlay.dataset.ready = 'true';
+ // Let this reuse finish its title/hat reveal too, even when the map is cached.
+ const remaining = Math.max(0, 2700 - (performance.now() - Number(overlay.dataset.shownAt)));
+ setTimeout(() => dismissLoading(overlay), remaining);
+};
 window.clausMenuReady = function () {
  const overlay = document.getElementById('startup');
  if (!overlay || overlay.dataset.failed || overlay.dataset.ready) return;
@@ -266,8 +293,7 @@ window.clausMenuReady = function () {
   document.getElementById('details').textContent = '';
   setTimeout(function () {
    if (!overlay.isConnected || overlay.dataset.failed) return;
-   overlay.classList.add('done');
-   setTimeout(() => {overlay.remove(); document.getElementById('canvas').focus();}, 360);
+   dismissLoading(overlay);
   }, STARTUP_READY_HOLD_MS);
  });
 };
