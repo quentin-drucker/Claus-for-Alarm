@@ -68,6 +68,9 @@ references/  design/ (00 master plan, 01–03 hybrid specs) and research/ (BTD6,
 - No `Packed*Array` exports in data Resources: the Web export dropped a `PackedInt32Array` from a `.tres`
   (desktop runs were fine). Use `Array[int]` / `Array[StringName]`. MCP also can't set `PackedVector3Array`
   exports; for map points use `Marker3D` children.
+- Release Web templates refuse a scene path on the command line ("compiled without support for path overrides").
+  To boot another scene in a browser build, give its preset a custom feature and add a feature-tagged
+  `application/run/main_scene.<feature>` (see the "Web Stress" preset); user args after `--` still work.
 - After an export, run the exported pack once (`--main-pack build/web/index.pck`) — it catches data the
   editor and tests load fine but the export breaks.
 

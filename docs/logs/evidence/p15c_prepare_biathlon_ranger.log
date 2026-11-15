@@ -1,0 +1,6 @@
+biathlon_ranger raw: size (0.659, 0.705, 1.000) envelope 0.559 open edges 0 flipped 16
+biathlon_ranger prepared: scale x1.1999, size (0.791, 0.846, 1.200) (display x1.5 = (1.186, 1.269, 1.800)), min z 0.0000, ground centre (-0.001, 0.002, 0.000), envelope 0.669 (display 1.003), tris 24996, open edges 0
+  marker muzzle_A at (-0.426, 0.458, 0.312) (display (-0.639, 0.686, 0.467))
+  marker effect_center at (0.000, 0.000, 0.600) (display (0.000, 0.000, 0.900))
+20:55:20 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+  wrote assets/models/biathlon_ranger.glb

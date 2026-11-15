@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PresentationProfile" format=3]
+
+[ext_resource type="PackedScene" uid="uid://ddyy0kh40m54k" path="res://assets/models/biathlon_ranger.glb" id="1_model"]
+[ext_resource type="Script" uid="uid://i6p52ffw8ka0" path="res://scripts/data/presentation_profile.gd" id="2_script"]
+
+[resource]
+script = ExtResource("2_script")
+model = ExtResource("1_model")
+recoil_m = 0.04
+recoil_kick_s = 0.04
+recoil_recover_s = 0.22
+recoil_tilt_deg = 4.0
+weapon_yaw_deg = 60.0
+muzzle_flash_m = 0.25

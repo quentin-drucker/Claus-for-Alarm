@@ -79,6 +79,9 @@ tests, then the Web export check above.
 BLENDER="/c/Program Files/Blender Foundation/Blender 5.3/blender.exe"
 "$BLENDER" -b --factory-startup --python art_src/tools/prepare_source_model.py -- inspect            # measure all sources
 "$BLENDER" -b --factory-startup --python art_src/tools/prepare_source_model.py -- avalanche_cannon   # ~3 s
+"$BLENDER" -b --factory-startup --python art_src/tools/prepare_source_model.py -- biathlon_ranger slope_wax_sprayer
+T='C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm\art_src\tools'                     # B-14 QA renders:
+"$BLENDER" -b art_src/prepared/biathlon_ranger.blend --python-expr "ASSET='biathlon_ranger'; PREFIX='p15c'; exec(open(r'$T\qa_render.py').read())"
 "$GODOT" --headless --path . --import                       # reimport (or focus the editor)
 ```
 
@@ -93,4 +96,23 @@ Review captures + stress (needs a window, not `--headless`; writes `docs/logs/ev
 "$GODOT" --path . -s res://tests/tools/cannon_review.gd -- review            # screenshots, ghost/select/upgrade/sell, pause, 1x/2x/4x
 "$GODOT" --path . -s res://tests/tools/cannon_review.gd -- stress            # 8 Cannons + 4 Rookies + 120 snowballs, vsync off
 "$GODOT" --path . -s res://tests/tools/cannon_review.gd -- stress greybox    # same scene, Cannons without the GLB
+```
+
+Dev 9 roster review (Rookie, Cannon, Ranger, Wax; writes `p15c_*`: roster row at the game camera, close-ups without
+labels, ghost/select/upgrade/sell, track-edge + neighbour clearance, muzzle alignment, pause, 1x/2x/4x, rapid-fire rest):
+
+```bash
+"$GODOT" --path . -s res://tests/tools/roster_review.gd
+```
+
+Stress scene (desktop and browser; prints `STRESS` lines; mixes `cannon` = 8 Cannons + 4 Rookies, `roster` = 3 each):
+
+```bash
+"$GODOT" --path . --resolution 1152x648 res://tests/tools/stress.tscn -- cannon       # vsync off on desktop
+"$GODOT" --path . --resolution 1152x648 res://tests/tools/stress.tscn -- roster greybox
+# Browser: the "Web Stress" preset (custom feature `stress` -> application/run/main_scene.stress; release web
+# templates refuse a scene path on the command line). The release "Web" preset never has that feature.
+"$GODOT" --headless --path . --export-release "Web Stress" build/web_stress/index.html
+for mix in cannon roster; do sed "s|\"args\":\[\]|\"args\":[\"--\",\"$mix\"]|" build/web_stress/index.html > build/web_stress/stress_$mix.html; done
+python -m http.server 8144 -d build/web_stress    # open /stress_cannon.html, read the STRESS lines in the console
 ```

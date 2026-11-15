@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://1ffph6pnbu50"]
+
+[ext_resource type="Script" path="res://tests/tools/stress.gd" id="1_ap26k"]
+
+[node name="Stress" type="Node" unique_id=671312333]
+script = ExtResource("1_ap26k")

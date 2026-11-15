@@ -29,7 +29,7 @@ GROUND_BAND = 0.02  # verts this close to the lowest point count as ground conta
 # One entry per supplied source. Measured values are from `inspect` (raw import, source units; 2026-11-14).
 # `yaw_deg`: turn about Z so the model faces +Y. `fit`: ("envelope", r) scales the largest horizontal distance from
 # the placement centre to r metres (modelled, before the 1.5x display scale); ("height", h) scales the height.
-# `markers`: name -> position in the prepared model (metres). Only entries with `prepare: True` are exported.
+# `markers`: name -> "centre" (half height) or ("tip", weapon yaw, z band) (see weapon_tip). Only entries with `prepare: True` are exported.
 PROFILES = {
     "avalanche_cannon": {
         "fbx": "avalanche_cannon/avalanche_cannon.fbx",
@@ -43,14 +43,34 @@ PROFILES = {
         # face), not a hole in the shell: delete stray islands instead of filling.
         "drop_islands_below": 4,
         "texture_px": 1024,  # 2048 source maps; ~35 px tall at the game camera, 1024 keeps close-ups clean
-        "markers": {"muzzle_A": "bore", "effect_center": "centre"},
+        # Bore: front-most slab along the aim (yaw 0) above 35% height (the sled feet reach further forward).
+        "markers": {"muzzle_A": ("tip", 0.0, 0.35, 1.0), "effect_center": "centre"},
+    },
+    "biathlon_ranger": {
+        "fbx": "biathlon_ranger/biathlon_ranger.fbx",
+        "prepare": True,
+        "yaw_deg": 180.0,  # source faces -Y (front view shows the back)
+        # Character: sized by height like the elves (ART_STYLE 2: base elf 1.2 m), not by the rifle's reach. The
+        # rifle sets the envelope (0.559 of the height): 0.67 m modelled = 1.0 m displayed vs the 0.6 m footprint.
+        "fit": ("height", 1.2),
+        "texture_px": 1024,
+        # Rifle barrel (PCA of the barrel verts) runs 60 deg off the body axis toward the character's left, at ~27%
+        # height, pitched ~3 deg down. Same angle as the PresentationProfile weapon_yaw_deg.
+        "markers": {"muzzle_A": ("tip", 60.0, 0.22, 0.36), "effect_center": "centre"},
+    },
+    "slope_wax_sprayer": {
+        "fbx": "slope_wax_sprayer/slope_wax_sprayer.fbx",
+        "prepare": True,
+        "yaw_deg": 180.0,  # source faces -Y
+        "fit": ("height", 1.2),  # character: elf height; tanks set the envelope (0.392 -> 0.71 m displayed)
+        "texture_px": 1024,
+        # Spray wand in the right hand points along the body axis (offset to the right), nozzle at ~37% height.
+        "markers": {"muzzle_A": ("tip", 0.0, 0.28, 0.5), "effect_center": "centre"},
     },
     # Inspected only (not prepared in this slice). Raw import: height, footprint size, notes.
     "snowball_rookie": {"fbx": "snowball_rookie/snowball_rookie_rigged.fbx", "prepare": False,
                         "note": "AccuRIG 71 bones, 0.01 armature scale, only T-Pose actions; embedded maps"},
     "camel_claus": {"fbx": "camel_claus/camel_claus.fbx", "prepare": False},
-    "biathlon_ranger": {"fbx": "biathlon_ranger/biathlon_ranger.fbx", "prepare": False},
-    "slope_wax_sprayer": {"fbx": "slope_wax_sprayer/slope_wax_sprayer.fbx", "prepare": False},
     "snow_sorcerer": {"fbx": "snow_sorcerer/snow_sorcerer.fbx", "prepare": False, "note": "7 mm below ground"},
     "ski_resort_ticket_booth": {"fbx": "ski_resort_ticket_booth/ski_resort_ticket_booth.fbx", "prepare": False,
                                 "note": "footprint r 1.5 m (data)"},
@@ -140,17 +160,20 @@ def drop_islands(ob, max_faces):
     bm.free()
 
 
-def bore_centre(ob):
-    """Centre of the muzzle opening: the front-most 3 cm slab (+Y after yaw) of the verts above 35% height (the
-    sled feet reach further forward than the bore), middle of its XZ bounds, 4 cm back inside the barrel."""
+def weapon_tip(ob, yaw_deg, z_lo, z_hi):
+    """Centre of a muzzle/nozzle opening: among the verts between z_lo and z_hi of the height, the front-most 3 cm slab
+    along the weapon direction (`yaw_deg` from the model's +Y forward, Godot rotation.y sense: + turns toward -X),
+    middle of its cross-section bounds, 4 cm back inside the barrel."""
+    a = math.radians(yaw_deg)
+    fwd, side = Vector((-math.sin(a), math.cos(a), 0)), Vector((math.cos(a), math.sin(a), 0))
     pts = [ob.matrix_world @ v.co for v in ob.data.vertices]
     top = max(p.z for p in pts)
-    pts = [p for p in pts if p.z > 0.35 * top]
-    front = max(p.y for p in pts)
-    slab = [p for p in pts if p.y > front - 0.03]
-    x = (min(p.x for p in slab) + max(p.x for p in slab)) / 2
+    pts = [p for p in pts if z_lo * top < p.z <= z_hi * top]
+    front = max(p.dot(fwd) for p in pts)
+    slab = [p for p in pts if p.dot(fwd) > front - 0.03]
+    s = (min(p.dot(side) for p in slab) + max(p.dot(side) for p in slab)) / 2
     z = (min(p.z for p in slab) + max(p.z for p in slab)) / 2
-    return Vector((x, front - 0.04, z))
+    return fwd * (front - 0.04) + side * s + Vector((0, 0, z))
 
 
 def prepare(name):
@@ -180,11 +203,10 @@ def prepare(name):
           f"min z {out['lo'].z:.4f}, ground centre {fmt(out['ground_centre'])}, envelope {out['envelope']:.3f} "
           f"(display {out['envelope'] * 1.5:.3f}), tris {out['tris']}, open edges {out['open_edges']}")
     # Markers import into Godot as plain Node3D children of the scene root.
-    where = {"bore": bore_centre(ob), "centre": Vector((0, 0, out["size"].z * 0.5))}
     for marker, spec in prof["markers"].items():
         e = bpy.data.objects.new(marker, None)
         e.empty_display_size = 0.05
-        e.location = where[spec] if isinstance(spec, str) else Vector(spec)
+        e.location = Vector((0, 0, out["size"].z * 0.5)) if spec == "centre" else weapon_tip(ob, *spec[1:])
         bpy.context.scene.collection.objects.link(e)
         print(f"  marker {marker} at {fmt(e.location)} (display {fmt(e.location * 1.5)})")
     os.makedirs(PREPARED, exist_ok=True)

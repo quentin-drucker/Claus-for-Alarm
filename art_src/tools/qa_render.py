@@ -1,6 +1,7 @@
 """B-14 QA captures for the P15 slice: per asset a clay turnaround sheet, a game-camera silhouette and a
 close-up (material). Run in Blender after opening the asset's .blend; set ASSET first:
-ASSET = "elf_rookie" | "snowball" | "lodge"; optional PREFIX (evidence file prefix, default "p15"); exec(open(<this>).read())"""
+ASSET = "elf_rookie" | "snowball" | "lodge" | a prepared source model (open art_src/prepared/<id>.blend:
+"avalanche_cannon" | "biathlon_ranger" | "slope_wax_sprayer"); optional PREFIX (evidence file prefix, default "p15"); exec(open(<this>).read())"""
 exec(open(r"C:\Users\qdruc\Projects\Godot\Camel Claus\Claus for Alarm\art_src\tools\cc_art.py").read())
 
 E = EVIDENCE
@@ -10,6 +11,10 @@ cfg = {
     "elf_rookie": ((0, 0, 0.62), 4, 1.45, ((0, 0.1, 0.8), (0.35, 1, 0.15), 3, 0.62)),
     "snowball": ((0, 0, 0), 4, 0.95, ((0, 0, 0), (0.4, 1, 0.5), 3, 0.55)),
     "lodge": ((0, 0, 2.3), 20, 6.6, ((0, -1.9, 1.3), (0.25, -1, 0.2), 12, 2.6)),
+    # Prepared Tripo models (modelled size; the game shows them at 1.5x)
+    "avalanche_cannon": ((0, 0, 0.31), 4, 0.95, ((0, 0.05, 0.31), (0.6, 1, 0.35), 3, 0.85)),
+    "biathlon_ranger": ((0, 0, 0.6), 4, 1.45, ((-0.15, 0.2, 0.62), (-0.45, 1, 0.25), 3, 0.95)),
+    "slope_wax_sprayer": ((0, 0, 0.6), 4, 1.3, ((0.08, 0.1, 0.62), (0.45, 1, 0.25), 3, 0.9)),
 }[ASSET]
 target, dist, ortho, close = cfg
 # The game-facing side: elf faces +Y; the lodge front faces -Y (toward the Godot camera).

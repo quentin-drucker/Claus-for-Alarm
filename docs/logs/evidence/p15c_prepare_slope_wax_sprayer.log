@@ -1,0 +1,6 @@
+slope_wax_sprayer raw: size (0.612, 0.647, 1.000) envelope 0.392 open edges 0 flipped 0
+slope_wax_sprayer prepared: scale x1.1998, size (0.734, 0.776, 1.200) (display x1.5 = (1.101, 1.164, 1.800)), min z 0.0000, ground centre (0.000, 0.000, 0.000), envelope 0.471 (display 0.706), tris 24988, open edges 0
+  marker muzzle_A at (0.281, 0.304, 0.476) (display (0.421, 0.456, 0.714))
+  marker effect_center at (0.000, 0.000, 0.600) (display (0.000, 0.000, 0.900))
+20:55:23 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+  wrote assets/models/slope_wax_sprayer.glb

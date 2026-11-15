@@ -483,3 +483,57 @@ Append one entry per session (template: master plan §12.2). Evidence files go i
 - **Next suggested task IDs:** owner Cannon review → (a) prepare Ranger/Wax/Sorcerer/Booth/Camel Claus with the same
   profile (one or two per batch, Rookie last with minimal clips), or (b) the queued map/snowball slice P16-T09/T11/T12.
   Recommend (a) for two towers first, while the pipeline is fresh, then (b).
+
+#### SESSION 2026-11-14 21:30 — Claude Code (Opus 5.5) — Dev 9: P15-A05–A08 Cannon proof checks + Biathlon Ranger + Slope Wax Sprayer
+- **Goal:** close the Cannon proof checks (clay/silhouette/B-14, browser stress), then prepare and integrate the Ranger
+  and Wax Sprayer with the Dev 8 pipeline (visual only), verify the combined batch and stop for owner review.
+- **Read:** AGENTS/CLAUDE, master plan 12.1/12.1.1 + Dev 8 progress, DEC-040, this log, `ART_STYLE.md`,
+  `DEFERRED_WORK.md`, `art_src/models/README.md`, `prepare_source_model.py`, `PresentationProfile`, `tower.gd`,
+  `match.gd` attack path, `test_towers.gd`, `cannon_review.gd`; HYB-A A-04 (Ranger/Wax VFX rows); HYB-B B-14.
+- **Repo commit before:** `3d5ea06` (+ others' uncommitted HACKATHON/REGISTRY/design docs 01–03, source folders, archive,
+  `references/towers/`: left untouched; only the Ranger/Wax source folders are committed, unchanged, with this batch).
+  Godot editor open (MCP connected); the live Blender held someone's unsaved scene, so all Blender work ran headless.
+- **Owner direction recorded:** DEC-040 partly approved (sim-time animation, still ghosts, gold flash accepted; Cannon
+  size provisional; final size/readability open until a coherent roster comparison). P15-T09/G7 not marked.
+- **Files changed:** `art_src/tools/prepare_source_model.py` (`weapon_tip` marker finder, Ranger/Wax profiles),
+  `art_src/tools/qa_render.py` (prepared models), new `art_src/prepared/{biathlon_ranger,slope_wax_sprayer}.blend`,
+  `assets/models/{biathlon_ranger,slope_wax_sprayer}.glb` (+3 extracted maps each), `scripts/data/presentation_profile.gd`
+  (`recoil_tilt_deg`, `weapon_yaw_deg`, `flash_color`), new `resources/presentation/{biathlon_ranger,slope_wax_sprayer}.tres`,
+  `scenes/towers/tower.gd` (profiles, weapon-axis aim/recoil/tilt, puff colour), `tests/test_towers.gd` (static-visual
+  check for all three), new `tests/tools/{roster_review.gd,stress.gd,stress.tscn}`, `export_presets.cfg` (new "Web Stress"
+  preset, feature `stress`), `project.godot` (`application/run/main_scene.stress`), plan, model README, COMMANDS,
+  CONVENTIONS, DEFERRED_WORK, evidence `p15c_*`.
+- **Asset provenance:** owner-supplied Tripo exports `art_src/models/biathlon_ranger/biathlon_ranger.fbx` and
+  `art_src/models/slope_wax_sprayer/slope_wax_sprayer.fbx` with their `tripo_convert_*.fbm/` maps (read only, unchanged);
+  derived `.blend`/`.glb` rebuilt by the script (`p15c_prepare_<id>.log`). The Cannon re-run reproduced its GLB exactly.
+- **Findings:** both sources face −Y (turned 180°); Ranger rifle barrel 60° off the body axis (PCA) → aim offset in the
+  profile so the barrel faces the shot; Wax wand along the body axis. Fitted by height 1.2 m (1.8 m shown, = Rookie):
+  the Ranger rifle reaches 1.0 m (0.39 m past the track edge and into a touching neighbour's footprint), Wax 0.71 m.
+  All three sources are glossy by authored roughness (not an import defect); metallic ≈ 2–5%; 16 Ranger faces differ
+  from a normal recalc with no visible defect. Release Web templates refuse a scene path on the command line → stress
+  build boots its scene through a feature-tagged main-scene override (CONVENTIONS).
+- **Tests run:** 10/10 suites PASS, STATE transcripts identical to this session's pre-change run except two added
+  `BOOT -> PREPARE` lines (new test matches) (`p15c_tests.txt`); `roster_review.gd` (`p15c_review.txt`); desktop and
+  browser stress (`p15c_stress_desktop.txt`, `p15c_stress_web.txt`); editor process run (MCP) 0 errors/warnings.
+- **Web result:** export exit 0, 0 ERROR/WARNING (`p15c_web_export.log`); `--main-pack` only exit-time P18 audio leak lines
+  (`p15c_main_pack.txt`); Chrome 157 (playwright-cli headless shell, ANGLE D3D11, RTX 5080 laptop) 1152×648 on the
+  exported `build/web`: Ranger + Wax placed by mouse/keyboard, Ranger selected, round 1 won, pause, 1×/2×/4×, Wax sold,
+  0 console errors, rAF p50 4.20 ms (one 217 ms first-shots hitch) (`p15c_web_*`).
+- **Browser stress (new):** 120 moving snowballs; 8 Cannons + 4 Rookies p50 4.20 / p95 5.60 / max 10.90 ms, 978 draws,
+  417k prims, 61 MB; roster mix (3 each) p95 5.30 ms, 968 draws; 0 console errors; display-paced 240 Hz (headroom below
+  4.17 ms not measurable in the browser); high-end GPU only.
+- **Screenshots/logs:** `p15c_{gamecam_roster_idle,gamecam_roster_firing}(_zoom4x).png`, `p15c_closeup_roster_rest.png`,
+  `p15c_<id>_{closeup_firing,closeup_rest,ghost_valid,ghost_invalid,selected_upgraded}.png`, `p15c_gamecam_roster_round.png`,
+  `p15c_thumb_320x180.png`, `p15c_<id>_{clay_turnaround,silhouette,closeup}.png` (Blender), `p15c_stress_web_{cannon,roster}.png`,
+  `p15c_godot_process_run.png`, `p15c_b14_scorecard.md`.
+- **Finished and checked tasks:** P15-A05, A06, A07, A08 (owner review pending). Partial notes: P14-T05, P16-T05/T06/T14/
+  T15/T16/T17. **Not marked:** P15-T09, G7.
+- **New decision (PROPOSED):** DEC-041 (Ranger/Wax height fit and rifle reach, weapon aim offset, reactions, puff
+  colours, Web Stress preset).
+- **Known defects / open:** Ranger rifle overreach (owner decision, no compensation made); Wax wand hidden in the
+  front silhouette; gloss on all Tripo models; Label3D names cover neighbours at touching footprints (existing); towers
+  are colour blobs at 320×180; first-shot hitch in the browser; stress measured on a high-end GPU only.
+- **Repo commit after:** this entry's commit.
+- **Next suggested task IDs:** owner review + DEC-041 → remaining initial-roster visuals (Sorcerer + Booth, then Camel
+  Claus, then the AccuRIG Rookie minimal-clip task), then the map/snowball slice P16-T09/T11/T12 (swap the order if
+  the deadline is close).

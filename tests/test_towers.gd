@@ -115,34 +115,51 @@ func _test_cannon() -> void:
 ## P15-A02/A03: the Cannon's art binding is presentation only. Grounded GLB at the 1.5x display scale, shots start
 ## at the bore marker, rapid-fire recoil returns exactly to rest (no drift), and pause freezes the reaction.
 func _test_cannon_visual() -> void:
+	# id, displayed height (m), muzzle height (m): P15-A02 Cannon, P15 Dev 9 Ranger + Wax (prepare logs p15c_*).
+	for row: Array in [[&"avalanche_cannon", 0.934, 0.613], [&"biathlon_ranger", 1.80, 0.467],
+			[&"slope_wax_sprayer", 1.80, 0.714]]:
+		_check_static_visual(row[0], row[1], row[2])
+	_completed.append("_test_cannon_visual")
+
+
+## Static (unrigged) GLB on a visual pivot: grounded at its height, muzzle marker on the weapon, the weapon (not the
+## root) aims, rapid fire stays bounded, pause freezes the reaction and it returns exactly to rest.
+func _check_static_visual(id: StringName, height: float, muzzle_y: float) -> void:
 	var m: Node3D = _new_match()
-	var cannon: Node3D = m.try_place(content.get_tower(&"avalanche_cannon"), SPOT)
-	var model: Node3D = cannon._model
-	_check(model != null and cannon._anim == null and cannon._flash != null, "cannon: static GLB, muzzle puff, no clip")
+	var t: Node3D = m.try_place(content.get_tower(id), SPOT)
+	var p: Resource = t._profile
+	var model: Node3D = t._model
+	_check(model != null and t._anim == null and t._flash != null, "%s: static GLB, muzzle puff, no clip" % id)
 	var mesh: MeshInstance3D = model.find_children("*", "MeshInstance3D")[0]
 	var box: AABB = mesh.global_transform * mesh.get_aabb()
-	_check(absf(box.position.y) < 0.01 and absf(box.end.y - 0.934) < 0.02, "cannon grounded, 0.93 m tall (%s)" % box)
-	var muzzle: Vector3 = cannon.muzzle_position() - cannon.position
-	_check(absf(muzzle.y - 0.613) < 0.02 and Vector2(muzzle.x, muzzle.z).length() < 0.6, "bore marker (%s)" % muzzle)
-	cannon.play_attack(Vector3(1, 0, 0))
-	_check(absf(cannon._pivot.rotation.y - atan2(-1.0, 0.0)) < 1e-4 and cannon.rotation == Vector3.ZERO,
-			"visual pivot aims, gameplay root does not turn")
+	_check(absf(box.position.y) < 0.01 and absf(box.end.y - height) < 0.02, "%s grounded, %.2f m tall (%s)" % [id,
+			height, box])
+	var dir: Vector3 = Vector3(1, 0, 0)
+	t.play_attack(dir)
+	_check(absf(t._pivot.rotation.y - (atan2(-1.0, 0.0) - deg_to_rad(p.weapon_yaw_deg))) < 1e-4
+			and t.rotation == Vector3.ZERO, "%s: visual pivot aims the weapon, gameplay root does not turn" % id)
+	var muzzle: Vector3 = t.muzzle_position() - t.position
+	var flat: Vector3 = Vector3(muzzle.x, 0.0, muzzle.z)
+	_check(absf(muzzle.y - muzzle_y) < 0.02 and flat.length() < 1.0 and flat.dot(dir) > 0.5 * flat.length(),
+			"%s: muzzle marker on the shot side (%s)" % [id, muzzle])
 	for i: int in 30:  # far faster than any upgrade: a shot every 2 ticks
-		cannon.play_attack(Vector3(1, 0, 0))
-		cannon.animate(STEP)
-		cannon.animate(STEP)
-		_check(model.position.z <= 0.12 + 1e-5 and model.scale.y >= 1.5 * 0.92 - 1e-5, "recoil stays bounded")
+		t.play_attack(dir)
+		t.animate(STEP)
+		t.animate(STEP)
+		_check(model.position.length() <= p.recoil_m + 1e-5 and model.scale.y >= 1.5 * (1.0 - p.recoil_squash) - 1e-5
+				and model.basis.orthonormalized().get_euler().length() <= deg_to_rad(absf(p.recoil_tilt_deg)) + 1e-4,
+				"%s: reaction stays bounded" % id)
 	m.clock.paused = true
-	var held: Vector3 = model.position
+	var held: Transform3D = model.transform
 	_sim(m, 0.5)
-	_check(model.position == held and model.position.z > 0.0, "pause freezes the recoil")
+	_check(model.transform == held and held != Transform3D(Basis.from_scale(Vector3.ONE * 1.5)),
+			"%s: pause freezes the reaction" % id)
 	m.clock.paused = false
 	_sim(m, 1.0)
-	_check(model.position == Vector3.ZERO and model.scale == Vector3.ONE * 1.5 and not cannon._flash.visible,
-			"recoil returns exactly to rest (%s, %s)" % [model.position, model.scale])
-	_check(m.towers_root.get_child_count() == 1 and is_equal_approx(cannon.footprint().z, 0.6), "footprint unchanged (0.6 m)")
+	_check(model.transform == Transform3D(Basis.from_scale(Vector3.ONE * 1.5)) and not t._flash.visible,
+			"%s: reaction returns exactly to rest (%s)" % [id, model.transform])
+	_check(m.towers_root.get_child_count() == 1 and is_equal_approx(t.footprint().z, 0.6), "%s: footprint 0.6 m" % id)
 	m.free()
-	_completed.append("_test_cannon_visual")
 
 
 ## P08-T03: whole-map targeting with line of sight (the Lodge blocks it), not a big radius. Instant hit,

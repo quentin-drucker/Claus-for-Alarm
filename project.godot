@@ -14,6 +14,7 @@ config/name="Claus for Alarm"
 run/main_scene="res://scenes/ui/title_screen.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+run/main_scene.stress="res://tests/tools/stress.tscn"
 
 [autoload]
 

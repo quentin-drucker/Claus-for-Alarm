@@ -1,0 +1,17 @@
+Browser: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36", viewport 1152x648 dpr 1, WebGL: ANGLE (NVIDIA GeForce RTX 5080 Laptop GPU, D3D11) via playwright-cli Chrome; build: build/web_stress (preset Web Stress, release template, feature 'stress' -> main scene tests/tools/stress.tscn)
+
+== cannon
+STRESS mix cannon on Web: { &"avalanche_cannon": 8, &"snowball_rookie": 4 }, snowballs >= 120 (immune Coral, moving), max live shots 8 
+STRESS viewport (1152.0, 648.0), vsync true, 900 frames: frame ms mean 4.22 p50 4.20 p95 5.60 p99 8.30 max 10.90; frames > 1.5x p50: 22 
+STRESS draw calls p50 978 max 1068; primitives p50 417004 max 437596; video mem 61.4 MB; adapter WebKit / WebKit WebGL; renderer gl_compatibility 
+STRESS DONE 
+"rAF 1000 frames (page-side, overlapping warm-up + measurement): p50 4.20 p95 4.30 p99 5.00 max 12.50 ms"
+Total messages: 9 (Errors: 0, Warnings: 0)
+
+== roster
+STRESS mix roster on Web: { &"snowball_rookie": 3, &"avalanche_cannon": 3, &"biathlon_ranger": 3, &"slope_wax_sprayer": 3 }, snowballs >= 120 (immune Coral, moving), max live shots 6 
+STRESS viewport (1152.0, 648.0), vsync true, 900 frames: frame ms mean 4.20 p50 4.20 p95 5.30 p99 7.20 max 10.70; frames > 1.5x p50: 22 
+STRESS draw calls p50 968 max 1050; primitives p50 388012 max 403256; video mem 60.8 MB; adapter WebKit / WebKit WebGL; renderer gl_compatibility 
+STRESS DONE 
+"rAF 1000 frames (page-side, overlapping warm-up + measurement): p50 4.20 p95 4.30 p99 4.70 max 12.50 ms"
+Total messages: 9 (Errors: 0, Warnings: 0)

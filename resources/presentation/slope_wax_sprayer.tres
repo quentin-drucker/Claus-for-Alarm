@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PresentationProfile" format=3]
+
+[ext_resource type="PackedScene" uid="uid://cvt5yptr4lyxp" path="res://assets/models/slope_wax_sprayer.glb" id="1_model"]
+[ext_resource type="Script" uid="uid://i6p52ffw8ka0" path="res://scripts/data/presentation_profile.gd" id="2_script"]
+
+[resource]
+script = ExtResource("2_script")
+model = ExtResource("1_model")
+recoil_m = 0.02
+recoil_squash = 0.06
+recoil_kick_s = 0.08
+recoil_recover_s = 0.3
+recoil_tilt_deg = -3.0
+muzzle_flash_m = 0.3
+flash_color = Color(0.09, 0.21, 0.28, 0.85)

@@ -1,0 +1,26 @@
+test_data: exit 0, test_data: PASS
+test_map: exit 0, test_map: PASS
+test_match: exit 0, test_match: PASS
+test_combat: exit 0, test_combat: PASS
+test_towers: exit 0, test_towers: PASS
+test_upgrades: exit 0, test_upgrades: PASS
+test_hero: exit 0, test_hero: PASS
+test_ui: exit 0, test_ui: PASS
+test_full_run: exit 0, test_full_run: PASS
+test_audio: exit 0, test_audio: PASS
+
+Deterministic gameplay transcript (STATE lines) vs the pre-change baseline at 3d5ea06 (this session):
+  test_data identical (0 lines)
+  test_map identical (0 lines)
+  test_match identical (122 lines)
+  test_combat identical (49 lines)
+  test_towers DIFFERS
+9a10,11
+> STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+> STATE BOOT -> PREPARE tick=0 round=0 lives=150 cash=650
+  test_upgrades identical (52 lines)
+  test_hero identical (108 lines)
+  test_ui identical (2 lines)
+  test_full_run identical (1127 lines)
+  test_audio identical (0 lines)
+  test_towers: identical except two added 'BOOT -> PREPARE' lines (the new Ranger/Wax static-visual matches in _test_cannon_visual); every other STATE line unchanged

@@ -1,0 +1,7 @@
+avalanche_cannon raw: size (0.990, 1.000, 0.946) envelope 0.668 open edges 3 flipped 1
+  dropped 1 stray face(s) at ['(-0.297, 0.069, 0.548)', '(-0.297, 0.067, 0.546)', '(-0.286, 0.069, 0.548)']
+avalanche_cannon prepared: scale x0.6588, size (0.652, 0.659, 0.623) (display x1.5 = (0.979, 0.989, 0.934)), min z 0.0000, ground centre (0.002, -0.001, 0.000), envelope 0.440 (display 0.660), tris 24996, open edges 0
+  marker muzzle_A at (-0.000, 0.141, 0.409) (display (-0.000, 0.212, 0.613))
+  marker effect_center at (0.000, 0.000, 0.311) (display (0.000, 0.000, 0.467))
+20:55:17 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+  wrote assets/models/avalanche_cannon.glb

@@ -10,8 +10,9 @@ const COLORS: Dictionary[StringName, Color] = {
 const PROFILES: Dictionary[StringName, PresentationProfile] = {
 	&"snowball_rookie": preload("res://resources/presentation/snowball_rookie.tres"),
 	&"avalanche_cannon": preload("res://resources/presentation/avalanche_cannon.tres"),
+	&"biathlon_ranger": preload("res://resources/presentation/biathlon_ranger.tres"),
+	&"slope_wax_sprayer": preload("res://resources/presentation/slope_wax_sprayer.tres"),
 }
-const FLASH_COLOR: Color = Color(0.976, 0.788, 0.427, 0.85)  # Warm gold: reads on white snow (A-08 blast flash)
 ## Dark inverted-hull outline for character models (docs/ART_STYLE.md section 6).
 const OUTLINE: Color = Color("173c4e")
 const VALID: Color = Color("3f9b7b")
@@ -127,7 +128,7 @@ func _set_model(profile: PresentationProfile) -> void:
 		puff.radial_segments = 12
 		puff.rings = 6
 		var material: StandardMaterial3D = StandardMaterial3D.new()
-		material.albedo_color = FLASH_COLOR
+		material.albedo_color = profile.flash_color
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		puff.material = material
@@ -150,7 +151,7 @@ func muzzle_position() -> Vector3:
 func play_attack(dir: Vector3) -> void:
 	if _pivot == null:
 		return
-	_pivot.rotation.y = atan2(-dir.x, -dir.z)
+	_pivot.rotation.y = atan2(-dir.x, -dir.z) - deg_to_rad(_profile.weapon_yaw_deg)  # the weapon faces the shot
 	if _anim and _anim.has_animation(&"attack"):
 		_anim.stop()
 		_anim.play(&"attack")
@@ -171,9 +172,12 @@ func animate(dt: float) -> void:
 	_recoil_t += dt
 	var k: float = _recoil_amount()
 	var s: float = _profile.display_scale
-	_model.position = Vector3(0.0, 0.0, _profile.recoil_m * k)  # model faces -Z: +Z slides it back from the shot
-	_model.scale = Vector3(s * (1.0 + 0.5 * _profile.recoil_squash * k), s * (1.0 - _profile.recoil_squash * k),
-			s * (1.0 + 0.5 * _profile.recoil_squash * k))
+	var w: float = deg_to_rad(_profile.weapon_yaw_deg)
+	# Models face -Z, the weapon along R_y(w) * -Z: slide back opposite the weapon and pitch across its axis.
+	_model.position = Vector3(sin(w), 0.0, cos(w)) * _profile.recoil_m * k
+	_model.basis = Basis(Vector3(cos(w), 0.0, -sin(w)), deg_to_rad(_profile.recoil_tilt_deg) * k) * Basis.from_scale(
+			Vector3(s * (1.0 + 0.5 * _profile.recoil_squash * k), s * (1.0 - _profile.recoil_squash * k),
+			s * (1.0 + 0.5 * _profile.recoil_squash * k)))
 	if _flash:
 		var flash_on: bool = _recoil_t < _profile.recoil_kick_s + 0.5 * _profile.recoil_recover_s
 		_flash.visible = flash_on

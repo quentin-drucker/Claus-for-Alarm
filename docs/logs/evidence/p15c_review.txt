@@ -1,0 +1,35 @@
+slope_wax_sprayer at (-7.29, -1.2), 1.710 m from the centreline: AABB y 0.000..1.800, footprint 0.60
+snowball_rookie at (-7.29, 0.0), 1.710 m from the centreline: AABB y 0.001..1.871, footprint 0.60
+avalanche_cannon at (-7.29, 1.2), 1.710 m from the centreline: AABB y 0.000..0.934, footprint 0.60
+biathlon_ranger at (-7.29, 2.4), 1.710 m from the centreline: AABB y 0.000..1.800, footprint 0.60
+  spacing slope_wax_sprayer -> snowball_rookie: 1.200 m (footprints touch at 1.20)
+  spacing snowball_rookie -> avalanche_cannon: 1.200 m (footprints touch at 1.20)
+  spacing avalanche_cannon -> biathlon_ranger: 1.200 m (footprints touch at 1.20)
+slope_wax_sprayer over 24 aims: past the track edge 0.095 m (parts < 0.35 m high: -0.168 m); into the snowball_rookie footprint 0.105 m
+avalanche_cannon over 24 aims: past the track edge 0.049 m (parts < 0.35 m high: 0.049 m); into the snowball_rookie footprint 0.059 m
+avalanche_cannon over 24 aims: past the track edge 0.049 m (parts < 0.35 m high: 0.049 m); into the biathlon_ranger footprint 0.059 m
+biathlon_ranger over 24 aims: past the track edge 0.393 m (parts < 0.35 m high: 0.136 m); into the avalanche_cannon footprint 0.391 m
+biathlon_ranger material: albedo tex true, normal true, roughness tex true, metallic tex true (metallic 1.00), transparency 0, cull 0, outline overlay true, surfaces 1
+slope_wax_sprayer material: albedo tex true, normal true, roughness tex true, metallic tex true (metallic 1.00), transparency 0, cull 0, outline overlay true, surfaces 1
+avalanche_cannon aim: barrel vs muzzle->target (10 m) worst 0.0 deg; muzzle 0.00 m beside the centre line
+biathlon_ranger aim: barrel vs muzzle->target (10 m) worst 1.7 deg; muzzle 0.27 m beside the centre line
+slope_wax_sprayer aim: barrel vs muzzle->target (10 m) worst 2.5 deg; muzzle 0.42 m beside the centre line
+biathlon_ranger ghost: valid reason '', on-track reason 'On the ski track', ghost model animated false
+slope_wax_sprayer ghost: valid reason '', on-track reason 'On the ski track', ghost model animated false
+biathlon_ranger selected + upgraded true -> tiers (1, 0, 1), model kept true, footprint (-7.29, 2.4, 0.6)
+slope_wax_sprayer selected + upgraded true -> tiers (1, 0, 1), model kept true, footprint (-7.29, -1.2, 0.6)
+biathlon_ranger fired true
+slope_wax_sprayer fired true
+biathlon_ranger pause at t=0.033 s: model transform held true, flash true -> true
+slope_wax_sprayer pause at t=0.033 s: model transform held true, flash true -> true
+biathlon_ranger 1x: reaction took 258 ms real (expected 260)
+biathlon_ranger 2x: reaction took 133 ms real (expected 130)
+biathlon_ranger 4x: reaction took 67 ms real (expected 65)
+slope_wax_sprayer 1x: reaction took 383 ms real (expected 380)
+slope_wax_sprayer 2x: reaction took 192 ms real (expected 190)
+slope_wax_sprayer 4x: reaction took 96 ms real (expected 95)
+avalanche_cannon after rapid fire at 4x (10 shot frames seen): transform at rest true, flash off true
+biathlon_ranger after rapid fire at 4x (72 shot frames seen): transform at rest true, flash off true
+slope_wax_sprayer after rapid fire at 4x (22 shot frames seen): transform at rest true, flash off true
+biathlon_ranger sell: towers 4 -> 3, freed true
+slope_wax_sprayer sell: towers 3 -> 2, freed true

@@ -16,5 +16,12 @@ extends Resource
 @export var recoil_squash: float = 0.0
 @export var recoil_kick_s: float = 0.05
 @export var recoil_recover_s: float = 0.3
+## Pitch at the kick peak, about the axis across the weapon (degrees; + lifts the muzzle / leans back, - leans in).
+@export var recoil_tilt_deg: float = 0.0
+## Weapon direction relative to the model's forward (degrees, Godot rotation.y sense: + turns toward -X). Aiming
+## turns the pivot so the weapon, not the body, faces the shot; recoil and tilt follow the weapon axis.
+@export var weapon_yaw_deg: float = 0.0
 ## Snow puff diameter at `muzzle_A` in displayed metres (0 = none).
 @export var muzzle_flash_m: float = 0.0
+## Puff colour (default warm gold, DEC-040: reads on white snow).
+@export var flash_color: Color = Color(0.976, 0.788, 0.427, 0.85)

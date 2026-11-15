@@ -1,0 +1,14 @@
+STRESS mix cannon on Windows: { &"avalanche_cannon": 8, &"snowball_rookie": 4 }, snowballs >= 120 (immune Coral, moving), max live shots 4
+STRESS viewport (1152.0, 648.0), vsync false, 900 frames: frame ms mean 1.24 p50 1.22 p95 1.66 p99 2.47 max 3.60; frames > 1.5x p50: 27
+STRESS draw calls p50 968 max 1061; primitives p50 417096 max 433956; video mem 57.3 MB; adapter NVIDIA / NVIDIA GeForce RTX 5080 Laptop GPU; renderer gl_compatibility
+STRESS DONE
+ERROR: 12 resources still in use at exit (run with --verbose for details).
+STRESS mix roster on Windows: { &"snowball_rookie": 3, &"avalanche_cannon": 3, &"biathlon_ranger": 3, &"slope_wax_sprayer": 3 }, snowballs >= 120 (immune Coral, moving), max live shots 5
+STRESS viewport (1152.0, 648.0), vsync false, 900 frames: frame ms mean 1.23 p50 1.15 p95 1.64 p99 2.62 max 3.60; frames > 1.5x p50: 35
+STRESS draw calls p50 996 max 1006; primitives p50 387992 max 395304; video mem 56.7 MB; adapter NVIDIA / NVIDIA GeForce RTX 5080 Laptop GPU; renderer gl_compatibility
+STRESS DONE
+ERROR: 12 resources still in use at exit (run with --verbose for details).
+STRESS mix roster (GREYBOX non-Rookie towers) on Windows: { &"snowball_rookie": 3, &"avalanche_cannon": 3, &"biathlon_ranger": 3, &"slope_wax_sprayer": 3 }, snowballs >= 120 (immune Coral, moving), max live shots 5
+STRESS viewport (1152.0, 648.0), vsync false, 900 frames: frame ms mean 1.31 p50 1.23 p95 1.75 p99 2.80 max 3.94; frames > 1.5x p50: 31
+STRESS draw calls p50 948 max 979; primitives p50 268188 max 275072; video mem 56.7 MB; adapter NVIDIA / NVIDIA GeForce RTX 5080 Laptop GPU; renderer gl_compatibility
+STRESS DONE
